@@ -13,8 +13,9 @@ Competition: **60 Easy / UTC day**, 6 Medium, 1 Hard. CLI prints `left: N today`
 | After ACT e5 | **37** | job `4af90448…` score 0.79% |
 | After UT k2/k4 e1+e5 | **33** | best e5 now UT K4 **1.00%** |
 | After midloop e1+e5 | **31** | midloop rejected (e1 0.83%, e5 0.79%) |
+| After UT K2→eval4 e1+e5 | **29** | new e1 best **6.83%**; e5 0.42% |
 
-Used today ≈ 29 Easy accepts. Principal: **~20 Easy for us** remaining budget intent; left=31 CLI.
+Used today ≈ 31 Easy accepts.
 
 See `PRINCIPAL_NOTES.md`.
 

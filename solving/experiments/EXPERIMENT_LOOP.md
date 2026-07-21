@@ -120,10 +120,20 @@ New e5 best = UT K4. Plot: `fig_ut_vs_plain_e1_e5.png`. Medium: wait for princip
 
 Plot: `fig_midloop_vs_ut_e1_e5.png`.
 
+## Phase 9 — UT K2 train / K4 eval
+
+| Arch | e1 mean | e1 test/ood | e5 mean |
+|------|---------|-------------|---------|
+| UT K2 | 6.50% | 4.0 / 9.0 | 0.70% |
+| **UT K2→eval4** | **6.83%** | **4.7 / 9.0** | 0.42% |
+| UT K4 | 4.70% | 1.3 / 8.0 | **1.00%** |
+
+New e1 best = evalk4. e5 still wants train-time K=4.
+
 ## Reference baseline (locked for next cards)
 
-**Primary:** `depth_d32_k4_ut` — best e5 (1.00%), UT depth emb, K=4, d=32, AdamW warmup+cosine.  
-**e1 peak twin:** `depth_d32_k2_ut` — 6.50%.  
+**e1:** `depth_d32_k2_ut_evalk4` (6.83%).  
+**e5:** `depth_d32_k4_ut` (1.00%).  
 Ablate against these; one change at a time (Karpathy). Aux loss deferred until train exact climbs more cleanly or Medium time is in play.
 
 ## After each run, read

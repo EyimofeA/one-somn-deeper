@@ -33,7 +33,7 @@ Three columns so we do not mix taste, evidence, and literature. Append-only; mar
 | Extra loops at eval for harder inputs | Looped / recurrent-depth Transformers | candidate |
 | Iterative latent updates for algorithms | Algorithmic reasoning / vertical CoT notes | background |
 | UT depth/timestep embedding each loop | Dehghani et al. 2018; we omitted this | **tried** — UT K2 e1 6.50%; UT K4 e5 **1.00%** (new e5 best) |
-| UT improvements (eval-only extra loops; halt bias; LR) | Karpathy: before aux | queued |
+| UT improvements (eval-only extra loops; halt bias; LR) | Karpathy: before aux | **tried** train2/eval4 — e1 **6.83%** (new best), e5 0.42% (worse) |
 | Aux / intermediate supervision | Grey; not returned in metrics | **deferred** — not there yet |
 
 ## Not doing (for now)

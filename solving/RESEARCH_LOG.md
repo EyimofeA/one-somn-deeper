@@ -143,6 +143,13 @@ Append-only log of experiments, findings, and decisions.
 - **Plots:** `fig_midloop_vs_ut_e1_e5.png`.
 - **Next:** Reject midloop for shortlist; keep **UT K4 / UT K2** as references. Parent budget ~20 Easy still mostly intact (left=31).
 
+### 2026-07-21 — UT K2 train / K4 eval
+- **Hypothesis:** Extra loops only at eval add OOD/test depth without burning train steps.
+- **Setup:** `depth_d32_k2_ut_evalk4` — depth emb size 4; `self.training` → K=2 else K=4. Jobs e1 `84885af2…`, e5 `00e30b38…`. left=29 after.
+- **Result (facts):** e1 mean **6.83%** (test 4.7%, ood 9.0%, steps 609) vs UT K2 6.50% / 4.0% / 9.0% / 393 — **new e1 best**. e5 mean **0.42%** (test 0.7%, ood 0.2%, steps 3583) vs UT K2 0.70% and UT K4 1.00% — worse on e5.
+- **Next:** Promote evalk4 as e1 reference; e5 reference stays UT K4. Don’t use train2/eval4 as sole Medium pick without an e5-competent twin.
+
+
 
 
 
