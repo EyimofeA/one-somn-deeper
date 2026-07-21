@@ -10,9 +10,10 @@ Ordered learning path for One Somn Deeper.
 
 ## Phase 1 — Baselines
 
-- [ ] Study `competition/submissions/baseline_adamw/submission.py`
-- [ ] Implement b0 / b1 / b2 baselines in `solving/submissions/`
-- [ ] CPU smoke each baseline locally
+- [x] Study `competition/submissions/baseline_adamw/submission.py`
+- [x] Implement b0 / b1 / b2 baselines in `solving/submissions/`
+- [x] CPU smoke each baseline locally
+- [ ] Easy e1 scored submits (needs `one-layer login`)
 
 ## Phase 1b — Figures (after first scored run)
 

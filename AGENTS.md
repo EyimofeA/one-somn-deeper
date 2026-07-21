@@ -50,8 +50,11 @@ Workspace is a git repo. After each completed coding deliverable (`submission.py
 ## Compute
 
 - **Mac** — CPU smoke, `one-layer validate`, unit tests.
-- **Colab Student Pro** — private GPU timing (not official scores).
+- **Competition Easy/Medium** — primary experiment budget (~60 Easy / 6 Medium accepted attempts per UTC day). Prefer this over private GPU when iterating on scored accuracy.
+- **Colab Student Pro** — optional; only when we need long private ablations without burning quotas.
 - **`one-layer submit`** — official H100 accuracy (requires login).
+
+Multiple applications of a shared block **inside** one `model.forward` are allowed (recurrence). The evaluator still calls forward once per train step.
 
 ## Living rules
 
