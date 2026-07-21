@@ -57,3 +57,5 @@ Rules: one message per figure, honest axes, colorblind-safe palette for presenta
 6. [Reading metrics](concepts/06-reading-metrics.md)
 7. [Limits & artifacts](concepts/07-limits-and-artifacts.md)
 8. [Expected loss](concepts/08-expected-loss.md)
+9. [What is returned](concepts/09-what-is-returned.md) ← after every scored run
+10. [Karpathy recipe](concepts/10-karpathy-recipe.md)

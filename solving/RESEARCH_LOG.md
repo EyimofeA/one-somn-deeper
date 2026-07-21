@@ -58,6 +58,12 @@ Append-only log of experiments, findings, and decisions.
 - **Plots:** `fig_max_vs_v1_e1.png`, `fig_max_ladder_e1.png` (open in IDE if chat shows placeholder).
 - **Next:** Treat `b0_transformer_max` as Transformer reference; add depth_looped on that axis for OOD.
 
+### 2026-07-21 — Plot dashboard + Karpathy map
+- **Setup:** Generated all JSONL-derivable figures under `solving/experiments/figures/` (see `PLOTS_INDEX.md`). Docs: `09-what-is-returned.md`, `10-karpathy-recipe.md`.
+- **Result:** No LR/grad/optim traces in API — only loss/exact/steps/eval. Nascent scaling: more steps → higher mean within 60s. OOD still 0% on ladder.
+- **Next:** depth_looped K=4/8 + width sweep d∈{32,96,128} agents; then Easy e1 submits.
+
+
 
 
 
