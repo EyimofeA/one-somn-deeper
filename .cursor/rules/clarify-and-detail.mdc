@@ -1,0 +1,22 @@
+---
+description: Clarify ambiguous requirements before implementing; write detailed teaching notes
+alwaysApply: true
+---
+
+# Clarify-first and detailed notes
+
+## Before coding
+
+1. State assumptions explicitly.
+2. Ask one high-value clarifying question when requirements are ambiguous — do not guess and build the wrong thing.
+3. For research tasks, read `learnings/` and `solving/RESEARCH_LOG.md` first.
+
+## When documenting
+
+- Explain *why*, not just *what*.
+- Include worked examples and failure modes in concept docs.
+- Use Unicode math (x₀, xₜ, φ(N), mod) — no LaTeX in plans or markdown notes.
+
+## Teaching bar
+
+Notes in `learnings/` should let a future reader (or subagent) understand the problem without re-reading the competition repo.

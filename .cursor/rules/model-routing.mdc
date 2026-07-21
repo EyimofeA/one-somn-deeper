@@ -1,0 +1,27 @@
+---
+description: Parent vs subagent ownership and API-frugal routing
+alwaysApply: true
+---
+
+# Model routing
+
+## Parent (planner)
+
+- Writes: `learnings/`, `solving/RESEARCH_LOG.md`, `solving/experiments/figures/`, interpretations, plan
+- Does NOT write: `submission.py` (delegate to Composer subagent)
+- Spawns subagents sparingly — limited API credit
+- Prior-art / web search: parent uses WebSearch (not a swarm)
+
+## Subagents
+
+- Model: **Composer 2.5** unless user names another
+- Writes: `solving/submissions/**/*.py`, `colab/*.ipynb`, smoke-related code only
+- Returns: paths, pass/fail, blockers — not long prose
+
+## One job per spawn
+
+No parallel subagents unless user requests. Brief = paths + contract + done-when.
+
+## Git artifacts
+
+Every meaningful code change lands in git (commit when user asks, or after a completed baseline). Do not leave orphan `submission.py` files untracked.

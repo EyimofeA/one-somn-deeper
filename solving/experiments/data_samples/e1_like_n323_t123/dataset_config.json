@@ -1,0 +1,57 @@
+{
+  "data_format": "separate_input_output",
+  "dataset_kind": "squaring_mod",
+  "factor_congruence": null,
+  "generator_config": {
+    "examples_per_setting": 12,
+    "factor_modulus": null,
+    "factor_remainder": null,
+    "fixed_modulus": 323,
+    "fixed_p": "<redacted>",
+    "fixed_q": "<redacted>",
+    "fixed_time_steps": null,
+    "generator_family": "rsa_repeated_squaring",
+    "modulus_bits": [
+      32
+    ],
+    "ood_examples_per_setting": 6,
+    "ood_time_steps": [
+      4
+    ],
+    "output_dir": "../solving/experiments/data_samples/e1_like_n323_t123",
+    "seed": 45,
+    "separate_input_output": true,
+    "separate_ood_splits": false,
+    "split_group": "prompt",
+    "test_fraction": 0.25,
+    "time_steps": [
+      1,
+      2,
+      3
+    ],
+    "train_fraction": 0.75
+  },
+  "label_format": "tail_aligned_decimal_residue",
+  "label_method": "trapdoor_phi",
+  "max_modulus_bits": 9,
+  "max_seq_len": 10,
+  "max_time_steps": 4,
+  "num_examples": 42,
+  "split_counts": {
+    "ood": 6,
+    "test": 9,
+    "train": 27
+  },
+  "split_group": "prompt",
+  "token_ids": {
+    "ANS": 5,
+    "BOS": 1,
+    "DIGIT_OFFSET": 7,
+    "EOS": 6,
+    "N": 2,
+    "PAD": 0,
+    "T": 4,
+    "X": 3
+  },
+  "vocab_size": 17
+}
