@@ -63,8 +63,9 @@ Rules: one message per figure, honest axes, colorblind-safe palette for presenta
 12. [Current arch & naming](concepts/12-current-arch-and-naming.md) — d=width, K=loops; N-cond
 13. [Decisions glossary](concepts/13-decisions-glossary.md) — FiLM, ACT/ponder, e1–e5, logging
 14. [Discord / beta meta](concepts/14-discord-beta-meta.md) — Hard≠Easy solver, deadline, grey zones
-15. [LR schedules under wall-clock](concepts/15-lr-schedules-wallclock.md) — no cosine sawtooth; prefer inv-sqrt
+15. [LR schedules under wall-clock](concepts/15-lr-schedules-wallclock.md) — no cosine sawtooth; includes the reconciliation of the two fixes (prefer wall-clock; do NOT apply optsched to Easy)
 16. [Representation vs throughput](concepts/16-representation-vs-throughput.md) — place value wins; width/T-coupling/output-place lose; deriving (field, place) from `input_ids`; where the answer actually lives
+17. [Exact recurrence learning](concepts/17-recurrence-generalisation.md) — **start here for what's next**; Hard groks train 100% / eval 0%, so the problem is inductive bias, not capacity
 
 ## Papers
 
