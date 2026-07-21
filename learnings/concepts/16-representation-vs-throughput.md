@@ -340,3 +340,74 @@ monotonically non-increasing through the second half, ending at the 1% floor.
 This is the single highest-leverage change found today and it applies to **every card in
 the repo**, including the other agent's. Any Medium or Hard result produced with the old
 scheduler should be treated as uninformative about architecture.
+
+## HARD H1 RESULT: it grokked the training set and generalised zero
+
+`claude_hard_h1` (d=2048, 50.5M params, fixed K=4, wall-clock LR, std=0.02 init).
+3600s, **190,017 steps**. Leaderboard score 0.03%; metrics report mean exact 0.0000%.
+
+    step      1   loss 3.322   train exact   0.00%
+    step  7,900   loss 2.179   train exact   0.00%   ┐
+    step 47,900   loss 2.179   train exact   0.00%   │ ~60,000-step plateau
+    step 55,900   loss 2.167   train exact   0.00%   ┘
+    step 63,900   loss 1.974   train exact   0.00%   ← transition begins
+    step 71,900   loss 1.191   train exact   9.40%
+    step 87,900   loss 0.227   train exact  75.40%
+    step 167,900  loss 0.0000  train exact 100.00%
+
+Evaluation, all three H1 splits: **0.0000%**.
+
+| split | exact | loss |
+|---|---|---|
+| test | 0.0000% | 15.836 |
+| ood_t | 0.0000% | 16.170 |
+| ood_n_t | 0.0000% | 16.387 |
+
+Eval loss ~16 against a ln(10)=2.303 uniform baseline means the model is not merely
+wrong, it is **confidently** wrong — it emits memorised answers with high confidence.
+
+### What this settles
+
+1. **Capacity and optimisation are solved.** Train loss reaches exactly 0.0000 and
+   train exact-match 100%. The architecture can represent and fit this task perfectly.
+   Everything that remains is inductive bias / generalisation.
+2. **The Medium "plateau" was pre-grokking, not underfitting.** The transition begins
+   at ~64,000 steps. The best Medium run completed **58,060**. Every Medium run in this
+   repo — both agents — stopped a few thousand steps short of the phase transition and
+   was read as a hopeless flatline. It was not.
+3. This retracts the reasoning in the Hard card's own docstring ("the model is
+   UNDERFITTING… the answer to underfitting is capacity"). The diagnosis of the symptom
+   was right; the mechanism was wrong. More width was not what tipped it over — more
+   *steps* were.
+4. **H1 has three eval splits** (`test`, `ood_t`, `ood_n_t`), so Hard explicitly scores
+   unseen T and unseen N+T. Generalisation is the whole benchmark.
+
+### What to do next
+
+The failure is now precisely located: the model has no pressure to learn a *reusable
+single step*, so with enough steps it takes the lookup-table solution. Levers, in order
+of expected value:
+
+- **Weight decay.** We ran 0.1. The grokking literature finds decoupled weight decay is
+  the main thing that moves a network off the memorising solution onto the generalising
+  one. Try 1.0 / 3.0. Cheapest possible experiment, single constant.
+- **Force iteration architecturally.** Make state space = output space (working value
+  lives at the tail positions where the answer is read), apply ONE shared step T times,
+  and **re-quantise the state toward one-hot digits between steps** so error cannot
+  accumulate across iterations. A memoriser cannot exploit that; an algorithm can.
+- **Input injection every loop** (re-feed x and N each iteration) — standard UT/DEQ
+  practice, currently absent.
+- **Label-free entropy aux** via the `auxiliary` return (reachable today, still untried):
+  penalise entropy of intermediate digit distributions, i.e. train "stay discrete
+  between steps" directly rather than hoping the architecture enforces it.
+- **T=1 rows are direct single-step supervision** and nothing has exploited that. T=2/3
+  supervise its composition. That is depth supervision, not a nuisance parameter.
+
+Do NOT reach for more capacity. It is not the constraint.
+
+### Process note
+
+Run the grokking check LOCALLY. `competition/` generates data and runs the real training
+loop offline with no quota. A 60,000-step plateau followed by a transition is invisible
+inside a 600s clock but cheap to find on a local GPU overnight. Most of what this session
+spent quota on was answerable for free.
