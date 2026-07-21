@@ -69,6 +69,14 @@ Append-only log of experiments, findings, and decisions.
 - **Plots:** `fig_depth_ablation_e1.png`, `fig_depth_train_exact_e1.png`, `fig_scaling_width_e1.png`, plus full dashboard in `PLOTS_INDEX.md`.
 - **Next:** Combine small width + loops (e.g. d=32 × K=4) as next card; Karpathy one-change rule.
 
+### 2026-07-21 — Combo d32 × K=4 Easy e1
+- **Hypothesis:** Best width × best depth multiplies (non-additive) under same AdamW recipe.
+- **Setup:** `depth_d32_k4` — d=32, shared block ×4, batch 256, warmup/cosine. Job `83e291a5…`.
+- **Result:** mean **5.50%**, test 2.0%, ood **9.0%**, steps 471. Parents: d32 K1 mean 2.70% ood 4%; d64 K4 mean 1.80% ood 3%.
+- **Plots:** `fig_combo_d32_k4_e1.png`, `fig_combo_d32_k4_train_e1.png`.
+- **Next:** New reference = `depth_d32_k4`. Candidates: K sweep at d=32, or Easy e5 transfer.
+
+
 
 
 

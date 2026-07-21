@@ -33,6 +33,14 @@ First non-zero OOD. Best mean so far: **K=4**.
 
 **Best overall Easy e1 so far: d=32 single-block (2.70% mean).**
 
+## Phase 3 — combo d32 × K=4
+
+| ID | Arch | mean | test | ood | steps | job |
+|----|------|------|------|-----|-------|-----|
+| 009 | **d32 K=4** | **5.50%** | 2.0% | **9.0%** | 471 | 83e291a5… |
+
+Beats both parents (d32 K1=2.7%, d64 K4=1.8%). Plots: `fig_combo_d32_k4_e1.png`, `fig_combo_d32_k4_train_e1.png`.
+
 ## After each run, read
 
 1. `learnings/concepts/09-what-is-returned.md`
