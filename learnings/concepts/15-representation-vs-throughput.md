@@ -1,5 +1,9 @@
 # Representation vs throughput (Easy, 2026-07-21)
 
+> **READ THE LAST SECTION FIRST — "e1 is not a valid ranking signal".** Most of the
+> comparisons in this note resolve ~0.4 pp on top of a constant predictor. The method
+> lessons stand; the e1 scores do not mean what they appear to.
+
 Session by Claude Code. Twelve scored Easy runs against `depth_d32_k4_ut` as anchor.
 Cards live in `solving/submissions/claude_*`. Every claim below is a scored number,
 not a smoke result.
@@ -100,10 +104,13 @@ band. **Nothing about throughput is established on e3.**
 
 Practical rules:
 
-- **Use e1 for ranking.** It is reproducible and its effects are several times the band.
+- e1 is **reproducible** — one run per card is enough there. But reproducible is not the
+  same as meaningful: see "e1 is not a valid ranking signal" below. e1 measures how well a
+  model fits the output prior, and it measures that very consistently.
 - **Never promote on a single e3 or e5 run.** Treat any e3 gap under ~0.7 pp as a tie.
-- e5 has sat at 0.29–1.00% for every card ever run. It is not yet a discriminator; stop
-  ranking on it.
+- e3/e5 are the *honest* Easy datasets (no answer-space collapse) but are low-signal and
+  high-variance, so they need replicates to say anything at all.
+- Net: **rank on Medium.** Easy is for correctness checks and for measuring the harness.
 
 ## The two e1 wins do not stack — they anti-stack
 
@@ -201,3 +208,66 @@ tell iterations apart, and it degenerates toward a plain repeated map that memor
   is where the ceiling is.
 - Do **not** revisit: wider models, removing absolute position, T-coupled loop counts,
   output place value at d=32, zero-init depth embeddings. All scored, all lost.
+
+## e1 is not a valid ranking signal — the answer space collapses
+
+Computed locally from `data.squaring_mod.trapdoor_squaring_mod` over every x in [1, N),
+no quota spent. For e1 (N = 323 = 17 × 19):
+
+| T | distinct answers | majority-class baseline |
+|---|---|---|
+| 1 | 89 | 1.24% |
+| 2 | 49 | 2.48% |
+| 3 | 29 | 4.97% |
+| **4 — the ood split** | **19** | **9.94%** |
+| 5, 8, … | 19 | 9.94% |
+
+The image of x ↦ x^(2^T) mod 323 **saturates at 19 values for every T ≥ 4**. λ(323) =
+lcm(16, 18) = 144, and the squaring map's image shrinks until it hits a fixed point, so
+the ood split has only ~19 possible answers and the single most common one covers ~10%
+of it.
+
+Consequences, and they are severe:
+
+- **Every card's ood ≈ 9.00% is at or below the 9.94% you get from always emitting the
+  most common answer.** No card has ever beaten trivial on e1's ood split.
+- The e1 combined trivial baseline is ≈ **6.42%** (2.90% test, 9.94% ood). The best card
+  ever recorded here is **6.83%**. The whole leaderboard climb from ~1% to 6.83% is
+  mostly models learning the output prior.
+- `claude_pv_k4_ut` (5.83%) and `depth_d32_k4_ut` (4.67%) are both **below trivial**.
+- It explains the attractors seen all session: unrelated architectures landing on exactly
+  2.00/2.00, or exactly 4.70/9.00, are converging on the same prior-fitting solutions.
+  `claude_pv_d128_k8` scored 4.70% test on a 3.1% train fit — scoring above its own
+  training accuracy, which only makes sense if it is not computing the answer at all.
+
+**This does not invalidate the method lessons** (replicate before promoting; e1
+reproducible / e3 not; depth codes must be distinct; representation and eval-depth
+tricks anti-stack). Those are about how the harness behaves. It does invalidate using e1
+*score* to rank architectures.
+
+### Why e3/e5 look "stuck" and e1 looks healthy — backwards
+
+e3/e5 vary N, so no such collapse occurs and there is no strong prior to exploit. Their
+0.3–1.4% scores are **honest** — they say the models cannot do the task. e1's 5–7% is
+**inflated**. The correct reading of this repo's history is not "we got to 6.8% on e1 and
+are stuck at 1% on e5"; it is "we have never done the task, and e1 was hiding it."
+
+### Medium is not broken — use it
+
+| dataset | distinct answers | majority baseline |
+|---|---|---|
+| e1, T=4 (ood) | 19 | 9.94% |
+| **m1 (N = 10403 = 101 × 103), T = 4/8/16** | **1351** | **0.08%** |
+
+m1's prior is worth 0.08%, so anything meaningfully above zero there is real computation.
+**Rank on Medium, or on e3/e5, but not on e1.**
+
+Before trusting any future dataset, compute its majority-class baseline first — it is
+free, local, and takes seconds:
+
+```python
+import collections
+from data.squaring_mod import trapdoor_squaring_mod
+c = collections.Counter(trapdoor_squaring_mod(x, T, p, q) for x in range(1, p * q))
+print(len(c), max(c.values()) / sum(c.values()))
+```

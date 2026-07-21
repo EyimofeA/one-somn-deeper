@@ -17,7 +17,12 @@ Competition: **60 Easy / UTC day**, 6 Medium, 1 Hard. CLI prints `left: N today`
 
 Used today ≈ 31 Easy accepts.
 
-See `PRINCIPAL_NOTES.md`. Noise / repeat protocol: `NOISE.md`.
+## Medium split (2026-07-21)
+
+Daily Medium = **6**. Parent and Claude Code each take **3**. Do not burn the other’s slots.  
+Hard = **1**/day — principal picks best or combo after both Medium batches; no auto Hard.
+
+Parent Medium plan: `depth_d32_k4_ut` (e5 champ) → m5, m1; third = `depth_d32_k2_ut_evalk4` → m5.
 
 ## Protocol
 
