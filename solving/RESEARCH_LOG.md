@@ -120,6 +120,12 @@ Append-only log of experiments, findings, and decisions.
 - **Plots:** `fig_ut_vs_plain_e1_e5.png`.
 - **Next:** Promote **UT K4** as e5 reference (new best 1.00%); **UT K2** as e1 peak (6.50%). Medium candidate when funneling: UT K4 on m5-like (variable N+T). Hold Medium until you greenlight.
 
+### 2026-07-21 — Discord beta meta ingested
+- **Setup:** User pasted GPU MODE `#one-layer-deeper` history (deadline TBD/~Aug, Hard≠Easy algorithm, Easy 100% via solvers, loophole culture in beta).
+- **Result:** Wrote `learnings/concepts/14-discord-beta-meta.md`; rewrote `03-cheating-boundary.md`. Confirms our UT/loop learning line matches organizer intent; Easy ~6% is not comparable to solver 100%.
+- **Next:** Principal chooses: (A) continue learned UT line → e3 then Medium, or (B) one Easy grey probe (intermediate aux) for notes only.
+
+
 
 
 

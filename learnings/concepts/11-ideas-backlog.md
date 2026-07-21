@@ -33,7 +33,9 @@ Three columns so we do not mix taste, evidence, and literature. Append-only; mar
 ## Not doing (for now)
 
 - Untied deep stacks like an LLM (burns params, wrong bias for “same step again”)
-- Hard/Medium until e5 mean moves clearly
+- Easy vanity 100% via arithmetic circuits / hardwired solvers (Discord: trivial + Hard-broken)
+- Hard/Medium until principal greenlights after e5 movement
 - Treating e1-only wins as done
+- Banking Hard on intermediate-step aux loss without re-checking final rules
 
-(Update 2026-07-21: e5 moved to 1.00% with UT K4 — Medium still principal-gated.)
+(Update 2026-07-21: e5 moved to 1.00% with UT K4 — Medium still principal-gated. Discord meta: `14-discord-beta-meta.md`.)
