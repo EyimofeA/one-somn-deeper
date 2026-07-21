@@ -12,14 +12,9 @@ Competition: **60 Easy / UTC day**, 6 Medium, 1 Hard. CLI prints `left: N today`
 | After ACT e1 | **38** | job `ef972089…` score 3.83% |
 | After ACT e5 | **37** | job `4af90448…` score 0.79% |
 | After UT k2/k4 e1+e5 | **33** | best e5 now UT K4 **1.00%** |
-| Principal check | **~20** | you reported ~20 left; reconfirm on next CLI submit |
+| After midloop e1+e5 | **31** | midloop rejected (e1 0.83%, e5 0.79%) |
 
-Used today ≈ 27+ Easy accepts (plus any Claude burns).
-
-## Reserve (principal)
-
-**Leave 10 Easy accepts for Claude Code** each day it is active (critique + its own cards).  
-If `left ≈ 20` → parent ceiling **≤ 10** (keep e1/e5 only).
+Used today ≈ 29 Easy accepts. Principal: **~20 Easy for us** remaining budget intent; left=31 CLI.
 
 See `PRINCIPAL_NOTES.md`.
 

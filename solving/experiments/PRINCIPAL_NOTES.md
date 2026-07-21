@@ -14,6 +14,5 @@ Standing instructions from you this turn:
 
 | | |
 |--|--|
-| Reported `left` | **~20** (confirm on next submit) |
-| Reserved for Claude Code | **10** |
-| Parent budget remaining today | **≤ 10** Easy accepts |
+| Reported `left` / parent budget | **~20 for us** (principal) |
+| Reserved for Claude Code | still leave headroom if possible; midloop uses 2 |

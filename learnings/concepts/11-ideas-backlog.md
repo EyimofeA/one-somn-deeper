@@ -12,7 +12,7 @@ Three columns so we do not mix taste, evidence, and literature. Append-only; mar
 | Diffusion on output / iterative answer refine | Later experiment | queued |
 | Model-size scaling laws (score vs params under clock) | When we grow past d≈32 | queued — not ponder-τ |
 | Reserve 10 Easy/day for Claude Code + critique | Collaboration | **active today** |
-| T²MLR / middle-only recurrence (Cai et al.) | Tweet + arXiv 2607.15178 | queued — midloop e1+e5; see `learnings/papers/2607.15178-t2mlr.md` |
+| T²MLR / middle-only recurrence (Cai et al.) | Tweet + arXiv 2607.15178 | **tried** midloop depth — e1 0.83% / e5 0.79% vs UT; reject |
 
 ## Ours (from measurements)
 

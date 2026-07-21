@@ -136,6 +136,14 @@ Append-only log of experiments, findings, and decisions.
 - **Quota:** ~20 Easy left → parent ≤10 after Claude reserve. No scored midloop submit this turn.
 - **Next:** Greenlight midloop card or leave for Claude Code critique + implement.
 
+### 2026-07-21 — Midloop depth (pre / mid×4 / post) vs UT K4
+- **Hypothesis:** Looping only a middle block (T²MLR-inspired, depth-mapped) beats full tied UT under same optimizer.
+- **Setup:** `depth_d32_midloop_k4` (~39K params). Jobs e1 `5331f763…`, e5 `2dc0335b…`. left=31 after. Paper note: `learnings/papers/2607.15178-t2mlr.md`.
+- **Result (facts):** e1 mean **0.83%** (test 0.7%, ood 1.0%, steps 567) vs UT K4 4.70%. e5 mean **0.79%** (test 0.9%, ood 0.7%, steps 2817) vs UT K4 1.00%. Train batch exact on e1 ended **30.9%** with L_end **1.06** while eval collapsed — train/eval gap.
+- **Plots:** `fig_midloop_vs_ut_e1_e5.png`.
+- **Next:** Reject midloop for shortlist; keep **UT K4 / UT K2** as references. Parent budget ~20 Easy still mostly intact (left=31).
+
+
 
 
 

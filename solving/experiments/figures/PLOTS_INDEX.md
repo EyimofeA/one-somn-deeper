@@ -31,3 +31,4 @@ Open PNGs in the IDE (chat embed is unreliable).
 - `fig_act_vs_k4_e1_e5.png`
 - `fig_act_train_curves.png`
 - `fig_ut_vs_plain_e1_e5.png`
+- `fig_midloop_vs_ut_e1_e5.png`
