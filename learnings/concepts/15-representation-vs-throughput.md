@@ -271,3 +271,26 @@ from data.squaring_mod import trapdoor_squaring_mod
 c = collections.Counter(trapdoor_squaring_mod(x, T, p, q) for x in range(1, p * q))
 print(len(c), max(c.values()) / sum(c.values()))
 ```
+
+## Majority-class baselines for every dataset (computed 2026-07-21)
+
+Run this before trusting any score on a dataset. Free, local, seconds.
+
+| dataset | N | distinct answers | majority baseline |
+|---|---|---|---|
+| **e1 ood (T≥4)** | 323 | **19** | **9.94%** ← broken |
+| e1 test (T=1/2/3) | 323 | 89/49/29 | 2.90% |
+| m1 (T=4/8/16) | 10403 = 101×103 | 1351 | **0.077%** |
+| m2 (T=4) | 38021 = 193×197 | 649 | 0.168% |
+| m2 (T=8/16) | 38021 | 199 | 0.673% |
+| m3 (T=2) | 11/13/15-bit | 1588 | 0.694% |
+| m4 (T=8) | 14/18/22-bit | 1938 | 0.333% |
+| m5 (T=2/4/8) | 12/14/16-bit | 4349 | 0.262% |
+
+Every Medium dataset is healthy — no collapse. **m1 has the weakest prior (0.077%) and
+the widest T range (4/8/16), so it is the best Medium discriminator.** m2 partially
+collapses at T≥8 (199 distinct), so prefer m1 over m2 for fixed-N work.
+
+Use this table to sanity-check any score before celebrating it. A first datapoint:
+an m5 run scored **0.089%**, which is *below* m5's 0.262% prior — i.e. worse than
+guessing the most common answer.

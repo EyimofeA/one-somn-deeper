@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(one-layer jobs *)",
+      "Bash(one-layer metrics *)",
+      "Bash(one-layer whoami *)",
+      "Bash(one-layer validate *)"
+    ]
+  }
+}
