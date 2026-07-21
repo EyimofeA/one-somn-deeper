@@ -9,6 +9,9 @@ Three columns so we do not mix taste, evidence, and literature. Append-only; mar
 | Learned / adaptive T (or early stop) so compute follows T | Fixed K wastes or under-spends | tried soft-ACT (incomplete); full ACT+ponder still open |
 | Must generalize mod across many N, not one fixed N | e5 collapse | active constraint |
 | Efficiency under 60s clock | Always | active |
+| Diffusion on output / iterative answer refine | Later experiment | queued |
+| Model-size scaling laws (score vs params under clock) | When we grow past d≈32 | queued — not ponder-τ |
+| Reserve 10 Easy/day for Claude Code + critique | Collaboration | **active today** |
 
 ## Ours (from measurements)
 
@@ -29,6 +32,8 @@ Three columns so we do not mix taste, evidence, and literature. Append-only; mar
 | Extra loops at eval for harder inputs | Looped / recurrent-depth Transformers | candidate |
 | Iterative latent updates for algorithms | Algorithmic reasoning / vertical CoT notes | background |
 | UT depth/timestep embedding each loop | Dehghani et al. 2018; we omitted this | **tried** — UT K2 e1 6.50%; UT K4 e5 **1.00%** (new e5 best) |
+| UT improvements (eval-only extra loops; halt bias; LR) | Karpathy: before aux | queued |
+| Aux / intermediate supervision | Grey; not returned in metrics | **deferred** — not there yet |
 
 ## Not doing (for now)
 

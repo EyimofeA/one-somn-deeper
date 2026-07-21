@@ -111,6 +111,12 @@ e1 ≈ flat; e5 worse. Not promoted. Plots: `fig_ncond_vs_base_e1_e5.png`.
 
 New e5 best = UT K4. Plot: `fig_ut_vs_plain_e1_e5.png`. Medium: wait for principal greenlight (candidate UT K4 → m5).
 
+## Reference baseline (locked for next cards)
+
+**Primary:** `depth_d32_k4_ut` — best e5 (1.00%), UT depth emb, K=4, d=32, AdamW warmup+cosine.  
+**e1 peak twin:** `depth_d32_k2_ut` — 6.50%.  
+Ablate against these; one change at a time (Karpathy). Aux loss deferred until train exact climbs more cleanly or Medium time is in play.
+
 ## After each run, read
 
 1. `learnings/concepts/09-what-is-returned.md`

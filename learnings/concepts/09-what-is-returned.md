@@ -17,9 +17,12 @@ Saved under `solving/experiments/metrics/*.jsonl`.
 ## You do **not** get
 
 - Model weights / checkpoints
+- Whatever you stuffed in **`auxiliary`** — aux is only for your custom `training_loss` during the run; it is **not** logged in metrics JSONL
 - LR schedule traces, grad norms, weight histograms
-- Per-example predictions
+- Per-example predictions / intermediate step strings
 - Optimizer-state plots
+
+So: you “return” `(logits, aux)` every forward, but the API only reports **loss + exact + steps + eval splits**. Aux is invisible after the job unless you fold it into the scalar loss (which still only shows up as that one loss number).
 
 So **no native “optim plots.”** We only plot what is in the JSONL (loss, exact, steps, eval splits). Scheduler behavior is inferred from code + step count, not logged.
 

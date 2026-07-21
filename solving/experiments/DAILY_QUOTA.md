@@ -15,6 +15,13 @@ Competition: **60 Easy / UTC day**, 6 Medium, 1 Hard. CLI prints `left: N today`
 
 Used today ≈ 27 Easy accepts.
 
+## Reserve (principal)
+
+**Leave 10 Easy accepts for Claude Code** each day it is active (critique + its own cards).  
+Parent max today ≈ `left − 10` → with left=33, parent ceiling **23**.
+
+See `PRINCIPAL_NOTES.md`.
+
 ## Protocol
 
-After each `one-layer submit`: set `left` from CLI here + experiment card.
+After each `one-layer submit`: set `left` from CLI here + experiment card. Never spend into the Claude reserve without principal override.
