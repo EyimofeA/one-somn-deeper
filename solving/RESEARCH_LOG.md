@@ -51,6 +51,14 @@ Append-only log of experiments, findings, and decisions.
 - **Result:** All three hit `training_seconds=60.1` with max_steps=1e6 unused → wall-clock stop. Loss is in JSONL; added `fig_baseline_train_loss_e1.png`. Hosted `split=ood` is evaluator-side (0% exact for all). Train exact is logged-batch, still rising at cut. Note: `learnings/concepts/06-reading-metrics.md`.
 - **Next:** Max-out plan — more steps/sec and/or Medium 600s; LR schedule; then depth_looped for OOD (currently 0%).
 
+### 2026-07-21 — Maxed small baselines Easy e1
+- **Hypothesis:** Smaller width + warmup/cosine + batch 256 → more steps → higher Easy e1 mean than v1.
+- **Setup:** `*_max` submissions (d=64, AdamW 3e-3, SequentialLR warmup+cosine, bs=256). compile still evaluator-false.
+- **Result:** steps ~2× (≈555–585). mean: Transformer_max **1.33%** (was 1.00%), MLP_max **1.00%** (was 0.30%), BiGRU_max **1.00%** (was 0.70%). OOD still 0% all. L_end still ≈1.2–1.9.
+- **Plots:** `fig_max_vs_v1_e1.png`, `fig_max_ladder_e1.png` (open in IDE if chat shows placeholder).
+- **Next:** Treat `b0_transformer_max` as Transformer reference; add depth_looped on that axis for OOD.
+
+
 
 
 

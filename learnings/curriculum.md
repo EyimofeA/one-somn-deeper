@@ -54,3 +54,6 @@ Rules: one message per figure, honest axes, colorblind-safe palette for presenta
 3. [Cheating boundary](concepts/03-cheating-boundary.md)
 4. [Arch, bias, optimizer](concepts/04-arch-bias-optimizer.md)
 5. [Baseline arches (paper-style)](concepts/05-baseline-arches.md)
+6. [Reading metrics](concepts/06-reading-metrics.md)
+7. [Limits & artifacts](concepts/07-limits-and-artifacts.md)
+8. [Expected loss](concepts/08-expected-loss.md)
