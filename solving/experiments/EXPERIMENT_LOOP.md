@@ -41,6 +41,15 @@ First non-zero OOD. Best mean so far: **K=4**.
 
 Beats both parents (d32 K1=2.7%, d64 K4=1.8%). Plots: `fig_combo_d32_k4_e1.png`, `fig_combo_d32_k4_train_e1.png`.
 
+## Phase 3b — e5 transfer (same submission)
+
+| ID | Dataset | mean | test | ood | steps | job |
+|----|---------|------|------|-----|-------|-----|
+| 009 | e1 fixed N=323 | **5.50%** | 2.0% | 9.0% | 471 | 83e291a5… |
+| 010 | e5 10–11 bit N | **0.79%** | 1.1% | 0.5% | 2527 | 07ed6ab5… |
+
+Same `depth_d32_k4`. More steps on e5 but much lower score → modulus generalization is the gap.
+
 ## After each run, read
 
 1. `learnings/concepts/09-what-is-returned.md`

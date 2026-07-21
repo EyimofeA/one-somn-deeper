@@ -76,6 +76,15 @@ Append-only log of experiments, findings, and decisions.
 - **Plots:** `fig_combo_d32_k4_e1.png`, `fig_combo_d32_k4_train_e1.png`.
 - **Next:** New reference = `depth_d32_k4`. Candidates: K sweep at d=32, or Easy e5 transfer.
 
+### 2026-07-21 — Easy e5 transfer (d32×K4)
+- **Hypothesis:** Best e1 model transfers to variable-modulus e5.
+- **Setup:** Same `depth_d32_k4` on Easy e5. Job `07ed6ab5…`.
+- **Result:** mean **0.79%** (test 1.1%, ood 0.5%), steps **2527** vs e1’s 5.50% / 471 steps. Sharp drop under varying N.
+- **Plots:** `fig_d32_k4_e1_vs_e5.png`, `fig_d32_k4_e1_vs_e5_curves.png`.
+- **Optim details:** still not returned (train JSONL = step/loss/exact/elapsed only).
+- **Next:** Improve modulus generalization (data-aware inductive bias or more capacity under e5’s higher step count).
+
+
 
 
 

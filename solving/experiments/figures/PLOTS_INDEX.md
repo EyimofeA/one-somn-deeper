@@ -13,6 +13,8 @@ Open PNGs in the IDE (chat embed is unreliable).
 - `fig_baseline_train_loss_e1.png`
 - `fig_combo_d32_k4_e1.png`
 - `fig_combo_d32_k4_train_e1.png`
+- `fig_d32_k4_e1_vs_e5.png`
+- `fig_d32_k4_e1_vs_e5_curves.png`
 - `fig_depth_ablation_e1.png`
 - `fig_depth_train_exact_e1.png`
 - `fig_max_ladder_e1.png`
