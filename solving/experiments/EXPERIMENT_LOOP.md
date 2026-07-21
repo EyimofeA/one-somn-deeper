@@ -50,9 +50,34 @@ Beats both parents (d32 K1=2.7%, d64 K4=1.8%). Plots: `fig_combo_d32_k4_e1.png`,
 
 Same `depth_d32_k4`. More steps on e5 but much lower score → modulus generalization is the gap.
 
+## Phase 4 — d32 K-sweep
+
+### Easy e1
+
+| K | mean | test | ood | steps |
+|---|------|------|-----|-------|
+| 1 | 2.70% | 1.3% | 4% | 539 |
+| **2** | **6.20%** | 3.3% | 9% | 383 |
+| 3 | 5.00% | 2.0% | 8% | 407 |
+| 4 | 5.50% | 2.0% | 9% | 471 |
+| 6 | 4.50% | 2.0% | 7% | 411 |
+| 8 | 2.70% | 3.3% | 2% | 413 |
+
+Peak at **K=2** on e1 (then soft decline).
+
+### e5 gate (top K)
+
+| K | e1 mean | e5 mean | e5 test | e5 ood |
+|---|---------|---------|---------|--------|
+| 2 | **6.20%** | 0.50% | 0.3% | 0.7% |
+| 3 | 5.00% | 0.40% | 0.7% | 0.0% |
+| 4 | 5.50% | **0.80%** | 1.1% | 0.5% |
+
+e1 peak ≠ e5 peak. Reference for N-work stays **K=4** on e5; e1 ablations can still cite K=2.
+
 ## After each run, read
 
 1. `learnings/concepts/09-what-is-returned.md`
 2. matching `metrics/*.jsonl`
 3. `figures/PLOTS_INDEX.md`
-4. this file + `RESEARCH_LOG.md`
+4. this file + `RESEARCH_LOG.md` + `learnings/concepts/11-ideas-backlog.md`

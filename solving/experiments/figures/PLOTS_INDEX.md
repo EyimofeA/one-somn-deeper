@@ -15,6 +15,9 @@ Open PNGs in the IDE (chat embed is unreliable).
 - `fig_combo_d32_k4_train_e1.png`
 - `fig_d32_k4_e1_vs_e5.png`
 - `fig_d32_k4_e1_vs_e5_curves.png`
+- `fig_d32_k_e1_vs_e5.png`
+- `fig_d32_k_sweep_curves_e1.png`
+- `fig_d32_k_sweep_e1.png`
 - `fig_depth_ablation_e1.png`
 - `fig_depth_train_exact_e1.png`
 - `fig_max_ladder_e1.png`

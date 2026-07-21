@@ -4,16 +4,12 @@ Competition: **60 Easy / UTC day**, 6 Medium, 1 Hard. CLI prints `left: N today`
 
 ## 2026-07-21 (UTC)
 
-| Approx used | Notes |
-|-------------|--------|
-| ~14 | baselines, max, depth, width, combo, e5 — see EXPERIMENT_LOOP |
+| When | left | Note |
+|------|------|------|
+| After K-sweep e1 + e5 gates | **41** | CLI after K=3 e5 submit |
 
-Update this table when we submit (record `left:` from CLI).
+Used today ≈ 19 Easy accepts (baselines through K-sweep).
 
 ## Protocol
 
-After each `one-layer submit`:
-
-1. Note `left:` in the experiment card  
-2. Decrement / set remaining here  
-3. Prefer e1 for ablations; confirm movers on e5  
+After each `one-layer submit`: set `left` from CLI here + experiment card.

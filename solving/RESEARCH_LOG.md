@@ -84,6 +84,14 @@ Append-only log of experiments, findings, and decisions.
 - **Optim details:** still not returned (train JSONL = step/loss/exact/elapsed only).
 - **Next:** Improve modulus generalization (data-aware inductive bias or more capacity under e5’s higher step count).
 
+### 2026-07-21 — d32 K-sweep + e5 gate
+- **Hypothesis:** Score vs K rises then falls under 60s; e1 optimum may not match e5.
+- **Setup:** K∈{2,3,6,8} new + existing K=1,4. e5 for K=2,3,4. left=41 after.
+- **Result:** e1 best **K=2 mean 6.20%**; then K=4 5.50%, K=3 5.00%; K=8 back to 2.70%. e5: K=4 **0.80%** > K=2 0.50% > K=3 0.40%.
+- **Plots:** `fig_d32_k_sweep_e1.png`, `fig_d32_k_e1_vs_e5.png`. Ideas: `11-ideas-backlog.md`. Quota: `DAILY_QUOTA.md`.
+- **Next:** N-generalization / adaptive compute; keep K=4 as e5 reference, K=2 as e1 peak.
+
+
 
 
 
