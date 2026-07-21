@@ -13,7 +13,8 @@ Ordered learning path for One Somn Deeper.
 - [x] Study `competition/submissions/baseline_adamw/submission.py`
 - [x] Implement b0 / b1 / b2 baselines in `solving/submissions/`
 - [x] CPU smoke each baseline locally
-- [ ] Easy e1 scored submits (needs `one-layer login`)
+- [x] Easy e1 scored submits (needs `one-layer login`)
+- [x] Ladder + train-curve plots
 
 ## Phase 1b — Figures (after first scored run)
 
@@ -52,3 +53,4 @@ Rules: one message per figure, honest axes, colorblind-safe palette for presenta
 2. [Where the data is](concepts/02-where-the-data-is.md) — open `solving/experiments/data_samples/` and stare at JSONL
 3. [Cheating boundary](concepts/03-cheating-boundary.md)
 4. [Arch, bias, optimizer](concepts/04-arch-bias-optimizer.md)
+5. [Baseline arches (paper-style)](concepts/05-baseline-arches.md)
