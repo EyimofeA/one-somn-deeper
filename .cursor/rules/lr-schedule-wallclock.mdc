@@ -1,0 +1,13 @@
+# LR schedules — wall-clock tiers
+
+## Never
+
+- `CosineAnnealingLR` with `T_max ≈ c × training_time_seconds` for small `c` (e.g. 8) on Medium/Hard — underestimates steps; cosine **restarts** and sawtooths LR.
+- `ReduceLROnPlateau` — evaluator calls `scheduler.step()` with **no metric**.
+
+## Prefer
+
+- Warmup + **inv-sqrt / Noam** (step-only, no fixed horizon), or
+- Warmup + cosine with progress **clamped** so LR holds at eta_min (no restart).
+
+Details: `learnings/concepts/15-lr-schedules-wallclock.md`.

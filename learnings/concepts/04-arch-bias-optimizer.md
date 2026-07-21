@@ -20,6 +20,8 @@ Your `build_optimizer` returns an `OptimizerBundle` whose optimizer must cover *
 
 **Depth–time tradeoff:** deeper forward → fewer `optimizer.step` calls before the clock dies. Easy = 60s H100. That is why tiny models with more loops can beat huge models that barely take steps.
 
+**Schedulers:** evaluator calls `scheduler.step()` with **no args**. Prefer warmup+inv-sqrt (no fixed T_max). Never underestimate CosineAnnealingLR `T_max` on Medium — see `15-lr-schedules-wallclock.md`.
+
 ## Three baselines — inductive bias (Phase 1)
 
 ```mermaid

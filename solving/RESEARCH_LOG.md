@@ -156,6 +156,12 @@ Append-only log of experiments, findings, and decisions.
 - **Result:** optsched m5 mean **0.17–0.20%** (test 0.1%, ood 0.2%, steps 70007) vs broken UT K4 m5 0.09%. Still tiny absolute.
 - **Hard pick (parent):** submit `depth_d32_k4_ut_optsched` unless Claude’s Medium beat ~0.2%. Principal approves Hard. Parent done after this run.
 
+### 2026-07-21 — Durable rule: no fixed-T cosine on long clocks
+- **Setup:** Documented sawtooth failure; added `learnings/concepts/15-lr-schedules-wallclock.md` + `.cursor/rules/lr-schedule-wallclock.mdc`.
+- **Result:** Prefer **inv-sqrt/Noam** (adaptive in step, no T_max). Plateau schedulers unusable (`step()` has no metric). Clamped cosine = acceptable patch.
+- **Next:** New submissions default to inv-sqrt unless ablating schedule intentionally.
+
+
 
 
 
