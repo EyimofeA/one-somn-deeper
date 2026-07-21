@@ -42,7 +42,11 @@ L = L_task + τ · (mean ponder steps)
 
 `τ` (tau) is a knob: larger τ → prefer fewer loops; smaller τ → prefer accuracy over thrift.
 
-**Ponder “scaling curves”** usually means: plot task metric vs `τ` (or vs average steps used) — *not* the same as our width/steps scaling plots in `figures/fig_scaling_*.png`.
+**Ponder “scaling curves”** usually means: plot task metric vs `τ` (or vs average steps used) — *not* the same as **model-size scaling laws**.
+
+### Model-size scaling laws (principal meaning)
+
+When we **increase model size** (d_model / params) under a fixed tier clock: plot score vs params, score vs steps, score vs width. Easy already sketched this (`fig_scaling_*.png`): wider can lose because steps drop. Full scaling-law cards belong once a baseline is locked and we intentionally grow capacity (often Medium clock).
 
 **Our soft-ACT card** mixed states but **had no ponder term** and no halt-bias init trick from later UT practice. That is an incomplete ACT, not a full Graves/UT recipe.
 
