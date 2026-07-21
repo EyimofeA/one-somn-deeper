@@ -17,7 +17,7 @@ Competition: **60 Easy / UTC day**, 6 Medium, 1 Hard. CLI prints `left: N today`
 
 Used today ≈ 31 Easy accepts.
 
-See `PRINCIPAL_NOTES.md`.
+See `PRINCIPAL_NOTES.md`. Noise / repeat protocol: `NOISE.md`.
 
 ## Protocol
 
