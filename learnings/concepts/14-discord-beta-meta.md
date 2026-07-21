@@ -48,7 +48,7 @@ Discord clarifications / debates:
 | ID | Title (verified) | Relevance claimed in Discord |
 |----|------------------|------------------------------|
 | [2501.19215](https://arxiv.org/abs/2501.19215) | Strassen Attention… Compositionality in Transformers | One-layer softmax TF limits on composition; Strassen attention as fix |
-| [2602.21371](https://arxiv.org/abs/2602.21371) | (fetch ok on arXiv) | Cited by Aakanksh with 2501.19215 for composition / inductive bias — read before citing claims |
+| [2602.21371](https://arxiv.org/abs/2602.21371) | Interleaved Head Attention (IHA) | Cross-head mixing for multi-step / compositional attention; cited alongside 2501.19215 |
 
 Also ambient: looped Transformers / latent thoughts literature (e.g. Saunshi-style looping papers) matches the competition thesis — not Discord-unique.
 
