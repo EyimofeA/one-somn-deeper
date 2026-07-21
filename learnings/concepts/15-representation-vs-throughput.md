@@ -294,3 +294,49 @@ collapses at T≥8 (199 distinct), so prefer m1 over m2 for fixed-N work.
 Use this table to sanity-check any score before celebrating it. A first datapoint:
 an m5 run scored **0.089%**, which is *below* m5's 0.262% prior — i.e. worse than
 guessing the most common answer.
+
+## The LR schedule is broken on Medium (affects every card in the repo)
+
+`_build_scheduler`, copied verbatim into every submission here, estimates the training
+horizon as:
+
+    t_max = max(100, int(spec.training_time_seconds * 8))
+
+i.e. it assumes **~8 optimiser steps per second**. Measured reality:
+
+| tier | assumed t_max | steps actually completed | steps/sec |
+|---|---|---|---|
+| Easy e1 (60s) | 480 | ~380 | ~6 |
+| **Medium m1 (600s)** | **4,800** | **44,993** | **~75** |
+
+The assumption holds on Easy (79% of the schedule consumed — fine) and is off by
+**9.4×** on Medium. `CosineAnnealingLR` is *periodic* past `T_max`, so on Medium the
+LR finishes annealing around step 4,560 and then **sawtooths between 0 and the base
+3e-3 for the remaining ~40,000 steps** (measured mean 1.5e-3). The optimiser is
+repeatedly kicked out of every minimum it finds.
+
+This matches the observed Medium failure exactly. Both `claude_pv_fast` on m1 and the
+other agent's card on m5:
+
+- loss falls from ~11.5 to ~2.2 within a few hundred steps, then sits flat for 45,000+
+- train exact accuracy oscillates 0.0–1.6% with no trend
+- final scores land on the majority-class prior (0.083% vs m1's 0.077%)
+
+**ln(10) = 2.303.** A plateau at 2.13–2.20 means the model is barely better than
+uniform over digits — it learned the marginal digit distribution and nothing else.
+
+Do **not** conclude from those runs that the architecture cannot represent the task.
+That has not been tested yet; the optimiser never got a stable descent phase.
+
+### Fix: anchor the schedule to wall clock, not a guessed step count
+
+`claude_pv_fast_tsched` / `claude_pv_tadapt_tsched` replace the step-based schedule with
+a `LambdaLR` whose progress is `elapsed_wall_time / spec.training_time_seconds`. It
+anneals exactly once over the real budget no matter how many steps that turns out to be,
+so it is correct at 60s, 600s and 3600s alike, and stays correct when a wider or deeper
+card changes throughput. Verified: 199,186 steps inside a compressed window, LR
+monotonically non-increasing through the second half, ending at the 1% floor.
+
+This is the single highest-leverage change found today and it applies to **every card in
+the repo**, including the other agent's. Any Medium or Hard result produced with the old
+scheduler should be treated as uninformative about architecture.
