@@ -149,6 +149,14 @@ Append-only log of experiments, findings, and decisions.
 - **Result (facts):** e1 mean **6.83%** (test 4.7%, ood 9.0%, steps 609) vs UT K2 6.50% / 4.0% / 9.0% / 393 — **new e1 best**. e5 mean **0.42%** (test 0.7%, ood 0.2%, steps 3583) vs UT K2 0.70% and UT K4 1.00% — worse on e5.
 - **Next:** Promote evalk4 as e1 reference; e5 reference stays UT K4. Don’t use train2/eval4 as sole Medium pick without an e5-competent twin.
 
+### 2026-07-21 — Easy noise (evalk4 e1 ×3) + Medium ×3 + optsched fix
+- **Noise:** `depth_d32_k2_ut_evalk4` e1 ×3 → all **6.80%** mean (stdev **0.00 pp** under seed 74). Steps varied 407–609.
+- **Medium (broken cosine):** UT K4 m5 **0.09%**, UT K4 m1 **0.08%**, evalk4 m5 **0.14%**. m5 saw ~51k steps vs scheduler T_max≈4800 → cosine **restart sawtooth** (Claude diagnosis confirmed).
+- **Fix:** `depth_d32_k4_ut_optsched` — LambdaLR warmup+cosine **clamped** (no restart); horizon ≈120×train_seconds. Job m5 `3931290c…`.
+- **Result:** optsched m5 mean **0.17–0.20%** (test 0.1%, ood 0.2%, steps 70007) vs broken UT K4 m5 0.09%. Still tiny absolute.
+- **Hard pick (parent):** submit `depth_d32_k4_ut_optsched` unless Claude’s Medium beat ~0.2%. Principal approves Hard. Parent done after this run.
+
+
 
 
 

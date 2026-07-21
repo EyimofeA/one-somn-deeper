@@ -14,8 +14,18 @@ Competition: **60 Easy / UTC day**, 6 Medium, 1 Hard. CLI prints `left: N today`
 | After UT k2/k4 e1+e5 | **33** | best e5 now UT K4 **1.00%** |
 | After midloop e1+e5 | **31** | midloop rejected (e1 0.83%, e5 0.79%) |
 | After UT K2→eval4 e1+e5 | **29** | new e1 best **6.83%**; e5 0.42% |
+| After noise + Medium batch | Easy **5**; Medium **left after optsched** | see RESEARCH_LOG |
 
-Used today ≈ 31 Easy accepts.
+## Medium results (parent)
+
+| Arch | dataset | mean |
+|------|---------|------|
+| UT K4 (broken sched) | m5 | 0.09% |
+| UT K4 (broken sched) | m1 | 0.08% |
+| UT K2→eval4 | m5 | 0.14% |
+| **UT K4 optsched** | m5 | **~0.20%** |
+
+Parent Medium slots used. Hard candidate: `depth_d32_k4_ut_optsched`.
 
 ## Medium split (2026-07-21)
 

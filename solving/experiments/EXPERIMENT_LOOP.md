@@ -130,6 +130,20 @@ Plot: `fig_midloop_vs_ut_e1_e5.png`.
 
 New e1 best = evalk4. e5 still wants train-time K=4.
 
+## Phase 10 — Medium + schedule fix
+
+| Arch | m5 | m1 |
+|------|----|----|
+| UT K4 (old cosine) | 0.09% | 0.08% |
+| evalk4 | 0.14% | — |
+| **UT K4 optsched** | **~0.20%** | — |
+
+Bug: CosineAnnealingLR restarted after T_max≪actual Medium steps. Fix in `depth_d32_k4_ut_optsched`.
+
+## Hard recommendation (parent)
+
+`solving/submissions/depth_d32_k4_ut_optsched/submission.py` — unless Claude Medium > ~0.2%. Principal gate only.
+
 ## Reference baseline (locked for next cards)
 
 **e1:** `depth_d32_k2_ut_evalk4` (6.83%).  
