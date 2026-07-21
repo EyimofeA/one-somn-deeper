@@ -180,3 +180,47 @@ Append-only log of experiments, findings, and decisions.
 
 
 
+
+### 2026-07-21 — Claude Code session: e1 invalidated, LR schedule fixed, Hard groks
+- **Budget:** 20 Easy, 3 Medium, 1 Hard (all exhausted). Cards: `solving/submissions/claude_*`.
+- **Detail:** `learnings/concepts/16-representation-vs-throughput.md` (do not restate here).
+- **Hard H1 result:** `claude_hard_h1` d=2048 / 50.5M / K=4 → **0.03%**, rank 11/18.
+  Leaderboard top is 0.40% (az), 0.19% (Frosty40), then ranks 3–16 span 0.05–0.02% —
+  a 14-way near-tie we sit inside. **Nobody has solved this task.**
+
+- **Result (facts):**
+
+| finding | evidence |
+|---|---|
+| **e1 is not a valid ranking signal** | x^(2^T) mod 323 has only **19 distinct answers for all T≥4**; e1's ood majority baseline is **9.94%** and every card ever run scores ood ≈ 9.00% — below trivial. e1 combined trivial ≈ 6.42% vs repo best 6.83% |
+| **LR schedule broken past Easy** | `t_max = seconds*8` assumes ~8 steps/s; Medium runs 75–97. Cosine is periodic past T_max → sawtooth for ~40,000 of 45,000 steps. Found independently by both agents |
+| **Hard GROKS** | 190,017 steps: ~60k-step plateau at loss 2.17, transition at **~64,000**, then train loss **0.0000** and train exact **100%** — with eval **0.0000%** on all three splits (eval loss 15.8/16.2/16.4) |
+| **Medium stopped 6k steps short of the transition** | best Medium run = 58,060 steps; transition begins ~64,000. Every Medium flatline from both agents was **pre-grokking**, not underfitting |
+| **place value replicates** | e1 3/3 identical: 5.83% vs anchor 4.67%. (Still below e1's own 6.42% trivial baseline — real effect, invalid benchmark) |
+| **noise is per-dataset** | e1 bit-reproducible (4.67×3, 5.83×3); e3 is not (same file: 1.31% vs 0.69%) |
+| **depth codes must be distinct, not trained** | zero-init depth emb collapsed best Easy card 6.83% → 2.33%; it trained *best* (9.0%) and generalised *worst* |
+| **tied-head init defect** | head tied to token_embedding + default N(0,1) → initial loss 83.4 at d=256, 12.5 at d=32, vs ln(17)=2.83. Affects every card in repo |
+| **width→throughput knee** | e5, 60s: d=512 1,981 steps / d=2048 1,765 (−9%, 1580× capacity) / d=4096 1,005 (−48%) |
+| **adaptive depth loses** | m1: fixed K=4 → 58,060 steps, loss 2.056, 0.117%; loops=T → 30,249 steps, loss 2.135, 0.050% |
+| **H1 has 3 eval splits** | `test`, `ood_t`, `ood_n_t` — Hard explicitly scores unseen T and unseen N+T |
+
+- **Retracted this session:** "C1 doubles the anchor on e3" (replication: 1.31% vs 0.69%,
+  same file); "width will pay once the clock stops binding" (it stopped binding and the
+  model still learned nothing); "the model is underfitting, the answer is capacity"
+  (symptom real, mechanism wrong — steps tipped it, not width); phase/Fourier
+  architecture (a task-specific solver; Hard uses a different algorithm by design).
+
+- **Next:** the failure is now located — nothing forces the model to learn a *reusable
+  single step*, so with enough steps it memorises. In order: (1) weight decay 0.1 →
+  1.0/3.0, one constant, the grokking literature's main memorise→generalise knob;
+  (2) force iteration architecturally — state space = output space, one shared step
+  applied T times, **re-quantise toward one-hot digits between steps** so error cannot
+  accumulate; (3) input injection each loop; (4) label-free entropy aux via the
+  `auxiliary` return (reachable, untried); (5) exploit T=1 rows as direct single-step
+  supervision. **Do not reach for more capacity.**
+
+- **Process:** run the grokking check LOCALLY. `competition/` generates data and runs the
+  real training loop offline with zero quota. The e1 collapse was a seconds-long local
+  calculation that would have saved ~15 scored runs; a 60k-step transition is invisible
+  in a 600s clock but cheap to find overnight. Iterate locally, spend quota only to
+  confirm.
