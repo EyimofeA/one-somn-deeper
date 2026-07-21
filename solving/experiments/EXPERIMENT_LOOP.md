@@ -1,158 +1,24 @@
-# Experiment loop
+# Experiment scoreboard
 
-Open figures via `figures/PLOTS_INDEX.md` (IDE, not chat).
+Canonical living status: **[`../STATUS.md`](../STATUS.md)**.  
+Day synthesis: [`../../learnings/sessions/2026-07-21.md`](../../learnings/sessions/2026-07-21.md).  
+Ops/noise/quota: [`OPS.md`](OPS.md).
 
-## Limits
+## Parent Easy ladder (facts only)
 
-Easy 60s / 60 day · Medium 600s / 6 day · Hard 3600s / 1 day. No checkpoint return. No LR/grad logs.
+| Phase | Best mean | Card |
+|-------|-----------|------|
+| b0/b1/b2 | 1.00% | `b0_transformer` |
+| maxed small | 1.33% | `b0_transformer_max` |
+| d32 K1 | 2.70% | `scale_tf_d32` |
+| d32 K4 | 5.50% | `depth_d32_k4` |
+| d32 K2 | 6.20% | `depth_d32_k2` |
+| UT K2 | 6.50% | `depth_d32_k2_ut` |
+| UT K2→eval4 | **6.80%** | `depth_d32_k2_ut_evalk4` |
+| UT K4 e5 | **1.00%** | `depth_d32_k4_ut` |
 
-## Phase 1 baselines → max
+Rejected: N-FiLM, soft-ACT, midloop, short-T_max cosine on Medium.
 
-| ID | Arch | mean | test | ood | steps |
-|----|------|------|------|-----|-------|
-| 001–003 | v1 Tf/MLP/GRU | 1.0 / 0.3 / 0.7 | … | 0 | ~260 |
-| 004–006 | max Tf/MLP/GRU | 1.3 / 1.0 / 1.0 | … | 0 | ~555 |
+## Plots
 
-## Phase 2 — depth (shared block × K on Tf d=64)
-
-| ID | K | mean | test | ood | steps | job |
-|----|---|------|------|-----|-------|-----|
-| 007 | 4 | **1.83%** | 0.7% | **3.0%** | 489 | 5a88d0fb… |
-| 008 | 8 | 1.67% | 1.3% | **2.0%** | 491 | 83d8bdf5… |
-
-First non-zero OOD. Best mean so far: **K=4**.
-
-## Phase 2b — width scaling (K=1)
-
-| d | mean | test | ood | steps |
-|---|------|------|-----|-------|
-| **32** | **2.70%** | 1.3% | **4.0%** | 539 |
-| 64 | 1.30% | 2.7% | 0% | 557 |
-| 96 | 1.50% | 2.0% | 1.0% | 541 |
-| 128 | 1.80% | 2.7% | 1.0% | 503 |
-
-**Best overall Easy e1 so far: d=32 single-block (2.70% mean).**
-
-## Phase 3 — combo d32 × K=4
-
-| ID | Arch | mean | test | ood | steps | job |
-|----|------|------|------|-----|-------|-----|
-| 009 | **d32 K=4** | **5.50%** | 2.0% | **9.0%** | 471 | 83e291a5… |
-
-Beats both parents (d32 K1=2.7%, d64 K4=1.8%). Plots: `fig_combo_d32_k4_e1.png`, `fig_combo_d32_k4_train_e1.png`.
-
-## Phase 3b — e5 transfer (same submission)
-
-| ID | Dataset | mean | test | ood | steps | job |
-|----|---------|------|------|-----|-------|-----|
-| 009 | e1 fixed N=323 | **5.50%** | 2.0% | 9.0% | 471 | 83e291a5… |
-| 010 | e5 10–11 bit N | **0.79%** | 1.1% | 0.5% | 2527 | 07ed6ab5… |
-
-Same `depth_d32_k4`. More steps on e5 but much lower score → modulus generalization is the gap.
-
-## Phase 4 — d32 K-sweep
-
-### Easy e1
-
-| K | mean | test | ood | steps |
-|---|------|------|-----|-------|
-| 1 | 2.70% | 1.3% | 4% | 539 |
-| **2** | **6.20%** | 3.3% | 9% | 383 |
-| 3 | 5.00% | 2.0% | 8% | 407 |
-| 4 | 5.50% | 2.0% | 9% | 471 |
-| 6 | 4.50% | 2.0% | 7% | 411 |
-| 8 | 2.70% | 3.3% | 2% | 413 |
-
-Peak at **K=2** on e1 (then soft decline).
-
-### e5 gate (top K)
-
-| K | e1 mean | e5 mean | e5 test | e5 ood |
-|---|---------|---------|---------|--------|
-| 2 | **6.20%** | 0.50% | 0.3% | 0.7% |
-| 3 | 5.00% | 0.40% | 0.7% | 0.0% |
-| 4 | 5.50% | **0.80%** | 1.1% | 0.5% |
-
-e1 peak ≠ e5 peak. Reference for N-work stays **K=4** on e5; e1 ablations can still cite K=2.
-
-## Funnel (daily)
-
-1. Burn Easy quota on one-change cards; always gate **e1 + e5**.
-2. Keep a shortlist of **best ~5–10** Easy configs (mean + e5, not e1 alone).
-3. Run shortlist on **Medium** (6/day).
-4. Best Medium → **one Hard** that UTC day (principal approval).
-
-Naming: **d = width**, **K = loop count** (see `learnings/concepts/12-current-arch-and-naming.md`).
-
-## Phase 5 — N-conditioning FiLM
-
-| ID | Arch | e1 mean | e1 test/ood | e5 mean | e5 test/ood | steps e1/e5 |
-|----|------|---------|-------------|---------|-------------|-------------|
-| 009/010 | d32 K4 | 5.50% | 2.0 / 9.0 | **0.80%** | 1.1 / 0.5 | 471 / 2527 |
-| 011 | + FiLM(N-span) | **5.83%** | 2.7 / 9.0 | 0.29% | 0.3 / 0.3 | 407 / 2215 |
-
-e1 ≈ flat; e5 worse. Not promoted. Plots: `fig_ncond_vs_base_e1_e5.png`.
-
-## Phase 6 — Adaptive loops (soft ACT)
-
-| ID | Arch | e1 mean | e1 test/ood | e5 mean | e5 test/ood | steps e1/e5 |
-|----|------|---------|-------------|---------|-------------|-------------|
-| 009/010 | fixed K=4 | **5.50%** | 2.0 / 9.0 | **0.80%** | 1.1 / 0.5 | 471 / 2527 |
-| 012 | ACT K_max=8 | 3.83% | 2.7 / 5.0 | 0.79% | 0.7 / 0.8 | 397 / 1798 |
-
-## Phase 7 — UT depth embeddings
-
-| Arch | e1 mean | e5 mean |
-|------|---------|---------|
-| plain K2 | 6.20% | 0.50% |
-| **UT K2** | **6.50%** | 0.70% |
-| plain K4 | 5.50% | 0.80% |
-| **UT K4** | 4.70% | **1.00%** |
-
-New e5 best = UT K4. Plot: `fig_ut_vs_plain_e1_e5.png`. Medium: wait for principal greenlight (candidate UT K4 → m5).
-
-## Phase 8 — Midloop (T²MLR-inspired depth)
-
-| Arch | e1 mean | e5 mean | notes |
-|------|---------|---------|-------|
-| UT K4 | **4.70%** | **1.00%** | reference |
-| midloop pre/mid×4/post | 0.83% | 0.79% | reject; e1 train exact high, eval low |
-
-Plot: `fig_midloop_vs_ut_e1_e5.png`.
-
-## Phase 9 — UT K2 train / K4 eval
-
-| Arch | e1 mean | e1 test/ood | e5 mean |
-|------|---------|-------------|---------|
-| UT K2 | 6.50% | 4.0 / 9.0 | 0.70% |
-| **UT K2→eval4** | **6.83%** | **4.7 / 9.0** | 0.42% |
-| UT K4 | 4.70% | 1.3 / 8.0 | **1.00%** |
-
-New e1 best = evalk4. e5 still wants train-time K=4.
-
-## Phase 10 — Medium + schedule fix
-
-| Arch | m5 | m1 |
-|------|----|----|
-| UT K4 (old cosine) | 0.09% | 0.08% |
-| evalk4 | 0.14% | — |
-| **UT K4 optsched** | **~0.20%** | — |
-
-Bug: CosineAnnealingLR restarted after T_max≪actual Medium steps. Fix in `depth_d32_k4_ut_optsched`.
-
-## Hard recommendation (parent)
-
-`solving/submissions/depth_d32_k4_ut_optsched/submission.py` — unless Claude Medium > ~0.2%. Principal gate only.
-
-## Reference baseline (locked for next cards)
-
-**e1:** `depth_d32_k2_ut_evalk4` (6.83%).  
-**e5:** `depth_d32_k4_ut` (1.00%).  
-Ablate against these; one change at a time (Karpathy). Aux loss deferred until train exact climbs more cleanly or Medium time is in play.
-
-## After each run, read
-
-1. `learnings/concepts/09-what-is-returned.md`
-2. matching `metrics/*.jsonl`
-3. `figures/PLOTS_INDEX.md`
-4. this file + `RESEARCH_LOG.md` + `learnings/concepts/11-ideas-backlog.md`
+[`figures/PLOTS_INDEX.md`](figures/PLOTS_INDEX.md) — open PNGs in IDE.

@@ -7,14 +7,13 @@ Research sandbox for [One Layer Deeper](https://github.com/tilde-research/one-la
 ## Read order (strict — do not duplicate content elsewhere)
 
 1. **This file** — roles, compute, forbidden shortcuts only.
-2. **`learnings/concepts/01-the-problem.md`** — math and scoring (Unicode, no LaTeX).
-3. **`learnings/concepts/02-where-the-data-is.md`** — where JSONL lives; local samples.
-4. **`learnings/concepts/03-cheating-boundary.md`** — allowed vs ban.
-5. **`learnings/concepts/04-arch-bias-optimizer.md`** — baselines, loops, train loop.
-6. **`learnings/curriculum.md`** — what to read next.
-7. **`solving/RESEARCH_LOG.md`** — experiment facts (append-only).
-8. **`solving/experiments/figures/`** — plots (script + PNG per figure).
-9. **`solving/submissions/`** — code only.
+2. **`solving/STATUS.md`** — scoreboard and next actions.
+3. **`learnings/sessions/`** — day syntheses (start with latest).
+4. **`learnings/concepts/01-the-problem.md`** — math and scoring (Unicode, no LaTeX).
+5. **`learnings/curriculum.md`** — concept index.
+6. **`solving/RESEARCH_LOG.md`** — append-only experiment facts.
+7. **`solving/experiments/`** — metrics, figures, `OPS.md`.
+8. **`solving/submissions/`** — code (`README.md` = active vs archive).
 
 If something belongs in steps 2–8, link it — do not restate it in chat, plans, or rules.
 

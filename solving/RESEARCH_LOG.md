@@ -161,6 +161,12 @@ Append-only log of experiments, findings, and decisions.
 - **Result:** Prefer **inv-sqrt/Noam** (adaptive in step, no T_max). Plateau schedulers unusable (`step()` has no metric). Clamped cosine = acceptable patch.
 - **Next:** New submissions default to inv-sqrt unless ablating schedule intentionally.
 
+### 2026-07-21 — EOD organize + Hard standing
+- **Setup:** Slimmed docs into `solving/STATUS.md`, `learnings/sessions/2026-07-21.md`, `experiments/OPS.md`; removed PRINCIPAL_NOTES / NOISE / DAILY_QUOTA; submissions README = active vs archive.
+- **Result:** Hard LB **#11 at 0.03%** (Claude run). Combined lessons in session note; next = concept 17 (re-quantised recurrence), not more width.
+- **Next:** Local grokking / WD / requant — quota only to confirm.
+
+
 
 
 
