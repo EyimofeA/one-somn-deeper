@@ -17,7 +17,9 @@ Three columns so we do not mix taste, evidence, and literature. Append-only; mar
 | Small width + tied loops beat wide shallow on Easy e1 | d32×K4 = 5.5% vs d64 K1 = 1.3% | adopted as reference |
 | Always gate on e1 **and** e5 | 5.5% → 0.79% same weights | adopted |
 | K-sweep at d=32 before adaptive halt | Only know K=1 vs 4 well at d=32 | **done** — e1 peak K=2 (6.2%); e5 peak K=4 (0.8%) |
-| N-conditioning inside the same looped block | e5 needs many rings ℤ/Nℤ | next after K-sweep |
+| N-conditioning inside the same looped block | e5 needs many rings ℤ/Nℤ | **tried** — FiLM e1≈flat, e5 worse (0.29% vs 0.80%); reject this recipe |
+| Cross-attn / dedicated N tokens into block | FiLM pool may be too lossy | queued |
+| ACT / adaptive halt on tied loops | Your idea; K-sweep done | queued next |
 
 ## Researched (prior art)
 

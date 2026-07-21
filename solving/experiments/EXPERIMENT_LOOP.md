@@ -75,6 +75,24 @@ Peak at **K=2** on e1 (then soft decline).
 
 e1 peak ≠ e5 peak. Reference for N-work stays **K=4** on e5; e1 ablations can still cite K=2.
 
+## Funnel (daily)
+
+1. Burn Easy quota on one-change cards; always gate **e1 + e5**.
+2. Keep a shortlist of **best ~5–10** Easy configs (mean + e5, not e1 alone).
+3. Run shortlist on **Medium** (6/day).
+4. Best Medium → **one Hard** that UTC day (principal approval).
+
+Naming: **d = width**, **K = loop count** (see `learnings/concepts/12-current-arch-and-naming.md`).
+
+## Phase 5 — N-conditioning FiLM
+
+| ID | Arch | e1 mean | e1 test/ood | e5 mean | e5 test/ood | steps e1/e5 |
+|----|------|---------|-------------|---------|-------------|-------------|
+| 009/010 | d32 K4 | 5.50% | 2.0 / 9.0 | **0.80%** | 1.1 / 0.5 | 471 / 2527 |
+| 011 | + FiLM(N-span) | **5.83%** | 2.7 / 9.0 | 0.29% | 0.3 / 0.3 | 407 / 2215 |
+
+e1 ≈ flat; e5 worse. Not promoted. Plots: `fig_ncond_vs_base_e1_e5.png`.
+
 ## After each run, read
 
 1. `learnings/concepts/09-what-is-returned.md`

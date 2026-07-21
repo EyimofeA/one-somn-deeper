@@ -91,6 +91,14 @@ Append-only log of experiments, findings, and decisions.
 - **Plots:** `fig_d32_k_sweep_e1.png`, `fig_d32_k_e1_vs_e5.png`. Ideas: `11-ideas-backlog.md`. Quota: `DAILY_QUOTA.md`.
 - **Next:** N-generalization / adaptive compute; keep K=4 as e5 reference, K=2 as e1 peak.
 
+### 2026-07-21 — N-conditioning FiLM (d32×K4)
+- **Hypothesis:** Pooling the N-digit span and FiLM-modulating each loop improves e5 (variable N) without hurting e1.
+- **Setup:** `depth_d32_k4_ncond` — same d=32, K=4, AdamW recipe; +`n_proj` +`film` (~16.7K params). Jobs e1 `f752d166…`, e5 `7cecdbb0…`. left=39 after.
+- **Result (facts):** e1 mean **5.83%** (test 2.7%, ood 9.0%, steps 407) vs base 5.50% / 2.0% / 9.0% / 471. e5 mean **0.29%** (test 0.3%, ood 0.3%, steps 2215) vs base 0.80% / 1.1% / 0.5% / 2527.
+- **Plots:** `fig_ncond_vs_base_e1_e5.png`, `fig_ncond_train_curves.png`. Naming note: `learnings/concepts/12-current-arch-and-naming.md`.
+- **Next:** Drop this FiLM recipe from the Medium shortlist; try ACT / adaptive loops or a different N-binding (e.g. cross-attn to N tokens). Funnel stays Easy → top ~5–10 → Medium → Hard.
+
+
 
 
 

@@ -60,3 +60,4 @@ Rules: one message per figure, honest axes, colorblind-safe palette for presenta
 9. [What is returned](concepts/09-what-is-returned.md)
 10. [Karpathy recipe](concepts/10-karpathy-recipe.md)
 11. [Ideas backlog](concepts/11-ideas-backlog.md)
+12. [Current arch & naming](concepts/12-current-arch-and-naming.md) — d=width, K=loops; N-cond
