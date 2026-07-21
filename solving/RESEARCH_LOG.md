@@ -98,6 +98,14 @@ Append-only log of experiments, findings, and decisions.
 - **Plots:** `fig_ncond_vs_base_e1_e5.png`, `fig_ncond_train_curves.png`. Naming note: `learnings/concepts/12-current-arch-and-naming.md`.
 - **Next:** Drop this FiLM recipe from the Medium shortlist; try ACT / adaptive loops or a different N-binding (e.g. cross-attn to N tokens). Funnel stays Easy → top ~5–10 → Medium → Hard.
 
+### 2026-07-21 — Adaptive loops (soft ACT, d32, K_max=8)
+- **Hypothesis:** Learned halt weights over up to 8 tied block passes let compute follow difficulty better than fixed K=4.
+- **Setup:** `depth_d32_act` — soft mixture of intermediate states; halt from masked mean pool. Jobs e1 `ef972089…`, e5 `4af90448…`. left=37 after.
+- **Result (facts):** e1 mean **3.83%** (test 2.7%, ood 5.0%, steps 397) vs K4 5.50% / 2.0% / 9.0% / 471. e5 mean **0.79%** (test 0.7%, ood 0.8%, steps 1798) vs K4 0.80% / 1.1% / 0.5% / 2527. Train loss still drops to ~1.7 (e1) / ~2.1 (e5) by ~100 steps then plateaus.
+- **Plots:** `fig_act_vs_k4_e1_e5.png`, `fig_act_train_curves.png`.
+- **Next:** Fixed K still wins e1; ACT e5 ≈ K4. Prefer fixed-K shortlist (K=2 e1, K=4 e5) unless ponder-loss ACT is worth one more card.
+
+
 
 
 

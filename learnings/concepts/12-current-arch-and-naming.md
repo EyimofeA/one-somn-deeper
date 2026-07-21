@@ -46,17 +46,19 @@ Two different ceilings:
 
 So “underfitting” here is mostly **algorithmic**: the network must learn a composition that depends on N and on T. Tiny tied loops help OOD T on fixed-N e1; they still fail when N varies (e5). Dumping parameters without a better bias often **wastes** the Easy clock. Medium (600s) / Hard (3600s) are where larger state may start to pay — after an Easy funnel picks winners.
 
-## Next arch change: N-conditioning (this phase)
+## What N-conditioning was (tried, rejected)
 
-Problem on e5: same looped body must behave like many different rings ℤ/Nℤ. Attention *can* look at N digits, but nothing forces a stable “modulus code” into every iteration.
+Prompt tokens look like: `N` then digits of the modulus, then `X` ….  
+**N-cond** mean-pooled the embeddings of those modulus digits into one vector `n`, then each loop did FiLM: `h ← (1+γ(n)) ⊙ h + β(n)` before the shared block.
 
-**N-cond:** mean-pool the token embeddings strictly between markers `N` and `X`, map to a vector `n`, then **FiLM**-modulate the residual stream each loop:
+Intent: force every loop to “know which ring ℤ/Nℤ it is in.”  
+Result: e1 ≈ unchanged; e5 got worse — so that particular FiLM recipe is out.
 
-- γ, β = Linear(n) split in half
-- h ← γ ⊙ h + β  (broadcast over sequence length)
-- then Shared Block(h)
+## Adaptive loops (ACT) — tried next
 
-Still one tied block, still K=4, still ~tiny param add (one Linear). Adaptive halt (ACT) stays queued behind this — one change at a time.
+Same tied block, but up to **K_max=8** passes. After each pass a halt head outputs a probability; the final hidden state is a **soft weighted mix** of the intermediate states (remainder mass forced on the last step). Idea: harder examples (larger T / messier N) keep looping; easy ones halt early.
+
+Scored: e1 mean 3.83% (below fixed K=4); e5 mean 0.79% (≈ fixed K=4).
 
 ## Funnel (your protocol)
 

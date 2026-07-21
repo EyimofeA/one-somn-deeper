@@ -28,3 +28,5 @@ Open PNGs in the IDE (chat embed is unreliable).
 - `fig_scaling_width_steps_e1.png`
 - `fig_ncond_vs_base_e1_e5.png`
 - `fig_ncond_train_curves.png`
+- `fig_act_vs_k4_e1_e5.png`
+- `fig_act_train_curves.png`

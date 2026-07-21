@@ -93,6 +93,15 @@ Naming: **d = width**, **K = loop count** (see `learnings/concepts/12-current-ar
 
 e1 ≈ flat; e5 worse. Not promoted. Plots: `fig_ncond_vs_base_e1_e5.png`.
 
+## Phase 6 — Adaptive loops (soft ACT)
+
+| ID | Arch | e1 mean | e1 test/ood | e5 mean | e5 test/ood | steps e1/e5 |
+|----|------|---------|-------------|---------|-------------|-------------|
+| 009/010 | fixed K=4 | **5.50%** | 2.0 / 9.0 | **0.80%** | 1.1 / 0.5 | 471 / 2527 |
+| 012 | ACT K_max=8 | 3.83% | 2.7 / 5.0 | 0.79% | 0.7 / 0.8 | 397 / 1798 |
+
+e1 down; e5 ≈ tie. Plots: `fig_act_vs_k4_e1_e5.png`.
+
 ## After each run, read
 
 1. `learnings/concepts/09-what-is-returned.md`
