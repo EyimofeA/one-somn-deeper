@@ -63,3 +63,7 @@ Rules: one message per figure, honest axes, colorblind-safe palette for presenta
 12. [Current arch & naming](concepts/12-current-arch-and-naming.md) — d=width, K=loops; N-cond
 13. [Decisions glossary](concepts/13-decisions-glossary.md) — FiLM, ACT/ponder, e1–e5, logging
 14. [Discord / beta meta](concepts/14-discord-beta-meta.md) — Hard≠Easy solver, deadline, grey zones
+
+## Papers
+
+- [Paper log](papers/README.md) — start with [T²MLR 2607.15178](papers/2607.15178-t2mlr.md)

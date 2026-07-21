@@ -125,6 +125,19 @@ Append-only log of experiments, findings, and decisions.
 - **Result:** Wrote `learnings/concepts/14-discord-beta-meta.md`; rewrote `03-cheating-boundary.md`. Confirms our UT/loop learning line matches organizer intent; Easy ~6% is not comparable to solver 100%.
 - **Next:** Principal chooses: (A) continue learned UT line → e3 then Medium, or (B) one Easy grey probe (intermediate aux) for notes only.
 
+### 2026-07-21 — Principal: Karpathy + Claude reserve + scaling clarification
+- **Setup:** Wrote `solving/experiments/PRINCIPAL_NOTES.md`. Quota left=33; reserve 10 Easy for Claude Code → parent ≤23 today. Scaling laws = model-size curves when we grow, not ponder. Diffusion queued. Aux deferred (Karpathy).
+- **Result:** Docs updated (`09` aux not returned; `10` stage; `11` backlog; `13` scaling note; quota reserve).
+- **Next:** Claude Code critique + its Easy cards within the 10; parent holds or does low-burn Karpathy cards only inside budget.
+
+### 2026-07-21 — Paper log: T²MLR (2607.15178)
+- **Setup:** User shared Jack Cai tweet + arXiv. Wrote `learnings/papers/` index + `2607.15178-t2mlr.md`. Official impl: https://github.com/princeton-pli/T2MLR.
+- **Result:** Paper = temporal middle-layer cache across **decode tokens**, not our depth-UT. Portable bet for us: **middle-only depth loop** (`depth_d32_midloop_k4`) on e1+e5 vs `depth_d32_k4_ut`. Full temporal cache = later/heavier.
+- **Quota:** ~20 Easy left → parent ≤10 after Claude reserve. No scored midloop submit this turn.
+- **Next:** Greenlight midloop card or leave for Claude Code critique + implement.
+
+
+
 
 
 
