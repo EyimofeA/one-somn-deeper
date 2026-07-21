@@ -100,7 +100,16 @@ e1 ≈ flat; e5 worse. Not promoted. Plots: `fig_ncond_vs_base_e1_e5.png`.
 | 009/010 | fixed K=4 | **5.50%** | 2.0 / 9.0 | **0.80%** | 1.1 / 0.5 | 471 / 2527 |
 | 012 | ACT K_max=8 | 3.83% | 2.7 / 5.0 | 0.79% | 0.7 / 0.8 | 397 / 1798 |
 
-e1 down; e5 ≈ tie. Plots: `fig_act_vs_k4_e1_e5.png`.
+## Phase 7 — UT depth embeddings
+
+| Arch | e1 mean | e5 mean |
+|------|---------|---------|
+| plain K2 | 6.20% | 0.50% |
+| **UT K2** | **6.50%** | 0.70% |
+| plain K4 | 5.50% | 0.80% |
+| **UT K4** | 4.70% | **1.00%** |
+
+New e5 best = UT K4. Plot: `fig_ut_vs_plain_e1_e5.png`. Medium: wait for principal greenlight (candidate UT K4 → m5).
 
 ## After each run, read
 

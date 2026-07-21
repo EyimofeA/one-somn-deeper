@@ -105,6 +105,22 @@ Append-only log of experiments, findings, and decisions.
 - **Plots:** `fig_act_vs_k4_e1_e5.png`, `fig_act_train_curves.png`.
 - **Next:** Fixed K still wins e1; ACT e5 ≈ K4. Prefer fixed-K shortlist (K=2 e1, K=4 e5) unless ponder-loss ACT is worth one more card.
 
+### 2026-07-21 — UT depth embeddings vs plain loops
+- **Hypothesis:** Literature UT (tied block + per-loop depth emb, Dehghani et al. 2018) beats our plain tied loops under the same d=32 / optimizer.
+- **Setup:** `depth_d32_k2_ut`, `depth_d32_k4_ut`. Jobs: k2 e1 `db4e7794…`, k4 e1 `489a8575…`, k2 e5 `ad472921…`, k4 e5 `e6d918dc…`. left=33 after. Glossary: `learnings/concepts/13-decisions-glossary.md`.
+- **Result (facts):**
+
+| arch | e1 mean | e5 mean |
+|------|---------|---------|
+| plain K2 | 6.20% | 0.50% |
+| **UT K2** | **6.50%** | 0.70% |
+| plain K4 | 5.50% | 0.80% |
+| **UT K4** | 4.70% | **1.00%** |
+
+- **Plots:** `fig_ut_vs_plain_e1_e5.png`.
+- **Next:** Promote **UT K4** as e5 reference (new best 1.00%); **UT K2** as e1 peak (6.50%). Medium candidate when funneling: UT K4 on m5-like (variable N+T). Hold Medium until you greenlight.
+
+
 
 
 

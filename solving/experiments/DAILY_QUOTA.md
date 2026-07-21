@@ -11,8 +11,9 @@ Competition: **60 Easy / UTC day**, 6 Medium, 1 Hard. CLI prints `left: N today`
 | After N-cond e5 | **39** | job `7cecdbb0…` score 0.29% |
 | After ACT e1 | **38** | job `ef972089…` score 3.83% |
 | After ACT e5 | **37** | job `4af90448…` score 0.79% |
+| After UT k2/k4 e1+e5 | **33** | best e5 now UT K4 **1.00%** |
 
-Used today ≈ 23 Easy accepts.
+Used today ≈ 27 Easy accepts.
 
 ## Protocol
 

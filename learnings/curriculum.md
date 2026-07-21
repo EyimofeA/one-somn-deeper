@@ -61,3 +61,4 @@ Rules: one message per figure, honest axes, colorblind-safe palette for presenta
 10. [Karpathy recipe](concepts/10-karpathy-recipe.md)
 11. [Ideas backlog](concepts/11-ideas-backlog.md)
 12. [Current arch & naming](concepts/12-current-arch-and-naming.md) — d=width, K=loops; N-cond
+13. [Decisions glossary](concepts/13-decisions-glossary.md) — FiLM, ACT/ponder, e1–e5, logging

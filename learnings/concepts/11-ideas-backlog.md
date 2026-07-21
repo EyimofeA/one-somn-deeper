@@ -6,7 +6,7 @@ Three columns so we do not mix taste, evidence, and literature. Append-only; mar
 
 | Idea | Why | Status |
 |------|-----|--------|
-| Learned / adaptive T (or early stop) so compute follows T | Fixed K wastes or under-spends | queued — after K-sweep |
+| Learned / adaptive T (or early stop) so compute follows T | Fixed K wastes or under-spends | tried soft-ACT (incomplete); full ACT+ponder still open |
 | Must generalize mod across many N, not one fixed N | e5 collapse | active constraint |
 | Efficiency under 60s clock | Always | active |
 
@@ -25,12 +25,15 @@ Three columns so we do not mix taste, evidence, and literature. Append-only; mar
 
 | Idea | Pointer | Status |
 |------|---------|--------|
-| Weight-tied block + ACT / halt | Universal Transformer; Graves ACT | candidate after fixed-K sweep |
+| Weight-tied block + ACT / halt | Universal Transformer; Graves ACT | soft-ACT tried; **UT depth-emb fixed-K next** |
 | Extra loops at eval for harder inputs | Looped / recurrent-depth Transformers | candidate |
 | Iterative latent updates for algorithms | Algorithmic reasoning / vertical CoT notes | background |
+| UT depth/timestep embedding each loop | Dehghani et al. 2018; we omitted this | **tried** — UT K2 e1 6.50%; UT K4 e5 **1.00%** (new e5 best) |
 
 ## Not doing (for now)
 
 - Untied deep stacks like an LLM (burns params, wrong bias for “same step again”)
 - Hard/Medium until e5 mean moves clearly
 - Treating e1-only wins as done
+
+(Update 2026-07-21: e5 moved to 1.00% with UT K4 — Medium still principal-gated.)
