@@ -63,6 +63,7 @@ Rules: one message per figure, honest axes, colorblind-safe palette for presenta
 12. [Current arch & naming](concepts/12-current-arch-and-naming.md) — d=width, K=loops; N-cond
 13. [Decisions glossary](concepts/13-decisions-glossary.md) — FiLM, ACT/ponder, e1–e5, logging
 14. [Discord / beta meta](concepts/14-discord-beta-meta.md) — Hard≠Easy solver, deadline, grey zones
+15. [Representation vs throughput](concepts/15-representation-vs-throughput.md) — place value wins; width/T-coupling/output-place lose; deriving (field, place) from `input_ids`; where the answer actually lives
 
 ## Papers
 

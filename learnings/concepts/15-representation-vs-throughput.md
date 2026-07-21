@@ -15,14 +15,18 @@ not a smoke result.
 Single change vs the anchor; d=32, 4 heads, shared block ×4, same optimizer/schedule/batch.
 Added state ~2.2K elements (~0.0004% of the 500M ceiling).
 
-| dataset | anchor test/ood | C1 test/ood |
-|---|---|---|
-| e1 | 1.30 / 8.00 | **3.30 / 9.00** |
-| e3 | 0.50 / 0.80 | **1.30 / 1.40** |
-| e5 | 0.80 / 0.70 | 0.80 / 0.80 |
+**Scored on e1, 3 replicates each (the protocol in `solving/experiments/NOISE.md`):**
 
-Up on both splits on all three datasets. That consistency — not the mean — is the
-evidence. **But see the noise section: the e3 gap did not survive replication.**
+| card | rep1 | rep2 | rep3 | mean |
+|---|---|---|---|---|
+| anchor `depth_d32_k4_ut` | 4.67 | 4.67 | 4.67 | **4.67%** |
+| C1 `claude_pv_k4_ut` | 5.83 | 5.83 | 5.83 | **5.83%** |
+
+**+1.16 pp, with every replicate identical.** This is the one result in this note that
+is fully established. Splits: C1 test 2.70 / ood 9.00 vs anchor 1.30 / 8.00.
+
+On e3 and e5 the picture did **not** hold up — see the noise section. C1's headline e3
+number (1.31% vs the anchor's 0.63%) looked like a 2.1× win and **is not real**.
 
 Why it should help: the task is square-and-reduce mod N on digits. With only absolute
 position the block must rediscover "index 7 is the units digit of X" from scratch under
@@ -32,14 +36,17 @@ a 60s clock, and that mapping *moves* whenever operand lengths move.
 
 All are single changes on top of C1, all scored, all worse.
 
-| card | change | e1 test/ood | vs C1 6.20 |
+| card | change | e1 test/ood | e1 mean |
 |---|---|---|---|
-| `claude_pv_ansplace` | + output place value (distance from sequence end) | 2.00 / 2.00 | **2.00** |
-| `claude_pv_d128` | width 32 → 128, heads 4 → 8 | 2.00 / 2.00 | **2.00** |
-| `claude_pv_tcoupled` | loop count = T+1 instead of fixed 4 | 2.00 / 2.00 | **2.00** |
-| `claude_pv_noabspos` | remove absolute position entirely | 0.70 / 7.00 | **3.83** |
+| `claude_pv_ansplace` | + output place value (distance from sequence end) | 2.00 / 2.00 | **2.00%** |
+| `claude_pv_d128` | width 32 → 128, heads 4 → 8 | 2.00 / 2.00 | **2.00%** |
+| `claude_pv_tcoupled` | loop count = T+1 instead of fixed 4 | 2.00 / 2.00 | **2.00%** |
+| `claude_pv_noabspos` | remove absolute position entirely | 0.70 / 7.00 | **3.83%** |
+| `claude_pv_evalk4` | + train-K2/eval-K4 | 3.30 / 1.00 | **2.17%** |
+| `claude_evalk4_zeroinit` | zero-init depth embedding | 2.70 / 2.00 | **2.33%** |
 
-Read these as four separate lessons:
+C1 itself is 2.70 / 9.00 = 5.83%. The last two get their own sections below. Read the
+first four as separate lessons:
 
 1. **Width is not the constraint — the clock is.** d=128 (210K params) ran 394 steps vs
    d=32's 377 and scored a third as well. There are four orders of magnitude of unused
@@ -60,26 +67,68 @@ Read these as four separate lessons:
 
 ## The noise band — read this before trusting any single run
 
-`claude_pv_fast` recomputes (field, place) in ~8 kernels instead of ~15 with **provably
-bit-identical output** (verified equal on train/test/ood at three padding widths). Only
-step count differs.
+**The band is not uniform across datasets. Measure it per dataset.**
 
-- C1 on e3: **1.31%** (1505 steps)
-- fast on e3: **0.75%** (2065 steps)
+The manifests pin `seeds: [74]`, so replicates of one file differ only through GPU
+nondeterminism and a timing-dependent step count. That turns out to matter enormously on
+one dataset and not at all on another.
 
-Same semantics. More steps. Nearly half the score. Two readings, both important:
+**e1 — reproducible.** Three replicates each of two different cards returned *identical*
+scores (4.67 ×3 and 5.83 ×3). One run per card on e1 is therefore trustworthy, and a
+1.16 pp gap is far outside anything the dataset can manufacture.
 
-- run-to-run variance on e3 is at least **±0.5pp**, which swallows most e3 "findings"
-  including C1's apparent 2.1× win over the anchor; and/or
-- **more steps actively hurt** on e3 — the extra throughput bought overfitting.
+**e3 — not reproducible.** The same file, `claude_pv_k4_ut`, submitted twice:
 
-Either way: **a single e3 run cannot distinguish a 0.6% card from a 1.3% card.** The
-manifest pins `seed: 74`, so replicates vary only through GPU nondeterminism and
-timing-dependent step count — which is exactly the variance measured above. Replication
-is therefore still meaningful, and necessary.
+| run | score | test / ood | steps |
+|---|---|---|---|
+| first | **1.31%** | 1.30 / 1.40 | 1505 |
+| replicate | **0.69%** | 0.50 / 0.90 | 2041 |
 
-Practical rule: on Easy, treat any gap under ~1pp as a tie until replicated. Prefer e1,
-where the effects are several times larger than the band.
+Same code, ~±0.6 pp apart — roughly a factor of two. The anchor scores 0.63% on e3, i.e.
+**inside that band**, so C1's apparent e3 win is not supported by evidence.
+
+Why the two datasets differ: e1 fits ~380 optimiser steps into its 60s while e3 fits
+1500–2200. The e3 runs sit far enough into training for a differing step count to move the
+result, and the step count itself varies with machine load. e1 runs die early and land in
+the same place every time.
+
+This also retracts a tempting conclusion. `claude_pv_fast` computes (field, place) in ~8
+kernels instead of ~15 with **provably bit-identical output** (verified equal on
+train/test/ood at three padding widths) and scored 0.75% on e3 against C1's 1.31%. That
+looked like "extra throughput bought overfitting" — but 0.75 and 0.69 and 1.31 are all one
+band. **Nothing about throughput is established on e3.**
+
+Practical rules:
+
+- **Use e1 for ranking.** It is reproducible and its effects are several times the band.
+- **Never promote on a single e3 or e5 run.** Treat any e3 gap under ~0.7 pp as a tie.
+- e5 has sat at 0.29–1.00% for every card ever run. It is not yet a discriminator; stop
+  ranking on it.
+
+## The two e1 wins do not stack — they anti-stack
+
+`claude_pv_evalk4` combines the two best e1 changes: place value (C1) and train-K2/eval-K4.
+Both parents reach ood 9.00 and differ mainly on test, so stacking looked free.
+
+| card | test | ood | mean |
+|---|---|---|---|
+| C1 place value (train4/eval4) | 2.70 | **9.00** | 5.83% |
+| `depth_d32_k2_ut_evalk4` (train2/eval4) | 4.70 | **9.00** | 6.83% |
+| **combined** | **3.30** | **1.00** | **2.17%** |
+
+Place value did exactly its job — test rose 2.70 → 3.30, the best test of the three. But
+**OOD fell 9.00 → 1.00** and sank the card.
+
+Reading: *train/eval depth mismatch is only free while the representation is weak.* The
+plain UT model learns something diffuse enough to survive being run at a depth it never
+trained at. Once the block is given a sharp positional code it commits to a specific
+loop count — a 2-loop algorithm keyed to place values — and running 4 loops at eval
+corrupts it.
+
+Consequence for the shortlist: **eval-only extra depth and strong input structure are
+competing strategies, not complementary ones.** Pick one. And since OOD is half the Easy
+score and the whole point of Hard, a change that trades 8 pp of OOD for 0.6 pp of test is
+a bad trade even when the arithmetic happens to work out.
 
 ## Reusable technique: deriving structure from `input_ids`
 
@@ -115,12 +164,40 @@ Exploiting distance-from-end directly (`ansplace`) *lost*, so knowing where the 
 lives has not yet been converted into a win. It stays on the backlog for a wider model
 where the residual stream can afford it.
 
+## Depth embeddings are loop IDs, not learned features
+
+`depth_d32_k2_ut_evalk4` (e1 best, 6.83%) declares `nn.Embedding(K_MAX=4, D_MODEL)` but
+trains with `k_loops = 2`, so slots **k=2, k=3 never receive a gradient** — yet eval runs
+4 loops, adding default **N(0,1)** vectors into a d=32 stream on loops 3–4. That looked
+like a bug worth cleaning up, so `claude_evalk4_zeroinit` zero-inits the depth embedding
+(one change, nothing else touched).
+
+It collapsed:
+
+| card | test | ood | mean | train acc @60s |
+|---|---|---|---|---|
+| `depth_d32_k2_ut_evalk4` | 4.70 | 9.00 | **6.83%** | — |
+| `claude_evalk4_zeroinit` | 2.70 | 2.00 | **2.33%** | **9.0%** (highest seen) |
+
+The zero-init card **trains best and generalises worst.** The untrained random vectors
+were doing real work: their only job is to make loop k *distinguishable* from loop j.
+Zero them and every loop receives the same (null) depth signal, the shared block cannot
+tell iterations apart, and it degenerates toward a plain repeated map that memorises.
+
+**Distinctness matters; being trained does not.** Do not "clean up" untrained depth slots.
+
 ## What to try next
 
-- Replicate C1 vs anchor on e1 ~5× each and settle whether the win is real. Nothing else
-  is worth doing until the band is known.
-- e5 is at floor (0.29–1.00%) for every card ever run. It is not a discriminator yet; stop
-  ranking on it.
-- The untested axis remains **N-conditioning done digit-locally** (cross-attention from
-  each X digit to N's digits, place-aligned) rather than as a pooled FiLM vector. FiLM was
-  rejected on e1/e5 but that tested the wrong form of the idea.
+- **N-conditioning done digit-locally** — cross-attention from each X digit to N's digits,
+  aligned by place id, rather than a pooled FiLM vector. FiLM was rejected on e1/e5, but
+  that tested the wrong form: mod-N reduction is digit-local, not a smooth affine
+  modulation of a pooled summary. This is the highest-EV untested axis.
+- **Label-free aux via the `auxiliary` return** — `forward` returns `(logits, auxiliary)`
+  and `auxiliary` is handed straight to `training_loss`, so ponder cost, per-loop
+  consistency ‖h_k − h_{k−1}‖ and entropy are all reachable today. Untried. (Label-*aware*
+  intermediate supervision is structurally blocked — see `11-ideas-backlog.md`.)
+- **Anything that raises OOD.** Every card here is stuck at ood ≈ 9.00 on e1 or falls off
+  a cliff; nothing has pushed past it. The test split is where place value helps and OOD
+  is where the ceiling is.
+- Do **not** revisit: wider models, removing absolute position, T-coupled loop counts,
+  output place value at d=32, zero-init depth embeddings. All scored, all lost.
