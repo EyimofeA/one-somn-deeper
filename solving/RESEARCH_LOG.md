@@ -46,5 +46,11 @@ Append-only log of experiments, findings, and decisions.
 - **Plots:** `solving/experiments/figures/fig_baseline_ladder_e1.png`, `fig_baseline_train_curves_e1.png`.
 - **Next:** User interprets; candidate follow-ups = depth_looped from b0, or diagnose b2 train/test gap.
 
+### 2026-07-21 — Metrics reading (clock vs convergence)
+- **Question:** Did e1 end early? Do we have loss? Is OOD ours?
+- **Result:** All three hit `training_seconds=60.1` with max_steps=1e6 unused → wall-clock stop. Loss is in JSONL; added `fig_baseline_train_loss_e1.png`. Hosted `split=ood` is evaluator-side (0% exact for all). Train exact is logged-batch, still rising at cut. Note: `learnings/concepts/06-reading-metrics.md`.
+- **Next:** Max-out plan — more steps/sec and/or Medium 600s; LR schedule; then depth_looped for OOD (currently 0%).
+
+
 
 
