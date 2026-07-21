@@ -63,6 +63,13 @@ Append-only log of experiments, findings, and decisions.
 - **Result:** No LR/grad/optim traces in API — only loss/exact/steps/eval. Nascent scaling: more steps → higher mean within 60s. OOD still 0% on ladder.
 - **Next:** depth_looped K=4/8 + width sweep d∈{32,96,128} agents; then Easy e1 submits.
 
+### 2026-07-21 — Depth + width Easy e1
+- **Hypothesis:** (1) Looping shared block raises OOD. (2) Width has a U-shape under 60s (too wide starves steps / overfitting).
+- **Result:** K=4 mean 1.83% with **ood 3.0%** (first nonzero). K=8 mean 1.67% ood 2.0%. Width: **d=32 mean 2.70% ood 4.0%** best overall; d=64 weakest mean in the width line.
+- **Plots:** `fig_depth_ablation_e1.png`, `fig_depth_train_exact_e1.png`, `fig_scaling_width_e1.png`, plus full dashboard in `PLOTS_INDEX.md`.
+- **Next:** Combine small width + loops (e.g. d=32 × K=4) as next card; Karpathy one-change rule.
+
+
 
 
 

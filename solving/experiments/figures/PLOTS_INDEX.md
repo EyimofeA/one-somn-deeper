@@ -11,7 +11,11 @@ Open PNGs in the IDE (chat embed is unreliable).
 - `fig_baseline_ladder_e1.png`
 - `fig_baseline_train_curves_e1.png`
 - `fig_baseline_train_loss_e1.png`
+- `fig_depth_ablation_e1.png`
+- `fig_depth_train_exact_e1.png`
 - `fig_max_ladder_e1.png`
 - `fig_max_vs_v1_e1.png`
 - `fig_scaling_params_vs_score.png`
 - `fig_scaling_steps_vs_score.png`
+- `fig_scaling_width_e1.png`
+- `fig_scaling_width_steps_e1.png`
