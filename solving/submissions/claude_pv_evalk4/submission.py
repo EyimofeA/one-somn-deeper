@@ -96,7 +96,7 @@ def _field_and_place(input_ids: Tensor) -> tuple[Tensor, Tensor]:
     """Derive (field_id, place_id) from input_ids alone — cheap form. claude code.
 
     Bit-exact against the naive per-field-loop version (verified on train/test/ood
-    at three padding widths); see `learnings/concepts/15-representation-vs-throughput.md`.
+    at three padding widths); see `learnings/concepts/16-representation-vs-throughput.md`.
 
     field_id in {0,1,2,3}: 0 = pre-N, 1 = N span, 2 = X span, 3 = T span.
     place_id in {0..MAX_PLACES-1}: 0 for non-digits; for a digit it is

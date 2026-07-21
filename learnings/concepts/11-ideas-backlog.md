@@ -22,7 +22,7 @@ Three columns so we do not mix taste, evidence, and literature. Append-only; mar
 | Always gate on e1 **and** e5 | 5.5% → 0.79% same weights | adopted |
 | K-sweep at d=32 before adaptive halt | Only know K=1 vs 4 well at d=32 | **done** — e1 peak K=2 (6.2%); e5 peak K=4 (0.8%) |
 | N-conditioning inside the same looped block | e5 needs many rings ℤ/Nℤ | **tried** — FiLM e1≈flat, e5 worse (0.29% vs 0.80%); reject **this recipe**, not the goal — FiLM is a smooth affine modulation of a *pooled* N, but mod-N reduction is a hard **digit-local** operation. Rejecting FiLM is not evidence against N-conditioning |
-| Cross-attn / dedicated N tokens into block | FiLM pool may be too lossy | queued — **highest-EV untested axis**. Do it place-aligned (each X digit attends N's digits by place id, see `15-representation-vs-throughput.md`), not pooled |
+| Cross-attn / dedicated N tokens into block | FiLM pool may be too lossy | queued — **highest-EV untested axis**. Do it place-aligned (each X digit attends N's digits by place id, see `16-representation-vs-throughput.md`), not pooled |
 | ACT / adaptive halt on tied loops | Your idea; K-sweep done | **tried** — soft ACT K_max=8: e1 3.83% (worse), e5 0.79% (≈K4); not promoted |
 
 ## Researched (prior art)
