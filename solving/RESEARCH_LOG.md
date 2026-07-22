@@ -248,3 +248,12 @@ Append-only log of experiments, findings, and decisions.
 **Dead ends:** None.
 **Lesson:** Migration was a script (~seconds), not a 30-minute hand move — estimate the automation, not the file count.
 **Promote?:** No.
+
+## 2026-07-22 — GPU box ops locked in
+
+**Question:** Document Prime L40S local runner so agents can cold-start without quota.
+**What we did:** Expanded `solving/experiments/OPS.md` (connect, cu126 torch, never uv sync, scp+runner, acceptance steps/s); AGENTS Compute points at it.
+**Result:** [SOURCED] Box IP ephemeral in OPS; L40S ~145 steps/s vs H100 ~96.8 on d32 K4.
+**Dead ends:** uv sync on box → CUDA-13 torch / NCCL break.
+**Lesson:** Local runner env ≠ `uv sync` defaults; pin cu126 and invoke `python` directly.
+**Promote?:** Already in OPS + AGENTS.
