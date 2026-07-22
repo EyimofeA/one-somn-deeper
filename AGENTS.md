@@ -52,9 +52,9 @@ Workspace is a git repo. **One experiment = one commit** after `NOTE.md` (see `s
 ## Compute
 
 - **Mac** — CPU smoke, `one-layer validate`, unit tests, μ+λ / digit-count measurements.
+- **GPU box (Prime L40S)** — local Easy/Medium manifests, **zero quota**. Connect/run/rebuild: [`solving/experiments/OPS.md`](solving/experiments/OPS.md) § GPU box. **Never** `uv sync` / bare `uv run` on that box (breaks cu126 torch).
 - **Competition Easy/Medium** — scored confirmation (~60 Easy / 6 Medium per UTC day).
-- **Private GPU (Prime / Colab)** — local probes; cheapest ≥16GB CUDA for d≈32 cards. Not required for official scores.
-- **`one-layer submit`** — official H100 accuracy (requires login).
+- **`one-layer submit`** — official H100 accuracy (requires login). Hard = hosted only.
 
 Multiple applications of a shared block **inside** one `model.forward` are allowed (recurrence). The evaluator still calls forward once per train step.
 
