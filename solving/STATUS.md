@@ -1,6 +1,19 @@
 # Status (living)
 
-Last updated: 2026-07-22 (submissions migrated to dated experiment dirs).
+Last updated: 2026-07-23 (P2 ladder rung 1 run; Hard shot #2 `99c4d7d3` fired with
+`claude code fable/submission_v2.py`, score pending).
+
+## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
+
+| Rung | Setup (all T=1) | Status |
+|------|------|--------|
+| 1 | fixed single N, unseen x | **N=323: 5.2% (peak 6.9%); N=1073: 0%** — barely off floor (`2026-07-23_t1only_fixedn_wd01/`) |
+| 2 | multi-N seen at train, unseen x | **floor, 0.5-0.75%** (`2026-07-22_t1only_probe_*` — relabeled from "rung 3", see correction) |
+| 3 | held-out N (`split_group=modulus`) | not run — strictly harder than rung 2, gate (≥5%) nowhere in sight |
+
+Failure point is **below rung 2**: the one-step map is barely learnable even
+per-modulus. No Hard-tier architecture work is informative until rung 1 clears a
+real number. wd=1.0 refuted at d=32 (never fits train, `_wd1/`).
 
 ## Hard leaderboard
 

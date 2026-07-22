@@ -257,3 +257,39 @@ Append-only log of experiments, findings, and decisions.
 **Dead ends:** uv sync on box → CUDA-13 torch / NCCL break.
 **Lesson:** Local runner env ≠ `uv sync` defaults; pin cu126 and invoke `python` directly.
 **Promote?:** Already in OPS + AGENTS.
+
+## 2026-07-23 — P2 grokking ladder rung 1; Hard shot #2 fired; harness cross-check
+
+**Question:** Is one step of x² mod N learnable at all for a *fixed* N (P2 ladder
+rung 1), given rung 2 (multi-N seen, unseen prompt) already floored at 0.5-0.75%?
+**What we did:** Reconciled `claude code fable/` handoff with repo state (the
+t1only probes = rung 2, not rung 3 — correction appended to
+`2026-07-22_t1only_probe_rope/NOTE.md`). Ran handoff `smoke_test.py` +
+the real `validate_submission_source` against `submission_v2.py` on the L40S —
+all green, no replica/evaluator discrepancy. Generated fixed-N x-split T=1
+datasets (N=323, N=1073, `separate_input_output=true` — the causal_lm default
+leaks answers into input_ids and scores a fake 100%). Ran the rope anchor at
+wd=0.1 and wd=1.0, 900s each, monitored.
+**Result:** [SOURCED — `experiments/metrics/rung1_*monitor.jsonl`, NOTEs in
+`2026-07-23_t1only_fixedn_wd01/` and `_wd1/`]
+
+| run | train EM | test EM final (peak) |
+|---|---|---|
+| N=323 wd0.1 | 100% | **5.17% (6.90%)** |
+| N=1073 wd0.1 | 100% | 0.00% (0.99%) |
+| N=323 wd1.0 | 61% | 1.72% |
+| N=1073 wd1.0 | 31% | 0.00% |
+
+D1 per-position accuracy on wd1 checkpoints ≈ marginal baseline (priors only).
+1800s wd0.1 reruns with checkpoints launched (results pending).
+**Hard shot:** `submission_v2.py` fired as `99c4d7d3` (use-or-lose, user-approved,
+~15 min before UTC day end; queue was blocked by a running Easy E5 job until
+~23:5x). Expectation zero per gate; value = monotone shot + returned split vector.
+**Dead ends:** causal_lm-format first launch (leak, discarded); wd=1.0 at d=32
+(never fits train); pkill self-match killing its own ssh session.
+**Lesson:** The ladder's failure point is *below* rung 2: the one-step map is
+barely learnable even per-modulus at this scale — cross-N transfer is not yet the
+binding constraint. Ladder work should stay at rung 1 (width, budget, digit-pair
+primitives) until a fixed-N run clears a real number (>50%), before any further
+Hard-architecture iteration.
+**Promote?:** separate_input_output gotcha → worth a line in OPS.md.

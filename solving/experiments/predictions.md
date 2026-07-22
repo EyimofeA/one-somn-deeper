@@ -252,3 +252,37 @@ RESULT:     confirmed a real dynamics change, refuted a better ceiling.
             an architecture ceiling, not an optimizer/schedule one. See
             NOTE.md in 2026-07-22_fable_max_wd1/.
 ```
+
+### 2026-07-23 (a)
+
+```
+CARD:       claude_std_rope_e1 (unmodified, wd=0.1) on new fixed-N x-split
+            T=1 datasets — P2 ladder rung 1 (N=323 and N=1073)
+CHANGE:     dataset only: split_group=x, fixed semiprime, all units mod N,
+            80/20 by x, T=1, separate_input_output=true. (N=323 variant
+            uses batch_size 115 so drop_last keeps a batch; nothing else.)
+PREDICT:    [carried from FULL_TRANSCRIPT.md P2 per START_PROMPT — human to
+            countersign] rung 1 should be learnable (grokking literature,
+            Power et al. on modular arithmetic); the transcript put the
+            rung1→rung2 transition as the likely failure (P≈0.7 fail at
+            rung 2), implying rung 1 itself well above floor.
+RESULT:     unclear, leaning refuted for this width/budget — N=323: train
+            100% at 86.5k steps, test 5.17% final / 6.90% peak, a real but
+            tiny grokking-shaped climb. N=1073: train 100%, test 0.00%.
+            Even one fixed modulus at T=1 barely moves off floor. See
+            2026-07-23_t1only_fixedn_wd01/NOTE.md.
+```
+
+### 2026-07-23 (b)
+
+```
+CARD:       claude_std_rope_e1_wd1 (+ _b115_wd1) — same rung-1 datasets,
+            weight_decay 0.1 → 1.0
+CHANGE:     one variable: AdamW weight_decay to 1.0 (L4: the grokking knob).
+PREDICT:    [agent-proposed, human to countersign] wd=1.0 should suppress
+            pure memorization and raise held-out EM above the wd=0.1 runs.
+RESULT:     refuted — wd=1.0 crushes weight norms (~15 vs ~30-35) before
+            train ever fits (61% / 31% train EM); test 1.72% / 0.00%. D1
+            per-position accuracy ≈ train-marginal baseline everywhere.
+            See 2026-07-23_t1only_fixedn_wd1/NOTE.md.
+```
