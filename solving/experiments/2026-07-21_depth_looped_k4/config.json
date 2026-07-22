@@ -1,0 +1,7 @@
+{
+  "card": "depth_looped_k4",
+  "date": "2026-07-21",
+  "change": "K=4 loops",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/depth_looped_k4*.jsonl"
+}

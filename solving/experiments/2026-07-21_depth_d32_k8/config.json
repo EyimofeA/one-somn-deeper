@@ -1,0 +1,7 @@
+{
+  "card": "depth_d32_k8",
+  "date": "2026-07-21",
+  "change": "K=8",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/depth_d32_k8*.jsonl"
+}

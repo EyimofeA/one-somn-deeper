@@ -1,0 +1,7 @@
+{
+  "card": "b2_rnn",
+  "date": "2026-07-21",
+  "change": "BiGRU",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/b2_rnn*.jsonl"
+}

@@ -1,0 +1,7 @@
+{
+  "card": "claude_scale_d512",
+  "date": "2026-07-21",
+  "change": "d=512",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/claude_scale_d512*.jsonl"
+}

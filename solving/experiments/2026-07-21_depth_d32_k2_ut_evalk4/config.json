@@ -1,0 +1,7 @@
+{
+  "card": "depth_d32_k2_ut_evalk4",
+  "date": "2026-07-21",
+  "change": "train K2 eval K4",
+  "active": true,
+  "metrics_glob": "solving/experiments/metrics/depth_d32_k2_ut_evalk4*.jsonl"
+}

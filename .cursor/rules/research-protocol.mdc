@@ -1,0 +1,17 @@
+---
+description: Decision protocol — predictions, options format, evidence vs hypotheses
+alwaysApply: true
+---
+
+# Research protocol
+
+Read and follow [`RESEARCH_PROTOCOL.md`](../../RESEARCH_PROTOCOL.md).
+
+Hard rules for agents:
+
+- Never write the PREDICT line — human only (`solving/experiments/predictions.md`).
+- When asked what to run next: return §2 OPTIONS format (max 3) and stop.
+- One variable per card.
+- Do not implement an option the human did not pick.
+- Mechanism stories go in `HYPOTHESES.md` until a metrics/figure citation exists.
+- Experiment dirs need `NOTE.md` before they count ([`solving/experiments/LAYOUT.md`](../../solving/experiments/LAYOUT.md)).

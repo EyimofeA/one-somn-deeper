@@ -1,0 +1,7 @@
+{
+  "card": "depth_d32_midloop_k4",
+  "date": "2026-07-21",
+  "change": "middle-only depth",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/depth_d32_midloop_k4*.jsonl"
+}

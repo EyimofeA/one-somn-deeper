@@ -1,0 +1,7 @@
+{
+  "card": "b0_transformer_max",
+  "date": "2026-07-21",
+  "change": "d=64 + sched + bs",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/b0_transformer_max*.jsonl"
+}

@@ -1,14 +1,15 @@
 # Curriculum
 
-## Start here (after today)
+## Start here
 
-1. [`solving/STATUS.md`](../solving/STATUS.md) — scoreboard, next steps  
-2. [`sessions/2026-07-21.md`](sessions/2026-07-21.md) — combined day lessons  
-3. [`concepts/17-recurrence-generalisation.md`](concepts/17-recurrence-generalisation.md) — what’s next  
-4. [`concepts/15-lr-schedules-wallclock.md`](concepts/15-lr-schedules-wallclock.md) — schedule hazard  
-5. [`concepts/03-cheating-boundary.md`](concepts/03-cheating-boundary.md) + [`14-discord-beta-meta.md`](concepts/14-discord-beta-meta.md)
+1. [`../solving/STATUS.md`](../solving/STATUS.md)  
+2. [`../RESEARCH_PROTOCOL.md`](../RESEARCH_PROTOCOL.md)  
+3. [`readings/one-layer-deeper-notes.md`](readings/one-layer-deeper-notes.md) — full mechanism lecture  
+4. [`concepts/18-lipschitz-quantize-progressive.md`](concepts/18-lipschitz-quantize-progressive.md)  
+5. [`concepts/17-recurrence-generalisation.md`](concepts/17-recurrence-generalisation.md)  
+6. [`sessions/2026-07-21.md`](sessions/2026-07-21.md)
 
-## Core concepts (keep)
+## Core concepts
 
 | # | File |
 |---|------|
@@ -23,16 +24,17 @@
 | 12 | Naming (d / K / T) |
 | 15 | LR wall-clock |
 | 16 | Representation vs throughput (e1 caveat) |
-| 17 | Recurrence generalisation |
+| 17 | Recurrence generalisation (day-1 proposal) |
+| 18 | Lipschitz / quantize / progressive loss |
 
-## Reference / archive concepts
+## Reference
 
-05 baseline arches · 08 expected loss · 11 ideas backlog · 13 glossary · 14 Discord meta · [`papers/`](papers/)
+05 baselines · 08 expected loss · 11 backlog · 13 glossary · 14 Discord · [`papers/`](papers/) · [`../HYPOTHESES.md`](../HYPOTHESES.md)
 
 ## Phases
 
-- [x] Setup, baselines, depth/UT, Easy e1/e5, Medium, Hard once  
-- [ ] Local grokking + re-quantised step (concept 17)  
+- [x] Setup, baselines, depth/UT, Easy/Medium, Hard once  
+- [ ] Part 8 plan: μ+λ measure → digit count → progressive → quantize → inject → init → WD → Muon  
 - [ ] Hard only with principal approval  
 
-Ops: [`solving/experiments/OPS.md`](../solving/experiments/OPS.md). Log: [`solving/RESEARCH_LOG.md`](../solving/RESEARCH_LOG.md).
+Ops: [`../solving/experiments/OPS.md`](../solving/experiments/OPS.md). Layout: [`../solving/experiments/LAYOUT.md`](../solving/experiments/LAYOUT.md).

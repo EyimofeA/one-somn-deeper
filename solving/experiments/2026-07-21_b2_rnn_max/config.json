@@ -1,0 +1,7 @@
+{
+  "card": "b2_rnn_max",
+  "date": "2026-07-21",
+  "change": "max recipe",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/b2_rnn_max*.jsonl"
+}

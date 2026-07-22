@@ -230,3 +230,21 @@ Append-only log of experiments, findings, and decisions.
   calculation that would have saved ~15 scored runs; a 60k-step transition is invisible
   in a 600s clock but cheap to find overnight. Iterate locally, spend quota only to
   confirm.
+
+## 2026-07-22 — Ingest protocol + lecture notes; experiment layout
+
+**Question:** Land decision protocol and Path D mechanism notes without mixing evidence and hypotheses.
+**What we did:** Copied Downloads `RESEARCH_PROTOCOL.md` → root (+§11 layout); `one-layer-deeper-notes.md` → `learnings/readings/`; added `HYPOTHESES.md`, `concepts/18-…`, `experiments/LAYOUT.md` + `predictions.md`, `scripts/extrapolation_curve.py` stub, `.cursor/rules/research-protocol.mdc`; wired AGENTS/README/STATUS/curriculum.
+**Result:** [SOURCED] Files on disk as above. No new scored runs.
+**Dead ends:** Did not migrate day-1 `submissions/` into dated experiment dirs (deferred; LAYOUT documents the target).
+**Lesson:** Protocol separates PREDICT (human) from implementation (agent); notes stay in readings until runs cite them into concepts.
+**Promote?:** Research-protocol rule already added.
+
+## 2026-07-22 — Migrate submissions → dated experiment dirs
+
+**Question:** Split active vs full history on disk.
+**What we did:** 39 cards → `solving/experiments/2026-07-21_<name>/` (submission.py, config.json, NOTE.md). `solving/submissions/` now 5 symlinks to active cards only.
+**Result:** [SOURCED] Symlink verify OK; metrics remain under `experiments/metrics/`.
+**Dead ends:** None.
+**Lesson:** Migration was a script (~seconds), not a 30-minute hand move — estimate the automation, not the file count.
+**Promote?:** No.

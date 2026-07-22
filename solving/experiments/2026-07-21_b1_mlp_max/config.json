@@ -1,0 +1,7 @@
+{
+  "card": "b1_mlp_max",
+  "date": "2026-07-21",
+  "change": "max recipe",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/b1_mlp_max*.jsonl"
+}

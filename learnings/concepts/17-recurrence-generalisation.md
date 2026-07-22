@@ -106,14 +106,15 @@ be addressed. See `11-ideas-backlog.md`.)
 
 ## Order of attack
 
-1. **Weight decay 0.1 → 1.0 → 3.0.** One constant. In the grokking literature decoupled
-   weight decay is the main thing that moves a network off the memorising solution onto
-   the generalising one, and the Hard run landed squarely on memorisation at wd=0.1.
-   Cheapest experiment available and it needs no new architecture.
-2. **Re-quantised recurrence** as above.
-3. **Input injection** each loop.
-4. **Entropy aux** via `auxiliary`.
-5. **Exploit T=1** as single-step supervision.
+Superseded by the ranked Part 8 plan in
+[`../readings/one-layer-deeper-notes.md`](../readings/one-layer-deeper-notes.md)
+and the short Path D checklist in
+[`18-lipschitz-quantize-progressive.md`](18-lipschitz-quantize-progressive.md).
+Living queue: [`../../solving/STATUS.md`](../../solving/STATUS.md). Hypotheses:
+[`../../HYPOTHESES.md`](../../HYPOTHESES.md).
+
+Day-1 cheap knob (still valid as a later one-change): weight decay 0.1 → 1 → 3,
+after init-scale probes.
 
 **Do not** add capacity. **Do not** build a solver.
 
@@ -127,9 +128,9 @@ to 19 values anyway (`16-representation-vs-throughput.md`).
 
 ## Run it locally
 
-`competition/` generates any dataset and runs the real training loop offline with zero
-quota. The Hard run's grokking transition begins at **~64,000 steps** — invisible inside
-Medium's 600s clock (best Medium run: 58,060 steps) but cheap to find overnight on a
-local GPU. Most of what this session spent quota on was answerable for free.
+Clone upstream [one-layer-deeper](https://github.com/tilde-research/one-layer-deeper)
+for offline runner smoke. Grokking transition on Hard H1 began at **~64,000 steps** —
+inside Medium’s 600s clock we peaked ~58k steps. Prefer local GPU for probes; spend
+quota to confirm.
 
 **Iterate locally; spend quota only to confirm.**

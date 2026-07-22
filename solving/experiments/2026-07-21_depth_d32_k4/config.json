@@ -1,0 +1,7 @@
+{
+  "card": "depth_d32_k4",
+  "date": "2026-07-21",
+  "change": "shared block \u00d74",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/depth_d32_k4*.jsonl"
+}

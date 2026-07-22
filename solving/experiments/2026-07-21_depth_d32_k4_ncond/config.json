@@ -1,0 +1,7 @@
+{
+  "card": "depth_d32_k4_ncond",
+  "date": "2026-07-21",
+  "change": "N-cond FiLM",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/depth_d32_k4_ncond*.jsonl"
+}

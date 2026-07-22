@@ -1,17 +1,14 @@
-# Submissions
+# Submissions (active only)
 
-## Active (start here)
+Each entry is a **symlink** to `solving/experiments/2026-07-21_<name>/`.
+Full history (all cards + NOTE.md): `solving/experiments/2026-07-21_*/`.
 
 | Dir | Why |
 |-----|-----|
 | `depth_d32_k4_ut_optsched/` | UT K4 + schedule safe for Medium/Hard |
-| `depth_d32_k2_ut_evalk4/` | Best Easy e1 (train2/eval4) |
-| `depth_d32_k4_ut/` | Best Easy e5 before optsched |
-| `claude_pv_k4_ut/` | Place-value emb (Claude) |
+| `depth_d32_k2_ut_evalk4/` | Best Easy e1 (weak gate) |
+| `depth_d32_k4_ut/` | Best Easy e5 |
+| `claude_pv_k4_ut/` | Place-value emb |
 | `claude_hard_h1/` | Hard 0.03% artifact |
 
-## Archive
-
-Baselines `b0_*` `b1_*` `b2_*`, width scales `scale_*`, K-sweep `depth_d32_k*`, failed bets `*_ncond` `*_act` `*_midloop` `depth_looped_*`, other `claude_*` ablations. Keep for metrics lineage; don’t extend unless ablating.
-
-Living pointer: [`../STATUS.md`](../STATUS.md).
+Layout: [`../experiments/LAYOUT.md`](../experiments/LAYOUT.md). Status: [`../STATUS.md`](../STATUS.md).

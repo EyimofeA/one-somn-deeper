@@ -1,0 +1,7 @@
+{
+  "card": "depth_d32_k4_ut_optsched",
+  "date": "2026-07-21",
+  "change": "clamped cosine",
+  "active": true,
+  "metrics_glob": "solving/experiments/metrics/depth_d32_k4_ut_optsched*.jsonl"
+}

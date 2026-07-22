@@ -4,3 +4,9 @@ competition/
 **/__pycache__/
 *.pyc
 .venv/
+
+# Generated / regeneratable
+data/generated/
+solving/experiments/**/metrics.jsonl
+solving/experiments/**/*.pt
+solving/experiments/**/checkpoints/

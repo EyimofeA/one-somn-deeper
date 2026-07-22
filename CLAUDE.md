@@ -1,8 +1,8 @@
 # CLAUDE.md
 
-This project's instructions live in **[AGENTS.md](AGENTS.md)** — read it first, then
-follow the read order it defines.
+This project's instructions live in **[AGENTS.md](AGENTS.md)** and
+**[RESEARCH_PROTOCOL.md](RESEARCH_PROTOCOL.md)** — read those first.
 
 Nothing else belongs in this file. It exists only so that Claude Code and Cursor land on
 the same single source of truth instead of drifting apart in two parallel docs. If you
-want to add a rule, add it to `AGENTS.md`.
+want to add a rule, add it to `AGENTS.md` or `RESEARCH_PROTOCOL.md`.

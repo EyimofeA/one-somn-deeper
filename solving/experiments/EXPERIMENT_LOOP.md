@@ -1,8 +1,9 @@
 # Experiment scoreboard
 
 Canonical living status: **[`../STATUS.md`](../STATUS.md)**.  
-Day synthesis: [`../../learnings/sessions/2026-07-21.md`](../../learnings/sessions/2026-07-21.md).  
-Ops/noise/quota: [`OPS.md`](OPS.md).
+Layout / commits: [`LAYOUT.md`](LAYOUT.md).  
+Predictions: [`predictions.md`](predictions.md).  
+Ops: [`OPS.md`](OPS.md).
 
 ## Parent Easy ladder (facts only)
 

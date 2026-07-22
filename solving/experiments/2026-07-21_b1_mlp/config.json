@@ -1,0 +1,7 @@
+{
+  "card": "b1_mlp",
+  "date": "2026-07-21",
+  "change": "MLP bag",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/b1_mlp*.jsonl"
+}

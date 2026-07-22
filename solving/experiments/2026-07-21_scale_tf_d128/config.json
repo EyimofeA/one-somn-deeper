@@ -1,0 +1,7 @@
+{
+  "card": "scale_tf_d128",
+  "date": "2026-07-21",
+  "change": "d=128",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/scale_tf_d128*.jsonl"
+}

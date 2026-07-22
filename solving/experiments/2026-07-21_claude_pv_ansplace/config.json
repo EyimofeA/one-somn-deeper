@@ -1,0 +1,7 @@
+{
+  "card": "claude_pv_ansplace",
+  "date": "2026-07-21",
+  "change": "ansplace",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/claude_pv_ansplace*.jsonl"
+}
