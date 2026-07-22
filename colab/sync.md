@@ -13,10 +13,11 @@ No notebook code yet — process only.
 ### 1. Develop on Mac
 
 - Edit code in `solving/` (submissions, experiments)
-- Run CPU smoke in `competition/` to catch contract errors early:
+- For CPU smoke, clone upstream beside this repo (or anywhere) and point the runner at a submission:
   ```bash
+  git clone https://github.com/tilde-research/one-layer-deeper.git competition
   cd competition
-  source .venv/bin/activate
+  uv venv .venv && source .venv/bin/activate && uv sync
   python -m benchmark.runner \
     --manifest benchmark/manifests/smoke_cpu.json \
     --submission-file ../solving/submissions/<name>/submission.py
@@ -43,6 +44,7 @@ No notebook code yet — process only.
 ### 4. Install competition environment
 
 ```bash
+git clone https://github.com/tilde-research/one-layer-deeper.git competition
 cd competition
 uv venv .venv
 source .venv/bin/activate   # Colab: use !source or %%bash cell
@@ -71,6 +73,6 @@ one-layer submit solving/submissions/<name>/submission.py --tier easy --dataset 
 
 ## What not to sync
 
-- `competition/.venv/` — recreate per machine
+- `competition/.venv/` — recreate per machine (folder stays gitignored if you clone it here)
 - API keys (`~/.config/one-layer/config.json`) — per-machine login
 - Large generated datasets — use competition manifests or regenerate

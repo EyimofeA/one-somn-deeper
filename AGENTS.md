@@ -39,7 +39,7 @@ No spare Cursor API budget. Default lean:
 
 ## Git artifacts
 
-Workspace is a git repo. After each completed coding deliverable (`submission.py`, Colab notebook, figure script), **commit** (when you ask, or when a Phase checkpoint is done). No orphan untracked code. `competition/` stays a nested clone — do not rewrite its history; ignore or submodule later if needed.
+Workspace is a git repo. After each completed coding deliverable (`submission.py`, Colab notebook, figure script), **commit** (when you ask, or when a Phase checkpoint is done). No orphan untracked code. Local smoke uses a separate clone of [tilde-research/one-layer-deeper](https://github.com/tilde-research/one-layer-deeper) (optional; not part of this repo).
 
 ## Subagents
 
@@ -69,5 +69,5 @@ Patch `.cursor/rules/*.mdc` when we learn something durable. One concern per fil
 
 - `README.md` — human entry
 - `colab/sync.md` — Mac → Colab
-- `competition/` — upstream clone
+- Upstream: [tilde-research/one-layer-deeper](https://github.com/tilde-research/one-layer-deeper)
 - `solving/experiments/figures/` — research plots (see curriculum Phase 1b)

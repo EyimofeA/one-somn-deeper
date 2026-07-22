@@ -23,5 +23,6 @@ solving/RESEARCH_LOG.md
 solving/submissions/   active listed in submissions/README.md
 solving/experiments/   metrics, figures, OPS.md
 colab/              Mac → Colab
-competition/        upstream clone
 ```
+
+Upstream CLI / runner (clone when you need local smoke): [tilde-research/one-layer-deeper](https://github.com/tilde-research/one-layer-deeper).

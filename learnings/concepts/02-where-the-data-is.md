@@ -4,7 +4,7 @@
 
 Official Easy/Medium JSONL files are **not** shipped in the public clone. They live on the evaluator (paths like `data/generated/squaring_mod_…` in manifests). Locally you get:
 
-1. **Generator code** — [`competition/data/squaring_mod.py`](../../competition/data/squaring_mod.py)
+1. **Generator code** — [`data/squaring_mod.py`](https://github.com/tilde-research/one-layer-deeper/blob/main/data/squaring_mod.py) in upstream
 2. **Smoke path** — manifests with `"data_root": null` synthesize a tiny fixed set at runtime (N = 11×13 = 143)
 3. **Our sample** — [`solving/experiments/data_samples/e1_like_n323_t123/`](../../solving/experiments/data_samples/e1_like_n323_t123/) (generated for inspection; not official scores)
 
@@ -46,7 +46,7 @@ Easy/Medium practice tiers use **separate** prompt and label tensors (bidirectio
 
 ## Manifest → dataset (Easy e1)
 
-[`competition/benchmark/manifests/h100_easy_e1.json`](../../competition/benchmark/manifests/h100_easy_e1.json) points at:
+[`benchmark/manifests/h100_easy_e1.json`](https://github.com/tilde-research/one-layer-deeper/blob/main/benchmark/manifests/h100_easy_e1.json) (upstream) points at:
 
 ```text
 data/generated/squaring_mod_new11_easy_bidirectional_fixed_n_323_t123
@@ -57,9 +57,8 @@ That directory exists on the **hosted** runner, not on your Mac unless you regen
 ## How to stare at more examples
 
 ```bash
-cd competition
-UV_PYTHON=3.13.5 .venv/bin/python -c "import json; ..."
-# or open solving/experiments/data_samples/e1_like_n323_t123/train.jsonl
+# after cloning upstream locally, or just open:
+# solving/experiments/data_samples/e1_like_n323_t123/train.jsonl
 ```
 
 Do not try to load official `data_root` paths from a submission — the runner denies participant file access to the dataset during scored runs.

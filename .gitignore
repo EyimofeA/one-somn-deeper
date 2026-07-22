@@ -1,8 +1,5 @@
-# Nested competition clone — do not commit its .venv
+# Optional local clone of tilde-research/one-layer-deeper (not part of this repo)
 competition/
-competition/.venv/
-competition/**/__pycache__/
-competition/**/*.pyc
 .DS_Store
 **/__pycache__/
 *.pyc
