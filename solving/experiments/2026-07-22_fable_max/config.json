@@ -1,0 +1,7 @@
+{
+  "card": "fable_max",
+  "date": "2026-07-22",
+  "change": "new Hard-tier architecture — T-proportional weight-tied FiLM-conditioned loop, register re-quantization, wall-clock LR + quantization-progress schedule sharing one clock. Verified against harness contract and ban list, tested locally on e5. Not submitted for real scoring.",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/fable_max*.jsonl"
+}

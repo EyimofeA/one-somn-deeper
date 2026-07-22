@@ -25,6 +25,14 @@ Promote only if beat champ by ≳2σ **or** clear win on **e5 + Medium** (not e1
 
 Never `CosineAnnealingLR` with small `T_max ≈ c×seconds` on Medium/Hard. Prefer inv-sqrt/Noam or clamped cosine. See `learnings/concepts/15-lr-schedules-wallclock.md`.
 
+**`solving/experiments/2026-07-21_depth_d32_k4_ut/submission.py` still has the
+un-patched buggy scheduler** (`t_max = seconds * 8`) — confirmed sawtoothing
+every ~7600 steps on the L40S (2026-07-22, T=1 probe: train accuracy
+oscillated 35%→100%→35% for 24k steps instead of converging). Copy
+`2026-07-22_t1only_probe_ut_k4/submission.py` instead if you need a UT-loop
+card — it's the same architecture with the wall-clock scheduler applied.
+Don't `cp` the k4_ut file directly without checking `_build_scheduler` first.
+
 ## GPU box — local training, zero quota
 
 Rented Prime Intellect L40S. **Ephemeral: IP/host below only valid while this
@@ -141,3 +149,34 @@ launch-bound behavior depending more on host dispatch than raw GPU
 bandwidth. If a box measures well under ~70 steps/s, something about the
 instance (vCPU allocation, noisy neighbor) is bad — don't trust its
 wall-clock numbers, get a different one.
+
+### Local-only diagnostic tooling (agent-owned, not the evaluator runner)
+
+Two things live on the box that are **not** upstream and **not** the
+frozen scorer — don't confuse them with `benchmark/runner.py` (untouched)
+when reading logs:
+
+- `benchmark/manifests/local_e1_overtrain20x.json` — a copy of
+  `h100_easy_e1.json` with `total_training_time_seconds` bumped 60→1200
+  (20x) and `log_every` raised, same data/seed. For asking "does this
+  card ever generalize given more time," not for scoring.
+- `scripts_local/monitor_train.py` — reimplements the real training loop
+  by importing `benchmark.runner`'s own internals (`_loss_and_accuracy`,
+  `_evaluate`, `_compile_model`, etc.) so behavior stays faithful, but
+  adds what the real runner doesn't do: **held-out eval every N steps**
+  (real runner evaluates exactly once, at the end) plus weight-norm and
+  grad-norm logging. Writes JSONL (`--out`), one line per train/eval
+  event. Usage:
+
+  ```bash
+  python scripts_local/monitor_train.py \
+    --manifest benchmark/manifests/<manifest>.json \
+    --submission-file submissions/<card>.py \
+    --eval-every 500 \
+    --out /tmp/<card>_monitor.jsonl
+  ```
+
+  Multiple runs can share the GPU concurrently (46GB VRAM, these are
+  small models) — expect wall-clock to stretch under contention, which is
+  fine for a diagnostic run but means **never** use a concurrent run to
+  measure steps/s for schedule calibration.

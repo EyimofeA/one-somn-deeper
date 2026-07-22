@@ -1,0 +1,7 @@
+{
+  "card": "t1only_probe_rope",
+  "date": "2026-07-22",
+  "change": "no architecture change vs claude_std_rope_e1 anchor; new manifest — e5 train/test filtered to time_steps==1 only, N varying (1600/400 rows), no ood split",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/t1only_probe_rope*.jsonl"
+}

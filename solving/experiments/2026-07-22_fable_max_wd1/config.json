@@ -1,0 +1,7 @@
+{
+  "card": "fable_max_wd1",
+  "date": "2026-07-22",
+  "change": "weight_decay 0.1 -> 1.0, everything else unchanged from fable_max. Run monitored (scripts_local/monitor_train.py) on e5 overtrained to 500s to see the full trajectory, not just endpoints.",
+  "active": false,
+  "metrics_glob": "solving/experiments/metrics/fable_max_wd1*.jsonl"
+}
