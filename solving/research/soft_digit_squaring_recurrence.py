@@ -31,7 +31,7 @@ class Model(nn.Module):
         self.config = Config(spec.vocab_size, spec.max_seq_len)
         self.pair_table = nn.Parameter(torch.empty(10, 10, D_MODEL))
         self.pair_fold = nn.GRUCell(D_MODEL, D_MODEL)
-        self.pair_fold_initial = nn.Parameter(torch.zeros(D_MODEL))
+        self.pair_fold_initial = nn.Parameter(torch.zeros(NUM_DIGITS + 1, D_MODEL))
         self.carry_cell = nn.GRUCell(D_MODEL, D_MODEL)
         self.carry_initial = nn.Parameter(torch.zeros(D_MODEL))
         self.flush_input = nn.Parameter(torch.empty(D_MODEL))
@@ -52,7 +52,9 @@ class Model(nn.Module):
                 terms[left_index + right_index].append(feature)
         columns: list[Tensor] = []
         for column_terms in terms:
-            folded = self.pair_fold_initial[None, :].expand(digits.shape[0], -1)
+            folded = self.pair_fold_initial[len(column_terms)][None, :].expand(
+                digits.shape[0], -1
+            )
             for term in column_terms:
                 folded = self.pair_fold(term, folded)
             columns.append(folded)

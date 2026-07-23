@@ -620,3 +620,23 @@ composition, still locally and without promoting weights to a submission.
   recurrence test premature.
 - **Next:** Audit errors by decimal output position and change one local-cell
   mechanism only; preserve this split and peak-checkpoint convention.
+
+### 2026-07-23 — Arity-conditioned fold initialization
+- **Hypothesis:** The only remaining one-step error is decimal output digit 3,
+  whose schoolbook column has four pair terms. Giving the shared fold a learned
+  initial state for each arity (rather than one shared zero state) should make
+  that four-term aggregation identifiable.
+- **Setup:** The 8k/2k shuffled one-step split, seed, pair table, fold order,
+  carry scan, and optimizer were fixed. The sole change was
+  `pair_fold_initial[arity]` for arities 1..4.
+- **Result:** The card was ahead early (71.2% versus 67.8% control at step
+  1,500; 84.55% versus 83.4% at step 3,000), but reached only **84.55% peak**
+  and was 83.8% at the matched step 3,500, below the control's 85.35% peak.
+  It was stopped after that matched negative comparison. Checkpoint/logs:
+  `twoA6000:results_local/arity_fold_four_digit_square/`.
+- **Classification:** Refuted. The fold can infer its arity from recurrence
+  length; a learned arity-specific starting vector improves early optimization
+  but harms the final operator law.
+- **Next:** Retain the shared fold initialization. The controlled peak audit
+  still says that only output digit 3 fails, so the next card must alter the
+  representation used by the carry transition at that output column.
