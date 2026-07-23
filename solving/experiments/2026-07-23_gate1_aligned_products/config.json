@@ -1,0 +1,8 @@
+{
+  "card": "gate1_aligned_products",
+  "date": "2026-07-23",
+  "change": "diagnostic mapping/data: one digit product -> aligned independent products for an x digit sequence",
+  "target_function": "aligned_digit_products_no_carry",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_aligned_products/metrics/*.jsonl"
+}

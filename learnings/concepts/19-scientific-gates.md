@@ -63,6 +63,10 @@ after 1,000 steps
 On the isolated 10×10 product table it reached 100% train exact match but stayed
 at 15% on 20 symmetrically held-out ordered pairs
 (`solving/experiments/2026-07-23_gate1_digit_product/metrics/monitor.jsonl`).
+With all 100 products covered, aligned carry-free products reached 100% on
+held-out sequences at trained lengths but only 10.0% peak and 7.3% final exact
+match at the unseen fourth position
+(`solving/experiments/2026-07-23_gate1_aligned_products/metrics/monitor.jsonl`).
 
 **Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
 and carry propagation. Do not test modular reduction or T.

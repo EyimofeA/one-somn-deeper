@@ -1,9 +1,9 @@
 # Status (living)
 
-Last updated: 2026-07-23 (Gate 1 digit-product lookup: unchanged d=32
-Transformer reached **100% train** but stayed at **15% on 20 held-out ordered
-pairs** through 1,000 steps; human result: **confirmed**. Next: expose all 100
-products and test their reuse across unseen positions and length).
+Last updated: 2026-07-23 (Gate 1 aligned products: with all 100 local products
+covered, the unchanged d=32 Transformer reached **100% train and held-out
+same-length**, but only **10.0% peak / 7.3% final at length 4**. Result:
+**confirmed**. The active failure is positional reuse before carries).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
@@ -52,13 +52,13 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 | `claude_pv_k4_ut/` | Place-value UT |
 | `claude_hard_h1/` | Hard artifact — do not widen |
 
-## Next — Gate 1 decomposition (you pick; agent implements)
+## Next — positional reuse gate (you pick; agent implements)
 
 Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
-1. **Selected:** complete-table aligned digit products without carry propagation
-2. Carry propagation with the pre-carry column sums supplied
-3. Exact squaring from the two validated primitives
+1. Test a digit-significance position scheme on the same aligned-product data
+2. Test sparse target-length priming on the same aligned-product data
+3. Do not advance to carry propagation until length 4 passes
 
 ## Ops
 

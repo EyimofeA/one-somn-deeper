@@ -313,6 +313,15 @@ PREDICT:    no improvement in T
 RESULT:     confirmed
 ```
 
+### 2026-07-23 (h)
+
+```
+CARD:       gate1_aligned_products
+CHANGE:     one digit-pair product → repeated fixed-width local products without cross-position carry
+PREDICT:    collapse
+RESULT:     confirmed
+```
+
 ### 2026-07-23 (g)
 
 ```

@@ -398,3 +398,26 @@ inferred reliably. Since decimal has only 100 ordered local products, expose the
 complete table and measure algorithmic generalization through reuse at unseen
 positions and lengths.
 **Promote?:** Advance to complete-table aligned products without carries.
+
+## 2026-07-23 — Gate 1 aligned local products without carries
+
+**Author:** Codex
+**Implementation:** Boyle (`implement_gate1_square`)
+
+**Question:** Once all 100 decimal local products are covered, can the unchanged
+Transformer reuse the lookup at an unseen fourth digit position?
+**What we did:** Trained on 3,000 examples across lengths 1–3, tested on 600
+disjoint same-length sequences, and evaluated 1,000 length-4 OOD examples.
+Every ordered `(digit,b)` pair occurred 66–95 times in training. The target was
+one fixed-width two-digit block per input digit, with no cross-position carry.
+Ran 1,000 fixed optimizer steps on the A6000.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate1_aligned_products/metrics/monitor.jsonl`] Train and
+held-out same-length exact match reached 100%. Length-4 OOD exact match peaked
+at 10.0% at step 1 and ended at 7.3%. Runtime was 45.0 seconds.
+**Dead ends:** None.
+**Lesson:** Result classified confirmed by Codex at the human's request. The
+local multiplication lookup works at trained positions; positional reuse fails
+before carry propagation is introduced.
+**Promote?:** Test digit-significance positional structure or sparse
+target-length priming on this frozen diagnostic.
