@@ -313,6 +313,15 @@ PREDICT:    no improvement in T
 RESULT:     confirmed
 ```
 
+### 2026-07-23 (i)
+
+```
+CARD:       gate1_abacus_rope
+CHANGE:     RoPE only → randomized Abacus digit-significance embeddings plus RoPE
+PREDICT:    collapse iirc they use fire and had a lot more examples
+RESULT:     confirmed
+```
+
 ### 2026-07-23 (h)
 
 ```

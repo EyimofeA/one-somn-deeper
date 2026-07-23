@@ -67,6 +67,10 @@ With all 100 products covered, aligned carry-free products reached 100% on
 held-out sequences at trained lengths but only 10.0% peak and 7.3% final exact
 match at the unseen fourth position
 (`solving/experiments/2026-07-23_gate1_aligned_products/metrics/monitor.jsonl`).
+Adding randomized Abacus digit-significance embeddings beside RoPE produced
+99.33% peak / 98.67% final same-length exact match but only 10.0% peak / 4.4%
+final at length 4
+(`solving/experiments/2026-07-23_gate1_abacus_rope/metrics/monitor.jsonl`).
 
 **Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
 and carry propagation. Do not test modular reduction or T.

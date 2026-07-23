@@ -421,3 +421,24 @@ local multiplication lookup works at trained positions; positional reuse fails
 before carry propagation is introduced.
 **Promote?:** Test digit-significance positional structure or sparse
 target-length priming on this frozen diagnostic.
+
+## 2026-07-23 — Gate 1 randomized Abacus embeddings plus RoPE
+
+**Author:** Codex
+**Implementation:** Boyle (`implement_gate1_square`)
+
+**Question:** Does adding randomized digit-significance embeddings to the frozen
+RoPE model repair reuse of complete local products at the unseen fourth
+position?
+**What we did:** Added a 25-row, d=32 Abacus embedding table (800 parameters).
+Training used one shared random offset β ∈ {1,…,16} per batch; evaluation used
+β=1. Data, RoPE, blocks, optimizer, and fixed 1,000-step budget were frozen.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate1_abacus_rope/metrics/monitor.jsonl`] Same-length
+test exact match peaked at 99.33% and ended at 98.67%. Length-4 OOD exact match
+peaked at 10.0% at step 1 and ended at 4.4%. Runtime was 46.1 seconds.
+**Dead ends:** None.
+**Lesson:** Result classified confirmed by Codex at the human's request.
+Abacus+RoPE did not repair the measured positional-reuse failure at this
+scale/data regime.
+**Promote?:** No; proceed to the already-selected position-coupling card.
