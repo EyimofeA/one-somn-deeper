@@ -1,9 +1,9 @@
 # Status (living)
 
-Last updated: 2026-07-23 (Gate 1 carry normalization at 4,000 steps: **89.06%
-train-batch / 80.55% held-out**, up from 30.35% held-out at step 1,000. The
-peak remained at the final step. Prediction **refuted** because it did not reach
-95%, but carry normalization demonstrably generalizes).
+Last updated: 2026-07-23 (Gate 1 shared carry scan: **78.91% train-batch /
+79.45% held-out** at 4,000 steps. c6/c7 improved slightly to 71.94% / 56.11%,
+but the length curve still decayed. Prediction **refuted**. Next: discretize the
+shared recurrent state to prevent continuous carry drift).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
@@ -56,9 +56,9 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 
 Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
-1. c1–c3 reached 100.0% / 97.8% / 95.6%; c6–c7 fell to 67.8% / 53.9%
-2. **Next:** replace parallel carry decoding with a shared LSD→MSD scan
-3. Hold data, optimizer, parameter scale, and 4,000-step budget fixed
+1. Shared continuous scan — failed to flatten c1–c7
+2. **Next:** quantize the scan state into learned categorical prototypes
+3. Hold scan, data, optimizer, and 4,000-step budget fixed
 
 ## Ops
 

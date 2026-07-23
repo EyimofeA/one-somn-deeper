@@ -74,6 +74,10 @@ Transformer reached 29.69% final train-batch and 30.35% held-out exact match at
 Extending only the step budget to 4,000 raised held-out exact match to 80.55%
 with the peak at the final evaluation
 (`solving/experiments/2026-07-23_gate1_carry_normalize_4k/metrics/monitor.jsonl`).
+A shared 11,104-parameter continuous carry scan reached 79.45% overall; c6/c7
+improved slightly to 71.94% / 56.11%, but exact match still decayed with chain
+length
+(`solving/experiments/2026-07-23_gate1_carry_scan/metrics/per_c_final.json`).
 
 **Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
 and carry propagation. Do not test modular reduction or T.

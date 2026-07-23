@@ -465,3 +465,25 @@ Final exact match by column count was c1 100.0%, c2 97.83%, c3 95.56%, c4
 89.44%, c5 86.39%, c6 67.78%, and c7 53.89%
 (`experiments/2026-07-23_gate1_carry_normalize_4k/metrics/per_c_final.json`).
 **Promote?:** Use a shared LSD→MSD carry scan; error compounds with chain length.
+
+## 2026-07-23 — Gate 1 shared continuous carry scan
+
+**Author:** Codex
+**Implementation:** Boyle (`implement_gate1_square`)
+
+**Question:** Does one weight-shared learned LSD→MSD transition flatten exact
+accuracy across carry-chain lengths?
+**What we did:** Replaced the 51,136-parameter parallel Transformer with an
+11,104-parameter model: a shared three-digit block encoder, one d=32 GRUCell
+reused for all columns and two learned flush steps, and a tied digit head. Data,
+optimizer hyperparameters, seed, and 4,000-step budget were frozen.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate1_carry_scan/metrics/monitor.jsonl`,
+`experiments/2026-07-23_gate1_carry_scan/metrics/per_c_final.json`] Final
+held-out exact match was 79.45%; train-batch was 78.91%. Per-c exact was
+100.0%, 98.91%, 92.50%, 85.00%, 80.83%, 71.94%, and 56.11% for c1…c7.
+Runtime was 130.2 seconds.
+**Dead ends:** None.
+**Lesson:** Agent-authored >99%/flat-curve prediction refuted. Weight sharing
+alone does not prevent continuous recurrent-state error from compounding.
+**Promote?:** Quantize the shared state into learned categorical prototypes.

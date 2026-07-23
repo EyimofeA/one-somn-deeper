@@ -331,6 +331,15 @@ PREDICT:    [agent-authored per human override] train and held-out remain couple
 RESULT:     refuted — train and held-out remained coupled, but held-out reached 80.55%, not 95%
 ```
 
+### 2026-07-23 (o)
+
+```
+CARD:       gate1_carry_scan
+CHANGE:     parallel Transformer carry decoding → shared learned LSD-to-MSD carry-state scan
+PREDICT:    [agent-authored per human override] held-out exact match exceeds 99% and the c1–c7 curve becomes nearly flat because the same learned transition is reused at every column
+RESULT:     refuted — 79.45% overall; c6/c7 improved slightly but the curve still decayed to 56.11%
+```
+
 ### 2026-07-23 (h)
 
 ```
