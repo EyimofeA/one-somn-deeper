@@ -507,3 +507,29 @@ Peak and final weights are retained at
 mostly an optimization-horizon limitation, not a hard representational ceiling.
 This is strong local evidence for a learned digit-product-and-carry primitive,
 but it is still a diagnostic multiplication task and not a competition card.
+
+**Peak-checkpoint audit.** On the saved step-30,500 checkpoint, per-digit
+accuracy (LSD to MSD) was `[100.0, 100.0, 98.7, 96.1, 99.6, 100.0]%`.
+Of 2,000 examples, first incorrect digit was 2 for 26 rows and digit 3 for 72
+rows; no row first failed at digits 0, 1, or 5. The two middle columns have the
+largest fixed fan-in (three and two pair contributions), making aggregate
+column representation—not the carry flush—the evidenced next target.
+
+### Addendum — fan-in tag: explicit count metadata is harmful
+
+**One changed mechanism.** A learned vector keyed by the fixed column fan-in
+`[1, 2, 3, 2, 1]` was added to the otherwise unchanged pair-table columns.
+It gave no arithmetic outputs or answers; it only declared how many learned
+pair terms had entered each column.
+
+**Result.** Under the identical full-position data and 600-second horizon, the
+tagged model peaked at **84.75%** held-complete-pair exact (step 31,500), versus
+94.85% for the untagged control. Final test loss was 0.1282 compared with the
+control's 0.0503. Evidence and retained checkpoints:
+`twoA6000:results_local/product_table_fanin_32k/`.
+
+**Classification.** Refuted. The model already encodes enough column position
+through its recurrent scan; explicitly injecting count categories slows the
+learned mapping and does not repair central-column errors. Future cards should
+alter the representation of the *set of pair contributions*, not add metadata
+about its cardinality.

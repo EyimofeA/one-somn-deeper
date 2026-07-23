@@ -20,6 +20,7 @@ non-submission carry diagnostic; its results are below.
 | 1b⁗⁗⁗⁗: one-short curriculum | pair table unchanged; train if either operand <100 | exact 6-digit decimal product | 11.25% peak / 11.15% final | nonzero long-column states transfer; unseen high×high remains the gap |
 | 1b⁗⁗⁗⁗⁗: full-position baseline | pair table unchanged; 190k random 3-digit pairs, held complete pairs | exact 6-digit decimal product | 58.55% final/peak | learned multiplication composition exists once all position interactions appear |
 | 1b⁗⁗⁗⁗⁗⁗: extended horizon | same full-position card; 8k/400 → 31k/1.6k effective steps | exact 6-digit decimal product | 94.85% peak / 94.5% last eval | prior residual was primarily optimization-horizon limited |
+| 1b⁗⁗⁗⁗⁗⁗⁗: fan-in tag | same extended card; add learned vector for fixed `[1,2,3,2,1]` column counts | exact 6-digit decimal product | 84.75% peak | explicit count metadata harms the learned column map |
 | 1c: carry | 8k train / 2k disjoint test; 1–7 LSD-first three-digit totals | exact normalized output | 98.15% peak at 8k | a shared recurrent state can carry useful state quickly |
 | 1d: hard prototype state | same carry data; 64 learned prototypes after every transition | exact normalized output | 0.25% peak | argmax projection prevents learning |
 | 1e: soft prototype state | same carry data; soft mixture of the same 64 prototypes | exact normalized output | 98.75% at 8k steps | viable, but slower to optimize than continuous state |
