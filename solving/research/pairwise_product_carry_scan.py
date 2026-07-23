@@ -1,7 +1,7 @@
-"""Learned schoolbook-layout executor for a local multiplication diagnostic.
+"""Learned pair-table schoolbook executor for a local multiplication diagnostic.
 
-The model contains no arithmetic table or arithmetic operation. It learns the
-digit-pair contribution and carry update from random initialization.
+The table starts random and stores a feature per digit-pair category, not a
+hard-coded product. The carry transition and decimal decode remain learned.
 """
 
 from __future__ import annotations
@@ -37,17 +37,12 @@ class Model(nn.Module):
     def __init__(self, spec: ModelSpec) -> None:
         super().__init__()
         self.config = Config(spec.vocab_size, spec.max_seq_len)
-        self.digit_embedding = nn.Embedding(spec.vocab_size, D_MODEL)
-        self.pair_mlp = nn.Sequential(
-            nn.Linear(2 * D_MODEL, 2 * D_MODEL),
-            nn.GELU(),
-            nn.Linear(2 * D_MODEL, D_MODEL),
-        )
+        self.pair_table = nn.Embedding(spec.vocab_size * spec.vocab_size, D_MODEL)
         self.carry_cell = nn.GRUCell(D_MODEL, D_MODEL)
         self.initial_state = nn.Parameter(torch.zeros(D_MODEL))
         self.flush_input = nn.Parameter(torch.empty(D_MODEL))
         self.output_head = nn.Linear(D_MODEL, spec.vocab_size)
-        nn.init.normal_(self.digit_embedding.weight, std=0.02)
+        nn.init.normal_(self.pair_table.weight, std=0.02)
         nn.init.normal_(self.flush_input, std=0.02)
 
     def forward(
@@ -58,22 +53,20 @@ class Model(nn.Module):
         del attention_mask
         if input_ids.ndim != 2 or input_ids.shape[1] != 10:
             raise ValueError("product-scan prompts must have shape (batch, 10)")
-        left = self.digit_embedding(input_ids[:, 1:4])
-        right = self.digit_embedding(input_ids[:, 5:8])
         columns = torch.zeros(
             input_ids.shape[0],
             PRODUCT_COLUMNS,
             D_MODEL,
             device=input_ids.device,
-            dtype=left.dtype,
+            dtype=self.pair_table.weight.dtype,
         )
         for left_index in range(NUM_DIGITS):
             for right_index in range(NUM_DIGITS):
-                pair = torch.cat(
-                    (left[:, left_index], right[:, right_index]),
-                    dim=-1,
+                pair = (
+                    input_ids[:, 1 + left_index] * self.config.vocab_size
+                    + input_ids[:, 5 + right_index]
                 )
-                columns[:, left_index + right_index] += self.pair_mlp(pair)
+                columns[:, left_index + right_index] += self.pair_table(pair)
         state = self.initial_state[None, :].expand(input_ids.shape[0], -1)
         emitted: list[Tensor] = []
         for column in columns.unbind(dim=1):

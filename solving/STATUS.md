@@ -16,6 +16,7 @@ non-submission carry diagnostic; its results are below.
 | 1b‴: fixed-step schedule | same Transformer and repaired split; step-indexed LR | exact decimal product | 25% peak / 25% final | naive fixed schedule reaches memorization too quickly |
 | 1b⁗: slow fixed warmup | same Transformer and split; 400-step warmup | exact decimal product | 40% peak / 25% final | reproduces early signal but does not retain it |
 | 1b⁗⁗: pairwise product-and-carry scan | all 1–2 digit operand pairs train; both operands 3 digits held out | exact 6-digit decimal product | 0.25% peak / 0.05% final | fixed schoolbook routing does not identify the local product law |
+| 1b⁗⁗⁗: learned pair table | identical length split; only pair MLP → categorical learned table | exact 6-digit decimal product | 1.30% peak / 0.80% final | local categories fit, but compose poorly across length |
 | 1c: carry | 8k train / 2k disjoint test; 1–7 LSD-first three-digit totals | exact normalized output | 98.15% peak at 8k | a shared recurrent state can carry useful state quickly |
 | 1d: hard prototype state | same carry data; 64 learned prototypes after every transition | exact normalized output | 0.25% peak | argmax projection prevents learning |
 | 1e: soft prototype state | same carry data; soft mixture of the same 64 prototypes | exact normalized output | 98.75% at 8k steps | viable, but slower to optimize than continuous state |

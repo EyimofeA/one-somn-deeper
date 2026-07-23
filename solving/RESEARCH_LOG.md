@@ -423,3 +423,26 @@ manifest: `solving/research/{pairwise_product_carry_scan.py,generate_product_sca
 does not identify a reusable digit-product law; learned pair features still
 support a short-operand fit without length composition. The next useful gate
 is a narrow test of local-law identifiability, not full modular squaring.
+
+### Addendum — learned pair table: primitive addressing is not composition
+
+**One changed mechanism.** The shared pair MLP above was replaced by a random
+learned categorical table: each token pair addressed one learned vector, which
+was routed and carried exactly as before. It does not encode digit products;
+its only bias is a stable, separate parameter slot for each observed pair.
+Data, seed, schedule, routing, carry GRU, and exact six-digit length-OOD metric
+were unchanged.
+
+**Result.** The table reaches 98.4% train-batch exact by step 2,400 and 100%
+thereafter, versus only 24–30% for the MLP pair features. Held-out 3-digit
+exact improves from 0.25% to **1.30% peak** (step 1,800), but ends at **0.80%**
+after 8,000 steps (182.8 s). Test loss rises monotonically after the early peak,
+from 2.03 at step 1,000 to 4.98 final. Peak and final weights are retained at
+`twoA6000:results_local/product_table_scan_length_ood/`.
+
+**Classification.** Partial but insufficient. Stable local pair addresses fix
+short-operand fitting and produce a fivefold OOD peak lift, showing that the
+MLP representation was part of the optimization problem. Perfect short-length
+fit still does not imply algorithmic length composition. The remaining problem
+is forcing the table/carry system to use its local states compositionally
+rather than exploit correlations specific to operands below 100.
