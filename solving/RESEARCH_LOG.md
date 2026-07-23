@@ -320,9 +320,11 @@ step rather than memorize a finite table?
 | gate0_copy | target is X | 1–3 digit train; 4-digit held out | 100% | confirmed: routing is sufficient |
 | gate1_square | target is decimal X² | same setup | 7% same-length peak; 0% 4-digit | refuted: raw product formation is not learned compositionally |
 | gate1_digit_product | one decimal digit pair → product | held-out pairs | 15% | refuted: table entries are memorized |
-| gate1_carry_scan | continuous shared GRU carry state | 8k train / 2k disjoint test; 1–7 columns | 79.45% | confirmed: a learned recurrent state can normalize carry |
+| gate1_bilinear_digit_cell | fixed ordinal digit inputs + trainable NALU interaction | same held-out pairs | 20% peak; 10% final | refuted: numeric multiplicative bias still overfits |
+| gate1_carry_scan | continuous shared GRU carry state | 8k train / 2k disjoint test; 1–7 columns | 79.45% at 4k; 98.15% peak at 8k | confirmed: a learned recurrent state can normalize carry |
 | gate1_quantized_carry_scan | hard 64-prototype state after every transition | same data / seed / 4k steps | 0.25% peak | refuted: hard projection collapses optimization |
 | gate1_soft_prototype_scan | soft mixture instead of hard selection | same data / seed / 4k steps | 38.80% final | partial: differentiability matters, but a prototype bottleneck loses state information |
+| gate1_soft_prototype_8k | training budget 4k → 8k; same soft state | same data / seed | 98.75% final | confirmed: prototypes are viable but optimization-delayed |
 
 **Implementation:** The carry prompts are `N` followed by one to seven
 three-digit, least-significant-column-first totals. The target is the emitted
@@ -331,10 +333,29 @@ arithmetic only to make labels; the model receives only tokens.
 
 **Measurement:** exact full output sequence match on 2,000 disjoint prompts.
 The continuous baseline ran 4,000 steps in 130.2 seconds; hard prototypes ran
-176.3 seconds and soft prototypes 155.1 seconds. Remote evidence is retained
-on `twoA6000` at `results_local/gate1_{carry,quantized_carry,soft_prototype}_scan/`.
+176.3 seconds and soft prototypes 155.1 seconds. The 8k soft run reached
+98.75% in 328.5 seconds. The matched continuous 8k control reached 98.15%
+peak (97.85% final) in 250.5 seconds, but learned much earlier: 69.15% at
+3.6k steps versus soft's 16.6%. The soft state had a 0.6-point single-run peak
+edge, insufficient to claim better generalization; its established effect is
+slower optimization. Its evaluation interval was 200 rather than 100, so
+wall-clock LR scheduling makes its early curve not exactly comparable to the
+4k run. Remote evidence is retained
+on `twoA6000` at `results_local/gate1_{carry,quantized_carry,soft_prototype}_scan/`
+and `results_local/gate1_{soft_prototype,continuous_carry}_8k/`.
 
 **Conclusion:** the next gate must attack held-out digit products. Carry is
-not impossible for a learned recurrence; forcing a discrete state before the
-transition is learned is harmful. This is a diagnostic result, not a
+not impossible for a learned recurrence; forcing a hard discrete state before
+the transition is learned is harmful. Future local cards must use step-indexed
+rather than wall-clock LR schedules. This is a diagnostic result, not a
 competition submission result.
+
+### Addendum — Bilinear Digit Cell
+
+The cell mapped the two digit tokens to fixed ordinal scalars (`d/9`), then
+used a trainable neural-arithmetic additive/multiplicative mix and a learned
+decimal decoder. It reached 81.6% train exact by step 1,000 while held-out
+exact peaked at 20% and ended at 10%; test loss rose from 2.93 to 19.77. The
+inherited manifest capped the run at 1,000 despite the source's 4k schedule.
+This is a logged configuration mismatch, but the widening train/test gap makes
+more steps uninformative. Evidence: `twoA6000:results_local/gate1_bilinear_digit_cell/`.
