@@ -319,8 +319,9 @@ step rather than memorize a finite table?
 |---|---|---|---:|---|
 | gate0_copy | target is X | 1–3 digit train; 4-digit held out | 100% | confirmed: routing is sufficient |
 | gate1_square | target is decimal X² | same setup | 7% same-length peak; 0% 4-digit | refuted: raw product formation is not learned compositionally |
-| gate1_digit_product | one decimal digit pair → product | held-out pairs | 15% | refuted: table entries are memorized |
-| gate1_bilinear_digit_cell | fixed ordinal digit inputs + trainable NALU interaction | same held-out pairs | 20% peak; 10% final | refuted: numeric multiplicative bias still overfits |
+| gate1_digit_product | one decimal digit pair → product | held-out pairs, four products absent from train | 15% | confounded: output values were also unseen |
+| gate1_digit_product_seen_outputs | unchanged Transformer; held pairs with every product value seen in train | 80/20 pairs, 10 repeats | 45% peak; 25% final | pair relation partly learned, then overfit |
+| gate1_bilinear_digit_cell | fixed ordinal digit inputs + trainable NALU interaction | same repaired split | 30% peak; 25% final | refuted: numeric multiplicative bias does not beat baseline |
 | gate1_carry_scan | continuous shared GRU carry state | 8k train / 2k disjoint test; 1–7 columns | 79.45% at 4k; 98.15% peak at 8k | confirmed: a learned recurrent state can normalize carry |
 | gate1_quantized_carry_scan | hard 64-prototype state after every transition | same data / seed / 4k steps | 0.25% peak | refuted: hard projection collapses optimization |
 | gate1_soft_prototype_scan | soft mixture instead of hard selection | same data / seed / 4k steps | 38.80% final | partial: differentiability matters, but a prototype bottleneck loses state information |
@@ -359,3 +360,15 @@ exact peaked at 20% and ended at 10%; test loss rose from 2.93 to 19.77. The
 inherited manifest capped the run at 1,000 despite the source's 4k schedule.
 This is a logged configuration mismatch, but the widening train/test gap makes
 more steps uninformative. Evidence: `twoA6000:results_local/gate1_bilinear_digit_cell/`.
+
+### Addendum — repaired held-pair split
+
+The original `(a+b) mod 5` test split withheld product values 21, 25, 54, and
+56 entirely. A deterministic symmetric 20-pair split was generated instead;
+all its product values occur in the 80 training pairs. The unchanged
+Transformer now peaked at 45% test exact at step 300 before decaying to 25%
+at step 1,000, while the Bilinear Digit Cell peaked at 30% and also ended at
+25%. This isolates a real but incomplete learned pair relation and rejects
+the NALU-style bias as an improvement. Generator:
+`solving/research/generate_digit_product_seen_outputs.py`; evidence:
+`twoA6000:results_local/gate1_{digit_product_seen_outputs_transformer,bilinear_digit_cell_seen_outputs}/`.

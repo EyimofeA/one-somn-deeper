@@ -10,8 +10,9 @@ non-submission carry diagnostic; its results are below.
 |---|---|---|---|---|
 | 0: route tokens | copy X; 1–3 digit train, 4 digits held out | exact sequence | 100% | routing/position is not the block |
 | 1a: raw square | decimal X → X² | exact sequence | 7% same-length peak, 0% 4-digit | raw product formation does not generalize |
-| 1b: digit product | held-out 10×10 digit pairs | exact table entry | 15% | learned lookup memorizes rather than composes |
-| 1b′: bilinear digit cell | same held-out pairs; fixed ordinal digits + NALU interaction | exact decimal product | 20% peak, 10% final | strong numeric/multiplicative bias still overfits seen pairs |
+| 1b: original digit product | held-out 10×10 pairs; four product values unseen | exact table entry | 15% | confounded by unseen decimal outputs |
+| 1b′: repaired pair split | held pairs, but every test product seen in train | exact decimal product | Transformer 45% peak / 25% final | pair relation is partly learned, then forgotten through overfit |
+| 1b″: bilinear digit cell | same repaired split; fixed ordinal digits + NALU interaction | exact decimal product | 30% peak / 25% final | multiplicative bias does not beat the generic baseline |
 | 1c: carry | 8k train / 2k disjoint test; 1–7 LSD-first three-digit totals | exact normalized output | 98.15% peak at 8k | a shared recurrent state can carry useful state quickly |
 | 1d: hard prototype state | same carry data; 64 learned prototypes after every transition | exact normalized output | 0.25% peak | argmax projection prevents learning |
 | 1e: soft prototype state | same carry data; soft mixture of the same 64 prototypes | exact normalized output | 98.75% at 8k steps | viable, but slower to optimize than continuous state |
