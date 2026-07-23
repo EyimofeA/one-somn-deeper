@@ -300,3 +300,11 @@ Hard-architecture iteration.
 decayed to 1.5-1.7% final; D1 per-position accuracy at final checkpoints ≈
 marginal baseline. Peak models not checkpointed (finals only). Rung-1 d=32
 ceiling: ~8.6% peak / ~2-5% final. Hard `99c4d7d3` still running at check time.
+
+### 2026-07-23 (addendum 2) — Hard #2 scored: 0.05%, split vector says "step never exact"
+[SOURCED — `experiments/metrics/hard2_99c4d7d3_metrics.jsonl`]
+`submission_v2.py` (confidence-gated v2): **0.05%** (new personal best, was 0.03%).
+Splits: test 0.1% / ood_t 0.0 / ood_n_t 0.0. Train loss pinned at 2.17 (digit-
+marginal floor) for the whole hour — train EM 0.0, i.e. v2 never memorized on H1,
+matching the m5 flat pathology. Day-6 tree: test≈ood_t≈0 → the one-step map never
+got exact. Confirms the rung-1 diagnosis; no new information beyond it.

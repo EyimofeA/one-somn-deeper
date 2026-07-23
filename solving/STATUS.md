@@ -1,7 +1,7 @@
 # Status (living)
 
 Last updated: 2026-07-23 (P2 ladder rung 1 run; Hard shot #2 `99c4d7d3` fired with
-`claude code fable/submission_v2.py`, score pending).
+`claude code fable/submission_v2.py` → **0.05%**, test 0.1%/ood_t 0/ood_n_t 0, train pinned at 2.17 floor).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
