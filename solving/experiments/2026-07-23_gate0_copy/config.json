@@ -1,0 +1,7 @@
+{
+  "card": "gate0_copy",
+  "date": "2026-07-23",
+  "change": "diagnostic target only: modular-squaring answer -> exact copy of X; model and optimizer are byte-identical to claude_std_rope_e1",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate0_copy/metrics/*.jsonl"
+}

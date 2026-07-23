@@ -1,8 +1,8 @@
 # Status (living)
 
-Last updated: 2026-07-23 (Path-D digit micro-scan gate: fixed-N=1073 T=1
-held-out-x peak **1.49%** after train reached 100%; hosted e5 **0.50%** mean,
-test 0.50% / held-out-T OOD 0.50%; human result: **confirmed**).
+Last updated: 2026-07-23 (Gate 0 copy-X: unchanged d=32 Transformer reached
+**100% train / test / four-digit OOD by step 500** and stayed exact through
+step 2,000; human result: **refuted**. Advance to Gate 1 multiplication).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 

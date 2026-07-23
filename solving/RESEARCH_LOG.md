@@ -249,6 +249,28 @@ Append-only log of experiments, findings, and decisions.
 **Lesson:** Migration was a script (~seconds), not a 30-minute hand move — estimate the automation, not the file count.
 **Promote?:** No.
 
+## 2026-07-23 — Gate 0 copy-X diagnostic
+
+**Author:** Codex
+
+**Question:** Can the unchanged d=32, four-layer RoPE Transformer route decimal
+digits through the competition serialization, padding, target positions, and
+exact-match scorer?
+**What we did:** Replaced only the diagnostic target with an exact copy of X.
+The model and optimizer remained byte-identical to `claude_std_rope_e1`.
+Training used 800 x values from 1..999; test used the remaining 199; OOD used
+1,000 unique four-digit x values. The 900-second run was stopped at step 2,000
+after the gate had remained perfect.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate0_copy/metrics/monitor.jsonl`] Train, test, and
+four-digit OOD exact match were all 100% at every evaluation from step 500
+through step 2,000. Human classification: refuted.
+**Dead ends:** A 900-second wall-clock budget was unnecessary for this
+diagnostic; the gate had passed by step 500.
+**Lesson:** Use fixed-step budgets and early stopping for local scientific gates.
+Keep wall-clock scheduling for competition-viability checks.
+**Promote?:** Gate 0 passed. Advance to Gate 1 decimal multiplication.
+
 ## 2026-07-22 — GPU box ops locked in
 
 **Question:** Document Prime L40S local runner so agents can cold-start without quota.

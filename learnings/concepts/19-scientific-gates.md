@@ -42,6 +42,10 @@ steps, and wall time.
 
 **Pass:** answer leakage is absent; the split and baseline are verified.
 
+**Observed:** copy-X reached 100% train, held-out-x, and four-digit OOD exact
+match by step 500
+(`solving/experiments/2026-07-23_gate0_copy/metrics/monitor.jsonl`).
+
 ## Gate 1 — Decimal multiplication
 
 Local diagnostic only. Input decimal x. Target exact x² without modular
@@ -106,6 +110,12 @@ Medium confirmation. Hard remains human-approved only.
 
 **Pass:** the mechanism learns before the scorer’s wall-clock cutoff and repeats
 under hosted conditions.
+
+## Budget rule
+
+Use fixed optimizer steps and early stopping for Gates 0–5. A default diagnostic
+budget is 1,000 steps, with evaluation every 100 steps and success after three
+consecutive perfect evaluations. Use wall-clock budgets only at Gate 6.
 
 ## Immediate decision
 

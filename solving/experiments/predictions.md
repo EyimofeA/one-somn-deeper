@@ -312,3 +312,12 @@ CHANGE:     parallel register update → learned LSD-to-MSD discrete-carry scan
 PREDICT:    no improvement in T
 RESULT:     confirmed
 ```
+
+### 2026-07-23 (e)
+
+```
+CARD:       gate0_copy
+CHANGE:     modular-squaring target → exact copy of X
+PREDICT:    fail on the first digit. pass on the last three. or first three you get what i mean
+RESULT:     refuted
+```
