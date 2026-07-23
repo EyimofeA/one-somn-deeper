@@ -76,8 +76,8 @@ class Model(nn.Module):
 
     def forward(self, input_ids: Tensor, attention_mask: Tensor | None = None) -> tuple[Tensor, None]:
         del attention_mask
-        if input_ids.ndim != 2 or input_ids.shape[1] != 8:
-            raise ValueError("auxiliary-supervision prompts must have shape (batch, 8)")
+        if input_ids.ndim != 2 or input_ids.shape[1] != 9:
+            raise ValueError("auxiliary-supervision prompts must have shape (batch, 9)")
         initial = (input_ids[:, 1:5] - DIGIT_OFFSET).clamp(0, 9)
         digits = F.one_hot(initial, num_classes=10).to(self.pair_table.dtype)
         recurrence_count = (input_ids[:, 6] - DIGIT_OFFSET).clamp(0, 3)
@@ -100,9 +100,21 @@ class Model(nn.Module):
             device=input_ids.device,
             dtype=digits.dtype,
         )
-        logits[:, :4, DIGIT_OFFSET : DIGIT_OFFSET + 10] = output_logits[:, 3:7]
+        logits[:, 1:5, DIGIT_OFFSET : DIGIT_OFFSET + 10] = output_logits[:, 3:7]
         logits[:, -NUM_DIGITS:, DIGIT_OFFSET : DIGIT_OFFSET + 10] = output_logits[:, :4]
-        return logits, None
+        if self.training:
+            weights = torch.tensor(
+                [0.25, 0.25, 0.25, 0.25, 1.0, 1.0, 1.0, 1.0],
+                device=digits.device,
+                dtype=digits.dtype,
+            ).repeat(input_ids.shape[0])
+        else:
+            weights = torch.ones(
+                input_ids.shape[0] * NUM_DIGITS,
+                device=digits.device,
+                dtype=digits.dtype,
+            )
+        return logits, weights
 
 
 def build_model(spec: ModelSpec) -> Model:
@@ -126,4 +138,15 @@ def build_optimizer(model: nn.Module, spec: OptimizerSpec) -> OptimizerBundle:
     return OptimizerBundle(optimizer, torch.optim.lr_scheduler.LambdaLR(optimizer, factor))
 
 
-SUBMISSION = Submission(build_model=build_model, build_optimizer=build_optimizer, batch_size=256, eval_batch_size=512)
+def training_loss(logits: Tensor, labels: Tensor, weights: Tensor) -> Tensor:
+    per_token = F.cross_entropy(logits, labels, reduction="none")
+    return (per_token * weights).sum() / weights.sum()
+
+
+SUBMISSION = Submission(
+    build_model=build_model,
+    build_optimizer=build_optimizer,
+    training_loss=training_loss,
+    batch_size=256,
+    eval_batch_size=512,
+)

@@ -685,3 +685,21 @@ composition, still locally and without promoting weights to a submission.
 - **Classification:** Refuted as configured. Extra future-column labels are
   not a free improvement; any follow-up needs an explicit primary/auxiliary
   loss weighting, which would be a distinct card.
+
+### 2026-07-23 — Primary-weighted later-column supervision
+- **Hypothesis:** The auxiliary columns need not be harmful if their loss is
+  downweighted. A 0.25 weight on each later-column token and 1.0 on each of
+  the normal four output tokens should regularize the carry state without
+  displacing the primary task.
+- **Setup:** The same auxiliary-label data and model outputs were retained.
+  A custom loss weighted the four auxiliary tokens at 0.25 and primary tokens
+  at 1.0. Two initial launches exposed data-format issues (equal input/label
+  lengths were treated as causal LM); the final run used a one-token-longer
+  prompt, producing genuine separate input/output rows. The held test retained
+  only the original four digits.
+- **Result:** The valid weighted run reached 24.1% at step 500 but then lagged
+  the primary-only control: 45.8% vs 47.55% (1,000), 57.8% vs 67.8% (1,500),
+  and **64.8% vs 79.95%** (2,000). It was stopped at that matched point.
+- **Classification:** Refuted. Downweighting prevents collapse but still pulls
+  capacity away from the local four-digit square law. Restore the primary-only
+  serial continuous baseline before further operator work.

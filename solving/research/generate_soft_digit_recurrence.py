@@ -20,7 +20,7 @@ def record(base: int, steps: int, index: int, split: str) -> dict[str, object]:
     if split == "train":
         labels = [*square_digits[3:7], *square_digits[:4]]
     return {
-        "input_ids": [2, *digits(base), 4, DIGIT_OFFSET + steps, 0],
+        "input_ids": [2, *digits(base), 4, DIGIT_OFFSET + steps, 6, 6],
         "labels": labels,
         "instance_id": f"soft_recurrence_{split}_{index:05d}",
         "split": split,
@@ -52,7 +52,7 @@ def main() -> None:
     config = {
         "data_format": "separate_input_output",
         "dataset_kind": "squaring_mod",
-        "max_seq_len": 8,
+        "max_seq_len": 9,
         "vocab_size": 17,
         "train": "8,000 shuffled four-digit x values at T=1",
         "test": "2,000 disjoint four-digit x values at T=1",

@@ -29,6 +29,7 @@ non-submission carry diagnostic; its results are below.
 | 2e: balanced fold tree | 2c split; sequential fold → binary tree | exact four-LSD digit state | 61.7% at 2k (stopped) | serial term order is valuable; short tree paths hurt learning |
 | 2f: soft carry prototypes | 2c split; continuous carry → 64 soft prototypes | exact four-LSD digit state | 26.4% at 1.5k (stopped) | finite bottleneck blocks joint product/carry representation |
 | 2g: unweighted aux columns | 2c test; train also predicts later square columns | exact four-LSD digit state | 0% by 1k (stopped) | equal-weight extra labels overwhelm the primary objective |
+| 2h: weighted aux columns | 2g labels; auxiliary loss weight 0.25 | exact four-LSD digit state | 64.8% at 2k (stopped) | stable but substantially worse; extra columns divert capacity |
 | 1c: carry | 8k train / 2k disjoint test; 1–7 LSD-first three-digit totals | exact normalized output | 98.15% peak at 8k | a shared recurrent state can carry useful state quickly |
 | 1d: hard prototype state | same carry data; 64 learned prototypes after every transition | exact normalized output | 0.25% peak | argmax projection prevents learning |
 | 1e: soft prototype state | same carry data; soft mixture of the same 64 prototypes | exact normalized output | 98.75% at 8k steps | viable, but slower to optimize than continuous state |
