@@ -303,3 +303,12 @@ RESULT:     refuted in an informative way — peaks rose (N=323: 8.62% @ 146k
             and is destroyed late in training rather than consolidated.
             See 2026-07-23_t1only_fixedn_wd01/NOTE.md addendum.
 ```
+
+### 2026-07-23 (d)
+
+```
+CARD:       pathd_digit_microscan
+CHANGE:     parallel register update → learned LSD-to-MSD discrete-carry scan
+PREDICT:    no improvement in T
+RESULT:     confirmed
+```

@@ -1,7 +1,8 @@
 # Status (living)
 
-Last updated: 2026-07-23 (P2 ladder rung 1 run; Hard shot #2 `99c4d7d3` fired with
-`claude code fable/submission_v2.py` → **0.05%**, test 0.1%/ood_t 0/ood_n_t 0, train pinned at 2.17 floor).
+Last updated: 2026-07-23 (Path-D digit micro-scan gate: fixed-N=1073 T=1
+held-out-x peak **1.49%** after train reached 100%; hosted e5 **0.50%** mean,
+test 0.50% / held-out-T OOD 0.50%; human result: **confirmed**).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
@@ -14,6 +15,11 @@ Last updated: 2026-07-23 (P2 ladder rung 1 run; Hard shot #2 `99c4d7d3` fired wi
 Failure point is **below rung 2**: the one-step map is barely learnable even
 per-modulus. No Hard-tier architecture work is informative until rung 1 clears a
 real number. wd=1.0 refuted at d=32 (never fits train, `_wd1/`).
+
+Digit micro-scan gate: a learned LSD→MSD scan with a discrete 16-state carry
+reached 100% train but only 1.49% peak held-out-x at fixed N=1073. It also cost
+about 8× in optimizer-step throughput versus the d=32 N=1073 rung-1 probe. Hosted e5
+completed 613 steps and scored 0.50% on both test and held-out-T OOD.
 
 ## Hard leaderboard
 

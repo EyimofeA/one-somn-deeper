@@ -308,3 +308,25 @@ Splits: test 0.1% / ood_t 0.0 / ood_n_t 0.0. Train loss pinned at 2.17 (digit-
 marginal floor) for the whole hour — train EM 0.0, i.e. v2 never memorized on H1,
 matching the m5 flat pathology. Day-6 tree: test≈ood_t≈0 → the one-step map never
 got exact. Confirms the rung-1 diagnosis; no new information beyond it.
+
+## 2026-07-23 — Path D digit micro-scan gate
+
+**Author:** Codex
+
+**Question:** Does replacing the parallel Path-D register mutation with a learned
+LSD-to-MSD scan and 16-state categorical carry improve the reusable one-step map?
+**What we did:** Validated the one-change card, ran the fixed-N=1073 T=1 x-split
+for 900 seconds on the A6000 with held-out eval every 500 steps, then used one
+hosted Easy e5 attempt.
+**Result:** [SOURCED —
+`experiments/2026-07-23_pathd_digit_microscan/metrics/n1073_monitor.jsonl`,
+`experiments/2026-07-23_pathd_digit_microscan/metrics/e5_c22bc015_metrics.jsonl`]
+Local train EM reached 100%; held-out-x EM peaked at 1.49% and fell to 0.99% while
+held-out loss rose to 5.41. The scan ran at about 3.35 steps/s. Hosted e5 job
+`c22bc015-e380-46cb-a36d-1425e5cf4524` completed 613 steps and scored 0.50% on
+test and 0.50% on held-out-T OOD (0.50% mean).
+**Dead ends:** N=323 stopped before step 1 because batch 512 exceeds that tiny
+split with `drop_last=True`; the card was not changed to preserve the one-variable
+contract.
+**Lesson:** Human classification: confirmed.
+**Promote?:** No.
