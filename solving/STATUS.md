@@ -7,7 +7,7 @@ Last updated: 2026-07-23 (P2 ladder rung 1 run; Hard shot #2 `99c4d7d3` fired wi
 
 | Rung | Setup (all T=1) | Status |
 |------|------|--------|
-| 1 | fixed single N, unseen x | **N=323: 5.2% (peak 6.9%); N=1073: 0%** — barely off floor (`2026-07-23_t1only_fixedn_wd01/`) |
+| 1 | fixed single N, unseen x | **N=323: peak 8.6% but decays to ~2% by end of anneal; N=1073: peak 3.5%→1.5%** — real but non-monotone, never consolidates (`2026-07-23_t1only_fixedn_wd01/`) |
 | 2 | multi-N seen at train, unseen x | **floor, 0.5-0.75%** (`2026-07-22_t1only_probe_*` — relabeled from "rung 3", see correction) |
 | 3 | held-out N (`split_group=modulus`) | not run — strictly harder than rung 2, gate (≥5%) nowhere in sight |
 

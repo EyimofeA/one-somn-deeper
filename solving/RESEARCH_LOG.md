@@ -293,3 +293,10 @@ binding constraint. Ladder work should stay at rung 1 (width, budget, digit-pair
 primitives) until a fixed-N run clears a real number (>50%), before any further
 Hard-architecture iteration.
 **Promote?:** separate_input_output gotcha → worth a line in OPS.md.
+
+### 2026-07-23 (addendum) — 1800s rung-1 reruns: the climb is non-monotone
+[SOURCED — `experiments/metrics/rung1_n{323,1073}_1800s_monitor.jsonl`]
+2x budget raised the peaks (N=323 **8.62%** @ 146k, N=1073 3.47% @ 22k) but both
+decayed to 1.5-1.7% final; D1 per-position accuracy at final checkpoints ≈
+marginal baseline. Peak models not checkpointed (finals only). Rung-1 d=32
+ceiling: ~8.6% peak / ~2-5% final. Hard `99c4d7d3` still running at check time.

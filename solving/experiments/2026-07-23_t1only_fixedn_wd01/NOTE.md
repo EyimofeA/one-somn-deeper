@@ -34,3 +34,14 @@ Follow-ups run afterwards: wd=1.0 round (worse — see `2026-07-23_t1only_fixedn
 
 Metrics: `../metrics/rung1_n{323,1073}_monitor.jsonl`. Runs on L40S box, datasets at
 `data/generated/squaring_mod_t1only_fixed_n_{323,1073}_xsplit` (box only).
+
+**1800s reruns (same config, 2x budget, checkpoints saved):** refutes "more time
+continues the climb" — the trajectory is **non-monotone**. N=323: peak **8.62%** @
+step 146k, final 1.72% (worse than the 900s run's 5.17% final). N=1073: peak 3.47%
+@ 22k, final 1.49%. D1 per-position accuracy at the *final* checkpoints ≈
+train-marginal baseline at every position (the 4-digit leading-1 position is
+trivially 100% for both model and baseline) — whatever structure the mid-run peak
+represents is destroyed again by the end of the anneal. The peak-EM models were
+not checkpointed (only finals are); D1-at-peak needs periodic checkpointing if it
+matters. Rung-1 ceiling so far at d=32: **~8.6% peak, ~2-5% final.**
+Metrics: `../metrics/rung1_n{323,1073}_1800s_monitor.jsonl`.

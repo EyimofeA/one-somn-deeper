@@ -286,3 +286,20 @@ RESULT:     refuted — wd=1.0 crushes weight norms (~15 vs ~30-35) before
             per-position accuracy ≈ train-marginal baseline everywhere.
             See 2026-07-23_t1only_fixedn_wd1/NOTE.md.
 ```
+
+### 2026-07-23 (c)
+
+```
+CARD:       claude_std_rope_e1 (+_b115), rung-1 datasets, budget 900s → 1800s
+CHANGE:     one variable: total_training_time_seconds doubled (wallclock
+            scheduler stretches the anneal horizon accordingly).
+PREDICT:    [agent-proposed, human to countersign] the N=323 slow climb was
+            still rising when the 900s LR annealed out, so 2x budget should
+            let it continue past 7%.
+RESULT:     refuted in an informative way — peaks rose (N=323: 8.62% @ 146k
+            steps, N=1073: 3.47% @ 22k) but both runs then DECAYED back to
+            1.5-1.7% by end of anneal; D1 on final checkpoints = marginal
+            baseline at every position. The climb is real but non-monotone
+            and is destroyed late in training rather than consolidated.
+            See 2026-07-23_t1only_fixedn_wd01/NOTE.md addendum.
+```
