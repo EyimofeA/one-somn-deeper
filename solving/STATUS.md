@@ -28,6 +28,7 @@ We are **#11 at 0.03%** (`mof` / Claude Hard run). Top is **0.40%** (az). Nobody
 Protocol: [`../RESEARCH_PROTOCOL.md`](../RESEARCH_PROTOCOL.md).  
 Lecture: [`../learnings/readings/one-layer-deeper-notes.md`](../learnings/readings/one-layer-deeper-notes.md).  
 Path D short form: [`../learnings/concepts/18-lipschitz-quantize-progressive.md`](../learnings/concepts/18-lipschitz-quantize-progressive.md).
+Scientific reset: [`../learnings/concepts/19-scientific-gates.md`](../learnings/concepts/19-scientific-gates.md) (Author: Codex).
 
 ## Best scored cards (learned line)
 
@@ -50,15 +51,13 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 | `claude_pv_k4_ut/` | Place-value UT |
 | `claude_hard_h1/` | Hard artifact — do not widen |
 
-## Next (Part 8 — you pick; agent implements)
+## Next — prerequisite gates (you pick; agent implements)
 
 Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
-1. Measure μ+λ on local data (no GPU) — gates Path G bonus  
-2. Count digits of N on h1/m5 — gates Path E  
-3. Progressive loss (one-change card)  
-4. STE quantize between steps  
-5. Input inject each loop  
+1. Gate 1 diagnostic: exact decimal multiplication without reduction
+2. Gate 2 diagnostic: exact modular reduction with the dividend supplied
+3. Run the same small anchor on both and locate the first failing primitive
 
 ## Ops
 
