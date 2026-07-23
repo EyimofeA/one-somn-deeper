@@ -421,3 +421,24 @@ local multiplication lookup works at trained positions; positional reuse fails
 before carry propagation is introduced.
 **Promote?:** Test digit-significance positional structure or sparse
 target-length priming on this frozen diagnostic.
+
+## 2026-07-23 — Gate 1 supplied-column carry normalization
+
+**Author:** Codex
+**Implementation:** Boyle (`implement_gate1_square`)
+
+**Question:** Can the plain Transformer normalize supplied LSD-first pre-carry
+column totals on held-out sequences when every bounded column count is trained?
+**What we did:** Generated 8,000 train and 2,000 disjoint test sequences for
+column counts 1–7. Each total used a fixed three-digit block and reachable
+position-dependent bounds. Targets were fixed-length LSD-first normalized
+digits with two carry-flush slots. Ran 1,000 fixed steps.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate1_carry_normalize/metrics/monitor.jsonl`] Final
+train-batch exact match was 29.69%; held-out was 30.35%. Held-out loss fell
+from 2.81 to 0.67, and held-out accuracy peaked at the final step. Runtime was
+35.7 seconds.
+**Dead ends:** None.
+**Lesson:** Agent-authored ≥95% prediction refuted. Train and test rise together,
+so the result is an unfinished learning curve rather than memorization.
+**Promote?:** Run one bounded 4,000-step budget extension before a carry scan.

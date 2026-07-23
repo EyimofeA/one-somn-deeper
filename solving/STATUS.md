@@ -1,9 +1,9 @@
 # Status (living)
 
-Last updated: 2026-07-23 (Gate 1 aligned products: with all 100 local products
-covered, the unchanged d=32 Transformer reached **100% train and held-out
-same-length**, but only **10.0% peak / 7.3% final at length 4**. Result:
-**confirmed**. The active failure is positional reuse before carries).
+Last updated: 2026-07-23 (Gate 1 carry normalization: at 1,000 steps the plain
+d=32 RoPE Transformer reached **29.69% train-batch / 30.35% held-out**, with
+held-out loss still falling and the peak at the final step. Prediction:
+**refuted**. Run a bounded 4,000-step extension before adding a carry scan).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
@@ -52,13 +52,13 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 | `claude_pv_k4_ut/` | Place-value UT |
 | `claude_hard_h1/` | Hard artifact — do not widen |
 
-## Next — positional reuse gate (you pick; agent implements)
+## Next — carry primitive (agent proceeds under human override)
 
 Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
-1. Test a digit-significance position scheme on the same aligned-product data
-2. Test sparse target-length priming on the same aligned-product data
-3. Do not advance to carry propagation until length 4 passes
+1. Extend the frozen carry-normalization card from 1,000 to 4,000 steps
+2. If held-out approaches exact, compose local products plus normalization
+3. If it plateaus below exact, replace parallel decoding with a shared carry scan
 
 ## Ops
 

@@ -313,6 +313,15 @@ PREDICT:    no improvement in T
 RESULT:     confirmed
 ```
 
+### 2026-07-23 (m)
+
+```
+CARD:       gate1_carry_normalize
+CHANGE:     independent local-product blocks → LSD-first pre-carry column totals normalized to decimal digits
+PREDICT:    [agent-authored per human override] held-out same-length exact match exceeds 95% because carry is a bounded local-state recurrence and every supported column count appears in training; train-fit/test-collapse would instead require a shared scan
+RESULT:     refuted — held-out reached 30.35% at 1,000 steps, with train/test still rising together
+```
+
 ### 2026-07-23 (h)
 
 ```
