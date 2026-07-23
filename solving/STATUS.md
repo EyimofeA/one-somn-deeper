@@ -1,9 +1,9 @@
 # Status (living)
 
-Last updated: 2026-07-23 (Gate 1 carry normalization: at 1,000 steps the plain
-d=32 RoPE Transformer reached **29.69% train-batch / 30.35% held-out**, with
-held-out loss still falling and the peak at the final step. Prediction:
-**refuted**. Run a bounded 4,000-step extension before adding a carry scan).
+Last updated: 2026-07-23 (Gate 1 carry normalization at 4,000 steps: **89.06%
+train-batch / 80.55% held-out**, up from 30.35% held-out at step 1,000. The
+peak remained at the final step. Prediction **refuted** because it did not reach
+95%, but carry normalization demonstrably generalizes).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
@@ -56,9 +56,9 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 
 Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
-1. Extend the frozen carry-normalization card from 1,000 to 4,000 steps
-2. If held-out approaches exact, compose local products plus normalization
-3. If it plateaus below exact, replace parallel decoding with a shared carry scan
+1. c1–c3 reached 100.0% / 97.8% / 95.6%; c6–c7 fell to 67.8% / 53.9%
+2. **Next:** replace parallel carry decoding with a shared LSD→MSD scan
+3. Hold data, optimizer, parameter scale, and 4,000-step budget fixed
 
 ## Ops
 

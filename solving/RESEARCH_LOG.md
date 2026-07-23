@@ -442,3 +442,26 @@ from 2.81 to 0.67, and held-out accuracy peaked at the final step. Runtime was
 **Lesson:** Agent-authored ≥95% prediction refuted. Train and test rise together,
 so the result is an unfinished learning curve rather than memorization.
 **Promote?:** Run one bounded 4,000-step budget extension before a carry scan.
+
+## 2026-07-23 — Gate 1 carry normalization, 4,000-step extension
+
+**Author:** Codex
+**Implementation:** Boyle (`implement_gate1_square`)
+
+**Question:** Does the still-rising carry-normalization curve exceed 95% under
+a four-times larger fixed step budget?
+**What we did:** Changed only `max_steps` from 1,000 to 4,000. Submission,
+generator, all data rows, optimizer, seed, batch sizes, and 600-second ceiling
+were byte-frozen.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate1_carry_normalize_4k/metrics/monitor.jsonl`]
+Held-out exact match rose from 30.35% at step 1,000 to 80.55% at step 4,000,
+the final and peak evaluation. Final train-batch exact match was 89.06%;
+held-out loss was 0.103. Runtime was 137.1 seconds on the A6000.
+**Dead ends:** None.
+**Lesson:** Agent-authored ≥95% prediction refuted. Carry normalization
+generalizes strongly, but remains below compositional exactness.
+Final exact match by column count was c1 100.0%, c2 97.83%, c3 95.56%, c4
+89.44%, c5 86.39%, c6 67.78%, and c7 53.89%
+(`experiments/2026-07-23_gate1_carry_normalize_4k/metrics/per_c_final.json`).
+**Promote?:** Use a shared LSD→MSD carry scan; error compounds with chain length.

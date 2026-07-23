@@ -322,6 +322,15 @@ PREDICT:    [agent-authored per human override] held-out same-length exact match
 RESULT:     refuted — held-out reached 30.35% at 1,000 steps, with train/test still rising together
 ```
 
+### 2026-07-23 (n)
+
+```
+CARD:       gate1_carry_normalize_4k
+CHANGE:     carry-normalization max_steps 1,000 → 4,000
+PREDICT:    [agent-authored per human override] train and held-out remain coupled and exceed 95% by 4,000 steps because loss was still falling and the held-out peak occurred at the 1,000-step cutoff
+RESULT:     refuted — train and held-out remained coupled, but held-out reached 80.55%, not 95%
+```
+
 ### 2026-07-23 (h)
 
 ```
