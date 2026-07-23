@@ -24,18 +24,18 @@ If something belongs in steps 2–11, link it — do not restate it in chat, pla
 
 | Owner | Writes |
 |-------|--------|
-| **You (human)** | Predictions, which option to run, what a result means, Hard approval, `one-layer login` |
-| **Parent agent (planner)** | `learnings/*`, `solving/RESEARCH_LOG.md`, figures, STATUS updates, options lists |
-| **Subagents (Composer 2.5)** | `solving/submissions/**/*.py`, experiment dir cards, `colab/*.ipynb`, smoke only |
+| **You (human)** | Hard approval, `one-layer login`, and strategic choices when you want direct control |
+| **Parent agent** | Predictions when delegated, result classification, implementation, validation, `learnings/*`, `solving/RESEARCH_LOG.md`, figures, STATUS updates, options lists, experiment cards, and notebooks |
+| **Subagents (optional)** | Bounded independent work only when the human asks or parallel delegation is clearly useful |
 
-Subagents return a short findings block (pass/fail, paths, blockers). Parent turns that into research-log entries and teaching notes. Parent never writes PREDICT.
+The parent works directly by default. When the human delegates autonomy, the parent may write `PREDICT`, select the next bounded experiment, and classify its result. Any subagent returns a short findings block (pass/fail, paths, blockers); the parent remains responsible for interpretation and durable notes.
 
 ## API credit discipline
 
-No spare Cursor API budget. Default lean:
+Default lean:
 
-- **One subagent per coding task** — no parallel spawns unless you ask.
-- Parent does not spawn subagents for docs, logs, or interpretation.
+- **No routine subagents** — the parent implements and validates directly.
+- Use a subagent only when the human asks or a bounded independent task benefits materially from parallel work.
 - Subagent briefs: file paths + contract + done-when — no essay prompts.
 - Prefer CPU smoke on Mac over GPU subagent runs.
 - **Prior-art / “search the web for plans”** — parent runs WebSearch (and writes a short note under `learnings/readings/`). Do not spawn a web-search subagent unless you explicitly ask.
@@ -46,8 +46,9 @@ Workspace is a git repo. **One experiment = one commit** after `NOTE.md` (see `s
 
 ## Subagents
 
-- Default model: **Composer 2.5** (you can name overrides per task).
-- Scope: implementation and validation only — not strategy, not predictions, not learnings.
+- Optional, not the default workflow.
+- Use only for a concrete, bounded, independent subtask when requested or clearly beneficial.
+- Strategy, predictions, result classification, and durable research synthesis stay with the parent.
 
 ## Compute
 
