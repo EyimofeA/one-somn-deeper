@@ -668,3 +668,20 @@ composition, still locally and without promoting weights to a submission.
 - **Classification:** Refuted for this operator. A prototype state can solve
   carry normalization in isolation but prevents the learned cell from jointly
   representing local pair products and carry. Restore continuous carry.
+
+### 2026-07-23 — Unweighted later-column auxiliary supervision
+- **Hypothesis:** The fourth output digit is under-supervised. Training the
+  same cell to predict later square columns as additional labels should force
+  its carry state after column 3 to remain useful, improving the unchanged
+  four-LSD held test.
+- **Setup:** The original serial continuous cell and 8k/2k x split were
+  restored. Train rows contained digits 3..6 followed by the usual digits
+  0..3; test rows contained only digits 0..3, leaving the reported metric
+  unchanged. The first two launch attempts ended before training due to
+  state/logit shape mismatches; after correction, the actual run trained.
+- **Result:** Equal-weight auxiliary labels overwhelmed the primary task:
+  test exact was 0.1% at step 500 and **0%** at steps 1,000 and 1,500, versus
+  21.9%, 47.55%, and 67.8% for the four-label control. The run was stopped.
+- **Classification:** Refuted as configured. Extra future-column labels are
+  not a free improvement; any follow-up needs an explicit primary/auxiliary
+  loss weighting, which would be a distinct card.

@@ -15,7 +15,6 @@ DIGIT_OFFSET = 7
 VOCAB_SIZE = 17
 NUM_DIGITS = 4
 D_MODEL = 64
-NUM_CARRY_PROTOTYPES = 64
 TOTAL_STEPS = 10_000
 WARMUP_STEPS = 500
 
@@ -34,13 +33,10 @@ class Model(nn.Module):
         self.pair_fold = nn.GRUCell(D_MODEL, D_MODEL)
         self.pair_fold_initial = nn.Parameter(torch.zeros(D_MODEL))
         self.carry_cell = nn.GRUCell(D_MODEL, D_MODEL)
-        self.carry_selector = nn.Linear(D_MODEL, NUM_CARRY_PROTOTYPES)
-        self.carry_codebook = nn.Parameter(torch.empty(NUM_CARRY_PROTOTYPES, D_MODEL))
         self.carry_initial = nn.Parameter(torch.zeros(D_MODEL))
         self.flush_input = nn.Parameter(torch.empty(D_MODEL))
         self.digit_head = nn.Linear(D_MODEL, 10)
         nn.init.normal_(self.pair_table, std=0.02)
-        nn.init.normal_(self.carry_codebook, std=0.02)
         nn.init.normal_(self.flush_input, std=0.02)
 
     def square_step(self, digits: Tensor) -> tuple[Tensor, Tensor]:
@@ -61,39 +57,36 @@ class Model(nn.Module):
                 folded = self.pair_fold(term, folded)
             columns.append(folded)
 
-        def transition(transition_input: Tensor, state: Tensor) -> Tensor:
-            candidate = self.carry_cell(transition_input, state)
-            return F.softmax(self.carry_selector(candidate), dim=-1) @ self.carry_codebook
-
         carry = self.carry_initial[None, :].expand(digits.shape[0], -1)
         emitted: list[Tensor] = []
         emitted_logits: list[Tensor] = []
         for column in columns:
-            carry = transition(column, carry)
+            carry = self.carry_cell(column, carry)
             logits = self.digit_head(carry)
             emitted_logits.append(logits)
             emitted.append(F.softmax(logits, dim=-1))
-        carry = transition(self.flush_input[None, :].expand_as(carry), carry)
+        carry = self.carry_cell(self.flush_input[None, :].expand_as(carry), carry)
         logits = self.digit_head(carry)
         emitted_logits.append(logits)
         emitted.append(F.softmax(logits, dim=-1))
         return (
-            torch.stack(emitted[:NUM_DIGITS], dim=1),
-            torch.stack(emitted_logits[:NUM_DIGITS], dim=1),
+            torch.stack(emitted[:7], dim=1),
+            torch.stack(emitted_logits[:7], dim=1),
         )
 
     def forward(self, input_ids: Tensor, attention_mask: Tensor | None = None) -> tuple[Tensor, None]:
         del attention_mask
-        if input_ids.ndim != 2 or input_ids.shape[1] != 7:
-            raise ValueError("soft recurrence prompts must have shape (batch, 7)")
+        if input_ids.ndim != 2 or input_ids.shape[1] != 8:
+            raise ValueError("auxiliary-supervision prompts must have shape (batch, 8)")
         initial = (input_ids[:, 1:5] - DIGIT_OFFSET).clamp(0, 9)
         digits = F.one_hot(initial, num_classes=10).to(self.pair_table.dtype)
         recurrence_count = (input_ids[:, 6] - DIGIT_OFFSET).clamp(0, 3)
         output_logits = torch.zeros(
-            (*digits.shape[:2], 10), device=digits.device, dtype=digits.dtype
+            (digits.shape[0], 7, 10), device=digits.device, dtype=digits.dtype
         )
         for step in range(3):
-            soft_digits, step_logits = self.square_step(digits)
+            all_digits, step_logits = self.square_step(digits)
+            soft_digits = all_digits[:, :NUM_DIGITS]
             hard_digits = F.one_hot(soft_digits.argmax(dim=-1), num_classes=10).to(
                 soft_digits.dtype
             )
@@ -107,7 +100,8 @@ class Model(nn.Module):
             device=input_ids.device,
             dtype=digits.dtype,
         )
-        logits[:, -NUM_DIGITS:, DIGIT_OFFSET : DIGIT_OFFSET + 10] = output_logits
+        logits[:, :4, DIGIT_OFFSET : DIGIT_OFFSET + 10] = output_logits[:, 3:7]
+        logits[:, -NUM_DIGITS:, DIGIT_OFFSET : DIGIT_OFFSET + 10] = output_logits[:, :4]
         return logits, None
 
 
