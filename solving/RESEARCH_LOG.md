@@ -582,3 +582,21 @@ composition, still locally and without promoting weights to a submission.
   only the soft inter-step digit state with a straight-through one-hot state.
   This tests whether accumulated fractional state, rather than the learned
   local transition, causes the third-step collapse.
+
+### 2026-07-23 — STE-discrete digit recurrence control
+- **Hypothesis:** The 40% held-T failure comes from fractional digit mixtures
+  drifting under reuse. Passing a one-hot digit state between applications,
+  with a straight-through gradient estimator, should recover the missing bases.
+- **Setup:** The prior card's generator, seed, shared pair-table/fold/carry
+  cell, optimizer, and all-base T=3 test were fixed. Only the inter-step state
+  changed from the soft ten-way distribution to its argmax one-hot value. The
+  output loss used the corresponding pre-projection logits so gradients still
+  reach the learned cell.
+- **Result:** Train exact reached 100% by step 600, but held-T exact was
+  **40.0%** at every evaluation from steps 400 through 1,200. The loss on the
+  held split worsened from 1.91 to 4.29 while accuracy remained the same four
+  bases. The run was stopped after the plateau; peak weights are
+  `twoA6000:results_local/ste_digit_recurrence/monitor_peak.pt`.
+- **Next:** Do not add recurrence depth. First establish whether this learned
+  cell can square a four-digit decimal state in one application under a
+  held-input split. That is the exact unseen transition T=3 requires here.

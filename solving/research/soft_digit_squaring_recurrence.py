@@ -1,4 +1,4 @@
-"""Shared learned digit-squaring cell, evaluated at a held-out recurrence count."""
+"""Shared learned digit-squaring cell with an STE-discrete recurrent state."""
 
 from __future__ import annotations
 
@@ -39,7 +39,7 @@ class Model(nn.Module):
         nn.init.normal_(self.pair_table, std=0.02)
         nn.init.normal_(self.flush_input, std=0.02)
 
-    def square_step(self, digits: Tensor) -> Tensor:
+    def square_step(self, digits: Tensor) -> tuple[Tensor, Tensor]:
         terms: list[list[Tensor]] = [[] for _ in range(2 * NUM_DIGITS - 1)]
         for left_index in range(NUM_DIGITS):
             for right_index in range(NUM_DIGITS):
@@ -58,12 +58,20 @@ class Model(nn.Module):
             columns.append(folded)
         carry = self.carry_initial[None, :].expand(digits.shape[0], -1)
         emitted: list[Tensor] = []
+        emitted_logits: list[Tensor] = []
         for column in columns:
             carry = self.carry_cell(column, carry)
-            emitted.append(F.softmax(self.digit_head(carry), dim=-1))
+            logits = self.digit_head(carry)
+            emitted_logits.append(logits)
+            emitted.append(F.softmax(logits, dim=-1))
         carry = self.carry_cell(self.flush_input[None, :].expand_as(carry), carry)
-        emitted.append(F.softmax(self.digit_head(carry), dim=-1))
-        return torch.stack(emitted[:NUM_DIGITS], dim=1)
+        logits = self.digit_head(carry)
+        emitted_logits.append(logits)
+        emitted.append(F.softmax(logits, dim=-1))
+        return (
+            torch.stack(emitted[:NUM_DIGITS], dim=1),
+            torch.stack(emitted_logits[:NUM_DIGITS], dim=1),
+        )
 
     def forward(self, input_ids: Tensor, attention_mask: Tensor | None = None) -> tuple[Tensor, None]:
         del attention_mask
@@ -72,18 +80,25 @@ class Model(nn.Module):
         initial = (input_ids[:, 1:5] - DIGIT_OFFSET).clamp(0, 9)
         digits = F.one_hot(initial, num_classes=10).to(self.pair_table.dtype)
         recurrence_count = (input_ids[:, 6] - DIGIT_OFFSET).clamp(0, 3)
+        output_logits = torch.zeros(
+            (*digits.shape[:2], 10), device=digits.device, dtype=digits.dtype
+        )
         for step in range(3):
-            updated = self.square_step(digits)
+            soft_digits, step_logits = self.square_step(digits)
+            hard_digits = F.one_hot(soft_digits.argmax(dim=-1), num_classes=10).to(
+                soft_digits.dtype
+            )
+            updated = soft_digits + (hard_digits - soft_digits).detach()
             active = (recurrence_count > step)[:, None, None]
             digits = torch.where(active, updated, digits)
-        digit_logits = torch.log(digits.clamp_min(1e-8))
+            output_logits = torch.where(active, step_logits, output_logits)
         logits = torch.full(
             (input_ids.shape[0], input_ids.shape[1], self.config.vocab_size),
             -20.0,
             device=input_ids.device,
             dtype=digits.dtype,
         )
-        logits[:, -NUM_DIGITS:, DIGIT_OFFSET : DIGIT_OFFSET + 10] = digit_logits
+        logits[:, -NUM_DIGITS:, DIGIT_OFFSET : DIGIT_OFFSET + 10] = output_logits
         return logits, None
 
 
