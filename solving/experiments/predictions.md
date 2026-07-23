@@ -313,6 +313,15 @@ PREDICT:    no improvement in T
 RESULT:     confirmed
 ```
 
+### 2026-07-23 (j)
+
+```
+CARD:       gate1_position_coupling
+CHANGE:     physical sequential RoPE coordinates → digit-significance-coupled RoPE coordinates
+PREDICT:    collapse
+RESULT:     confirmed
+```
+
 ### 2026-07-23 (h)
 
 ```

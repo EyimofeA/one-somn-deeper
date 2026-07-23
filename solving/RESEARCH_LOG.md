@@ -421,3 +421,26 @@ local multiplication lookup works at trained positions; positional reuse fails
 before carry propagation is introduced.
 **Promote?:** Test digit-significance positional structure or sparse
 target-length priming on this frozen diagnostic.
+
+## 2026-07-23 — Gate 1 coupled RoPE coordinates
+
+**Author:** Codex
+**Implementation:** Boyle (`implement_gate1_square`)
+
+**Question:** Does replacing physical RoPE coordinates with shared decimal
+significance coordinates repair reuse at the unseen fourth position?
+**What we did:** Froze the aligned-products data, 51,136-parameter model,
+optimizer, and budget. Digits in every numeric span used LSD=1, tens=2, and so
+on; structural markers used distinct fixed coordinates. Ran 1,000 fixed steps.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate1_position_coupling/metrics/monitor.jsonl`] Final
+train-batch exact match was 48.05%, held-out same-length was 19.50%, and
+length-4 OOD was 1.50%. Train loss flattened around 0.32–0.48 after step 700.
+Runtime was 44.9 seconds.
+**Dead ends:** The diagnostic has no explicit output tokens; tail-aligned logit
+slots inherited input-token coordinates. The predicted mismatch materialized
+and prevented the card from fitting in-domain.
+**Lesson:** Result classified confirmed by Codex at the human's request. This
+card does not cleanly test length generalization because it destroys the
+trained-position mechanism first.
+**Promote?:** No; proceed to selected sparse target-length priming.
