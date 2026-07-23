@@ -15,6 +15,7 @@ DIGIT_OFFSET = 7
 VOCAB_SIZE = 17
 NUM_DIGITS = 4
 D_MODEL = 64
+NUM_CARRY_PROTOTYPES = 64
 TOTAL_STEPS = 10_000
 WARMUP_STEPS = 500
 
@@ -33,10 +34,13 @@ class Model(nn.Module):
         self.pair_fold = nn.GRUCell(D_MODEL, D_MODEL)
         self.pair_fold_initial = nn.Parameter(torch.zeros(D_MODEL))
         self.carry_cell = nn.GRUCell(D_MODEL, D_MODEL)
+        self.carry_selector = nn.Linear(D_MODEL, NUM_CARRY_PROTOTYPES)
+        self.carry_codebook = nn.Parameter(torch.empty(NUM_CARRY_PROTOTYPES, D_MODEL))
         self.carry_initial = nn.Parameter(torch.zeros(D_MODEL))
         self.flush_input = nn.Parameter(torch.empty(D_MODEL))
         self.digit_head = nn.Linear(D_MODEL, 10)
         nn.init.normal_(self.pair_table, std=0.02)
+        nn.init.normal_(self.carry_codebook, std=0.02)
         nn.init.normal_(self.flush_input, std=0.02)
 
     def square_step(self, digits: Tensor) -> tuple[Tensor, Tensor]:
@@ -52,25 +56,24 @@ class Model(nn.Module):
                 terms[left_index + right_index].append(feature)
         columns: list[Tensor] = []
         for column_terms in terms:
-            initial = self.pair_fold_initial[None, :].expand(digits.shape[0], -1)
-            nodes = [self.pair_fold(term, initial) for term in column_terms]
-            while len(nodes) > 1:
-                nodes = [
-                    self.pair_fold(nodes[index + 1], nodes[index])
-                    if index + 1 < len(nodes)
-                    else nodes[index]
-                    for index in range(0, len(nodes), 2)
-                ]
-            columns.append(nodes[0])
+            folded = self.pair_fold_initial[None, :].expand(digits.shape[0], -1)
+            for term in column_terms:
+                folded = self.pair_fold(term, folded)
+            columns.append(folded)
+
+        def transition(transition_input: Tensor, state: Tensor) -> Tensor:
+            candidate = self.carry_cell(transition_input, state)
+            return F.softmax(self.carry_selector(candidate), dim=-1) @ self.carry_codebook
+
         carry = self.carry_initial[None, :].expand(digits.shape[0], -1)
         emitted: list[Tensor] = []
         emitted_logits: list[Tensor] = []
         for column in columns:
-            carry = self.carry_cell(column, carry)
+            carry = transition(column, carry)
             logits = self.digit_head(carry)
             emitted_logits.append(logits)
             emitted.append(F.softmax(logits, dim=-1))
-        carry = self.carry_cell(self.flush_input[None, :].expand_as(carry), carry)
+        carry = transition(self.flush_input[None, :].expand_as(carry), carry)
         logits = self.digit_head(carry)
         emitted_logits.append(logits)
         emitted.append(F.softmax(logits, dim=-1))

@@ -654,3 +654,17 @@ composition, still locally and without promoting weights to a submission.
 - **Classification:** Refuted. The ordered serial fold is a useful learned
   computation, not merely a lossy way to pool terms. Restore it for the next
   card. Logs: `twoA6000:results_local/tree_fold_four_digit_square/`.
+
+### 2026-07-23 — Soft carry-prototype control
+- **Hypothesis:** The fourth-column residual is carry-state drift. Mapping each
+  learned carry transition to a soft mixture of 64 learned prototypes should
+  supply the finite-state bias that worked on the carry-only gate.
+- **Setup:** The serial fold control, 8k/2k split, seed, pair table, and output
+  head were fixed. Only each carry GRU transition changed from its continuous
+  candidate state to `softmax(selector(candidate)) @ codebook`.
+- **Result:** The prototype card was far behind at every matched point: 3.9%
+  (step 500), 17.15% (1,000), and **26.4%** (1,500), against the continuous
+  control's 21.9%, 47.55%, and 67.8%. It was stopped at the comparison point.
+- **Classification:** Refuted for this operator. A prototype state can solve
+  carry normalization in isolation but prevents the learned cell from jointly
+  representing local pair products and carry. Restore continuous carry.
