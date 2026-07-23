@@ -421,3 +421,24 @@ local multiplication lookup works at trained positions; positional reuse fails
 before carry propagation is introduced.
 **Promote?:** Test digit-significance positional structure or sparse
 target-length priming on this frozen diagnostic.
+
+## 2026-07-23 — Gate 1 one-percent length-4 priming
+
+**Author:** Codex
+**Implementation:** Boyle (`implement_gate1_square`)
+
+**Question:** Can 30 target-length examples prime the frozen RoPE model to reuse
+complete local products on unseen length-4 sequences?
+**What we did:** Moved three complete length-4 x groups (5106, 1970, 3486),
+covering all ten multipliers each, from OOD into training. This added 30 rows,
+1.00% of the original 3,000-row train split. Model and runtime were frozen.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate1_length4_priming/metrics/monitor.jsonl`] Train and
+same-length exact match reached 100%. Remaining length-4 OOD exact match peaked
+at 10.21% and ended at 9.28%, versus 10.0% peak / 7.3% final unprimed. Runtime
+was 44.6 seconds.
+**Dead ends:** None.
+**Lesson:** Result classified confirmed by Codex at the human's request.
+One-percent priming gives only a marginal lift and does not induce exact
+positional reuse.
+**Promote?:** No.

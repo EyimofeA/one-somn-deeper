@@ -1,9 +1,9 @@
 # Status (living)
 
-Last updated: 2026-07-23 (Gate 1 aligned products: with all 100 local products
-covered, the unchanged d=32 Transformer reached **100% train and held-out
-same-length**, but only **10.0% peak / 7.3% final at length 4**. Result:
-**confirmed**. The active failure is positional reuse before carries).
+Last updated: 2026-07-23 (Gate 1 1%-priming: train and same-length reached
+**100%**, while unprimed length-4 reached only **10.21% peak / 9.28% final**
+versus the frozen baseline's 10.0% / 7.3%. Result: **confirmed**. Sparse priming
+does not resolve positional reuse).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
@@ -56,9 +56,9 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 
 Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
-1. Test a digit-significance position scheme on the same aligned-product data
-2. Test sparse target-length priming on the same aligned-product data
-3. Do not advance to carry propagation until length 4 passes
+1. Abacus+RoPE — failed, 4.4% final length-4
+2. Position coupling — failed in-domain, 1.5% length-4
+3. 1% target-length priming — failed, 9.28% final length-4
 
 ## Ops
 

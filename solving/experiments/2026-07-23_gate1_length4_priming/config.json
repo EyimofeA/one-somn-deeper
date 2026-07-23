@@ -1,0 +1,11 @@
+{
+  "card": "gate1_length4_priming",
+  "date": "2026-07-23",
+  "change": "data split: move 3 complete length-4 x groups (30 rows) from OOD into training",
+  "priming_x_count": 3,
+  "priming_x": [5106, 1970, 3486],
+  "priming_rows": 30,
+  "target_function": "aligned_digit_products_no_carry",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_length4_priming/metrics/*.jsonl"
+}

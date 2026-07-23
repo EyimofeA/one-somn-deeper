@@ -313,6 +313,15 @@ PREDICT:    no improvement in T
 RESULT:     confirmed
 ```
 
+### 2026-07-23 (k)
+
+```
+CARD:       gate1_length4_priming
+CHANGE:     no length-4 training rows → 30 length-4 priming rows (1% of baseline train size)
+PREDICT:    collapse
+RESULT:     confirmed
+```
+
 ### 2026-07-23 (h)
 
 ```
