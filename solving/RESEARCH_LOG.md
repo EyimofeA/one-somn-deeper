@@ -489,3 +489,21 @@ has a real compositional multiplication regime when it receives positional
 interaction support. It is not yet an exact algorithm—the 41.45% residual
 failure is too large—but the sharp support response makes local-product
 coverage, rather than carry recurrence, the active target for the next card.
+
+### Addendum — 32k step-horizon control: optimization closes most residual
+
+**One changed variable.** The full-position pair-table setup was unchanged;
+only the fixed optimizer horizon and proportionate warmup/cosine schedule were
+stretched from 8,000/400 to 32,000/1,600 steps. The local 600-second wall
+budget stopped the job at 31,000 steps.
+
+**Result.** Held-complete-pair exact rose from the 8k card's 58.55% to
+**94.85% peak** at step 30,500 (94.5% at the last evaluation, step 31,000).
+The train batch was 95.7% exact at the endpoint; held-out loss was 0.0503.
+Peak and final weights are retained at
+`twoA6000:results_local/product_table_full_position_32k/`.
+
+**Classification.** Confirmed: the residual in the 8k full-position card was
+mostly an optimization-horizon limitation, not a hard representational ceiling.
+This is strong local evidence for a learned digit-product-and-carry primitive,
+but it is still a diagnostic multiplication task and not a competition card.

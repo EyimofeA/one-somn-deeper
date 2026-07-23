@@ -18,7 +18,7 @@
     "amp": true,
     "compile": false,
     "total_training_time_seconds": 600,
-    "max_steps": 8000,
+    "max_steps": 32000,
     "seeds": [74],
     "grad_clip": 1,
     "log_every": 100
