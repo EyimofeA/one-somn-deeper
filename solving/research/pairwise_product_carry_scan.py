@@ -38,6 +38,8 @@ class Model(nn.Module):
         super().__init__()
         self.config = Config(spec.vocab_size, spec.max_seq_len)
         self.pair_table = nn.Embedding(spec.vocab_size * spec.vocab_size, D_MODEL)
+        self.pair_fold = nn.GRUCell(D_MODEL, D_MODEL)
+        self.pair_fold_initial = nn.Parameter(torch.zeros(D_MODEL))
         self.carry_cell = nn.GRUCell(D_MODEL, D_MODEL)
         self.initial_state = nn.Parameter(torch.zeros(D_MODEL))
         self.flush_input = nn.Parameter(torch.empty(D_MODEL))
@@ -53,23 +55,23 @@ class Model(nn.Module):
         del attention_mask
         if input_ids.ndim != 2 or input_ids.shape[1] != 10:
             raise ValueError("product-scan prompts must have shape (batch, 10)")
-        columns = torch.zeros(
-            input_ids.shape[0],
-            PRODUCT_COLUMNS,
-            D_MODEL,
-            device=input_ids.device,
-            dtype=self.pair_table.weight.dtype,
-        )
+        column_terms: list[list[Tensor]] = [[] for _ in range(PRODUCT_COLUMNS)]
         for left_index in range(NUM_DIGITS):
             for right_index in range(NUM_DIGITS):
                 pair = (
                     input_ids[:, 1 + left_index] * self.config.vocab_size
                     + input_ids[:, 5 + right_index]
                 )
-                columns[:, left_index + right_index] += self.pair_table(pair)
+                column_terms[left_index + right_index].append(self.pair_table(pair))
+        columns: list[Tensor] = []
+        for terms in column_terms:
+            folded = self.pair_fold_initial[None, :].expand(input_ids.shape[0], -1)
+            for term in terms:
+                folded = self.pair_fold(term, folded)
+            columns.append(folded)
         state = self.initial_state[None, :].expand(input_ids.shape[0], -1)
         emitted: list[Tensor] = []
-        for column in columns.unbind(dim=1):
+        for column in columns:
             state = self.carry_cell(column, state)
             emitted.append(self.output_head(state))
         state = self.carry_cell(

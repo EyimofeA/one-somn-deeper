@@ -533,3 +533,29 @@ through its recurrent scan; explicitly injecting count categories slows the
 learned mapping and does not repair central-column errors. Future cards should
 alter the representation of the *set of pair contributions*, not add metadata
 about its cardinality.
+
+### Addendum — learned intra-column fold: preserve pair interactions
+
+**One changed mechanism.** The pair table, carry GRU, data, seed, and 32k-step
+schedule were fixed. Only the within-column aggregator changed: instead of
+summing pair vectors, a shared GRU folded the one, two, or three pair vectors
+in each fixed schoolbook column into one learned column state before the carry
+scan. No arithmetic operation, target, or oracle was added.
+
+**Result.** The fold reached **97.60% peak** exact at step 23,000 (97.4% final
+at the 600-second cap), exceeding the sum control's 94.85% peak. It learned
+faster as well: 70.7% at step 4,500 versus the control's 56.9%, and 91.95% at
+step 11,000 versus 82.55%. Evidence and peak/final checkpoints:
+`twoA6000:results_local/product_table_fold_32k/`.
+
+**Peak-checkpoint audit.** Per-digit accuracy (LSD to MSD) was
+`[100.0, 100.0, 99.9, 97.75, 99.9, 100.0]%`. First-error counts across 2,000
+rows were `[0, 0, 2, 45, 1, 0, 1952]`; the sum control had `[0, 0, 26, 72, 5,
+0, 1897]`. Thus the fold removes most, though not all, of the central
+multi-contribution column failure.
+
+**Classification.** Confirmed. Learned aggregation of pair contributions is
+strictly better than raw summation on this diagnostic, producing the first
+near-exact legal learned digit-product primitive. This clears the local product
+gate sufficiently to test reuse of the primitive under a multi-step learned
+composition, still locally and without promoting weights to a submission.
