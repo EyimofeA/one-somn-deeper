@@ -372,3 +372,14 @@ at step 1,000, while the Bilinear Digit Cell peaked at 30% and also ended at
 the NALU-style bias as an improvement. Generator:
 `solving/research/generate_digit_product_seen_outputs.py`; evidence:
 `twoA6000:results_local/gate1_{digit_product_seen_outputs_transformer,bilinear_digit_cell_seen_outputs}/`.
+
+### Addendum — fixed-step schedule control
+
+The repaired-split Transformer was loaded unchanged through a local-only
+wrapper; only its scheduler changed from elapsed-time warmup/cosine to a
+1,000-step warmup/cosine. It peaked and finished at 25% test exact, compared
+with the wall-clock baseline's 45% peak. It reached 100% train exact by step
+200, so the issue is early memorization, not late-clock decay. This refutes
+this naive fixed schedule, while giving local work a reproducible step-indexed
+reference. Source: `solving/research/digit_product_step_schedule.py`; evidence:
+`twoA6000:results_local/gate1_digit_product_step_schedule/`.
