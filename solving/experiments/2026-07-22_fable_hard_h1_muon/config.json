@@ -1,7 +1,0 @@
-{
-  "card": "fable_hard_h1_muon",
-  "date": "2026-07-22",
-  "change": "fable_hard_h1's optimizer replaced with Muon (Newton-Schulz orthogonalized momentum, lr=0.02) for the 2D hidden weight matrices (qkv/out/up/down/state_proj) + AdamW lr=3e-3/wd=0.1 for everything else (embeddings, norms, biases), combined via a duck-typed multi-optimizer wrapper + wall-clock schedule. Architecture unchanged.",
-  "active": false,
-  "metrics_glob": "solving/experiments/metrics/fable_hard_h1_muon*.jsonl"
-}

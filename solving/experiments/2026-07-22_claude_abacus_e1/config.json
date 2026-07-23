@@ -1,7 +1,0 @@
-{
-  "card": "claude_abacus_e1",
-  "date": "2026-07-22",
-  "change": "Abacus place-value embedding alone (end-anchored, MSD-corrected), no RoPE, no absolute position, no depth embedding — vs anchor claude_std_rope_e1",
-  "active": false,
-  "metrics_glob": "solving/experiments/metrics/claude_abacus_e1*.jsonl"
-}

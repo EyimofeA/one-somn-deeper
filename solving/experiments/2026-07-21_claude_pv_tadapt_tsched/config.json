@@ -1,7 +1,0 @@
-{
-  "card": "claude_pv_tadapt_tsched",
-  "date": "2026-07-21",
-  "change": "tadapt+tsched",
-  "active": false,
-  "metrics_glob": "solving/experiments/metrics/claude_pv_tadapt_tsched*.jsonl"
-}

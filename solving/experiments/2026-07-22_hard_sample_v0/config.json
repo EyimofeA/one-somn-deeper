@@ -1,7 +1,0 @@
-{
-  "card": "hard_sample_v0",
-  "date": "2026-07-22",
-  "change": "Hard-oriented sample: d=128 K=8 UT + place/field + input inject + clamped cosine + wd=1.0",
-  "tier_intent": "hard",
-  "scored": false
-}

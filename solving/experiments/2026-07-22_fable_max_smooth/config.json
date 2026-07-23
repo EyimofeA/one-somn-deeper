@@ -1,7 +1,0 @@
-{
-  "card": "fable_max_smooth",
-  "date": "2026-07-22",
-  "change": "fable_max's discrete hard_st=prog>0.55 quantization switch (instant jump in forward value) replaced with a continuous mix=prog/0.7 interpolation between soft and hard-straight-through, same schedule variable already driving theta/alpha.",
-  "active": false,
-  "metrics_glob": "solving/experiments/metrics/fable_max_smooth*.jsonl"
-}

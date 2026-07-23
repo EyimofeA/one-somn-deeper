@@ -308,3 +308,33 @@ Splits: test 0.1% / ood_t 0.0 / ood_n_t 0.0. Train loss pinned at 2.17 (digit-
 marginal floor) for the whole hour — train EM 0.0, i.e. v2 never memorized on H1,
 matching the m5 flat pathology. Day-6 tree: test≈ood_t≈0 → the one-step map never
 got exact. Confirms the rung-1 diagnosis; no new information beyond it.
+
+## 2026-07-23 — Digit-recurrence diagnostic gates
+
+**Question:** Before attempting the full recurrence `x^(2^T) mod N`, can a
+learned model execute the primitive operations needed by one reusable decimal
+step rather than memorize a finite table?
+
+| card | frozen variable | data / split | held-out exact match | classification |
+|---|---|---|---:|---|
+| gate0_copy | target is X | 1–3 digit train; 4-digit held out | 100% | confirmed: routing is sufficient |
+| gate1_square | target is decimal X² | same setup | 7% same-length peak; 0% 4-digit | refuted: raw product formation is not learned compositionally |
+| gate1_digit_product | one decimal digit pair → product | held-out pairs | 15% | refuted: table entries are memorized |
+| gate1_carry_scan | continuous shared GRU carry state | 8k train / 2k disjoint test; 1–7 columns | 79.45% | confirmed: a learned recurrent state can normalize carry |
+| gate1_quantized_carry_scan | hard 64-prototype state after every transition | same data / seed / 4k steps | 0.25% peak | refuted: hard projection collapses optimization |
+| gate1_soft_prototype_scan | soft mixture instead of hard selection | same data / seed / 4k steps | 38.80% final | partial: differentiability matters, but a prototype bottleneck loses state information |
+
+**Implementation:** The carry prompts are `N` followed by one to seven
+three-digit, least-significant-column-first totals. The target is the emitted
+digit after each total plus two carry-flush digits. The generator performs
+arithmetic only to make labels; the model receives only tokens.
+
+**Measurement:** exact full output sequence match on 2,000 disjoint prompts.
+The continuous baseline ran 4,000 steps in 130.2 seconds; hard prototypes ran
+176.3 seconds and soft prototypes 155.1 seconds. Remote evidence is retained
+on `twoA6000` at `results_local/gate1_{carry,quantized_carry,soft_prototype}_scan/`.
+
+**Conclusion:** the next gate must attack held-out digit products. Carry is
+not impossible for a learned recurrence; forcing a discrete state before the
+transition is learned is harmful. This is a diagnostic result, not a
+competition submission result.

@@ -18,6 +18,11 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--num-prototypes", type=int, default=0)
+    parser.add_argument(
+        "--prototype-mode",
+        choices=("hard", "soft"),
+        default="hard",
+    )
     args = parser.parse_args()
     if args.num_prototypes < 0:
         raise ValueError("--num-prototypes must be non-negative")
@@ -27,7 +32,10 @@ def main() -> None:
         "solving/research/carry_scan.py.\n\n"
         + source
         + "\n\nSUBMISSION = build_submission(\n"
-        + f"    CarryScanSettings(num_prototypes={args.num_prototypes})\n"
+        + "    CarryScanSettings(\n"
+        + f"        num_prototypes={args.num_prototypes},\n"
+        + f"        prototype_mode={args.prototype_mode!r},\n"
+        + "    )\n"
         + ")\n"
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)

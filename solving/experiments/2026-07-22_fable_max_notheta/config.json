@@ -1,7 +1,0 @@
-{
-  "card": "fable_max_notheta",
-  "date": "2026-07-22",
-  "change": "ablation: theta frozen at 1.0 (no temperature annealing at all), hard_st discrete prog>0.55 jump unchanged from fable_max original. Isolates whether theta's anneal caused the e5 collapse.",
-  "active": false,
-  "metrics_glob": "solving/experiments/metrics/fable_max_notheta*.jsonl"
-}

@@ -1,7 +1,0 @@
-{
-  "card": "claude_pv_tadapt",
-  "date": "2026-07-21",
-  "change": "T-adapt depth",
-  "active": false,
-  "metrics_glob": "solving/experiments/metrics/claude_pv_tadapt*.jsonl"
-}

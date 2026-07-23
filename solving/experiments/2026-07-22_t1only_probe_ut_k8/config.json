@@ -1,7 +1,0 @@
-{
-  "card": "t1only_probe_ut_k8",
-  "date": "2026-07-22",
-  "change": "swap 4 untied RoPE layers for weight-tied UT K=8 loop (depth_d32_k4_ut with num_loops=8), same T=1-only probe manifest as t1only_probe_rope",
-  "active": false,
-  "metrics_glob": "solving/experiments/metrics/t1only_probe_ut_k8*.jsonl"
-}

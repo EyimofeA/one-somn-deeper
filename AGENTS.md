@@ -63,6 +63,14 @@ Multiple applications of a shared block **inside** one `model.forward` are allow
 
 Patch `.cursor/rules/*.mdc` when we learn something durable. One concern per file.
 
+## Chat experiment context
+
+For every active experiment, report in chat in this order: **project and
+question; data and split; metric; key code; architecture; mechanism and
+prediction; what either outcome teaches us**. Show the actual command when a
+run starts and the measured endpoint when it finishes. Assume the human sees
+only chat, not an editor.
+
 ## Forbidden
 
 - Math oracles (φ(N), closed-form mod exp in forward pass)

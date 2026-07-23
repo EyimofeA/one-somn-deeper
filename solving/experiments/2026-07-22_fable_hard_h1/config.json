@@ -1,7 +1,0 @@
-{
-  "card": "fable_hard_h1",
-  "date": "2026-07-22",
-  "change": "new architecture from Fable — quantized weight-tied recurrence, T-read-from-input adaptive loop count, operand re-injection, detached-prefix training, entropy aux. Tested locally on e5 and m5 (zero quota), not submitted for real scoring.",
-  "active": false,
-  "metrics_glob": "solving/experiments/metrics/fable_hard_h1*.jsonl"
-}

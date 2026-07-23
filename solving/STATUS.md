@@ -1,7 +1,27 @@
 # Status (living)
 
-Last updated: 2026-07-23 (P2 ladder rung 1 run; Hard shot #2 `99c4d7d3` fired with
-`claude code fable/submission_v2.py` → **0.05%**, test 0.1%/ood_t 0/ood_n_t 0, train pinned at 2.17 floor).
+Last updated: 2026-07-23. Hard shot #2 `99c4d7d3` scored **0.05%** (test
+0.1%/ood_t 0/ood_n_t 0). The current local mechanism work is a bounded,
+non-submission carry diagnostic; its results are below.
+
+## Current research state: digit recurrence gates
+
+| Gate | Data and held-out split | Metric | Result | Meaning |
+|---|---|---|---|---|
+| 0: route tokens | copy X; 1–3 digit train, 4 digits held out | exact sequence | 100% | routing/position is not the block |
+| 1a: raw square | decimal X → X² | exact sequence | 7% same-length peak, 0% 4-digit | raw product formation does not generalize |
+| 1b: digit product | held-out 10×10 digit pairs | exact table entry | 15% | learned lookup memorizes rather than composes |
+| 1c: carry | 8k train / 2k disjoint test; 1–7 LSD-first three-digit totals | exact normalized output | continuous scan 79.45% | a shared recurrent state can carry useful state |
+| 1d: hard prototype state | same carry data; 64 learned prototypes after every transition | exact normalized output | 0.25% peak | argmax projection prevents learning |
+| 1e: soft prototype state | same carry data; soft mixture of the same 64 prototypes | exact normalized output | 38.80% final | differentiability restores learning, but the bottleneck still loses information |
+
+**Current bottleneck:** learn a reusable digit-product transition on held-out
+pairs. Do not return to modular squaring or Hard architecture changes until
+this gate has a mechanism that generalizes.
+
+**Canonical active code:** [`research/carry_scan.py`](research/carry_scan.py).
+The exact A6000 logs are `results_local/gate1_quantized_carry_scan/monitor.jsonl`
+and `results_local/gate1_soft_prototype_scan/monitor.jsonl` on `twoA6000`.
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 

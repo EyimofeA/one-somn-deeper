@@ -1,7 +1,0 @@
-{
-  "card": "fable_max_nohardst",
-  "date": "2026-07-22",
-  "change": "ablation: hard_st forced permanently False during training (p stays pure soft softmax the entire run), theta anneal unchanged from fable_max original. Isolates whether the discrete hard_st jump caused the e5 collapse.",
-  "active": false,
-  "metrics_glob": "solving/experiments/metrics/fable_max_nohardst*.jsonl"
-}

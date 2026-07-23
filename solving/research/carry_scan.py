@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import math
 import time
-from dataclasses import dataclass
 
 import torch
 import torch.nn.functional as F
@@ -24,31 +23,46 @@ from benchmark import (
 )
 
 
-@dataclass(frozen=True)
 class CarryScanSettings:
     """The sole active mechanism switch for this diagnostic.
 
-    ``num_prototypes=0`` is the continuous shared-state scan.  A positive
-    value projects every state transition onto that many learned prototypes.
+    ``num_prototypes=0`` is the continuous shared-state scan. A positive value
+    maps every transition through learned prototypes. ``prototype_mode`` is
+    the only ablation axis: a hard straight-through selection or a soft convex
+    mixture.
     """
 
-    d_model: int = 32
-    block_width: int = 3
-    max_columns: int = 7
-    flush_steps: int = 2
-    num_prototypes: int = 0
-    learning_rate: float = 3e-3
-    weight_decay: float = 0.1
-    batch_size: int = 256
-    eval_batch_size: int = 512
-
-    def __post_init__(self) -> None:
-        if self.d_model <= 0 or self.block_width <= 0:
+    def __init__(
+        self,
+        d_model: int = 32,
+        block_width: int = 3,
+        max_columns: int = 7,
+        flush_steps: int = 2,
+        num_prototypes: int = 0,
+        prototype_mode: str = "hard",
+        learning_rate: float = 3e-3,
+        weight_decay: float = 0.1,
+        batch_size: int = 256,
+        eval_batch_size: int = 512,
+    ) -> None:
+        if d_model <= 0 or block_width <= 0:
             raise ValueError("model and block widths must be positive")
-        if self.max_columns <= 0 or self.flush_steps <= 0:
+        if max_columns <= 0 or flush_steps <= 0:
             raise ValueError("scan lengths must be positive")
-        if self.num_prototypes < 0:
+        if num_prototypes < 0:
             raise ValueError("num_prototypes cannot be negative")
+        if prototype_mode not in {"hard", "soft"}:
+            raise ValueError("prototype_mode must be 'hard' or 'soft'")
+        self.d_model = d_model
+        self.block_width = block_width
+        self.max_columns = max_columns
+        self.flush_steps = flush_steps
+        self.num_prototypes = num_prototypes
+        self.prototype_mode = prototype_mode
+        self.learning_rate = learning_rate
+        self.weight_decay = weight_decay
+        self.batch_size = batch_size
+        self.eval_batch_size = eval_batch_size
 
 
 class Config:
@@ -130,6 +144,8 @@ class CarryScanModel(nn.Module):
             self.state_selector(candidate_state),
             dim=-1,
         )
+        if self.settings.prototype_mode == "soft":
+            return soft_assignment @ self.state_codebook
         hard_assignment = F.one_hot(
             soft_assignment.argmax(dim=-1),
             num_classes=self.settings.num_prototypes,

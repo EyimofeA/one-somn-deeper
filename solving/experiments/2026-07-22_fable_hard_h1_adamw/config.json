@@ -1,7 +1,0 @@
-{
-  "card": "fable_hard_h1_adamw",
-  "date": "2026-07-22",
-  "change": "fable_hard_h1's optimizer replaced: flat lr=3e-4 WarmupSchedule (never decayed, loss stuck) -> our validated AdamW lr=3e-3/wd=0.1/betas=(0.9,0.95) + wall-clock warmup+cosine schedule. Architecture unchanged.",
-  "active": false,
-  "metrics_glob": "solving/experiments/metrics/fable_hard_h1_adamw*.jsonl"
-}
