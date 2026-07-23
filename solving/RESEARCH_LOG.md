@@ -446,3 +446,25 @@ MLP representation was part of the optimization problem. Perfect short-length
 fit still does not imply algorithmic length composition. The remaining problem
 is forcing the table/carry system to use its local states compositionally
 rather than exploit correlations specific to operands below 100.
+
+### Addendum — one-short-operand curriculum: long columns transfer
+
+**One changed variable.** The learned pair table, fixed `i + j` routing, carry
+GRU, model width, seed, schedule, and held-out metric were unchanged. Training
+support expanded from both operands `<100` to all `a,b in 0..999` where at
+least one operand is `<100` (190,000 pairs). Thus nonzero pair features occur
+in columns 0–3 during training; the high-by-high column remains absent. Test
+still contains 2,000 pairs with both operands `100..999`.
+
+**Result.** The same 64-wide model reached **11.25% peak** exact at step 7,400
+and **11.15% final** at 8,000 steps (161.4 s), versus 1.30% / 0.80% under the
+short-only curriculum. The curve was stable from step 5,600 onward rather than
+an early overfit spike; final held-out loss was 1.76. Train-batch exact was
+96.9% at the endpoint. Peak and final checkpoints are at
+`twoA6000:results_local/product_table_one_short_ood/`.
+
+**Classification.** Confirmed, but still insufficient. Exposing nonzero
+long-column states yields an 8.7× OOD lift and removes the catastrophic
+annealing collapse. This isolates a concrete compositional gap: the model can
+reuse a learned carry process across columns it has seen, but it has not learned
+the untrained high-by-high interaction purely from lower-column examples.

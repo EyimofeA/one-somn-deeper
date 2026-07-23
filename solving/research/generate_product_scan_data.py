@@ -1,4 +1,4 @@
-"""Local diagnostic: learn 1/2-digit multiplication, test 3-digit length OOD."""
+"""Train one-short-operand products; test products with both operands long."""
 
 from __future__ import annotations
 
@@ -35,9 +35,17 @@ def record(a: int, b: int, split: str, index: int) -> dict[str, object]:
 
 
 def main() -> None:
-    output = Path("data/generated/product_scan_length_ood")
+    output = Path("data/generated/product_scan_one_short_ood")
     rng = random.Random(SEED)
-    train_pairs = [(a, b) for a in range(100) for b in range(100)]
+    # Every train product has at least one two-digit operand, but the other can
+    # be three digits. Thus columns 0..3 receive nonzero learned pair features;
+    # only the high-by-high interaction remains held out at test time.
+    train_pairs = [
+        (a, b)
+        for a in range(1_000)
+        for b in range(1_000)
+        if min(a, b) < 100
+    ]
     test_pairs = [(rng.randrange(100, 1_000), rng.randrange(100, 1_000)) for _ in range(2_000)]
     rng.shuffle(train_pairs)
     output.mkdir(parents=True, exist_ok=True)
@@ -51,8 +59,8 @@ def main() -> None:
         "max_seq_len": 10,
         "vocab_size": 17,
         "split_counts": {"train": len(train_pairs), "test": len(test_pairs)},
-        "train_operands": "0..99 (zero-padded to 3 digits)",
-        "test_operands": "100..999 (three-digit only)",
+        "train_operands": "a,b in 0..999 with min(a,b) < 100",
+        "test_operands": "a,b in 100..999 (both three-digit)",
         "label_format": "six LSD-first decimal digits, leading zeros retained",
     }
     (output / "dataset_config.json").write_text(json.dumps(config, indent=2) + "\n")
