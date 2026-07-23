@@ -1,9 +1,9 @@
 # Status (living)
 
-Last updated: 2026-07-23 (Gate 1 aligned products: with all 100 local products
-covered, the unchanged d=32 Transformer reached **100% train and held-out
-same-length**, but only **10.0% peak / 7.3% final at length 4**. Result:
-**confirmed**. The active failure is positional reuse before carries).
+Last updated: 2026-07-23 (Gate 1 fixed-register: final **99.22% train / 99.50%
+same-length / 6.70% length-4** versus 7.3% frozen baseline. Result:
+**refuted**. Positional variants did not repair artificial unseen-length reuse;
+advance to carry normalization at the bounded digit widths used by the task).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
@@ -52,13 +52,13 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 | `claude_pv_k4_ut/` | Place-value UT |
 | `claude_hard_h1/` | Hard artifact — do not widen |
 
-## Next — positional reuse gate (you pick; agent implements)
+## Next — carry primitive (agent proceeds under human override)
 
 Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
-1. Test a digit-significance position scheme on the same aligned-product data
-2. Test sparse target-length priming on the same aligned-product data
-3. Do not advance to carry propagation until length 4 passes
+1. Supply pre-carry column totals and predict normalized decimal digits
+2. Hold out column-total sequences at digit widths covered in training
+3. If the parallel Transformer fails, test a shared LSD→MSD carry scan
 
 ## Ops
 

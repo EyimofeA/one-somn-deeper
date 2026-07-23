@@ -421,3 +421,24 @@ local multiplication lookup works at trained positions; positional reuse fails
 before carry propagation is introduced.
 **Promote?:** Test digit-significance positional structure or sparse
 target-length priming on this frozen diagnostic.
+
+## 2026-07-23 — Gate 1 fixed right-aligned internal register
+
+**Author:** Codex
+**Implementation:** Boyle (`implement_gate1_square`)
+
+**Question:** Is batch-dependent prompt/output slot geometry the cause of the
+unseen fourth-position collapse?
+**What we did:** Right-aligned each row's valid prompt tokens into a fixed
+`max_seq_len` internal register, ran the unchanged Transformer and RoPE, then
+gathered logits back to evaluator positions. Data, parameters, and budget were
+frozen. Ran 1,000 fixed steps.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate1_fixed_register/metrics/monitor.jsonl`] Final
+train-batch exact match was 99.22%, same-length was 99.50%, and length-4 OOD
+was 6.70%, versus the frozen baseline's 7.3%. Runtime was 44.6 seconds.
+**Dead ends:** None.
+**Lesson:** Agent-authored mechanism prediction refuted. Stabilizing slot
+geometry does not repair length reuse.
+**Promote?:** Stop positional variants and test carry normalization at bounded,
+fully covered digit positions.

@@ -313,6 +313,15 @@ PREDICT:    no improvement in T
 RESULT:     confirmed
 ```
 
+### 2026-07-23 (l)
+
+```
+CARD:       gate1_fixed_register
+CHANGE:     batch-length prompt grid → fixed right-aligned max-sequence register
+PREDICT:    [agent-authored per human override] length-4 exact match rises sharply if unstable output-slot geometry is causal; otherwise it remains near the 10% floor
+RESULT:     refuted — fixed-register geometry did not raise length-4 accuracy
+```
+
 ### 2026-07-23 (h)
 
 ```

@@ -67,6 +67,9 @@ With all 100 products covered, aligned carry-free products reached 100% on
 held-out sequences at trained lengths but only 10.0% peak and 7.3% final exact
 match at the unseen fourth position
 (`solving/experiments/2026-07-23_gate1_aligned_products/metrics/monitor.jsonl`).
+A fixed right-aligned internal register preserved 99.50% same-length exact
+match but produced only 6.70% at length 4
+(`solving/experiments/2026-07-23_gate1_fixed_register/metrics/monitor.jsonl`).
 
 **Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
 and carry propagation. Do not test modular reduction or T.

@@ -1,0 +1,9 @@
+{
+  "card": "gate1_fixed_register",
+  "date": "2026-07-23",
+  "change": "forward representation: variable physical width -> per-row right-aligned fixed max_seq_len register",
+  "register_width": "spec.max_seq_len",
+  "target_function": "aligned_digit_products_no_carry",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_fixed_register/metrics/*.jsonl"
+}
