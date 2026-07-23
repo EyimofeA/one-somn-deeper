@@ -717,3 +717,17 @@ composition, still locally and without promoting weights to a submission.
 - **Classification:** Refuted. The digit-3 residual is not caused by too little
   direct loss signal; forcing more gradient into that token impairs the shared
   transition. Restore equal primary weights.
+
+### 2026-07-23 — Symmetry-tied digit-pair table
+- **Hypothesis:** Decimal digit multiplication is commutative. Enforcing a
+  symmetric learned pair table should reduce local-law degrees of freedom and
+  improve held four-digit squaring.
+- **Setup:** The serial continuous primary-only baseline and 8k/2k split were
+  fixed. The only change was using `(table + table.T) / 2` for every pair-table
+  lookup in the squaring cell.
+- **Result:** The symmetry tie severely underfit held inputs: 18.0% vs 21.9%
+  (500), 37.5% vs 47.55% (1,000), 44.2% vs 67.8% (1,500), and **50.55% vs
+  79.95%** (2,000). It was stopped at the matched point.
+- **Classification:** Refuted. Although the numeric relation is symmetric, the
+  ordered serial fold uses orientation-specific learned features. Do not tie
+  the table for this mechanism.

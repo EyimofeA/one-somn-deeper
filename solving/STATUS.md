@@ -31,6 +31,7 @@ non-submission carry diagnostic; its results are below.
 | 2g: unweighted aux columns | 2c test; train also predicts later square columns | exact four-LSD digit state | 0% by 1k (stopped) | equal-weight extra labels overwhelm the primary objective |
 | 2h: weighted aux columns | 2g labels; auxiliary loss weight 0.25 | exact four-LSD digit state | 64.8% at 2k (stopped) | stable but substantially worse; extra columns divert capacity |
 | 2i: digit-3 weighted loss | 2c data/model; loss weight `[1,1,1,4]` | exact four-LSD digit state | 74.55% at 2k (stopped) | residual is structural, not insufficient direct gradient |
+| 2j: symmetric pair table | 2c split; table constrained `T=Tᵀ` | exact four-LSD digit state | 50.55% at 2k (stopped) | serial fold benefits from orientation-specific features |
 | 1c: carry | 8k train / 2k disjoint test; 1–7 LSD-first three-digit totals | exact normalized output | 98.15% peak at 8k | a shared recurrent state can carry useful state quickly |
 | 1d: hard prototype state | same carry data; 64 learned prototypes after every transition | exact normalized output | 0.25% peak | argmax projection prevents learning |
 | 1e: soft prototype state | same carry data; soft mixture of the same 64 prototypes | exact normalized output | 98.75% at 8k steps | viable, but slower to optimize than continuous state |

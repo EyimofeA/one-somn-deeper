@@ -41,13 +41,16 @@ class Model(nn.Module):
 
     def square_step(self, digits: Tensor) -> tuple[Tensor, Tensor]:
         terms: list[list[Tensor]] = [[] for _ in range(2 * NUM_DIGITS - 1)]
+        symmetric_pair_table = 0.5 * (
+            self.pair_table + self.pair_table.transpose(0, 1)
+        )
         for left_index in range(NUM_DIGITS):
             for right_index in range(NUM_DIGITS):
                 feature = torch.einsum(
                     "bi,bj,ijd->bd",
                     digits[:, left_index],
                     digits[:, right_index],
-                    self.pair_table,
+                    symmetric_pair_table,
                 )
                 terms[left_index + right_index].append(feature)
         columns: list[Tensor] = []
@@ -101,19 +104,7 @@ class Model(nn.Module):
             dtype=digits.dtype,
         )
         logits[:, -NUM_DIGITS:, DIGIT_OFFSET : DIGIT_OFFSET + 10] = output_logits[:, :4]
-        if self.training:
-            weights = torch.tensor(
-                [1.0, 1.0, 1.0, 4.0],
-                device=digits.device,
-                dtype=digits.dtype,
-            ).repeat(input_ids.shape[0])
-        else:
-            weights = torch.ones(
-            input_ids.shape[0] * NUM_DIGITS,
-                device=digits.device,
-                dtype=digits.dtype,
-            )
-        return logits, weights
+        return logits, None
 
 
 def build_model(spec: ModelSpec) -> Model:
@@ -137,15 +128,9 @@ def build_optimizer(model: nn.Module, spec: OptimizerSpec) -> OptimizerBundle:
     return OptimizerBundle(optimizer, torch.optim.lr_scheduler.LambdaLR(optimizer, factor))
 
 
-def training_loss(logits: Tensor, labels: Tensor, weights: Tensor) -> Tensor:
-    per_token = F.cross_entropy(logits, labels, reduction="none")
-    return (per_token * weights).sum() / weights.sum()
-
-
 SUBMISSION = Submission(
     build_model=build_model,
     build_optimizer=build_optimizer,
-    training_loss=training_loss,
     batch_size=256,
     eval_batch_size=512,
 )
