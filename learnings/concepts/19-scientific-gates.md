@@ -60,6 +60,9 @@ digit length.
 but only 7.04% peak held-out same-length exact match and 0.00% on four-digit OOD
 after 1,000 steps
 (`solving/experiments/2026-07-23_gate1_square/metrics/monitor.jsonl`).
+On the isolated 10×10 product table it reached 100% train exact match but stayed
+at 15% on 20 symmetrically held-out ordered pairs
+(`solving/experiments/2026-07-23_gate1_digit_product/metrics/monitor.jsonl`).
 
 **Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
 and carry propagation. Do not test modular reduction or T.

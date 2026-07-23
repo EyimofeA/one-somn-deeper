@@ -1,9 +1,9 @@
 # Status (living)
 
-Last updated: 2026-07-23 (Gate 1 exact squaring: unchanged d=32 Transformer
-reached **98.05% train**, only **7.04% peak held-out same-length**, and
-**0.00% four-digit OOD** in 1,000 steps; human result: **confirmed**. Decompose
-digit multiplication before modular reduction or T).
+Last updated: 2026-07-23 (Gate 1 digit-product lookup: unchanged d=32
+Transformer reached **100% train** but stayed at **15% on 20 held-out ordered
+pairs** through 1,000 steps; human result: **confirmed**. Next: expose all 100
+products and test their reuse across unseen positions and length).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
@@ -56,9 +56,9 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 
 Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
-1. Single-digit product lookup without carries
-2. Aligned multi-digit partial products without carry propagation
-3. Carry propagation with the pre-carry column sums supplied
+1. **Selected:** complete-table aligned digit products without carry propagation
+2. Carry propagation with the pre-carry column sums supplied
+3. Exact squaring from the two validated primitives
 
 ## Ops
 

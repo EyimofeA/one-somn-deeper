@@ -374,3 +374,27 @@ from 2.30 to 6.72 as train loss fell to 0.019. Runtime was 78.4 seconds.
 finite square table but does not learn a reusable squaring algorithm.
 **Promote?:** Decompose Gate 1 into digit-pair products, aligned partial
 products, and carry propagation before modular reduction or T.
+
+## 2026-07-23 — Gate 1 single-digit product lookup
+
+**Author:** Codex
+**Implementation:** Boyle (`implement_gate1_square`)
+
+**Question:** Does the unchanged Transformer infer held-out entries of the
+decimal digit multiplication table when every digit remains observed in both
+operand roles?
+**What we did:** Trained on 80 ordered digit pairs and held out the 20 pairs
+satisfying `(a+b) mod 5 = 0`. Reverse pairs were co-held-out, and every digit
+remained present in both operand roles. Each pair was repeated ten times for the
+unchanged batching contract. Ran 1,000 fixed optimizer steps on the A6000.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate1_digit_product/metrics/monitor.jsonl`] Train exact
+match reached 100% at step 200. Held-out exact match reached 15% at step 100 and
+remained exactly 15% through step 1,000. Held-out loss increased from 2.68 to
+11.44. Runtime was 80.2 seconds.
+**Dead ends:** None.
+**Lesson:** Human classification: confirmed. Missing digit-pair entries are not
+inferred reliably. Since decimal has only 100 ordered local products, expose the
+complete table and measure algorithmic generalization through reuse at unseen
+positions and lengths.
+**Promote?:** Advance to complete-table aligned products without carries.

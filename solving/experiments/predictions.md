@@ -313,6 +313,15 @@ PREDICT:    no improvement in T
 RESULT:     confirmed
 ```
 
+### 2026-07-23 (g)
+
+```
+CARD:       gate1_digit_product
+CHANGE:     exact multi-digit squaring → one decimal digit pair product without carries
+PREDICT:    fails held out pairs. ngl multiplication might be a memorization task? thats how i feel
+RESULT:     confirmed
+```
+
 ### 2026-07-23 (e)
 
 ```
