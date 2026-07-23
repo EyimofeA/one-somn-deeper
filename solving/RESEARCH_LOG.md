@@ -559,3 +559,26 @@ strictly better than raw summation on this diagnostic, producing the first
 near-exact legal learned digit-product primitive. This clears the local product
 gate sufficiently to test reuse of the primitive under a multi-step learned
 composition, still locally and without promoting weights to a submission.
+
+### 2026-07-23 — Soft digit-state squaring recurrence, held T
+- **Hypothesis:** A learned digit-pair table, learned within-column fold, and
+  learned carry scan can be reused as one shared squaring cell. Keeping each
+  digit as a soft ten-way distribution should let gradients pass through the
+  repeated cell and generalize from T=1,2 to held-out T=3.
+- **Setup:** Train on bases 0..9 at T=1 and T=2. The target is the four
+  least-significant decimal digits of x^(2^T), least-significant first. The
+  shared cell was unrolled three times according to T; no checkpoint,
+  arithmetic operation, or target-derived feature enters the model. The
+  checkpoint with the best narrow held-T score was audited on every base 0..9
+  at T=3.
+- **Result:** The narrow T=3 split (bases 0..3) reached 100% exact by step 600
+  (59.3 seconds) and stayed saturated through step 3,000. The saved step-600
+  checkpoint reached only **40.0% (400/1,000)** when evaluated on all ten bases
+  at held T=3; precisely bases 0..3 passed. The widened audit originally
+  exposed a generator bug: values above four digits were not truncated even
+  though the task was defined as a four-digit state. The final audit labels are
+  explicitly x^(2^T) mod 10^4.
+- **Next:** Hold the cell, data, and all-ten-base held-T metric fixed; replace
+  only the soft inter-step digit state with a straight-through one-hot state.
+  This tests whether accumulated fractional state, rather than the learned
+  local transition, causes the third-step collapse.
