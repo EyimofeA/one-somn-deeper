@@ -600,3 +600,23 @@ composition, still locally and without promoting weights to a submission.
 - **Next:** Do not add recurrence depth. First establish whether this learned
   cell can square a four-digit decimal state in one application under a
   held-input split. That is the exact unseen transition T=3 requires here.
+
+### 2026-07-23 — One-step four-digit squaring gate
+- **Hypothesis:** The pair-table / learned-fold / learned-carry cell can learn
+  a genuine four-digit decimal square transition before it is asked to compose
+  through time.
+- **Setup:** All architecture and optimizer settings were fixed. A deterministic
+  shuffle of x in [0, 9,999] supplied 8,000 train and 2,000 disjoint test
+  values at T=1. The target was x² mod 10^4 as four LSD-first digits. The
+  active STE state is not reused at T=1, so this isolates the local cell.
+- **Result:** Held-input exact rose 21.9% (step 500), 47.55% (1,000), 67.8%
+  (1,500), 79.95% (2,000), then peaked at **85.35%** (3,500) before falling to
+  83.5% (4,000) and 83.55% (4,500). Train exact was 100% from step 2,000.
+  The peak checkpoint is
+  `twoA6000:results_local/one_step_four_digit_square/monitor_peak.pt`.
+- **Classification:** Confirmed partial. The local learned operator strongly
+  generalizes across held four-digit inputs, which explains why it was the
+  real missing transition in the T=3 card. Its remaining 14.65% error makes a
+  recurrence test premature.
+- **Next:** Audit errors by decimal output position and change one local-cell
+  mechanism only; preserve this split and peak-checkpoint convention.

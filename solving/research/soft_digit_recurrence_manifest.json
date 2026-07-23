@@ -1,8 +1,8 @@
 {
-  "name": "soft-digit-recurrence-held-t",
+  "name": "one-step-four-digit-square-held-x",
   "data": {
     "kind": "squaring_mod",
-    "data_root": "data/generated/soft_digit_recurrence_held_t",
+    "data_root": "data/generated/one_step_four_digit_square",
     "batch_size": 256,
     "eval_batch_size": 512,
     "shuffle_train": true,

@@ -24,6 +24,7 @@ non-submission carry diagnostic; its results are below.
 | 1b⁗⁗⁗⁗⁗⁗⁗⁗: intra-column fold | same extended card; sum → shared pair-GRU fold before carry scan | exact 6-digit decimal product | 97.60% peak / 97.4% final | preserves central pair interactions; clears local product gate |
 | 2a: soft-digit recurrence | train bases 0..9 at T=1,2; all bases held at T=3 | exact four-LSD digit state | 40.0% (bases 0..3 only) | soft states fit two applications but drift under a third; narrow 100% was not sufficient evidence |
 | 2b: STE state control | 2a data/test; soft state → STE one-hot state | exact four-LSD digit state | 40.0% peak through 1.2k steps | discretization does not repair failure; the missing transition is four-digit squaring itself |
+| 2c: one-step 4-digit square | 8k shuffled x train / 2k held x; T=1 | exact four-LSD digit state | 85.35% peak at 3.5k | local 4-digit transition generalizes strongly but is not exact enough to compose |
 | 1c: carry | 8k train / 2k disjoint test; 1–7 LSD-first three-digit totals | exact normalized output | 98.15% peak at 8k | a shared recurrent state can carry useful state quickly |
 | 1d: hard prototype state | same carry data; 64 learned prototypes after every transition | exact normalized output | 0.25% peak | argmax projection prevents learning |
 | 1e: soft prototype state | same carry data; soft mixture of the same 64 prototypes | exact normalized output | 98.75% at 8k steps | viable, but slower to optimize than continuous state |

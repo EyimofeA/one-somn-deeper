@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import json
+import random
 from pathlib import Path
 
 
 DIGIT_OFFSET = 7
-REPEATS = 100
 
 
 def digits(value: int, width: int = 4) -> list[int]:
@@ -33,24 +33,25 @@ def record(base: int, steps: int, index: int, split: str) -> dict[str, object]:
 
 
 def main() -> None:
-    output = Path("data/generated/soft_digit_recurrence_held_t")
+    output = Path("data/generated/one_step_four_digit_square")
     output.mkdir(parents=True, exist_ok=True)
-    train = [(base, steps) for base in range(10) for steps in (1, 2)]
-    test = [(base, 3) for base in range(10)]
+    values = list(range(10_000))
+    random.Random(45).shuffle(values)
+    train = [(value, 1) for value in values[:8_000]]
+    test = [(value, 1) for value in values[8_000:]]
     for split, examples in (("train", train), ("test", test)):
         with (output / f"{split}.jsonl").open("w") as handle:
             index = 0
             for base, steps in examples:
-                for _ in range(REPEATS):
-                    handle.write(json.dumps(record(base, steps, index, split)) + "\n")
-                    index += 1
+                handle.write(json.dumps(record(base, steps, index, split)) + "\n")
+                index += 1
     config = {
         "data_format": "separate_input_output",
         "dataset_kind": "squaring_mod",
         "max_seq_len": 7,
         "vocab_size": 17,
-        "train": "bases 0..9 at T=1,2",
-        "test": "bases 0..9 at held-out T=3",
+        "train": "8,000 shuffled four-digit x values at T=1",
+        "test": "2,000 disjoint four-digit x values at T=1",
         "label_format": "four LSD-first decimal digits",
     }
     (output / "dataset_config.json").write_text(json.dumps(config, indent=2) + "\n")
