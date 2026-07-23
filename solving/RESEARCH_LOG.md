@@ -383,3 +383,12 @@ with the wall-clock baseline's 45% peak. It reached 100% train exact by step
 this naive fixed schedule, while giving local work a reproducible step-indexed
 reference. Source: `solving/research/digit_product_step_schedule.py`; evidence:
 `twoA6000:results_local/gate1_digit_product_step_schedule/`.
+
+### Addendum — slow fixed warmup
+
+Increasing only fixed warmup from 100 to 400 steps recovered the old baseline's
+early regime (40% test exact at step 200), then fell to 25% by step 1,000 after
+train exact reached 100%. This confirms that wall-clock scheduling was not the
+source of the relation failure: a calibrated step schedule can reproduce the
+temporary signal, but not retain it. Evidence:
+`twoA6000:results_local/gate1_digit_product_step_schedule_w400/`.

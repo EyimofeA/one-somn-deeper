@@ -19,7 +19,7 @@ if spec is None or spec.loader is None:
 baseline = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(baseline)
 
-WARMUP_STEPS = 100
+WARMUP_STEPS = 400
 TOTAL_STEPS = 1_000
 
 
