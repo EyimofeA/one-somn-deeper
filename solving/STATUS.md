@@ -26,6 +26,7 @@ non-submission carry diagnostic; its results are below.
 | 2b: STE state control | 2a data/test; soft state → STE one-hot state | exact four-LSD digit state | 40.0% peak through 1.2k steps | discretization does not repair failure; the missing transition is four-digit squaring itself |
 | 2c: one-step 4-digit square | 8k shuffled x train / 2k held x; T=1 | exact four-LSD digit state | 85.35% peak at 3.5k | local 4-digit transition generalizes strongly but is not exact enough to compose |
 | 2d: arity fold init | 2c split; fold start state keyed by term count | exact four-LSD digit state | 84.55% peak | earlier learning but lower final law; arity is already inferable from fold length |
+| 2e: balanced fold tree | 2c split; sequential fold → binary tree | exact four-LSD digit state | 61.7% at 2k (stopped) | serial term order is valuable; short tree paths hurt learning |
 | 1c: carry | 8k train / 2k disjoint test; 1–7 LSD-first three-digit totals | exact normalized output | 98.15% peak at 8k | a shared recurrent state can carry useful state quickly |
 | 1d: hard prototype state | same carry data; 64 learned prototypes after every transition | exact normalized output | 0.25% peak | argmax projection prevents learning |
 | 1e: soft prototype state | same carry data; soft mixture of the same 64 prototypes | exact normalized output | 98.75% at 8k steps | viable, but slower to optimize than continuous state |

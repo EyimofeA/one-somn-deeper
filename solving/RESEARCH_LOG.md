@@ -640,3 +640,17 @@ composition, still locally and without promoting weights to a submission.
 - **Next:** Retain the shared fold initialization. The controlled peak audit
   still says that only output digit 3 fails, so the next card must alter the
   representation used by the carry transition at that output column.
+
+### 2026-07-23 — Balanced-tree fold control
+- **Hypothesis:** The sequential fold loses information across the four pair
+  terms of output column 3. Reusing the same learned fold cell in a balanced
+  binary tree should shorten that path and improve the held-input law.
+- **Setup:** The 8k/2k one-step split, pair table, carry scan, fold parameters,
+  seed, and optimizer were fixed. Only the fold topology changed: leaves were
+  initialized as before, then combined pairwise until one column state remained.
+- **Result:** The tree lagged at every matched point: 17.3% vs 21.9% at step
+  500, 42.05% vs 47.55% at 1,000, 53.15% vs 67.8% at 1,500, and 61.7% vs
+  79.95% at 2,000. It was stopped without spending the remaining schedule.
+- **Classification:** Refuted. The ordered serial fold is a useful learned
+  computation, not merely a lossy way to pool terms. Restore it for the next
+  card. Logs: `twoA6000:results_local/tree_fold_four_digit_square/`.
