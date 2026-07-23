@@ -56,6 +56,11 @@ reduction. Hold out x and longer digit lengths.
 **Pass:** ≥99% exact match on held-out x and no collapse at the first held-out
 digit length.
 
+**Observed:** The unchanged Gate-0 Transformer reached 98.05% train exact match
+but only 7.04% peak held-out same-length exact match and 0.00% on four-digit OOD
+after 1,000 steps
+(`solving/experiments/2026-07-23_gate1_square/metrics/monitor.jsonl`).
+
 **Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
 and carry propagation. Do not test modular reduction or T.
 
@@ -119,6 +124,6 @@ consecutive perfect evaluations. Use wall-clock budgets only at Gate 6.
 
 ## Immediate decision
 
-Do not propose another end-to-end submission. Build Gate 1 and Gate 2 diagnostic
-datasets first, measure the same small anchor on both, and locate the failing
-primitive.
+Do not propose another end-to-end submission. Gate 1 failed. Split it into
+single-digit products, aligned partial products, and carry propagation; locate
+the first failing primitive before Gate 2 or another T experiment.

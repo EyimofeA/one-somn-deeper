@@ -1,8 +1,9 @@
 # Status (living)
 
-Last updated: 2026-07-23 (Gate 0 copy-X: unchanged d=32 Transformer reached
-**100% train / test / four-digit OOD by step 500** and stayed exact through
-step 2,000; human result: **refuted**. Advance to Gate 1 multiplication).
+Last updated: 2026-07-23 (Gate 1 exact squaring: unchanged d=32 Transformer
+reached **98.05% train**, only **7.04% peak held-out same-length**, and
+**0.00% four-digit OOD** in 1,000 steps; human result: **confirmed**. Decompose
+digit multiplication before modular reduction or T).
 
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
@@ -51,13 +52,13 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 | `claude_pv_k4_ut/` | Place-value UT |
 | `claude_hard_h1/` | Hard artifact — do not widen |
 
-## Next — prerequisite gates (you pick; agent implements)
+## Next — Gate 1 decomposition (you pick; agent implements)
 
 Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
-1. Gate 1 diagnostic: exact decimal multiplication without reduction
-2. Gate 2 diagnostic: exact modular reduction with the dividend supplied
-3. Run the same small anchor on both and locate the first failing primitive
+1. Single-digit product lookup without carries
+2. Aligned multi-digit partial products without carry propagation
+3. Carry propagation with the pre-carry column sums supplied
 
 ## Ops
 

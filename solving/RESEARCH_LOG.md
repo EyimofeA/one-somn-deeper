@@ -352,3 +352,25 @@ split with `drop_last=True`; the card was not changed to preserve the one-variab
 contract.
 **Lesson:** Human classification: confirmed.
 **Promote?:** No.
+
+## 2026-07-23 — Gate 1 exact decimal squaring
+
+**Author:** Codex
+**Implementation:** Boyle (`implement_gate1_square`)
+
+**Question:** Can the unchanged Gate-0 Transformer learn exact x² without
+modular reduction and generalize to unseen x and the next digit length?
+**What we did:** Changed only the diagnostic target from copy-X to exact decimal
+x². Used the Gate-0 x split: 800 train and 199 held-out values from x=1..999,
+plus 1,000 unique four-digit OOD values. Ran 1,000 fixed optimizer steps on the
+A6000.
+**Result:** [SOURCED —
+`experiments/2026-07-23_gate1_square/metrics/monitor.jsonl`] Train exact match
+reached 98.05%. Held-out same-length exact match peaked at 7.04% at step 900
+and ended at 5.53%. Four-digit OOD exact match stayed 0.00%. OOD loss increased
+from 2.30 to 6.72 as train loss fell to 0.019. Runtime was 78.4 seconds.
+**Dead ends:** None; the fixed-step diagnostic completed normally.
+**Lesson:** Human classification: confirmed. The unchanged Transformer fits the
+finite square table but does not learn a reusable squaring algorithm.
+**Promote?:** Decompose Gate 1 into digit-pair products, aligned partial
+products, and carry propagation before modular reduction or T.

@@ -321,3 +321,12 @@ CHANGE:     modular-squaring target → exact copy of X
 PREDICT:    fail on the first digit. pass on the last three. or first three you get what i mean
 RESULT:     refuted
 ```
+
+### 2026-07-23 (f)
+
+```
+CARD:       gate1_square
+CHANGE:     copy X → exact x² without modular reduction
+PREDICT:    didgit multiplication is hard iirc for normal transformers. everything can be learnt well but im sure we arent generalizaing
+RESULT:     confirmed
+```
