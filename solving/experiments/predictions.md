@@ -303,3 +303,47 @@ RESULT:     refuted in an informative way — peaks rose (N=323: 8.62% @ 146k
             and is destroyed late in training rather than consolidated.
             See 2026-07-23_t1only_fixedn_wd01/NOTE.md addendum.
 ```
+
+### 2026-07-23 (d)
+
+```
+CARD:       solving/research/soft_digit_squaring_recurrence.py — one-step
+            four-digit squaring gate (Codex's card, `9c9cbc7`), rerun with a
+            wall-clock LR schedule instead of the original step-count one.
+CHANGE:     one variable: build_optimizer's LambdaLR was step-count-based
+            (TOTAL_STEPS=10_000, WARMUP_STEPS=500) against a manifest whose
+            real budget is total_training_time_seconds=600 — the schedule
+            assumed ~10k steps would fit in 600s. Replaced with the
+            time.monotonic()-based wall-clock scheduler already validated
+            elsewhere in this project (WARMUP_FRACTION=0.05,
+            FINAL_LR_FRACTION=0.05). Model, data, seed, batch size, and
+            budget (600s) all unchanged. Also completed Codex's own
+            in-progress revert of the refuted symmetric pair table (was
+            already correct on disk, uncommitted) as part of the same diff.
+PREDICT:    [agent-proposed, human to countersign] Codex's own log shows this
+            exact baseline peaking at 85.35% (step 3,500) then decaying to
+            83.5-83.55% (steps 4,000-4,500) — right where the original
+            schedule still had ~65% of peak LR remaining (10k-step cosine,
+            only ~4-4.5k steps actually fit in 600s). Every one of Codex's 5
+            follow-ups changed the model and was refuted; none touched the
+            schedule. If the decay is schedule-driven (LR still too high
+            post-peak, not a representational ceiling), annealing to the
+            same FINAL_LR_FRACTION floor by the time the peak historically
+            occurred should let the run consolidate near 85%+ instead of
+            drifting past it.
+RESULT:     partially confirmed, usefully refuted. The decay is schedule-
+            driven and IS eliminated — the wall-clock run is monotone: peak
+            82.55% @ step 6,700 == final 82.55% @ step 7,500 (no overshoot,
+            no drift). BUT the peak is ~3 pts BELOW the original's transient
+            85.35% @ step 3,500. Reading: the original schedule's high-LR
+            "bug" let it briefly bounce to 85.35% before knocking itself
+            back to 83.55% — that spike was an unstable transient the model
+            could not hold, not a recoverable solution. The fix trades the
+            unstable 85% spike for a stable 82.55% floor. Net: no peak-accuracy
+            gain, but a trustworthy checkpoint (peak == final, so the saved
+            weights ARE the good ones). The real blocker — ~15-17% one-step
+            error concentrated on decimal output digit 3 — is untouched, same
+            as all 5 of Codex's refuted model-side follow-ups. Schedule was
+            not the missing piece. Metrics: twoA6000:/tmp/soft_digit_wallclock_
+            monitor.jsonl; peak ckpt twoA6000:/tmp/soft_digit_wallclock_monitor_peak.pt.
+```

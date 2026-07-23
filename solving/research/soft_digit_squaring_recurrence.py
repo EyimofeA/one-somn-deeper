@@ -15,8 +15,8 @@ DIGIT_OFFSET = 7
 VOCAB_SIZE = 17
 NUM_DIGITS = 4
 D_MODEL = 64
-TOTAL_STEPS = 10_000
-WARMUP_STEPS = 500
+WARMUP_FRACTION = 0.05
+FINAL_LR_FRACTION = 0.05
 
 
 class Config:
@@ -41,16 +41,13 @@ class Model(nn.Module):
 
     def square_step(self, digits: Tensor) -> tuple[Tensor, Tensor]:
         terms: list[list[Tensor]] = [[] for _ in range(2 * NUM_DIGITS - 1)]
-        symmetric_pair_table = 0.5 * (
-            self.pair_table + self.pair_table.transpose(0, 1)
-        )
         for left_index in range(NUM_DIGITS):
             for right_index in range(NUM_DIGITS):
                 feature = torch.einsum(
                     "bi,bj,ijd->bd",
                     digits[:, left_index],
                     digits[:, right_index],
-                    symmetric_pair_table,
+                    self.pair_table,
                 )
                 terms[left_index + right_index].append(feature)
         columns: list[Tensor] = []
@@ -114,16 +111,26 @@ def build_model(spec: ModelSpec) -> Model:
 
 
 def build_optimizer(model: nn.Module, spec: OptimizerSpec) -> OptimizerBundle:
+    import time
+
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=2e-3, betas=(0.9, 0.95), weight_decay=0.01,
         capturable=spec.device_type == "cuda",
     )
 
-    def factor(step: int) -> float:
-        if step < WARMUP_STEPS:
-            return (step + 1) / WARMUP_STEPS
-        progress = min((step - WARMUP_STEPS) / (TOTAL_STEPS - WARMUP_STEPS), 1.0)
-        return 0.05 + 0.95 * 0.5 * (1.0 + math.cos(math.pi * progress))
+    total_seconds = max(1.0, float(spec.training_time_seconds))
+    started = time.monotonic()
+
+    def factor(_step: int) -> float:
+        progress = (time.monotonic() - started) / total_seconds
+        progress = min(max(progress, 0.0), 1.0)
+        if progress < WARMUP_FRACTION:
+            return FINAL_LR_FRACTION + (1.0 - FINAL_LR_FRACTION) * (
+                progress / WARMUP_FRACTION
+            )
+        tail = (progress - WARMUP_FRACTION) / (1.0 - WARMUP_FRACTION)
+        cosine = 0.5 * (1.0 + math.cos(math.pi * tail))
+        return FINAL_LR_FRACTION + (1.0 - FINAL_LR_FRACTION) * cosine
 
     return OptimizerBundle(optimizer, torch.optim.lr_scheduler.LambdaLR(optimizer, factor))
 

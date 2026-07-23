@@ -180,3 +180,55 @@ when reading logs:
   small models) — expect wall-clock to stretch under contention, which is
   fine for a diagnostic run but means **never** use a concurrent run to
   measure steps/s for schedule calibration.
+
+## GPU box #2 — RTX A6000, second box to avoid contention
+
+Rented Prime Intellect A6000 (2026-07-23), specifically so two agent sessions
+running local diagnostics don't fight over one box's steps/s the way `oneL40`
+contention skewed a couple of runs earlier in the day. **oneL40 went fully
+unreachable (SSH times out at the connection level, not just idle) the same
+day this box was rented — likely terminated, not just idle.** Its
+non-git-tracked contents (base `scripts_local/monitor_train.py`, Fable's
+`tok_discriminator.py`, and the generated datasets behind
+`local_t1only_fixedn_{323,1073}.json`) did not survive and would need
+regenerating if oneL40 doesn't come back. Anything checkpointed/committed to
+git from that box (peak/final checkpoints, prediction dumps, metrics) is safe
+regardless.
+
+### Connect (box #2)
+
+```bash
+ssh ubuntu@64.247.206.65
+```
+
+Local machine alias: `ssh twoA6000`.
+
+### Environment (set up 2026-07-23)
+
+Fresh clone at `~/one-layer-deeper` (upstream, not this repo — same
+convention as oneL40). **Unlike oneL40, this box's driver supports CUDA 13**
+(`580.126.09`, `CUDA Version: 13.0`), which matches `pyproject.toml`'s
+default pin — so **plain `uv sync` works here**, no cu126 wheel-index
+workaround needed. Do not copy the "never `uv sync`" oneL40 rule to this box;
+it's driver-specific to oneL40, not a general project rule.
+
+```bash
+cd ~/one-layer-deeper && source .venv/bin/activate
+python3 -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"
+# confirmed: 2.12.1+cu130 True NVIDIA RTX A6000
+```
+
+`scripts_local/` seeded with `monitor_train_ckpt.py` (peak-checkpointing
+variant, tracked at
+`solving/experiments/2026-07-23_t1only_fixedn_width/monitor_train_ckpt.py`)
+and `dump_predictions.py` (same dir). Base `monitor_train.py` and
+`tok_discriminator.py` not yet re-created here — see the oneL40-loss note
+above.
+
+Manifests/datasets not yet generated on this box — run
+`bash scripts/generate_datasets.sh` for the standard hosted-mirror set before
+using `h100_*` manifests, and regenerate the rung-1 fixed-N datasets
+separately if picking that thread back up (params: `split_group=x`, fixed
+semiprime, `separate_input_output=true` — the causal_lm default leaks
+answers into `input_ids`, see the gotcha already documented in
+`2026-07-23_t1only_fixedn_wd01/NOTE.md`).
