@@ -703,3 +703,17 @@ composition, still locally and without promoting weights to a submission.
 - **Classification:** Refuted. Downweighting prevents collapse but still pulls
   capacity away from the local four-digit square law. Restore the primary-only
   serial continuous baseline before further operator work.
+
+### 2026-07-23 — Fourth-digit weighted primary loss
+- **Hypothesis:** The baseline's only held-input error is output digit 3.
+  Giving that token four times the cross-entropy weight, while retaining the
+  original four-label data and exact metric, should repair the local column.
+- **Setup:** The primary-only serial continuous baseline and 8k/2k split were
+  restored. The only experimental change was per-token loss weights
+  `[1, 1, 1, 4]` during training; evaluation used ordinary unweighted loss.
+- **Result:** The card trailed control throughout: 19.8% vs 21.9% (500),
+  43.25% vs 47.55% (1,000), 64.05% vs 67.8% (1,500), and **74.55% vs
+  79.95%** (2,000). It was stopped at the matched point.
+- **Classification:** Refuted. The digit-3 residual is not caused by too little
+  direct loss signal; forcing more gradient into that token impairs the shared
+  transition. Restore equal primary weights.

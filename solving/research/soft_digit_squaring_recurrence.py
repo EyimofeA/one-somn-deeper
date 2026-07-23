@@ -70,19 +70,19 @@ class Model(nn.Module):
         emitted_logits.append(logits)
         emitted.append(F.softmax(logits, dim=-1))
         return (
-            torch.stack(emitted[:7], dim=1),
-            torch.stack(emitted_logits[:7], dim=1),
+            torch.stack(emitted[:NUM_DIGITS], dim=1),
+            torch.stack(emitted_logits[:NUM_DIGITS], dim=1),
         )
 
     def forward(self, input_ids: Tensor, attention_mask: Tensor | None = None) -> tuple[Tensor, None]:
         del attention_mask
-        if input_ids.ndim != 2 or input_ids.shape[1] != 9:
-            raise ValueError("auxiliary-supervision prompts must have shape (batch, 9)")
+        if input_ids.ndim != 2 or input_ids.shape[1] != 7:
+            raise ValueError("digit-weighted prompts must have shape (batch, 7)")
         initial = (input_ids[:, 1:5] - DIGIT_OFFSET).clamp(0, 9)
         digits = F.one_hot(initial, num_classes=10).to(self.pair_table.dtype)
         recurrence_count = (input_ids[:, 6] - DIGIT_OFFSET).clamp(0, 3)
         output_logits = torch.zeros(
-            (digits.shape[0], 7, 10), device=digits.device, dtype=digits.dtype
+            (*digits.shape[:2], 10), device=digits.device, dtype=digits.dtype
         )
         for step in range(3):
             all_digits, step_logits = self.square_step(digits)
@@ -100,17 +100,16 @@ class Model(nn.Module):
             device=input_ids.device,
             dtype=digits.dtype,
         )
-        logits[:, 1:5, DIGIT_OFFSET : DIGIT_OFFSET + 10] = output_logits[:, 3:7]
         logits[:, -NUM_DIGITS:, DIGIT_OFFSET : DIGIT_OFFSET + 10] = output_logits[:, :4]
         if self.training:
             weights = torch.tensor(
-                [0.25, 0.25, 0.25, 0.25, 1.0, 1.0, 1.0, 1.0],
+                [1.0, 1.0, 1.0, 4.0],
                 device=digits.device,
                 dtype=digits.dtype,
             ).repeat(input_ids.shape[0])
         else:
             weights = torch.ones(
-                input_ids.shape[0] * NUM_DIGITS,
+            input_ids.shape[0] * NUM_DIGITS,
                 device=digits.device,
                 dtype=digits.dtype,
             )

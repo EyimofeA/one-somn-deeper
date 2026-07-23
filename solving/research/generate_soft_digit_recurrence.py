@@ -15,13 +15,9 @@ def digits(value: int, width: int = 4) -> list[int]:
 
 
 def record(base: int, steps: int, index: int, split: str) -> dict[str, object]:
-    square_digits = digits((base ** (2**steps)) % 10**7, width=7)
-    labels = square_digits[:4]
-    if split == "train":
-        labels = [*square_digits[3:7], *square_digits[:4]]
     return {
-        "input_ids": [2, *digits(base), 4, DIGIT_OFFSET + steps, 6, 6],
-        "labels": labels,
+        "input_ids": [2, *digits(base), 4, DIGIT_OFFSET + steps],
+        "labels": digits((base ** (2**steps)) % 10**4),
         "instance_id": f"soft_recurrence_{split}_{index:05d}",
         "split": split,
         "generator_family": "learned_soft_digit_squaring_recurrence",
@@ -52,11 +48,11 @@ def main() -> None:
     config = {
         "data_format": "separate_input_output",
         "dataset_kind": "squaring_mod",
-        "max_seq_len": 9,
+        "max_seq_len": 7,
         "vocab_size": 17,
         "train": "8,000 shuffled four-digit x values at T=1",
         "test": "2,000 disjoint four-digit x values at T=1",
-        "label_format": "train: digits 3..6 then digits 0..3; test: digits 0..3",
+        "label_format": "four LSD-first decimal digits",
     }
     (output / "dataset_config.json").write_text(json.dumps(config, indent=2) + "\n")
 
