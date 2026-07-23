@@ -1,8 +1,8 @@
 {
-  "name": "product-scan-one-short-ood",
+  "name": "product-scan-full-position-ood",
   "data": {
     "kind": "squaring_mod",
-    "data_root": "data/generated/product_scan_one_short_ood",
+    "data_root": "data/generated/product_scan_full_position_ood",
     "batch_size": 256,
     "eval_batch_size": 512,
     "shuffle_train": true,

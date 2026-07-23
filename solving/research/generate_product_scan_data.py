@@ -1,4 +1,4 @@
-"""Train one-short-operand products; test products with both operands long."""
+"""Train random three-digit products; hold out complete operand pairs."""
 
 from __future__ import annotations
 
@@ -35,19 +35,20 @@ def record(a: int, b: int, split: str, index: int) -> dict[str, object]:
 
 
 def main() -> None:
-    output = Path("data/generated/product_scan_one_short_ood")
+    output = Path("data/generated/product_scan_full_position_ood")
     rng = random.Random(SEED)
-    # Every train product has at least one two-digit operand, but the other can
-    # be three digits. Thus columns 0..3 receive nonzero learned pair features;
-    # only the high-by-high interaction remains held out at test time.
-    train_pairs = [
-        (a, b)
-        for a in range(1_000)
-        for b in range(1_000)
-        if min(a, b) < 100
-    ]
-    test_pairs = [(rng.randrange(100, 1_000), rng.randrange(100, 1_000)) for _ in range(2_000)]
+    test_set: set[tuple[int, int]] = set()
+    while len(test_set) < 2_000:
+        test_set.add((rng.randrange(100, 1_000), rng.randrange(100, 1_000)))
+    train_set: set[tuple[int, int]] = set()
+    while len(train_set) < 190_000:
+        pair = (rng.randrange(1_000), rng.randrange(1_000))
+        if pair not in test_set:
+            train_set.add(pair)
+    train_pairs = list(train_set)
+    test_pairs = list(test_set)
     rng.shuffle(train_pairs)
+    rng.shuffle(test_pairs)
     output.mkdir(parents=True, exist_ok=True)
     for split, pairs in (("train", train_pairs), ("test", test_pairs)):
         with (output / f"{split}.jsonl").open("w") as handle:
@@ -59,7 +60,7 @@ def main() -> None:
         "max_seq_len": 10,
         "vocab_size": 17,
         "split_counts": {"train": len(train_pairs), "test": len(test_pairs)},
-        "train_operands": "a,b in 0..999 with min(a,b) < 100",
+        "train_operands": "190,000 random pairs from 0..999, excluding test pairs",
         "test_operands": "a,b in 100..999 (both three-digit)",
         "label_format": "six LSD-first decimal digits, leading zeros retained",
     }

@@ -468,3 +468,24 @@ long-column states yields an 8.7× OOD lift and removes the catastrophic
 annealing collapse. This isolates a concrete compositional gap: the model can
 reuse a learned carry process across columns it has seen, but it has not learned
 the untrained high-by-high interaction purely from lower-column examples.
+
+### Addendum — full-position baseline: learned composition is real
+
+**One changed variable.** The pair-table model and all optimization settings
+were fixed. The one-short-operand training support was replaced by 190,000
+uniform random operand pairs from `0..999`; 2,000 distinct test pairs with both
+operands `100..999` were excluded from training. Thus every local digit pair
+and every output-column position occurs in training, while full input pairs
+remain held out.
+
+**Result.** Held-complete-pair exact rose steadily to **58.55% final/peak** at
+step 8,000 (155.6 s); train-batch exact was 67.6%, and test loss 0.336. This
+compares with 11.25% under the one-short curriculum and 1.30% under short-only
+training. Peak/final checkpoints are at
+`twoA6000:results_local/product_table_full_position_ood/`.
+
+**Classification.** Confirmed: the learned pair-table plus recurrent carry scan
+has a real compositional multiplication regime when it receives positional
+interaction support. It is not yet an exact algorithm—the 41.45% residual
+failure is too large—but the sharp support response makes local-product
+coverage, rather than carry recurrence, the active target for the next card.
