@@ -392,3 +392,34 @@ train exact reached 100%. This confirms that wall-clock scheduling was not the
 source of the relation failure: a calibrated step schedule can reproduce the
 temporary signal, but not retain it. Evidence:
 `twoA6000:results_local/gate1_digit_product_step_schedule_w400/`.
+
+### Addendum — pairwise product-and-carry scan: routing is insufficient
+
+**Question.** Can correct schoolbook geometry let a learned local digit-product
+and carry rule compose from small to longer operands? This is a local
+diagnostic only: random initialization, synthetic labels, and no weights or
+code path promoted to a competition submission.
+
+**One changed mechanism.** Each of nine LSD-first digit pairs passed through a
+single shared learned MLP; its feature was added to the fixed schoolbook output
+column `i + j`. A shared GRU scanned those five columns LSD to MSD and emitted
+a sixth flush digit. Geometry was fixed; pair values, carry state, and decimal
+decoding were learned. No product, modulo, division, lookup table, or
+arithmetic oracle occurs in the model.
+
+**Data / metric.** Training had all 10,000 pairs `a,b in 0..99`, zero-padded
+to three digits. The 2,000 held-out examples had both operands in `100..999`.
+The target was all six LSD-first decimal product digits, leading zeros retained;
+the metric was full six-digit exact sequence match.
+
+**Result.** A 64-wide model, seed 74, and 8,000 fixed optimizer steps (246.7 s
+on `twoA6000`) reached **0.25%** held-out exact at its peak (step 2,000) and
+**0.05%** final, while train-batch exact rose to 24–30%. Held-out loss briefly
+fell from 2.83 to 1.97, then rose to 2.32. Peak and final weights were saved.
+Evidence: `twoA6000:results_local/product_scan_length_ood/`; exact source and
+manifest: `solving/research/{pairwise_product_carry_scan.py,generate_product_scan_data.py,product_scan_length_ood_manifest.json}`.
+
+**Classification.** Refuted for this mechanism. Correct fixed column routing
+does not identify a reusable digit-product law; learned pair features still
+support a short-operand fit without length composition. The next useful gate
+is a narrow test of local-law identifiability, not full modular squaring.
