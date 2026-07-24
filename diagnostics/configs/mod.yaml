@@ -1,0 +1,22 @@
+task: mod
+seed: 0
+device: cpu
+model:
+  type: transformer
+  d_model: 128
+  n_layers: 4
+  n_heads: 4
+  d_ff: 512
+data:
+  train: data/generated/mod/train.jsonl
+  val: data/generated/mod/val_iid.jsonl
+optim:
+  lr: 3.0e-4
+  weight_decay: 0.01
+  warmup_frac: 0.05
+  epochs: 20
+  batch_size: 64
+  grad_clip: 1.0
+log_every: 20
+eval_every: 100
+out_dir: runs/mod_transformer
