@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Thin CLI for One Somn Deeper GPU box ops.
+#   osmn gpu start ubuntu@IP [--alias oneL40] [...]
+#   osmn gpu kill [--wipe] [--target ...]
+#   osmn gpu status
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+GPU="$ROOT/scripts/gpu_box"
+
+usage() {
+  cat <<'EOF'
+osmn — One Somn Deeper helpers
+
+  osmn gpu start <ssh-target> [options]
+      Bootstrap remote GPU runner (uv, clone, datasets, ssh alias, acceptance).
+      Options: --alias NAME  --skip-datasets  --skip-acceptance  --force
+
+  osmn gpu kill [--wipe] [--target ubuntu@IP] [--local-only]
+      Kill leftover train/monitor processes. --wipe deletes ~/one-layer-deeper.
+      Does not terminate the cloud VM (do that in the provider UI).
+
+  osmn gpu status [--target ubuntu@IP]
+      Show local .gpu_box.json + remote torch/GPU/process sanity.
+
+Examples:
+  osmn gpu start ubuntu@216.81.245.246
+  osmn gpu start ssh ubuntu@1.2.3.4 --alias oneL40
+  osmn gpu kill --wipe
+EOF
+}
+
+[[ $# -gt 0 ]] || { usage; exit 1; }
+cmd="$1"; shift
+
+case "$cmd" in
+  gpu)
+    [[ $# -gt 0 ]] || { usage; exit 1; }
+    sub="$1"; shift
+    case "$sub" in
+      start)  exec "$GPU/start.sh" "$@" ;;
+      kill|stop|cleanup) exec "$GPU/kill.sh" "$@" ;;
+      status|st) exec "$GPU/status.sh" "$@" ;;
+      *) echo "unknown gpu subcommand: $sub" >&2; usage; exit 1 ;;
+    esac
+    ;;
+  -h|--help|help) usage ;;
+  *) echo "unknown command: $cmd" >&2; usage; exit 1 ;;
+esac

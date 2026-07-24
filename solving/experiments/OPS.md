@@ -8,6 +8,10 @@
 | Medium | 6 |
 | Hard | 1 |
 
+**Deadline:** submissions close **August 31, 2026 10:00 PM PT** (upstream `service/competition.py`).
+
+**Upstream pin:** local `competition/` clone should be at `79f0a09` (Hard = Max T / OOD N Max T). On the GPU box: `cd ~/one-layer-deeper && git pull --ff-only` before smoke; regenerate datasets if `scripts/generate_datasets.sh` changed.
+
 When two agents share a day: split Medium (e.g. 3+3). Hard = principal only. Update `left` from CLI after submits.
 
 ## Noise
@@ -35,79 +39,72 @@ Don't `cp` the k4_ut file directly without checking `_build_scheduler` first.
 
 ## GPU box — local training, zero quota
 
-Rented Prime Intellect L40S. **Ephemeral: IP/host below only valid while this
-instance is up.** Local `benchmark.runner` runs cost nothing — use this for
-everything in `learnings/concepts/17-recurrence-generalisation.md` (wd sweep,
-T-curve, re-quantised recurrence). Only spend real quota to confirm a result on
-the actual H100 scorer.
+**Quick path (preferred):**
+
+```bash
+./scripts/osmn gpu start ubuntu@IP          # bootstrap + ssh alias + datasets
+./scripts/osmn gpu status
+./scripts/osmn gpu kill                    # stop leftover train/monitor procs
+./scripts/osmn gpu kill --wipe             # also delete ~/one-layer-deeper on box
+```
+
+Agent skill: `.cursor/skills/osmn-gpu-box/`. Kill does **not** stop cloud billing — terminate the instance in the provider UI.
+
+Current: Prime Intellect **L40S** at `216.81.245.246` (rented 2026-07-24).
+Upstream clone `~/one-layer-deeper` synced to **`79f0a09`** on 2026-07-24 (Max T scoring + regenerated Easy/Medium datasets with depth profiles).
+**Ephemeral: IP/host below only valid while this instance is up.** Local
+`benchmark.runner` runs cost nothing — use this for everything in
+`learnings/concepts/17-recurrence-generalisation.md` (wd sweep, T-curve,
+re-quantised recurrence). Only spend real quota to confirm a result on the
+actual H100 scorer.
+
+Prior L40S (`204.52.24.142`, driver CUDA 12.7 / cu126-only) is dead — do not
+reuse its “never `uv sync`” rule on this box.
 
 ### Connect
 
 ```bash
-ssh ubuntu@204.52.24.142 -p 22
+ssh ubuntu@216.81.245.246
+# or: ssh oneL40
 ```
 
-Local machine has an alias in `~/.ssh/config`: `ssh oneL40`.
+Local alias in `~/.ssh/config`: `ssh oneL40`.
 
 Cold-start sanity (before trusting the box):
 
 ```bash
 cd ~/one-layer-deeper && source .venv/bin/activate
 python3 -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"
-# expect: 2.12.1+cu126 True NVIDIA L40S
+# expect: 2.12.1+cu130 True NVIDIA L40S
 ```
 
-### Environment (already set up on this box, 2026-07-22)
+### Environment (set up 2026-07-24)
 
-Repo: `~/one-layer-deeper` (fresh clone of upstream, **not** this repo — this
-repo dropped its nested clone in `055928d`).
+Repo: `~/one-layer-deeper` (fresh clone of upstream, **not** this workspace).
 
 ```bash
 cd ~/one-layer-deeper
 source .venv/bin/activate
 ```
 
-Stack: Python 3.13.5, **torch 2.12.1+cu126** (not the pyproject default —
-see below), numpy 2.5.0, CUDA confirmed working against the box's driver
-(565.57.01, CUDA 12.7 max).
+Stack: Python 3.13.5, **torch 2.12.1+cu130**, numpy 2.5.0. Driver
+`580.126.09`, **CUDA Version: 13.0** — matches `pyproject.toml`'s default
+torch resolution, so **plain `uv sync` works** (same as box #2 A6000). Do not
+copy the old oneL40 cu126 workaround here.
 
-**Why cu126 and not the pinned default:** `pyproject.toml` pins
-`torch==2.12.1` unversioned, and `uv sync` resolves that to a CUDA 13 build
-by default. This box's driver only supports up to CUDA 12.7, so the CUDA-13
-wheel fails with `RuntimeError: CUDA driver too old`. Fixed by installing
-from the cu126 wheel index instead:
-
-```bash
-uv pip install torch==2.12.1 --index-url https://download.pytorch.org/whl/cu126
-```
-
-Do **not** run `uv sync` or bare `uv run` after this — both re-resolve
-against the (unmodified) lockfile/pyproject and will pull the cu13 build
-back in, plus a mismatched NCCL (`undefined symbol: ncclCommResume`). Always
-`source .venv/bin/activate` and invoke `python` directly instead. If the env
-ever gets into that broken mixed cu12/cu13 state, don't chase it — nuke and
-rebuild:
+Rebuild from scratch if the env is toast:
 
 ```bash
 cd ~/one-layer-deeper
-rm -rf .venv uv.lock
+rm -rf .venv
 uv venv --python 3.13.5 .venv
 source .venv/bin/activate
-uv pip install torch==2.12.1 --index-url https://download.pytorch.org/whl/cu126
-uv pip install numpy==2.5.0 fastapi httpx jsonargparse==4.49.0 "psycopg[binary]" python-multipart "uvicorn[standard]"
-uv pip install -e . --no-deps
+uv sync
+python -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"
 ```
 
-(`pyproject.toml` on the box also has two small local edits vs upstream:
-the `[[tool.uv.index]]` block is absent — don't re-add it, that's what
-caused the cu13/cu12 mixing — and `build-system.requires` is
-`setuptools>=78` not `>=80`, since only `78.1.0` is published for this
-Python. Neither edit is committed anywhere; they only exist on this box.)
-
-`modal` is intentionally not installed — it's only needed for the hosted
-deploy path, not local training. 70/77 upstream tests pass; the 7 failures
-are all `ModuleNotFoundError: No module named 'modal'` in deploy/service
-tests, harmless for local runs.
+Datasets generated 2026-07-24 (`bash scripts/generate_datasets.sh`). Acceptance
+card on box: `submissions/depth_d32_k4_ut_optsched.py`.
 
 ### Run something
 
@@ -143,12 +140,12 @@ CUDA_VISIBLE_DEVICES=0 timeout 90 python -m benchmark.runner \
 ```
 
 Known reference: d=32 K=4 on the real H100 scorer runs **96.8 steps/s**.
-This L40S measured **~145 steps/s** on the same config (2026-07-22, step
-6800→12700 in 40.7s) — faster than the H100 baseline, consistent with
-launch-bound behavior depending more on host dispatch than raw GPU
-bandwidth. If a box measures well under ~70 steps/s, something about the
-instance (vCPU allocation, noisy neighbor) is bad — don't trust its
-wall-clock numbers, get a different one.
+This L40S (2026-07-24, `depth_d32_k4_ut_optsched` on m1) measured **~148
+steps/s** (step 8600→12500 in 26.4s of wall after warmup) — in line with the
+prior L40S ~145 and faster than the H100 baseline (launch-bound at d=32). If a
+box measures well under ~70 steps/s, something about the instance (vCPU
+allocation, noisy neighbor) is bad — don't trust its wall-clock numbers, get
+a different one.
 
 ### Local-only diagnostic tooling (agent-owned, not the evaluator runner)
 

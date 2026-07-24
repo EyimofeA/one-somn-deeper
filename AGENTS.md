@@ -53,7 +53,7 @@ Workspace is a git repo. **One experiment = one commit** after `NOTE.md` (see `s
 ## Compute
 
 - **Mac** — CPU smoke, `one-layer validate`, unit tests, μ+λ / digit-count measurements.
-- **GPU box (Prime L40S)** — local Easy/Medium manifests, **zero quota**. Connect/run/rebuild: [`solving/experiments/OPS.md`](solving/experiments/OPS.md) § GPU box. **Never** `uv sync` / bare `uv run` on that box (breaks cu126 torch).
+- **GPU box (Prime L40S)** — local Easy/Medium manifests, **zero quota**. Connect/run/rebuild: [`solving/experiments/OPS.md`](solving/experiments/OPS.md) § GPU box. Current box has CUDA 13 → plain `uv sync` OK (old cu126-only L40S is gone).
 - **Competition Easy/Medium** — scored confirmation (~60 Easy / 6 Medium per UTC day).
 - **`one-layer submit`** — official H100 accuracy (requires login). Hard = hosted only.
 
@@ -74,9 +74,10 @@ only chat, not an editor.
 ## Forbidden
 
 - Math oracles (φ(N), closed-form mod exp in forward pass)
-- Hard-coded weights / answer lookup
+- Hard-coded weights / answer lookup / hard-coded forward algorithms
+- Broken autograd or CPU offload of model state
 - Auto Hard submit
-- Full ban list: `RESEARCH_PROTOCOL.md` §6
+- Full ban list: `RESEARCH_PROTOCOL.md` §6 (synced to upstream Rules @ `79f0a09`)
 
 ## Links
 
