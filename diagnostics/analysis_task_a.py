@@ -41,25 +41,36 @@ def significant_digits(x: int) -> list[int]:
 
 
 def carry_features(x: int) -> dict:
+    """All per-column arrays below have length 2n (not 2n-1): squaring an
+    n-digit number can produce a full 2n-digit result when the final carry
+    overflows past column 2n-2, so column 2n-1 (a pure carry-overflow column,
+    zero diagonal sum, zero contributing pairs) must be represented too --
+    dropping it silently zeros out the true leading digit whenever the
+    square is exactly 2n digits long."""
     d = significant_digits(x)[::-1]  # LSB-first for column math
     n = len(d)
-    # column_sum[k] = sum over i+j=k of d[i]*d[j], k in [0, 2n-2]
-    column_sum = [0] * (2 * n - 1)
-    contributions = [0] * (2 * n - 1)  # number of (i,j) pairs landing in this column
+    n_cols = 2 * n
+    column_sum = [0] * n_cols  # the raw diagonal sum BEFORE any carry is added in
+    contributions = [0] * n_cols  # number of (i,j) pairs landing in this column
+    nonzero_contributions = [0] * n_cols  # of those, how many have d[i]*d[j] != 0
     for i in range(n):
         for j in range(n):
             column_sum[i + j] += d[i] * d[j]
             contributions[i + j] += 1
+            if d[i] * d[j] != 0:
+                nonzero_contributions[i + j] += 1
 
-    carry_in = [0] * (2 * n)
-    carry_out = [0] * (2 * n)
+    carry_in = [0] * n_cols
+    carry_out = [0] * n_cols
+    digit_result = [0] * n_cols  # the actual output digit at this column: (column_sum + carry_in) % 10
     carry = 0
-    for k in range(2 * n - 1):
+    for k in range(n_cols):
         carry_in[k] = carry
         total = column_sum[k] + carry
+        digit_result[k] = total % 10
         carry = total // 10
         carry_out[k] = carry
-    carry_in[2 * n - 1] = carry  # final overflow digit(s), if any
+    assert carry == 0, "carry overflowed past the guaranteed 2n-digit bound -- should be impossible for a square"
 
     total_carries = sum(1 for c in carry_out if c > 0)
     max_carry = max(carry_out) if carry_out else 0
@@ -87,13 +98,17 @@ def carry_features(x: int) -> dict:
         "magnitude_bucket": len(str(x)) - 1,  # 0..5 -> x in [10^b, 10^(b+1))
         "column_sum": column_sum,
         "contributions": contributions,
+        "nonzero_contributions": nonzero_contributions,
+        "carry_in_by_column": carry_in,
         "carry_out_by_column": carry_out,
+        "digit_result": digit_result,
     }
 
 
 def align_column_feature_to_output(col_feature: list[int], n_sig: int) -> list[int]:
-    """Map a length-(2n-1) column-indexed feature (LSB-first, n=n_sig significant
-    digits) onto the fixed W=12 zero-padded MSB-first output positions."""
+    """Map a length-2n column-indexed feature (LSB-first, n=n_sig significant
+    digits, including the pure carry-overflow column 2n-1) onto the fixed
+    W=12 zero-padded MSB-first output positions."""
     out = [0] * W
     # output position p (MSB-first, width W) corresponds to column (W-1-p) in a
     # LSB-first, W-wide frame; the real number only occupies the low 2*n_sig-1
@@ -385,8 +400,9 @@ def main() -> None:
     n_terms_at_pos = np.zeros((n, W), dtype=int)
     for i, f in enumerate(feats):
         n_sig = f["n_digits_x"]
-        col_carry_in = [0] + f["carry_out_by_column"][:-1]  # carry INTO column k = carry OUT of column k-1
-        aligned_carry = align_column_feature_to_output([1 if c > 0 else 0 for c in col_carry_in], n_sig)
+        aligned_carry = align_column_feature_to_output(
+            [1 if c > 0 else 0 for c in f["carry_in_by_column"]], n_sig
+        )
         aligned_terms = align_column_feature_to_output(f["contributions"], n_sig)
         carry_enters[i] = aligned_carry
         n_terms_at_pos[i] = aligned_terms
