@@ -6,6 +6,8 @@ See [`RESEARCH_PROTOCOL.md`](RESEARCH_PROTOCOL.md) §5.
 
 Canonical mechanism lecture (not yet evidenced here): [`learnings/readings/one-layer-deeper-notes.md`](learnings/readings/one-layer-deeper-notes.md).
 
+**Forward design thesis (read before the next architecture pass):** [`solving/DESIGN_NEXT.md`](solving/DESIGN_NEXT.md) — form-vs-content strip-away plan, the corrected composition-wall reading (structural cliff, not error-compounding), the cubing prediction, and the learned-reduction-cell next pass.
+
 ## Open (Path D plan)
 
 | ID | Hypothesis | Test |

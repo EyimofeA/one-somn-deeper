@@ -92,6 +92,10 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 
 ## Next (Part 8 — you pick; agent implements)
 
+**Read first:** [`DESIGN_NEXT.md`](DESIGN_NEXT.md) — the current architecture thesis
+(form vs. content; learn the operation + reduction instead of hardcoding squaring;
+the true gate is one-step held-out-N).
+
 Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
 1. Measure μ+λ on local data (no GPU) — gates Path G bonus  
