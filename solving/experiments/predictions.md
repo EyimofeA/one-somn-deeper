@@ -533,3 +533,7 @@ DATE 2026-07-25
 CARD pair_n_carry_aux_e5
 CHANGE add per-column first-square carry-in/out supervision to the otherwise identical non-recurrent pair/N model.
 PREDICT exceed the 0.71% pair/N baseline and 1.00% e5 reference if carry-state identification transfers to held u,N; floor means first-square supervision does not reach modular reduction within the Easy budget.
+DATE 2026-07-25
+CARD pair_n_t1_objective_e5
+CHANGE keep the non-recurrent pair/N model fixed but stop gradients from T=2,3 examples, scaling T=1 gradients to preserve magnitude.
+PREDICT improve the latent T=1 slice enough to beat the 0.71% pair/N aggregate; failure means even the isolated one-step map remains memorization-bound.

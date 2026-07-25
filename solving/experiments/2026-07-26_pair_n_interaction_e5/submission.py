@@ -1,4 +1,4 @@
-"""Non-recurrent learned pair/N interaction model for held-X, held-N learning."""
+"""Non-recurrent pair/N model optimized only on the T=1 squaring gate."""
 
 from __future__ import annotations
 
@@ -141,7 +141,14 @@ class Model(nn.Module):
         hidden = hidden + torch.tanh(self.context_gate(context))[:, None, :]
         hidden = self.blocks[2](hidden, attention_mask)
         hidden = self.blocks[3](hidden, attention_mask)
-        return self.head(self.final_norm(hidden)), None
+        logits = self.head(self.final_norm(hidden))
+        if self.training:
+            after_t = (input_ids == T_TOKEN).cumsum(dim=1) > 0
+            t_is_one = (after_t & (input_ids == DIGIT_OFFSET + 1)).any(dim=1)
+            live = t_is_one[:, None, None].to(logits.dtype)
+            stopped = logits.detach()
+            logits = stopped + 3.0 * live * (logits - stopped)
+        return logits, None
 
 
 def build_model(spec: ModelSpec) -> Model:
