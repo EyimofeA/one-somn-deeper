@@ -19,3 +19,13 @@
   mean 0.58%.
 - Classification: refuted. Concentrating optimization on one squaring still
   memorizes its training pairs.
+
+## Multi-block supervision follow-up — Codex
+
+- Change: average shared-head logits after all four distinct blocks, giving
+  every block a short answer-gradient path; restore training on all e5 rows.
+- Run: `dc7c0746-5366-4cd2-a999-5377c43ad640`
+- Result: 1,308 steps; train exact 91.8%; test 1.1%; OOD 1.0%; mean 1.04%.
+- Classification: provisional positive, above the 0.71% parent and 1.00% UT
+  reference but inside known e5 noise. Exact replication pending.
+- Hard promotion: `de4c3c51-9b8e-4a54-a381-20efe40bf810`, launched 23:55 UTC.

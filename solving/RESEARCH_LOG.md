@@ -746,4 +746,24 @@ composition, still locally and without promoting weights to a submission.
 - **Setup:** `git pull --ff-only` in gitignored `competition/` clone; diffed README / `benchmark/runner.py` / `data/squaring_mod.py` / `service/competition.py`.
 - **Result:** Four upstream commits: (1) submission deadline Aug 31 10pm PT; (2) Rules expanded to 1–16 (trainable-param ceiling; bans on hard-coded weights/algorithms, broken autograd, CPU offload; solvers/data inspection now Rule 14); (3) scoring based on T-extrapolation — Hard ranks certified Max T then OOD N Max T on ladder {1,2,4,8,16,32,64}; Easy/Medium keep mean exact % and gain Max T diagnostics; (4) depth / ood_n depth profile generation in `squaring_mod.py` + runner certification.
 - **Next:** Treat historical Hard mean% as legacy; prefer Max T when re-submitting Hard. Local/GPU clones must pull the same pin before smoke. Specs refreshed: `solving/handoff/PRIMARY_SOURCES.md`, `learnings/concepts/{01,03,07,09,14}`, `RESEARCH_PROTOCOL.md` §6, `SCOREBOARD.md`, `STATUS.md`.
+## 2026-07-25 — Held-u, held-N one-step campaign — Codex
+
+- **Question:** Can a legal, non-recurrent model clear `u² mod N` before
+  returning to T-extrapolation?
+- **Pair/N interaction:** Four distinct Transformer blocks with learned
+  all-pairs u-digit features attending to N. e5 job `8caf7fa8`: train 94.5%,
+  test 0.4%, OOD 1.0%, mean 0.71%. **Memorization collapse.**
+- **Per-column carry auxiliary:** Same model plus first-square carry-in/out
+  supervision. e5 job `faaa00f3`: train 92.6%, test 0.4%, OOD 0.7%, mean
+  0.54%. **Refuted at Easy budget.**
+- **T=1-only objective:** Same pair/N model, gradients only from e5 T=1 rows.
+  Job `5860d424`: aggregate train 29.1%, test 0.5%, OOD 0.7%, mean 0.58%.
+  **Refuted: isolated one-step training still memorizes.**
+- **Multi-block supervision:** Average shared-head logits after every distinct
+  block. Job `dc7c0746`: train 91.8%, test 1.1%, OOD 1.0%, mean 1.04%.
+  **Provisional positive, not confirmed** because it lies inside known e5
+  noise. Exact replication was pre-registered but the service rejected it
+  while Hard was running.
+- **Hard:** Exact validated multi-block file launched at 23:55 UTC, job
+  `de4c3c51`; predicted certified Max T=0, with possible T=1 partial gain.
 

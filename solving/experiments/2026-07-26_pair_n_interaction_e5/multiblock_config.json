@@ -1,0 +1,13 @@
+{
+  "author": "Codex",
+  "card": "pair_n_multiblock_supervision_e5",
+  "dataset": "e5",
+  "easy_job_id": "dc7c0746-5366-4cd2-a999-5377c43ad640",
+  "hard_job_id": "de4c3c51-9b8e-4a54-a381-20efe40bf810",
+  "completed_steps": 1308,
+  "train_exact_final": 0.918,
+  "test_exact": 0.011,
+  "ood_exact": 0.010,
+  "mean_exact_displayed": 0.0104,
+  "replication_status": "blocked while Hard is running"
+}

@@ -1,4 +1,4 @@
-"""Non-recurrent pair/N model optimized only on the T=1 squaring gate."""
+"""Non-recurrent pair/N model with shared-head multi-block supervision."""
 
 from __future__ import annotations
 
@@ -136,19 +136,19 @@ class Model(nn.Module):
         positions = torch.arange(input_ids.shape[1], device=input_ids.device)
         hidden = self.token_embedding(input_ids) + self.position_embedding(positions)
         hidden = self.blocks[0](hidden, attention_mask)
+        stage_states = [hidden]
         hidden = self.blocks[1](hidden, attention_mask)
+        stage_states.append(hidden)
         context = self._pair_n_context(hidden, input_ids)
         hidden = hidden + torch.tanh(self.context_gate(context))[:, None, :]
         hidden = self.blocks[2](hidden, attention_mask)
+        stage_states.append(hidden)
         hidden = self.blocks[3](hidden, attention_mask)
-        logits = self.head(self.final_norm(hidden))
-        if self.training:
-            after_t = (input_ids == T_TOKEN).cumsum(dim=1) > 0
-            t_is_one = (after_t & (input_ids == DIGIT_OFFSET + 1)).any(dim=1)
-            live = t_is_one[:, None, None].to(logits.dtype)
-            stopped = logits.detach()
-            logits = stopped + 3.0 * live * (logits - stopped)
-        return logits, None
+        stage_states.append(hidden)
+        stage_logits = [
+            self.head(self.final_norm(stage)) for stage in stage_states
+        ]
+        return torch.stack(stage_logits, dim=0).mean(dim=0), None
 
 
 def build_model(spec: ModelSpec) -> Model:

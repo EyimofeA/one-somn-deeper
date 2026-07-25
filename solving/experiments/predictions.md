@@ -537,3 +537,15 @@ DATE 2026-07-25
 CARD pair_n_t1_objective_e5
 CHANGE keep the non-recurrent pair/N model fixed but stop gradients from T=2,3 examples, scaling T=1 gradients to preserve magnitude.
 PREDICT improve the latent T=1 slice enough to beat the 0.71% pair/N aggregate; failure means even the isolated one-step map remains memorization-bound.
+DATE 2026-07-25
+CARD pair_n_multiblock_supervision_e5
+CHANGE replace final-block-only logits with the mean of shared-head logits after every distinct block; architecture, data, and optimizer otherwise fixed.
+PREDICT beat the 0.71% pair/N baseline if shorter gradient paths make the arithmetic rule identifiable; floor means answer-only deep supervision is insufficient.
+DATE 2026-07-25
+CARD pair_n_multiblock_supervision_h1
+CHANGE promote the exact e5-validated multi-block-supervision file to Hard.
+PREDICT certified Max T remains 0, but T=1 partial exact accuracy may exceed the prior 0.03% Hard reference if the held-N one-step mechanism transfers; no T>1 extrapolation is expected without recurrence.
+DATE 2026-07-25
+CARD pair_n_multiblock_supervision_e5_rep1
+CHANGE exact hosted replication; no code or configuration change.
+PREDICT remain at or above 0.71% if the gain is directional; below 0.5% classifies the 1.04% run as e5 noise.
