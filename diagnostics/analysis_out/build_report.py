@@ -135,6 +135,9 @@ error_dist_chart = svg_bar_chart(bucket_names, bucket_fracs, color="blue", fmt="
 
 exact_match_frac = bucket_fracs[0]
 le1_wrong_frac = bucket_fracs[0] + bucket_fracs[1]  # 0 wrong + 1 wrong
+_largest_idx = max(range(len(bucket_fracs)), key=lambda i: bucket_fracs[i])
+largest_bucket_name = bucket_names[_largest_idx]
+largest_bucket_frac = bucket_fracs[_largest_idx]
 token_accuracy_frac = s3["trained_model"]["token_accuracy"]
 frac_contiguous = s1["frac_contiguous_given_wrong"]
 
@@ -414,9 +417,11 @@ indistinguishable numbers by construction, not a materially different held-out c
   <div class="stat-tile"><div class="value">{frac_contiguous:.1%}</div><div class="label">wrong examples: 1 contiguous error run</div></div>
 </div>
 
-<span class="tag tag-obs">Observation</span> Even corrected, the shape holds: most failures are small (one wrong digit
-is the single largest non-zero bucket) and contiguous. But note the corrected number is 7.5%, not 67.5% &mdash; most
-examples are NOT close to exact; 27.7% have 4+ wrong digits (see chart below).
+<span class="tag tag-obs">Observation</span> {largest_bucket_name} is the single largest bucket at {largest_bucket_frac:.1%}
+&mdash; most failures contain a contiguous block of {largest_bucket_name.replace(" wrong", "")} wrong middle digits,
+not digits scattered across the whole output. But most examples are NOT close to exact: the corrected &le;1-wrong
+figure is {le1_wrong_frac:.1%}, not the previously mis-typed 67.5%, and {bucket_fracs[3]:.1%} of examples have 4+
+wrong digits (see chart below).
 
 <h2>1. Error structure</h2>
 <div class="two-col">
