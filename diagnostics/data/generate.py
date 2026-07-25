@@ -124,35 +124,45 @@ def gen_square_task(out_dir: Path, scale: dict, seed: int, reverse_digits: bool)
     print(f"[square] wrote train={len(train_x)} val_iid={len(val_x)} heldout_x={len(heldout_x)} hard={len(hard_x)}")
 
 
-def sample_u_stratified(n: int, count: int, rng: random.Random) -> list[int]:
-    """Cover u < N, u near multiples of N (below/at/above), and large quotients."""
+def sample_u_stratified(n: int, count: int, rng: random.Random, exclude: set[int] | None = None) -> list[int]:
+    """Cover u < N, u near multiples of N (below/at/above), and large quotients.
+    `exclude` (if given) is a set of u values already claimed by another split
+    for this same modulus -- e.g. train's u's, when sampling val_iid/heldout_u
+    for the same n -- so the three splits never draw the same u by chance."""
     u_max = (n - 1) ** 2
     max_q = max(1, u_max // n)
+    exclude = exclude or set()
     out: set[int] = set()
     buckets = max(1, count // 5)
+
+    def add(u: int) -> None:
+        u = max(0, min(u_max, u))
+        if u not in exclude:
+            out.add(u)
+
     # u < N
     for _ in range(buckets):
-        out.add(rng.randint(0, n - 1))
+        add(rng.randint(0, n - 1))
     # near a multiple of N: pick a random quotient, offset by -2..2
     for _ in range(buckets):
         q = rng.randint(0, max_q)
-        offset = rng.randint(-2, 2)
-        u = q * n + offset
-        out.add(max(0, min(u_max, u)))
+        add(q * n + rng.randint(-2, 2))
     # large quotient
     for _ in range(buckets):
         q = rng.randint(max_q // 2, max_q)
-        r = rng.randint(0, n - 1)
-        out.add(min(u_max, q * n + r))
+        add(q * n + rng.randint(0, n - 1))
     # remainder near 0
     for _ in range(buckets):
         q = rng.randint(0, max_q)
-        out.add(min(u_max, q * n + rng.randint(0, min(3, n - 1))))
+        add(q * n + rng.randint(0, min(3, n - 1)))
     # remainder near N-1
-    while len(out) < count:
+    attempts = 0
+    max_attempts = count * 200
+    while len(out) < count and attempts < max_attempts:
+        attempts += 1
         q = rng.randint(0, max_q)
         r = n - 1 - rng.randint(0, min(3, n - 1))
-        out.add(min(u_max, max(0, q * n + r)))
+        add(q * n + r)
     return list(out)[:count]
 
 
@@ -162,15 +172,20 @@ def gen_mod_task(out_dir: Path, scale: dict, seed: int, reverse_digits: bool) ->
     pool.build(scale["n_train_moduli"], scale["n_test_moduli"])
     train_n = [n for n, _, _ in pool.train_moduli]
 
-    def rows_for(split: str, moduli: list[int], per_modulus: int, stratified: bool) -> list[dict]:
+    used_u_by_n: dict[int, set[int]] = {n: set() for n in train_n}
+
+    def rows_for(split: str, moduli: list[int], per_modulus: int, stratified: bool, track_used: bool = False) -> list[dict]:
         out = []
         idx = 0
         for n in moduli:
+            exclude = used_u_by_n.get(n) if track_used else None
             us = (
-                sample_u_stratified(n, per_modulus, rng)
+                sample_u_stratified(n, per_modulus, rng, exclude=exclude)
                 if stratified
                 else [rng.randint(0, (n - 1) ** 2) for _ in range(per_modulus)]
             )
+            if track_used and n in used_u_by_n:
+                used_u_by_n[n].update(us)
             for u in us:
                 out.append(record("mod", reverse_digits, split, idx, n=n, u=u))
                 idx += 1
@@ -178,9 +193,11 @@ def gen_mod_task(out_dir: Path, scale: dict, seed: int, reverse_digits: bool) ->
 
     per_train = max(1, scale["n_train"] // max(1, len(train_n)))
     per_diag = max(1, scale["n_diag"] // max(1, len(train_n)))
-    train_rows = rows_for("train", train_n, per_train, stratified=True)
-    val_rows = rows_for("val_iid", train_n, max(1, scale["n_val"] // max(1, len(train_n))), stratified=True)
-    heldout_u_rows = rows_for("heldout_u", train_n, per_diag, stratified=True)  # same N, fresh u's (rng not reset -> disjoint in practice)
+    # train/val_iid/heldout_u share the same moduli (train_n) -- track claimed u's
+    # per modulus across all three calls so none of them can draw the same u.
+    train_rows = rows_for("train", train_n, per_train, stratified=True, track_used=True)
+    val_rows = rows_for("val_iid", train_n, max(1, scale["n_val"] // max(1, len(train_n))), stratified=True, track_used=True)
+    heldout_u_rows = rows_for("heldout_u", train_n, per_diag, stratified=True, track_used=True)
 
     test_n = [n for n, _, _ in pool.test_modulus_moduli]
     sp.assert_no_modulus_overlap(pool.train_moduli, pool.test_modulus_moduli)

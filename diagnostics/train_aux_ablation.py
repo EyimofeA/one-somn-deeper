@@ -38,6 +38,7 @@ import csv
 import itertools
 import json
 import math
+import hashlib
 import subprocess
 import time
 from pathlib import Path
@@ -47,6 +48,7 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
 
+import repro
 from analysis_task_a import align_column_feature_to_output, carry_features
 from data.dataset import load_jsonl
 from data.tokens import IGNORE_INDEX, NUM_SQUARE_DIGITS, PAD
@@ -67,11 +69,17 @@ GRAD_CLIP = 1.0
 D_MODEL, N_LAYERS, N_HEADS, D_FF, DROPOUT = 128, 4, 4, 512, 0.0
 
 CONDITIONS = {
-    "baseline": dict(use_carry=False, use_diag=False, anneal=False),
-    "carry": dict(use_carry=True, use_diag=False, anneal=False),
-    "diagonal": dict(use_carry=False, use_diag=True, anneal=False),
-    "both": dict(use_carry=True, use_diag=True, anneal=False),
-    "both_annealed": dict(use_carry=True, use_diag=True, anneal=True),
+    "baseline": dict(use_carry=False, use_diag=False, anneal=False, shuffle_carry=False),
+    "carry": dict(use_carry=True, use_diag=False, anneal=False, shuffle_carry=False),
+    "diagonal": dict(use_carry=False, use_diag=True, anneal=False, shuffle_carry=False),
+    "both": dict(use_carry=True, use_diag=True, anneal=False, shuffle_carry=False),
+    "both_annealed": dict(use_carry=True, use_diag=True, anneal=True, shuffle_carry=False),
+    # A2 control: same backbone/head/weight/optimizer/budget/params/data as
+    # "carry", but each training example's carry TARGET is replaced by
+    # another example's (a fixed derangement, one per seed, applied only to
+    # the training set -- validation is always the real digit-prediction
+    # task and never touches carry targets at all).
+    "carry_shuffled": dict(use_carry=True, use_diag=False, anneal=False, shuffle_carry=True),
 }
 
 LEARNING_CURVE_FIELDS = [
@@ -126,6 +134,16 @@ def compute_aux_targets(rows: list[dict]) -> dict[str, np.ndarray]:
         carry_out[i] = align_column_feature_to_output(f["carry_out_by_column"], n_sig)
         diag_sum[i] = align_column_feature_to_output(f["column_sum"], n_sig)
     return {"carry_in": carry_in, "carry_out": carry_out, "diag_sum": diag_sum}
+
+
+def derangement(n: int, rng: np.random.Generator) -> np.ndarray:
+    """A permutation of range(n) with zero fixed points (perm[i] != i for
+    all i), fully resampled until valid -- cheap at this scale (P(no fixed
+    points) -> 1/e, so ~e ~= 2.7 resamples expected)."""
+    while True:
+        perm = rng.permutation(n)
+        if not np.any(perm == np.arange(n)):
+            return perm
 
 
 class SquareAuxDataset(Dataset):
@@ -263,14 +281,26 @@ def main() -> None:
     ap.add_argument("--out-root", default="runs/aux_ablation")
     ap.add_argument("--total-steps", type=int, default=None, help="override TOTAL_STEPS, for smoke tests only")
     ap.add_argument("--eval-every", type=int, default=None, help="override EVAL_EVERY, for smoke tests only")
+    ap.add_argument("--d-model", type=int, default=None, help="override D_MODEL (A3 scale check)")
+    ap.add_argument("--n-layers", type=int, default=None, help="override N_LAYERS (A3 scale check)")
+    ap.add_argument("--n-heads", type=int, default=None, help="override N_HEADS (A3 scale check)")
+    ap.add_argument("--d-ff", type=int, default=None, help="override D_FF (A3 scale check)")
     args = ap.parse_args()
     cond = CONDITIONS[args.condition]
 
-    global TOTAL_STEPS, EVAL_EVERY
+    global TOTAL_STEPS, EVAL_EVERY, D_MODEL, N_LAYERS, N_HEADS, D_FF
     if args.total_steps is not None:
         TOTAL_STEPS = args.total_steps
     if args.eval_every is not None:
         EVAL_EVERY = args.eval_every
+    if args.d_model is not None:
+        D_MODEL = args.d_model
+    if args.n_layers is not None:
+        N_LAYERS = args.n_layers
+    if args.n_heads is not None:
+        N_HEADS = args.n_heads
+    if args.d_ff is not None:
+        D_FF = args.d_ff
 
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
@@ -289,6 +319,17 @@ def main() -> None:
     }
     print("normalization stats (mean, std), computed once from train, reused for all conditions/seeds:")
     print(json.dumps(norm_stats, indent=2))
+
+    shuffle_perm = None
+    if cond["shuffle_carry"]:
+        rng = np.random.default_rng(args.seed)
+        shuffle_perm = derangement(len(train_rows), rng)
+        assert not np.any(shuffle_perm == np.arange(len(train_rows))), "derangement has a fixed point"
+        train_aux = dict(train_aux)  # shallow copy so val_aux (computed above) is untouched
+        train_aux["carry_in"] = train_aux["carry_in"][shuffle_perm]
+        train_aux["carry_out"] = train_aux["carry_out"][shuffle_perm]
+        print(f"A2 shuffled-carry-label control: derangement applied to {len(train_rows)} training rows' "
+              f"carry_in/carry_out targets (fixed for this seed, val untouched, diag_sum untouched)")
 
     train_ds = SquareAuxDataset(train_rows, train_aux, norm_stats)
     val_ds = SquareAuxDataset(val_rows, val_aux, norm_stats)
@@ -324,14 +365,18 @@ def main() -> None:
         "lr": LR, "weight_decay": WEIGHT_DECAY, "warmup_frac": WARMUP_FRAC, "grad_clip": GRAD_CLIP,
         "d_model": D_MODEL, "n_layers": N_LAYERS, "n_heads": N_HEADS, "d_ff": D_FF, "dropout": DROPOUT,
         "use_carry_aux": cond["use_carry"], "use_diag_aux": cond["use_diag"], "anneal": cond["anneal"],
+        "shuffle_carry": cond["shuffle_carry"],
+        "shuffle_perm_sha256": (hashlib.sha256(shuffle_perm.tobytes()).hexdigest() if shuffle_perm is not None else None),
         "aux_base_weight": 1.0, "n_params_total": n_params, "n_params_backbone": n_params_baseline,
         "n_params_aux_heads": n_params - n_params_baseline, "norm_stats": norm_stats,
         "eval_train_subset_size": EVAL_TRAIN_SUBSET_SIZE, "early_stop_patience_evals": EARLY_STOP_PATIENCE,
         "train_example_count": len(train_rows), "device": args.device,
+        "repro": repro.capture(),
     }
     (out_dir / "run_config.json").write_text(json.dumps(run_info, indent=2))
     print("RUN CONFIG:", json.dumps(run_info, indent=2))
 
+    run_wallclock_start = time.monotonic()
     step = 0
     best_acc = -1.0
     evals_since_improvement = 0
@@ -430,6 +475,7 @@ def main() -> None:
     report = {
         "run_config": run_info, "stopped_early": stopped_early, "best_val_exact_match": best_acc,
         "final_step": step, "final_val_metrics": final_val_metrics, "post_hoc_analysis": final_analysis,
+        "wallclock_seconds": time.monotonic() - run_wallclock_start,
     }
     (out_dir / "eval_report.json").write_text(json.dumps(report, indent=2))
     print(f"done. condition={args.condition} seed={args.seed} best_val_exact={best_acc:.4f} "

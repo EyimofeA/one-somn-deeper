@@ -24,6 +24,7 @@ import yaml
 from torch import nn
 from torch.utils.data import DataLoader, Subset
 
+import repro
 from data.dataset import DiagnosticDataset
 from data.tokens import OUTPUT_WIDTH
 from models.recurrent_workspace import RecurrentWorkspaceModel
@@ -228,6 +229,7 @@ def main() -> None:
         "model_class": type(model).__name__,
         "model_type": model_type,
         "device": device,
+        "repro": repro.capture(),
     }
     print("RUN CONFIG:", json.dumps(run_info, indent=2))
 
