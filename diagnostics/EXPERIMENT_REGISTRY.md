@@ -11,6 +11,26 @@ committed summary of record via `analysis_out/`).
 Status values: `planned` (not yet run, GPU not started as of 2026-07-25) |
 `running` | `done`.
 
+**Deviation applied to all of A1/A2/A3/B2 (2026-07-25, explicit user request):**
+`batch_size` raised from the established 64 to **512** for every run below,
+and all runs launched concurrently on one GPU rather than sequentially.
+Measured throughput at batch=64/512/2048 on this box: 5,188 / 20,049 /
+29,416 examples/sec -- 512 was chosen as a real utilization gain (~4x)
+without the steep diminishing returns seen at 2048 (+46% over 512 for 4x
+the batch). Learning rate was **not** re-tuned for the larger batch (no
+linear/sqrt scaling applied) -- explicitly out of scope for this pass per
+the user ("don't care about reproducibility like that, want to be fast").
+This means: (a) none of the runs below are directly comparable to the
+original 15-run ablation's batch=64 numbers (`carry`/`both`/`diagonal`/
+`baseline` at 71.4%/80.1%/11.1%/0.75% final exact match) without accounting
+for the batch-size change, and (b) convergence may be somewhat suppressed
+relative to what a batch-matched LR would give, since a fixed LR typically
+under-drives a larger batch. Each experiment below is still internally
+valid (all conditions within one experiment share the same batch size), and
+A1 in particular is entirely self-contained (compares its own step-50k
+checkpoint against its own step-100k checkpoint within the same run, not
+against the original ablation's numbers).
+
 ---
 
 ## A1-carry: carry-aux, seed 1, single continuous run to 100k steps
