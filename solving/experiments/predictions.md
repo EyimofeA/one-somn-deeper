@@ -347,3 +347,131 @@ RESULT:     partially confirmed, usefully refuted. The decay is schedule-
             not the missing piece. Metrics: twoA6000:/tmp/soft_digit_wallclock_
             monitor.jsonl; peak ckpt twoA6000:/tmp/soft_digit_wallclock_monitor_peak.pt.
 ```
+
+### 2026-07-24
+
+```
+CARD:       learned_reduction_cell — fixed N=323, held-out x, T=1
+            (solving/DESIGN_NEXT.md OPT 1, rung 1)
+CHANGE:     new mechanism: learned schoolbook long division (recurrent
+            remainder + attention over N's digits + learned quotient head +
+            learned subtract), fed by the already-validated multiply cell's
+            UNTRUNCATED product (previously discarded above digit 4). Only
+            the final remainder is supervised; every quotient guess along
+            the sweep is unsupervised. Normal (step-count) schedule, wall-
+            clock deferred per user instruction. 453,298 params.
+PREDICT:    good generalization but poor train/test — i.e. expect a small
+            train-test gap (whatever it learns should transfer to held-out
+            x cleanly, no memorization gap) even if both numbers end up low,
+            because the credit-assignment problem (division-shaped, only
+            final-answer supervision) is much harder than the multiply
+            cell's direct supervision.
+RESULT:     confirmed the "poor train/test" half, refuted the "good
+            generalization" half. Train 100%, test PEAKED 5.17% at step
+            4,800 then decayed to 1.72% (exactly the digit-marginal
+            baseline) by step 25,000 — not a small clean gap, a full
+            decay to floor. dump_predictions.py on the peak checkpoint:
+            80% of wrong predictions were still valid quadratic residues
+            mod 323 (plausible but misassigned), avg |true-pred|~120 (not
+            close numeric misses). Composed supervision (squaring+
+            reduction, final remainder only) does not clearly separate
+            which stage fails. See isolation tests below, same day.
+```
+
+### 2026-07-24 (b)
+
+```
+CARD:       pure_squaring_cell — multiply-and-carry cell ONLY, no modulus
+            at all (competition token format, N present but unused, label
+            = plain x², 8 digits, x uniform 0-9999, held-out x)
+CHANGE:     isolates squaring from reduction entirely, to find the true
+            ceiling of the validated multiply/carry mechanism at full
+            output width (previous "97.8%" figure was on a truncated
+            mod-10^4/4-digit sub-problem only).
+PREDICT:    [agent-proposed under delegated authority] full 8-digit
+            squaring should land well below 97.8% given the truncated
+            figure was on an easier sub-problem, but should still clear
+            the digit-marginal floor by a wide margin if the mechanism
+            generalizes at all.
+RESULT:     confirmed — train 100%, test STABLE at 18.65% peak (step
+            13,500) / 18.25% final (step 18,800), small gap, no decay.
+            Implied per-digit accuracy ≈ 0.18^(1/8) ≈ 81%. This is the
+            corrected ceiling for full-width unmoded squaring: the
+            mechanism generalizes for real, but 97.8% was never the
+            right number for the actual competition-scale problem.
+```
+
+### 2026-07-24 (c)
+
+```
+CARD:       pure_reduction_cell v1 — reduction mechanism ONLY (learned
+            quotient+subtract over attention to N's digits), P fed
+            directly from tokens (arbitrary 8-digit int, NOT x² of
+            anything), N=323 fixed, label = P mod N, fully supervised,
+            P sampled uniformly, held-out P.
+CHANGE:     isolates reduction from squaring entirely and from the
+            composed test's weak (final-remainder-only) supervision —
+            P is a direct, fully-observed input this time.
+PREDICT:    [agent-proposed under delegated authority] decoupled from
+            squaring's unreliability and given full direct supervision,
+            reduction should generalize better than the composed test's
+            5.17% peak.
+RESULT:     refuted, and worse than the composed test — peak only 0.60%
+            (steps 700-2,000) on 2,000 held-out P, BELOW the 1.72%
+            digit-marginal baseline. Train reached ~100%. Clean, isolated
+            negative result: uniform-P reduction, even fully decoupled
+            and fully supervised, shows essentially no generalization.
+```
+
+### 2026-07-24 (d)
+
+```
+CARD:       pure_reduction_cell v2 — same task as v1, three changes
+            bundled per explicit user delegation ("Option 3"): P sampled
+            from the reciprocal/log-uniform distribution (arXiv
+            2506.23679 appendix A.1, derived and verified this session)
+            instead of uniformly, weight_decay 0.01 -> 1.0, budget 600s
+            -> 1800s (max_steps 80,000).
+CHANGE:     three variables at once (bundled deliberately for speed per
+            user instruction, not the usual one-variable rule).
+PREDICT:    [agent-proposed under delegated authority] the reciprocal
+            distribution's small-P skew plus a real grokking-scale wd
+            and budget should meaningfully beat v1's ≤0.60% floor; unclear
+            whether the improvement would be a genuine reduction skill or
+            an artifact of oversampling trivially-small P (P<N needs no
+            real reduction).
+RESULT:     confirmed, decisively, and NOT a trivial-P artifact. Full
+            80,000-step run completed in 1,251.9s (well under the 1,800s
+            budget, ran to convergence on its own schedule). Peak 78.45%
+            at step 26,200. Unlike every other experiment this session,
+            it did NOT decay afterward — final window (steps 78,000-
+            80,000) fluctuates 69-84%, holding a stable noisy plateau
+            through step 80,000 (60k more steps with no collapse).
+            Confound-checked at an earlier checkpoint (step 12,000, 64.5%
+            aggregate): only 65/2,000 (3.2%) of test P values are <323
+            (trivial, because the generator deduplicates sampled values,
+            capping small-P representation near the true 323-value
+            ceiling) — split-by-difficulty gave 95.4% on the trivial
+            P<323 subset and 75.5% on the genuine P>=323 subset. This is
+            the best and most stable positive result of the session: pure
+            modular reduction (no squaring) generalizes for real, given
+            (a) an operand distribution that emphasizes small values the
+            way real x²-derived P's would concentrate near multiples of N,
+            and (b) grokking-scale weight decay/budget. See
+            solving/research/pure_reduction_cell_v2.py and
+            generate_pure_reduction_v2.py.
+
+DATE:       2026-07-25
+CARD:       fable_tcap_adamw
+CHANGE:     Merge last Fable Hard arch with timeout-safe T handling:
+            parse T from prompt; TRAIN_LOOP_CAP=16 in train(); full
+            min(T,64) in eval(); swap Muon→AdamW+wallclock;
+            eval_batch_size=1024. File:
+            solving/submissions/fable_tcap_adamw/submission.py
+PREDICT:    Medium m5 completes without wall-clock death; Hard h1 at least
+            accepts and finishes (no timeout like muon 5b363135). Exact% /
+            Max T TBD — primary check is completion under new depth profile.
+RESULT:     Medium m5 0.25% mean (aa699c3f; test 0.20 / ood 0.30). Hard h1
+            succeeded — no timeout — score 0.03% mean exact (f4246e70).
+            Timeout hypothesis confirmed; learning still at floor.
+```

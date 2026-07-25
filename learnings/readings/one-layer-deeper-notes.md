@@ -316,6 +316,9 @@ Learn the input-output map directly. Add width until it fits.
 - Fails by Result 1 and Result 3.
 - Memorizes the training set. Scores near zero on held-out depth.
 - **This is what the leaderboard is doing.** The top score is 0.40 percent.
+  *(Lecture-era note. As of upstream `79f0a09` / 2026-07-24, Hard ranks by
+  certified Max T / OOD N Max T, not mean exact %. Treat percent figures in
+  this lecture as historical practice-tier / pre-change context.)*
 - **Reject.**
 
 ### Path B — Algebraic solver

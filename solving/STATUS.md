@@ -1,8 +1,14 @@
 # Status (living)
 
-Last updated: 2026-07-23. Hard shot #2 `99c4d7d3` scored **0.05%** (test
-0.1%/ood_t 0/ood_n_t 0). The current local mechanism work is a bounded,
-non-submission carry diagnostic; its results are below.
+Last updated: 2026-07-24. **Upstream competition pin moved `2c56499` → `79f0a09`:**
+Hard now ranks by certified Max T then OOD N Max T (ladder 1…64); Rules renumbered
+with explicit bans on hard-coded weights/algorithms, broken autograd, and CPU
+offload; submissions close Aug 31 10pm PT. Specs refreshed under
+`solving/handoff/PRIMARY_SOURCES.md` + `learnings/concepts/{01,03,07,09,14}`.
+
+Hard shot #2 `99c4d7d3` scored **0.05%** mean exact (test 0.1%/ood_t 0/ood_n_t 0)
+under the *old* Hard metric — not the current Max T rank key. The current local
+mechanism work is a bounded, non-submission carry diagnostic; its results are below.
 
 ## Current research state: digit recurrence gates
 
@@ -49,6 +55,26 @@ The exact A6000 logs are `results_local/gate1_quantized_carry_scan/monitor.jsonl
 `results_local/gate1_soft_prototype_8k/monitor.jsonl`, plus
 `results_local/gate1_continuous_carry_8k/monitor.jsonl` on `twoA6000`.
 
+## Squaring/reduction isolation (2026-07-24, separate from the ladder below)
+
+Composed `learned_reduction_cell` (squaring+reduction, final-remainder-only
+supervision) peaked 5.17% then decayed to 1.72% floor — inconclusive on which
+stage fails. Isolated each stage separately, real-token format, N=323 fixed:
+
+| Test | Data | Result | Meaning |
+|---|---|---|---|
+| pure squaring | x uniform 0-9999, held-out x, label=plain x² (no mod) | **18.65% peak / 18.25% final, stable** | full 8-digit squaring ceiling (not 97.8% — that was mod-10⁴ truncated); mechanism generalizes, small gap |
+| pure reduction v1 | P uniform 8-digit, held-out P, label=P mod 323, direct supervision | **0.60% peak**, below 1.72% floor | reduction alone, uniform P, does not generalize at all |
+| pure reduction v2 | P via reciprocal/log-uniform sampling (arXiv 2506.23679 A.1), wd=1.0, 80k steps | **78.45% peak; final window 69-84%, no decay through 80k steps** | reduction generalizes for real once P's distribution skews small (matching what x² actually produces relative to N) and given grokking-scale wd/budget; confound-checked (95.4% on trivial P<N, 75.5% on genuine P>=N) |
+
+**Reading:** modular reduction is not inherently unlearnable — it was unlearnable
+under uniform-P sampling. The composed cell's poor result and pure_reduction v1's
+near-zero result likely share this cause. Next step if this thread continues:
+retry the composed `learned_reduction_cell` test but check whether P (the
+squaring cell's raw output) is already reciprocal-shaped in practice, or feed it
+reciprocal-sampled P directly into the composed pipeline's reduction half.
+Full detail: `experiments/predictions.md` 2026-07-24 (a)-(d).
+
 ## P2 grokking ladder (the active gate — see `claude code fable/FULL_TRANSCRIPT.md`)
 
 | Rung | Setup (all T=1) | Status |
@@ -68,6 +94,8 @@ We are **#11 at 0.03%** (`mof` / Claude Hard run). Top is **0.40%** (az). Nobody
 Protocol: [`../RESEARCH_PROTOCOL.md`](../RESEARCH_PROTOCOL.md).  
 Lecture: [`../learnings/readings/one-layer-deeper-notes.md`](../learnings/readings/one-layer-deeper-notes.md).  
 Path D short form: [`../learnings/concepts/18-lipschitz-quantize-progressive.md`](../learnings/concepts/18-lipschitz-quantize-progressive.md).
+
+Full sequential competition runs: [`experiments/SCOREBOARD.md`](experiments/SCOREBOARD.md) (also live canvas).
 
 ## Best scored cards (learned line)
 

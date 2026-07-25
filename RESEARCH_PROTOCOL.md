@@ -117,7 +117,9 @@ Audit rule: once a week, open a random `learnings/` file and check one citation.
 
 ## 6. The ban list
 
-Copy rule 10 of the competition into `CLAUDE.md` word for word. Add this.
+Keep the competition README Rules 6–9 and 14–16 in sync (pinned upstream
+`79f0a09` as of 2026-07-24). Older text that said “copy Rule 10” is stale —
+solver / data-inspection language is now Rule 14.
 
 **Forbidden in `submission.py`:**
 
@@ -125,10 +127,14 @@ Copy rule 10 of the competition into `CLAUDE.md` word for word. Add this.
 - Any use of the modulus operator on the task values.
 - Any import of `sympy`, `gmpy2`, `math.pow` with three arguments.
 - Any inspection of the dataset.
-- Any custom training loop.
-- Model state above 500,000,000 elements.
+- Any custom training loop / participant-controlled backward.
+- Hard-coded weights (`torch.load`, non-random solved init) or a hard-coded
+  forward algorithm (Rules 6–7).
+- Broken autograd / CPU offload of model state (Rules 8–9).
+- Model state above 500,000,000 elements (Rule 5 ceiling).
+- Exploiting the Hard metric recorder (Rule 16).
 
-Add a pre-submit grep for `pow(`, `%`, `sympy`, `gmpy`, `pow_mod`.
+Add a pre-submit grep for `pow(`, `%`, `sympy`, `gmpy`, `pow_mod`, `torch.load`.
 
 An agent writes a solver when it is stuck. It will look innocent. It will arrive
 as a "reference implementation for testing" and then drift into the submission.

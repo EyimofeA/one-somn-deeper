@@ -1,0 +1,7 @@
+{
+  "card": "depth_d32_k4_ut_ste",
+  "date": "2026-07-24",
+  "change": "STE discrete token bottleneck between UT loops (from optsched parent); PR #1 chatgpt/ste-token-bottleneck",
+  "active": true,
+  "metrics_glob": "solving/experiments/metrics/depth_d32_k4_ut_ste*.jsonl"
+}

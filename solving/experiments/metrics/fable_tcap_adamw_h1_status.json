@@ -1,0 +1,212 @@
+{
+  "created_at": "2026-07-24T23:56:28.741191+00:00",
+  "dataset_id": "h1",
+  "dataset_label": "H1 \u00b7 Hidden evaluation",
+  "deadline_at": "2026-07-25T01:39:29.681039+00:00",
+  "filename": "submission.py",
+  "finished_at": "2026-07-25T00:56:47.627090+00:00",
+  "id": "f4246e70-bf81-4730-8211-ffc4c6a78c5a",
+  "manifest_name": "h100_hard_h1.json",
+  "metrics_available": true,
+  "metrics_url": "/api/submissions/f4246e70-bf81-4730-8211-ffc4c6a78c5a/metrics",
+  "modal_call_id": "fc-01KYB8Y7G9RFDP3JYPY63DFV1S",
+  "result": {
+    "depth_profile": {
+      "depth_factor": 0,
+      "ladder": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64
+      ],
+      "max_certified_time_steps": null,
+      "ood_n_ladder": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64
+      ],
+      "ood_n_max_certified_time_steps": null,
+      "ood_n_profile_available": true
+    },
+    "manifest": "squaring-mod-hard-h1",
+    "score": {
+      "mean_exact_accuracy": 0.00033328667799793375,
+      "mean_loss": 2.2639734530533526,
+      "num_measurements": 3,
+      "primary_metric": "mean_exact_accuracy"
+    },
+    "seeds": [
+      {
+        "completed_training_steps": 88166,
+        "depth_profile": {
+          "depth_factor": 0,
+          "ladder": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32,
+            64
+          ],
+          "max_certified_time_steps": null,
+          "ood_n_ladder": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32,
+            64
+          ],
+          "ood_n_max_certified_time_steps": null,
+          "ood_n_rungs": [
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 1
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 2
+            },
+            {
+              "correct_examples": 1,
+              "exact_accuracy": 0.0013020833721384406,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 4
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 8
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 16
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 32
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 64
+            }
+          ],
+          "rungs": [
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 1
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 2
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 4
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 8
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 16
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 32
+            },
+            {
+              "correct_examples": 0,
+              "exact_accuracy": 0.0,
+              "example_count": 768,
+              "status": "failed",
+              "time_steps": 64
+            }
+          ]
+        },
+        "evaluation": {
+          "ood_n_t": {
+            "correct_examples": 4,
+            "exact_accuracy": 0.0003999200159968006,
+            "example_count": 10002,
+            "loss": 2.2751871261474124
+          },
+          "ood_t": {
+            "correct_examples": 4,
+            "exact_accuracy": 0.0003999200159968006,
+            "example_count": 10002,
+            "loss": 2.326380767357292
+          },
+          "test": {
+            "correct_examples": 2,
+            "exact_accuracy": 0.00020002000200020003,
+            "example_count": 9999,
+            "loss": 2.190352465655353
+          }
+        },
+        "evaluation_batch_size": 1024,
+        "evaluation_budget_seconds": 1800.0,
+        "evaluation_seconds": 7.203378819000136,
+        "final_train_loss": 2.152198314666748,
+        "max_training_steps": 1000000,
+        "model_state_elements": 1597952,
+        "optimizer_state_elements_after_first_step": 3195930,
+        "seed": 74,
+        "training_batch_size": 256,
+        "training_seconds": 3600.012174685
+      }
+    ]
+  },
+  "run_created_at": "2026-07-24T23:56:28.741191+00:00",
+  "run_id": "6a261ba1-9d43-4459-b714-8cd1fa61930e",
+  "started_at": "2026-07-24T23:56:29.681039+00:00",
+  "status": "succeeded",
+  "submitter": "mof",
+  "tier": "hard"
+}

@@ -54,15 +54,31 @@ OOD splits use **T values not seen during training** (and sometimes unseen x or 
 
 OOD measures whether the model learned compositional squaring or merely memorized training tables.
 
-## Scoring: exact token accuracy
+## Scoring
+
+### Easy / Medium (practice)
 
 The evaluator scores **exact token accuracy** per example:
 
 - Every output digit token must match the label exactly.
 - An example is correct only if **all** answer tokens are right (row-wise all-or-nothing).
-- Final score = mean exact accuracy across evaluation splits and seeds.
+- **Score = mean exact accuracy** across the fixed evaluation splits and seeds.
+- The same run also reports diagnostic **Max T** and **OOD N Max T** on the
+  ladder T ∈ {1, 2, 4, 8, 16, 32, 64}; those do **not** change the Easy/Medium score.
 
-Partial credit does not exist — one wrong digit fails the whole answer.
+### Hard (leaderboard)
+
+Hard no longer ranks by mean exact accuracy (upstream `79f0a09`, 2026-07-24).
+
+- Ladder rungs: T = 1, 2, 4, 8, 16, 32, 64.
+- A rung is **solved** only if **every** example at that T is exactly correct.
+- **Certified Max T** = largest T such that that rung **and every lower rung** are solved (consecutive prefix).
+- **Max T** = certified depth on fresh prompts whose modulus identities appeared in training.
+- **OOD N Max T** = same certification on unseen modulus identities (nearby bit lengths).
+- Leaderboard order: Max T ↓, then OOD N Max T ↓, then earlier submission time.
+- Exact-accuracy split metrics remain private diagnostics and do **not** set Hard rank.
+
+Partial credit does not exist on either track — one wrong digit fails the whole example (and breaks certification for that rung).
 
 ## Evaluator φ(N) shortcut (forbidden for us)
 
@@ -85,5 +101,6 @@ This is fast and exact but requires the trapdoor. **We must not use φ(N), facto
 
 ## Competition tiers
 
-- **Easy / Medium** — public datasets, practice; bidirectional attention over prompt.
-- **Hard** — private hidden evaluator; leaderboard ranking uses best Hard run only.
+- **Easy / Medium** — public datasets, practice; bidirectional attention over prompt; score = mean exact accuracy (Max T diagnostics also reported).
+- **Hard** — private hidden evaluator; public leaderboard ranks by certified Max T then OOD N Max T (not mean exact %).
+- **Deadline:** submissions close **August 31, 2026 at 10:00 PM PT** (`competition/service/competition.py`).

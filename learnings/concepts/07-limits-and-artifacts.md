@@ -8,7 +8,9 @@
 | Medium | **600s** | 300s | **6** |
 | Hard | **3600s** | 1800s | **1** |
 
-Persistent model state ≤ **500,000,000** elements. Submission file ≤ **256 KiB**.
+Persistent model state ≤ **500,000,000** elements (README Rule 5, 2026-07-24 wording: at most 500,000,000 **trainable** parameters; persistent buffers and frozen state still count toward the model-state ceiling). Submission file ≤ **256 KiB**.
+
+**Submission deadline:** August 31, 2026 at 10:00 PM PT — service rejects submits at/after that instant (`competition/service/competition.py`).
 
 ## Do we get a model / checkpoint back?
 

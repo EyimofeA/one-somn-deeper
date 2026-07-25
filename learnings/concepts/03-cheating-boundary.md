@@ -1,22 +1,26 @@
 # Cheating boundary — what is / is not allowed
 
-Sources: competition [README](https://github.com/tilde-research/one-layer-deeper) + website rules + `submission_validation.py`. Discord beta chat is summarized in [`14-discord-beta-meta.md`](14-discord-beta-meta.md) — useful, not always binding.
+Sources: competition [README](https://github.com/tilde-research/one-layer-deeper) @ `79f0a09` + website rules + `submission_validation.py`. Discord beta chat is summarized in [`14-discord-beta-meta.md`](14-discord-beta-meta.md) — useful, not always binding.
+
+Rule numbers below match the **2026-07-24** README (rules 1–16). Older notes that say “Rule 10 = solvers” are stale — solvers / data inspection are now **Rule 14**.
 
 ## Forbidden (ban / invalid score territory)
 
-- **Math oracles in the forward pass** — φ(N), factoring N, CRT, closed-form `pow(x, 2**T, N)` as the “model”
-- **Hard-coded weights** — `torch.load` of a solved checkpoint; non-random init that is already a solved circuit
-- **Hard-coded algorithm in the forward pass** — README rule 03: outputs must come from the *learned* model. Discord examples that organizers treat as cheats: one-hot digit arithmetic FFN lookup tables chained into exact `r² mod N` for T steps; programmatic solvers with a tiny “learned” shim
-- **Inspecting / shipping the training set** from inside the submission; reading dataset files at eval time
-- **Custom training loop / your own backward** — evaluator owns one-forward / one-backward
-- **CPU offloading** to dodge the GPU budget
+- **Math oracles in the forward pass** — φ(N), factoring N, CRT, closed-form `pow(x, 2**T, N)` as the “model” (Rules 7–8 + 14)
+- **Hard-coded weights** — `torch.load` of a solved checkpoint; non-random init that is already a solved circuit (**Rule 6**)
+- **Hard-coded algorithm in the forward pass** — outputs must come from the *learned* model (**Rule 7**). Discord examples that organizers treat as cheats: one-hot digit arithmetic FFN lookup tables chained into exact `r² mod N` for T steps; programmatic solvers with a tiny “learned” shim
+- **Broken autograd / non-end-to-end learning** — final logits must stay on the autograd graph with an unbroken gradient path from loss to the predicting parameters (**Rule 8**)
+- **CPU offloading** — model state and computation must stay on GPU throughout train/eval (**Rule 9**)
+- **Inspecting / shipping the training set** from inside the submission; reading dataset files at eval time (**Rule 14**)
+- **Custom training loop / your own backward** — evaluator owns one-forward / one-backward (**Rule 14**)
+- **Manifest overrides** (**Rule 14**)
+- **Exploiting Hard metric recording** (**Rule 16**)
+- **Importing** repo `model` / `optim` / `data` packages or installing extra packages at runtime (**Rule 2**)
 - **Data augmentation** on Hard (leaderboard) runs — stated in Discord and added to website rules
-- **Exploiting Hard metric recording**
-- **Importing** repo `model` / `optim` / `data` packages or installing extra packages at runtime
 
 ## Allowed (and expected)
 
-- Any **architecture** under ≤500M persistent params (shared weights count once)
+- Any **architecture** under ≤500M model-state ceiling — **trainable params** are capped; persistent buffers and frozen state still count (**Rule 5**)
 - **Recurrence / loops / ACT / routing / memory tokens**
 - **Optimizer + LR schedule** via `OptimizerBundle`
 - **Custom loss** `(logits, labels, aux) → scalar` (evaluator still does backward)
@@ -35,7 +39,7 @@ Sources: competition [README](https://github.com/tilde-research/one-layer-deeper
 
 ## Easy 100% ≠ research win
 
-Discord consensus: Easy/Medium can be solved exactly with designed weights / solvers. Public Hard LB tops are tiny exact-% after resets. Our sandbox optimizes for **learned** depth/composition that might transfer to Hard — not for Easy vanity 100%.
+Discord consensus: Easy/Medium can be solved exactly with designed weights / solvers. Public Hard LB tops are tiny after resets; ranking is now **certified Max T**, not mean exact %. Our sandbox optimizes for **learned** depth/composition that might transfer to Hard — not for Easy vanity 100%.
 
 ## Evaluator privilege (not cheating for them)
 

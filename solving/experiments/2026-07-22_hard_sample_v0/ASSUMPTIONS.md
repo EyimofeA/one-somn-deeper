@@ -12,7 +12,9 @@ Sample Hard-oriented card. Not scored. Not a claim that this beats the board.
 | F4 | Evaluator owns loop; `forward` → `(logits, auxiliary)`; optional `training_loss`. |
 | F5 | Hard: 3600s train, 1800s eval, 1 accepted attempt/UTC day, H100. |
 | F6 | Easy/Medium public practice uses digit prompts with markers N/X/T (TOKEN_IDS). |
-| F7 | Rule 10 bans task-specific solvers / dataset inspection / custom train loops. |
+| F7 | Rule 14 (was Rule 10 pre-`79f0a09`) bans task-specific solvers / dataset inspection / custom train loops / manifest overrides. Rules 6–9 additionally ban hard-coded weights, hard-coded forward algorithms, broken autograd, and CPU offload. |
+| F8 | Hard ranks by certified Max T then OOD N Max T on T∈{1,2,4,8,16,32,64} (consecutive 100%-exact prefix); mean exact % is diagnostic only. Easy/Medium still score mean exact %. |
+| F9 | Submission deadline: August 31, 2026 10:00 PM PT. |
 
 ## ASSUMPTION (ours — may be wrong)
 

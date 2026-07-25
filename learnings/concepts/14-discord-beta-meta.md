@@ -6,7 +6,8 @@ Working digest of organizer + participant chat (pasted 2026-07-21). Not a rules 
 
 | Claim | Source |
 |-------|--------|
-| Deadline TBD; “likely end of August” | Mark Saroufim, 2026-07-19 |
+| **Submission deadline: August 31 at 10:00 PM PT** (hard cutoff; service rejects later submits) | Upstream README + `service/competition.py` @ `79f0a09` (2026-07-24) |
+| Earlier Discord: deadline TBD; “likely end of August” | Mark Saroufim, 2026-07-19 (superseded by the pinned deadline above) |
 | Teams allowed | Mark |
 | Submissions private during; public when competition concludes | Mark |
 | Winners may be asked to open-source for repro; case-by-case | Mark |

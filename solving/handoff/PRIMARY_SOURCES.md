@@ -1,12 +1,14 @@
 # One Layer Deeper — Primary-sources handoff packet
-Compiled 2026-07-22. Contains primary sources and raw logged metrics only.
-Sources: [onelayerdeeper.ai](https://onelayerdeeper.ai), [onelayerdeeper.ai/problem](https://onelayerdeeper.ai/problem), [tilde-research/one-layer-deeper](https://github.com/tilde-research/one-layer-deeper) (local clone `competition/`), `one-layer leaderboard` CLI, `solving/experiments/metrics/*.jsonl`.
+Compiled 2026-07-22; **rules/scoring refreshed 2026-07-24** against upstream `79f0a09` (`Updating scoring to be based on extrapolation in T`). Contains primary sources and raw logged metrics only.
+Sources: [onelayerdeeper.ai](https://onelayerdeeper.ai), [onelayerdeeper.ai/problem](https://onelayerdeeper.ai/problem), [tilde-research/one-layer-deeper](https://github.com/tilde-research/one-layer-deeper) (local clone `competition/` @ `79f0a09`), `one-layer leaderboard` CLI, `solving/experiments/metrics/*.jsonl`.
+
+**Upstream delta since previous pin `2c56499`:** submission deadline (Aug 31 10pm PT); Rules renumbered 5–16 (trainable-param ceiling; bans on hard-coded weights/algorithms, broken autograd, CPU offload); Hard ranks by consecutive certified Max T then OOD N Max T on ladder T=1,2,4,8,16,32,64 (Easy/Medium still score mean exact accuracy; Max T fields are diagnostic there).
 
 ## 1. Competition rules and Hard-tier recurrence warning
 
 ### 1.1 Rules text from upstream README (`competition/README.md`, section “Rules” through “Compute tiers”)
 
-Verbatim copy of README headings `## Rules`, `### Submission contract`, and `### Compute tiers` (through the paragraph before `## CLI`). Outer fence uses four backticks so the nested submission-contract Python fence stays intact.
+Verbatim copy of README headings `## Rules`, `### Submission contract`, and `### Compute tiers` (through the paragraph before `## CLI`), taken from upstream `79f0a09`. Outer fence uses four backticks so the nested submission-contract Python fence stays intact.
 
 ````markdown
 ## Rules
@@ -15,13 +17,18 @@ Verbatim copy of README headings `## Rules`, `### Submission contract`, and `###
 2. The submission must be self-contained. It may import the public `benchmark` API and pinned evaluator dependencies, but it may not depend on repository `model` or `optim` modules, extra files, package installation, or external services.
 3. Participant code defines the model, optimizer bundle, optional learning-rate scheduler, optional loss, training and evaluation batch sizes, and maximum training steps. Recurrence, adaptive computation, and depth curricula are allowed.
 4. The evaluator fixes data, sampling, the one-forward/one-backward loop, gradient clipping, optimizer cadence, seeds, deadline, final evaluation, and aggregation. Participants may choose the training and evaluation batch size and a lower maximum step count; evaluator ceilings still apply.
-5. The model may contain at most 500,000,000 scalar parameters and persistent buffers. Shared state counts once; frozen state still counts.
-6. Optimizer state, activations, and temporary workspace may use remaining VRAM. OOM or timeout fails the run.
-7. Easy provides 60 H100 training seconds, Medium 600 seconds, and Hard 3,600 seconds. Model construction, submission import, and compilation consume the budget.
-8. A custom training loss receives final logits, labels, and the model's auxiliary output and returns one differentiable finite scalar. The evaluator performs backward.
-9. Each final checkpoint is evaluated once with a separate time budget equal to half its training allowance. The evaluator uses fixed loss and exact accuracy, and the score is mean exact accuracy across fixed evaluation splits and seeds.
-10. Data inspection, task-specific solvers, custom training loops, participant-controlled backward passes, and manifest overrides are not allowed.
-11. The metric recorded for a Hard run must not be exploited. Any attempt to exploit it will result in an immediate ban.
+5. The model may contain at most 500,000,000 trainable parameters. Shared state counts once; persistent buffers and frozen state still count toward the model-state ceiling.
+6. No hard-coded weights. Trainable weights must use a random initialization and be updated during training. For example, `torch.load` is not allowed.
+7. No hard-coded algorithm in the forward pass. Outputs must be produced by the learned model.
+8. End-to-end learning only. Final logits must be produced entirely by the submitted model from its inputs and learned PyTorch state, with all input-dependent computation inside the autograd graph and an unbroken gradient path from the loss to the parameters responsible for the prediction.
+9. Everything stays on the GPU. Model state and computation must remain on the GPU throughout training and evaluation; CPU offloading is not allowed.
+10. Optimizer state, activations, and temporary workspace may use remaining VRAM. OOM or timeout fails the run.
+11. Easy provides 60 H100 training seconds, Medium 600 seconds, and Hard 3,600 seconds. Model construction, submission import, and compilation consume the budget.
+12. A custom training loss receives final logits, labels, and the model's auxiliary output and returns one differentiable finite scalar. The evaluator performs backward.
+13. Each final checkpoint is evaluated once with a separate time budget equal to half its training allowance. Easy and Medium score mean exact accuracy. Hard ranks by the largest consecutively certified T on fresh prompts using modulus identities seen during training, then breaks ties by the largest consecutively certified T on unseen modulus identities. Both use T=1,2,4,8,16,32,64; every example in a rung must be exactly correct, and certification must form a consecutive prefix.
+14. Data inspection, task-specific solvers, custom training loops, participant-controlled backward passes, and manifest overrides are not allowed.
+15. Repeated rule-breaking will get you banned. We still encourage creativity: discussing possible loopholes on Discord or testing one in a submission won't get you banned.
+16. The metric recorder for a Hard run must not be exploited. Any attempt to exploit it will result in an immediate ban.
 
 Depth is deliberately unconstrained. Fixed stacks, tied recurrence, iterative refinement, routing, adaptive halting, memory tokens, and parameter-free work are all valid if the model-state ceiling is respected. A deeper forward completes fewer optimizer updates under the same clock.
 
@@ -75,6 +82,12 @@ private hidden evaluator.
 - **Hard:** dataset `h1`, 3,600 training seconds, 1 accepted attempt per UTC day.
 
 Easy and Medium are practice tiers. The public leaderboard ranks only each participant's best successful Hard submission. Failed evaluations count after acceptance; authentication and validation rejections do not. Source and detailed results remain private.
+
+Easy and Medium expose the same `Max T` and `OOD N Max T` fields as Hard, using the common T=1,2,4,8,16,32,64 ladder. Each profile remains specific to its dataset: Max T evaluates modulus identities used by the training dataset, while OOD N Max T evaluates unseen identities at nearby dataset-scale modulus sizes. These practice-tier profiles are diagnostic and do not change their exact-accuracy scores.
+
+Hard leaderboard rows report two certified depth values over private hidden profiles. **Max T** measures familiar problem families, while **OOD N Max T** measures held-out problem families. The evaluator details and data remain private.
+
+A value is the largest T for which that rung and every lower rung have 100% exact-example accuracy. The leaderboard ranks by Max T, then OOD N Max T, then earlier submission time. Exact-accuracy measurements and individual rung results remain private diagnostics and do not affect Hard ranking.
 ````
 
 ### 1.2 Problem page text (https://onelayerdeeper.ai/problem) — Hard recurrence warning
@@ -93,7 +106,11 @@ x0 = x mod N
 xt = xt−1² mod N
 y = xT = x^(2^T) mod N
 
+Historical problem-page text (captured 2026-07-22; **superseded for Hard ranking** by upstream README @ `79f0a09`):
+
 Hard equally averages exact accuracy on its hidden test, held-out-depth, and jointly held-out modulus/depth splits across seeds. Easy and Medium equally average test and their merged out-of-distribution split.
+
+Current Hard ranking (README Compute tiers, 2026-07-24): Max T then OOD N Max T on consecutive 100%-exact rungs of T∈{1,2,4,8,16,32,64}; exact-accuracy measurements are private diagnostics and do not affect Hard ranking. Easy/Medium still score mean exact accuracy; they also expose Max T / OOD N Max T as diagnostics.
 ```
 
 
@@ -112,6 +129,8 @@ Hard equally averages exact accuracy on its hidden test, held-out-depth, and joi
 ## 2. Evaluator / harness interface sources
 
 Paths relative to the upstream clone root (`competition/` locally).
+
+> **Stale-dump warning (2026-07-24):** large verbatim dumps below were captured against pre-`79f0a09` tree. Prefer live files under `competition/` for `benchmark/runner.py` (depth-profile certification), `data/squaring_mod.py` (depth / ood_n depth splits), and `service/competition.py` (deadline). Re-dump before trusting line-level citations.
 
 ### `benchmark/api.py`
 

@@ -731,3 +731,19 @@ composition, still locally and without promoting weights to a submission.
 - **Classification:** Refuted. Although the numeric relation is symmetric, the
   ordered serial fold uses orientation-specific learned features. Do not tie
   the table for this mechanism.
+
+## 2026-07-24 — PR #1 STE token bottleneck (Easy e5 + Medium m5)
+
+**Question:** Does forcing each UT loop (except last) through a discrete vocab STE snap+re-embed beat continuous residual UT (`depth_d32_k4_ut_optsched`)?
+**What we did:** Reviewed/validated PR #1 `chatgpt/ste-token-bottleneck`; L40S smoke; hosted e5 + m5.
+**Result:** [SOURCED] e5 mean **0.50%** (test 0.70 / ood 0.30, 2521 steps) vs UT K4 e5 **1.00%**. m5 mean **0.17%** (test 0.10 / ood 0.20, 58525 steps) ≈ optsched m5 0.17–0.20%. Jobs `92e064ea` / `fac54972`.
+**Dead ends:** Mid-loop full-sequence token snap does not improve e5 or m5 under this recipe.
+**Lesson:** Discrete bottleneck between tied loops is legal and trains, but this form is not an Easy/Medium win vs continuous UT.
+**Promote?:** No — keep as negative card; do not merge as active shortlist without a different bottleneck design.
+
+### 2026-07-24 — Upstream competition sync `2c56499` → `79f0a09`
+- **Hypothesis:** Specs and handoff packet still describe the pre-change evaluator (mean-exact Hard rank, old rule numbering).
+- **Setup:** `git pull --ff-only` in gitignored `competition/` clone; diffed README / `benchmark/runner.py` / `data/squaring_mod.py` / `service/competition.py`.
+- **Result:** Four upstream commits: (1) submission deadline Aug 31 10pm PT; (2) Rules expanded to 1–16 (trainable-param ceiling; bans on hard-coded weights/algorithms, broken autograd, CPU offload; solvers/data inspection now Rule 14); (3) scoring based on T-extrapolation — Hard ranks certified Max T then OOD N Max T on ladder {1,2,4,8,16,32,64}; Easy/Medium keep mean exact % and gain Max T diagnostics; (4) depth / ood_n depth profile generation in `squaring_mod.py` + runner certification.
+- **Next:** Treat historical Hard mean% as legacy; prefer Max T when re-submitting Hard. Local/GPU clones must pull the same pin before smoke. Specs refreshed: `solving/handoff/PRIMARY_SOURCES.md`, `learnings/concepts/{01,03,07,09,14}`, `RESEARCH_PROTOCOL.md` §6, `SCOREBOARD.md`, `STATUS.md`.
+
