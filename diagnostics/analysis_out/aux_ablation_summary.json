@@ -1,0 +1,6354 @@
+{
+  "conditions": {
+    "baseline": {
+      "n_params_total": 799626,
+      "n_params_backbone": 799626,
+      "n_params_aux_heads": 0,
+      "use_carry_aux": false,
+      "use_diag_aux": false,
+      "anneal": false,
+      "best_val_exact_match": {
+        "mean": 0.008266666666666667,
+        "std": 0.0010598742063723098,
+        "values": [
+          0.0081,
+          0.0073,
+          0.0094
+        ]
+      },
+      "final_val_exact_match": {
+        "mean": 0.007533333333333334,
+        "std": 0.0011015141094572202,
+        "values": [
+          0.0076,
+          0.0064,
+          0.0086
+        ]
+      },
+      "final_val_token_accuracy": {
+        "mean": 0.7673333333333333,
+        "std": 0.006879907339492276,
+        "values": [
+          0.7595583333333333,
+          0.7698083333333333,
+          0.7726333333333333
+        ]
+      },
+      "final_train_exact_match": {
+        "mean": 0.013,
+        "std": 0.0013228756555322954,
+        "values": [
+          0.014,
+          0.0135,
+          0.0115
+        ]
+      },
+      "steps_per_sec": {
+        "mean": 174.76446907424568,
+        "std": 3.5362341513348943,
+        "values": [
+          170.7085311744508,
+          176.3838088672994,
+          177.20106718098685
+        ]
+      },
+      "per_position_accuracy": {
+        "0": {
+          "mean": 0.9998333333333334,
+          "std": 0.00020816659994659034,
+          "values": [
+            0.9999,
+            1.0,
+            0.9996
+          ]
+        },
+        "1": {
+          "mean": 0.9992333333333333,
+          "std": 0.00020816659994659034,
+          "values": [
+            0.9993,
+            0.9994,
+            0.999
+          ]
+        },
+        "2": {
+          "mean": 0.9921,
+          "std": 0.0005567764362829907,
+          "values": [
+            0.9922,
+            0.9915,
+            0.9926
+          ]
+        },
+        "3": {
+          "mean": 0.9262,
+          "std": 0.009713907555664697,
+          "values": [
+            0.9162,
+            0.9268,
+            0.9356
+          ]
+        },
+        "4": {
+          "mean": 0.535,
+          "std": 0.15689725937695664,
+          "values": [
+            0.3555,
+            0.646,
+            0.6035
+          ]
+        },
+        "5": {
+          "mean": 0.12093333333333334,
+          "std": 0.009862217465323578,
+          "values": [
+            0.1108,
+            0.1215,
+            0.1305
+          ]
+        },
+        "6": {
+          "mean": 0.13876666666666668,
+          "std": 0.004818021724041242,
+          "values": [
+            0.1443,
+            0.1355,
+            0.1365
+          ]
+        },
+        "7": {
+          "mean": 0.49616666666666664,
+          "std": 0.09183731993766657,
+          "values": [
+            0.5969,
+            0.4171,
+            0.4745
+          ]
+        },
+        "8": {
+          "mean": 0.9998,
+          "std": 0.00017320508075686865,
+          "values": [
+            0.9996,
+            0.9999,
+            0.9999
+          ]
+        },
+        "9": {
+          "mean": 0.9999666666666667,
+          "std": 5.7735026918956215e-05,
+          "values": [
+            1.0,
+            1.0,
+            0.9999
+          ]
+        },
+        "10": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "11": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "accuracy_by_carry_in_bucket": {
+        "0": {
+          "mean": 0.9891564679563101,
+          "std": 0.0023871939277604237,
+          "values": [
+            0.9911172522700356,
+            0.986498223450454,
+            0.9898539281484405
+          ]
+        },
+        "1-4": {
+          "mean": 0.8763959808927689,
+          "std": 0.006249808632684873,
+          "values": [
+            0.8816339976939549,
+            0.8694778454949761,
+            0.8780760994893757
+          ]
+        },
+        "5-9": {
+          "mean": 0.7601927150210165,
+          "std": 0.009159811383083655,
+          "values": [
+            0.750337470779969,
+            0.76179501530965,
+            0.7684456589734303
+          ]
+        },
+        "10-19": {
+          "mean": 0.5549227499582109,
+          "std": 0.02284933655987978,
+          "values": [
+            0.5286911669890393,
+            0.5704921555985386,
+            0.5655849272870549
+          ]
+        },
+        "20+": {
+          "mean": 0.3054448871181939,
+          "std": 0.016905396217903847,
+          "values": [
+            0.2871845949535193,
+            0.3205511288180611,
+            0.30859893758300133
+          ]
+        }
+      },
+      "convergence_seed0": [
+        {
+          "step": 1000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 2000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 3000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 4000,
+          "val_exact_match": 0.0003,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 5000,
+          "val_exact_match": 0.0002,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 6000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 7000,
+          "val_exact_match": 0.0006,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 8000,
+          "val_exact_match": 0.0006,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 9000,
+          "val_exact_match": 0.0008,
+          "train_exact_match": 0.002,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 10000,
+          "val_exact_match": 0.0006,
+          "train_exact_match": 0.002,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 11000,
+          "val_exact_match": 0.0006,
+          "train_exact_match": 0.0015,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 12000,
+          "val_exact_match": 0.001,
+          "train_exact_match": 0.0025,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 13000,
+          "val_exact_match": 0.0011,
+          "train_exact_match": 0.0015,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 14000,
+          "val_exact_match": 0.0009,
+          "train_exact_match": 0.0025,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 15000,
+          "val_exact_match": 0.0013,
+          "train_exact_match": 0.002,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 16000,
+          "val_exact_match": 0.0014,
+          "train_exact_match": 0.0015,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 17000,
+          "val_exact_match": 0.0014,
+          "train_exact_match": 0.003,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 18000,
+          "val_exact_match": 0.0021,
+          "train_exact_match": 0.003,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 19000,
+          "val_exact_match": 0.0015,
+          "train_exact_match": 0.0035,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 20000,
+          "val_exact_match": 0.0026,
+          "train_exact_match": 0.004,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 21000,
+          "val_exact_match": 0.0029,
+          "train_exact_match": 0.0025,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 22000,
+          "val_exact_match": 0.003,
+          "train_exact_match": 0.0025,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 23000,
+          "val_exact_match": 0.0028,
+          "train_exact_match": 0.003,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 24000,
+          "val_exact_match": 0.0038,
+          "train_exact_match": 0.002,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 25000,
+          "val_exact_match": 0.0042,
+          "train_exact_match": 0.005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 26000,
+          "val_exact_match": 0.0049,
+          "train_exact_match": 0.006,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 27000,
+          "val_exact_match": 0.0051,
+          "train_exact_match": 0.005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 28000,
+          "val_exact_match": 0.0041,
+          "train_exact_match": 0.0045,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 29000,
+          "val_exact_match": 0.0049,
+          "train_exact_match": 0.005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 30000,
+          "val_exact_match": 0.0036,
+          "train_exact_match": 0.0045,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 31000,
+          "val_exact_match": 0.0045,
+          "train_exact_match": 0.006,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 32000,
+          "val_exact_match": 0.0061,
+          "train_exact_match": 0.0075,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 33000,
+          "val_exact_match": 0.0048,
+          "train_exact_match": 0.008,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 34000,
+          "val_exact_match": 0.0056,
+          "train_exact_match": 0.0065,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 35000,
+          "val_exact_match": 0.0068,
+          "train_exact_match": 0.0085,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 36000,
+          "val_exact_match": 0.0058,
+          "train_exact_match": 0.011,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 37000,
+          "val_exact_match": 0.0069,
+          "train_exact_match": 0.009,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 38000,
+          "val_exact_match": 0.0053,
+          "train_exact_match": 0.012,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 39000,
+          "val_exact_match": 0.0068,
+          "train_exact_match": 0.013,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 40000,
+          "val_exact_match": 0.0077,
+          "train_exact_match": 0.01,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 41000,
+          "val_exact_match": 0.0066,
+          "train_exact_match": 0.013,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 42000,
+          "val_exact_match": 0.0073,
+          "train_exact_match": 0.015,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 43000,
+          "val_exact_match": 0.0077,
+          "train_exact_match": 0.0105,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 44000,
+          "val_exact_match": 0.0077,
+          "train_exact_match": 0.0135,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 45000,
+          "val_exact_match": 0.0081,
+          "train_exact_match": 0.012,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 46000,
+          "val_exact_match": 0.0079,
+          "train_exact_match": 0.0155,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 47000,
+          "val_exact_match": 0.0077,
+          "train_exact_match": 0.0125,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 48000,
+          "val_exact_match": 0.0074,
+          "train_exact_match": 0.013,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 49000,
+          "val_exact_match": 0.0079,
+          "train_exact_match": 0.0135,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 50000,
+          "val_exact_match": 0.0076,
+          "train_exact_match": 0.014,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0
+        }
+      ],
+      "convergence_all_seeds": [
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0003
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0002
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0006
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0006
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0008
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0006
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0006
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.001
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0011
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0009
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.0013
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.0014
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.0014
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.0021
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.0015
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.0026
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.0029
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.003
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.0028
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.0038
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.0042
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.0049
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.0051
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.0041
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.0049
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.0036
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.0045
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.0061
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.0048
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.0056
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.0068
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.0058
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.0069
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.0053
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.0068
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.0077
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.0066
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.0073
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.0077
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.0077
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.0081
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.0079
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.0077
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.0074
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.0079
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.0076
+          }
+        ],
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0002
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0003
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0006
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0009
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0005
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0009
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.001
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0012
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.0015
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.0018
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.0021
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.002
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.0024
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.0033
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.0025
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.0029
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.0023
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.0033
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.0029
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.0024
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.0038
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.0042
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.0037
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.0056
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.0046
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.0058
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.0046
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.0052
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.0051
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.0059
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.0061
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.0048
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.0066
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.0058
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.0058
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.0062
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.0058
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.0061
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.0059
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.0073
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.0063
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.0066
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.007
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.0064
+          }
+        ],
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0003
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0004
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0003
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0009
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0015
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0013
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.001
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.0014
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.0018
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.0017
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.0021
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.003
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.0023
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.0034
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.0027
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.0034
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.0038
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.0048
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.005
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.0047
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.0056
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.0053
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.0061
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.0054
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.0062
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.0046
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.0063
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.0083
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.0074
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.0075
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.0071
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.0076
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.0065
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.0086
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.0088
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.0075
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.0091
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.0089
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.009
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.0094
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.0084
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.0088
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.0086
+          }
+        ]
+      ]
+    },
+    "carry": {
+      "n_params_total": 799884,
+      "n_params_backbone": 799626,
+      "n_params_aux_heads": 258,
+      "use_carry_aux": true,
+      "use_diag_aux": false,
+      "anneal": false,
+      "best_val_exact_match": {
+        "mean": 0.7147333333333333,
+        "std": 0.06066978929692547,
+        "values": [
+          0.6451,
+          0.7562,
+          0.7429
+        ]
+      },
+      "final_val_exact_match": {
+        "mean": 0.7140333333333333,
+        "std": 0.06019255214171711,
+        "values": [
+          0.6451,
+          0.7562,
+          0.7408
+        ]
+      },
+      "final_val_token_accuracy": {
+        "mean": 0.9710444444444445,
+        "std": 0.0068430537232480396,
+        "values": [
+          0.9633,
+          0.976275,
+          0.9735583333333333
+        ]
+      },
+      "final_train_exact_match": {
+        "mean": 0.8193333333333334,
+        "std": 0.04905184332248215,
+        "values": [
+          0.7655,
+          0.8615,
+          0.831
+        ]
+      },
+      "steps_per_sec": {
+        "mean": 167.69904931579802,
+        "std": 2.49150361299082,
+        "values": [
+          166.19925657243706,
+          166.32278563970044,
+          170.57510573525659
+        ]
+      },
+      "per_position_accuracy": {
+        "0": {
+          "mean": 0.9998333333333334,
+          "std": 5.7735026918956215e-05,
+          "values": [
+            0.9998,
+            0.9999,
+            0.9998
+          ]
+        },
+        "1": {
+          "mean": 0.9990333333333333,
+          "std": 0.0004509249752822972,
+          "values": [
+            0.9995,
+            0.999,
+            0.9986
+          ]
+        },
+        "2": {
+          "mean": 0.9914333333333333,
+          "std": 0.0014742229591664046,
+          "values": [
+            0.9909,
+            0.9931,
+            0.9903
+          ]
+        },
+        "3": {
+          "mean": 0.9555,
+          "std": 0.0030512292604784686,
+          "values": [
+            0.9525,
+            0.9554,
+            0.9586
+          ]
+        },
+        "4": {
+          "mean": 0.9339666666666667,
+          "std": 0.008804733575374833,
+          "values": [
+            0.925,
+            0.9426,
+            0.9343
+          ]
+        },
+        "5": {
+          "mean": 0.8990666666666667,
+          "std": 0.03446539327112538,
+          "values": [
+            0.8593,
+            0.9203,
+            0.9176
+          ]
+        },
+        "6": {
+          "mean": 0.8932666666666667,
+          "std": 0.029905573616523955,
+          "values": [
+            0.859,
+            0.9141,
+            0.9067
+          ]
+        },
+        "7": {
+          "mean": 0.9804666666666667,
+          "std": 0.009184951460586673,
+          "values": [
+            0.9736,
+            0.9909,
+            0.9769
+          ]
+        },
+        "8": {
+          "mean": 0.9999666666666667,
+          "std": 5.7735026918956215e-05,
+          "values": [
+            1.0,
+            1.0,
+            0.9999
+          ]
+        },
+        "9": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "10": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "11": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "accuracy_by_carry_in_bucket": {
+        "0": {
+          "mean": 0.9995525727069351,
+          "std": 0.00026872717274194495,
+          "values": [
+            0.999249901302803,
+            0.9996446900908014,
+            0.9997631267272009
+          ]
+        },
+        "1-4": {
+          "mean": 0.9893263053862625,
+          "std": 0.0037461556553163035,
+          "values": [
+            0.9850436501400098,
+            0.9919947290396969,
+            0.9909405369790809
+          ]
+        },
+        "5-9": {
+          "mean": 0.9754277373544487,
+          "std": 0.00568282875198787,
+          "values": [
+            0.9689526882428473,
+            0.9795871333091891,
+            0.9777433905113094
+          ]
+        },
+        "10-19": {
+          "mean": 0.946080187214939,
+          "std": 0.010756575332936972,
+          "values": [
+            0.933806146572104,
+            0.9538648900351028,
+            0.9505695250376102
+          ]
+        },
+        "20+": {
+          "mean": 0.8526449756529437,
+          "std": 0.038326247061199956,
+          "values": [
+            0.8107569721115537,
+            0.8859561752988048,
+            0.8612217795484728
+          ]
+        }
+      },
+      "convergence_seed0": [
+        {
+          "step": 1000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0443611666560173,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 2000,
+          "val_exact_match": 0.0001,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.018796373158693314,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 3000,
+          "val_exact_match": 0.0002,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.012752076610922813,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 4000,
+          "val_exact_match": 0.0007,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.01296274270862341,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 5000,
+          "val_exact_match": 0.0005,
+          "train_exact_match": 0.002,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.014346741139888763,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 6000,
+          "val_exact_match": 0.002,
+          "train_exact_match": 0.001,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.013662915676832199,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 7000,
+          "val_exact_match": 0.0018,
+          "train_exact_match": 0.003,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.012225091457366943,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 8000,
+          "val_exact_match": 0.0032,
+          "train_exact_match": 0.0075,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.013792461715638638,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 9000,
+          "val_exact_match": 0.006,
+          "train_exact_match": 0.007,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.012724942527711391,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 10000,
+          "val_exact_match": 0.0104,
+          "train_exact_match": 0.015,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.013645279221236706,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 11000,
+          "val_exact_match": 0.0198,
+          "train_exact_match": 0.0205,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.01249982975423336,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 12000,
+          "val_exact_match": 0.0277,
+          "train_exact_match": 0.033,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.011805295944213867,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 13000,
+          "val_exact_match": 0.0511,
+          "train_exact_match": 0.0615,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.010997878387570381,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 14000,
+          "val_exact_match": 0.0502,
+          "train_exact_match": 0.049,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.011813103221356869,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 15000,
+          "val_exact_match": 0.0722,
+          "train_exact_match": 0.086,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.009043890051543713,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 16000,
+          "val_exact_match": 0.0903,
+          "train_exact_match": 0.1045,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.010362787172198296,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 17000,
+          "val_exact_match": 0.0937,
+          "train_exact_match": 0.1015,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.008929416537284851,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 18000,
+          "val_exact_match": 0.1442,
+          "train_exact_match": 0.17,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.008535221219062805,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 19000,
+          "val_exact_match": 0.15,
+          "train_exact_match": 0.1685,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.008963378146290779,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 20000,
+          "val_exact_match": 0.1399,
+          "train_exact_match": 0.1605,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.008137542754411697,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 21000,
+          "val_exact_match": 0.2091,
+          "train_exact_match": 0.2415,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0070482948794960976,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 22000,
+          "val_exact_match": 0.2201,
+          "train_exact_match": 0.2475,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.007777082733809948,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 23000,
+          "val_exact_match": 0.233,
+          "train_exact_match": 0.27,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.006969602312892675,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 24000,
+          "val_exact_match": 0.2415,
+          "train_exact_match": 0.2805,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.007262744940817356,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 25000,
+          "val_exact_match": 0.2691,
+          "train_exact_match": 0.308,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.007612802088260651,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 26000,
+          "val_exact_match": 0.283,
+          "train_exact_match": 0.318,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.007217271253466606,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 27000,
+          "val_exact_match": 0.301,
+          "train_exact_match": 0.329,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0064022475853562355,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 28000,
+          "val_exact_match": 0.3112,
+          "train_exact_match": 0.3495,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.006929897703230381,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 29000,
+          "val_exact_match": 0.3568,
+          "train_exact_match": 0.418,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005591654684394598,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 30000,
+          "val_exact_match": 0.3659,
+          "train_exact_match": 0.4255,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005477931350469589,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 31000,
+          "val_exact_match": 0.3681,
+          "train_exact_match": 0.4175,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005843987222760916,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 32000,
+          "val_exact_match": 0.3723,
+          "train_exact_match": 0.4395,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005840232130140066,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 33000,
+          "val_exact_match": 0.4187,
+          "train_exact_match": 0.4845,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005235460586845875,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 34000,
+          "val_exact_match": 0.3955,
+          "train_exact_match": 0.4745,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005305038299411535,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 35000,
+          "val_exact_match": 0.4383,
+          "train_exact_match": 0.5185,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005573195405304432,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 36000,
+          "val_exact_match": 0.4564,
+          "train_exact_match": 0.53,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005054737441241741,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 37000,
+          "val_exact_match": 0.481,
+          "train_exact_match": 0.5565,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005026116501539946,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 38000,
+          "val_exact_match": 0.4664,
+          "train_exact_match": 0.5325,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005520577542483807,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 39000,
+          "val_exact_match": 0.5312,
+          "train_exact_match": 0.6055,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005651294253766537,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 40000,
+          "val_exact_match": 0.5486,
+          "train_exact_match": 0.644,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005501590669155121,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 41000,
+          "val_exact_match": 0.5738,
+          "train_exact_match": 0.6725,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005086133256554604,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 42000,
+          "val_exact_match": 0.5505,
+          "train_exact_match": 0.648,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0043443613685667515,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 43000,
+          "val_exact_match": 0.5723,
+          "train_exact_match": 0.704,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005109573248773813,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 44000,
+          "val_exact_match": 0.6043,
+          "train_exact_match": 0.7125,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.004324562381953001,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 45000,
+          "val_exact_match": 0.6169,
+          "train_exact_match": 0.7335,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.004622712265700102,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 46000,
+          "val_exact_match": 0.6212,
+          "train_exact_match": 0.745,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005324534140527248,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 47000,
+          "val_exact_match": 0.6279,
+          "train_exact_match": 0.7435,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.004973395727574825,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 48000,
+          "val_exact_match": 0.6401,
+          "train_exact_match": 0.764,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.004966110922396183,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 49000,
+          "val_exact_match": 0.6433,
+          "train_exact_match": 0.768,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0043730353936553,
+          "train_aux_diag_mse": 0.0
+        },
+        {
+          "step": 50000,
+          "val_exact_match": 0.6451,
+          "train_exact_match": 0.7655,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005266946740448475,
+          "train_aux_diag_mse": 0.0
+        }
+      ],
+      "convergence_all_seeds": [
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0002
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0007
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0005
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.002
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0018
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0032
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.006
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0104
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0198
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0277
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0511
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0502
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.0722
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.0903
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.0937
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.1442
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.15
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.1399
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.2091
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.2201
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.233
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.2415
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.2691
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.283
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.301
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.3112
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.3568
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.3659
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.3681
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.3723
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.4187
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.3955
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.4383
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.4564
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.481
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.4664
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.5312
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.5486
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.5738
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.5505
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.5723
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.6043
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.6169
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.6212
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.6279
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.6401
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.6433
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.6451
+          }
+        ],
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0005
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0011
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0025
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0031
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0051
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0093
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0196
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0415
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0611
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0797
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0966
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.1335
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.1537
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.1651
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.2031
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.171
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.2342
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.2718
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.1948
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.2899
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.3224
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.2545
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.3652
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.413
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.3825
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.3858
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.3716
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.4429
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.4479
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.5218
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.5259
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.499
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.5545
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.58
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.6323
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.5958
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.6569
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.612
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.6757
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.6986
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.7085
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.7334
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.7294
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.743
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.7543
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.7561
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.7562
+          }
+        ],
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0002
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0008
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0018
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.005
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0122
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0205
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.036
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.049
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.054
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.1078
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.107
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.1392
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.1258
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.1648
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.1727
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.1695
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.1924
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.2364
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.2302
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.2369
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.2673
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.2618
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.3257
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.2979
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.3162
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.3764
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.3822
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.4015
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.4458
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.4033
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.427
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.4752
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.4956
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.4971
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.5488
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.5536
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.6126
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.6146
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.6496
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.6414
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.6688
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.6987
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.7135
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.7267
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.7299
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.7316
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.7429
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.7408
+          }
+        ]
+      ]
+    },
+    "diagonal": {
+      "n_params_total": 799755,
+      "n_params_backbone": 799626,
+      "n_params_aux_heads": 129,
+      "use_carry_aux": false,
+      "use_diag_aux": true,
+      "anneal": false,
+      "best_val_exact_match": {
+        "mean": 0.11103333333333333,
+        "std": 0.08842863412567975,
+        "values": [
+          0.2125,
+          0.0702,
+          0.0504
+        ]
+      },
+      "final_val_exact_match": {
+        "mean": 0.11073333333333334,
+        "std": 0.08868124566859294,
+        "values": [
+          0.2125,
+          0.0697,
+          0.05
+        ]
+      },
+      "final_val_token_accuracy": {
+        "mean": 0.8405666666666667,
+        "std": 0.026151937202518016,
+        "values": [
+          0.8703916666666667,
+          0.8215583333333333,
+          0.82975
+        ]
+      },
+      "final_train_exact_match": {
+        "mean": 0.16066666666666665,
+        "std": 0.11292512268460606,
+        "values": [
+          0.289,
+          0.1165,
+          0.0765
+        ]
+      },
+      "steps_per_sec": {
+        "mean": 165.8543194440349,
+        "std": 3.655546863589505,
+        "values": [
+          170.03379320693355,
+          163.2527015502102,
+          164.27646357496099
+        ]
+      },
+      "per_position_accuracy": {
+        "0": {
+          "mean": 0.9998666666666667,
+          "std": 5.7735026918956215e-05,
+          "values": [
+            0.9998,
+            0.9999,
+            0.9999
+          ]
+        },
+        "1": {
+          "mean": 0.9988666666666667,
+          "std": 0.00015275252316517785,
+          "values": [
+            0.9989,
+            0.9987,
+            0.999
+          ]
+        },
+        "2": {
+          "mean": 0.9917666666666667,
+          "std": 0.0005686240703077156,
+          "values": [
+            0.9916,
+            0.9913,
+            0.9924
+          ]
+        },
+        "3": {
+          "mean": 0.9182333333333333,
+          "std": 0.002250185177564997,
+          "values": [
+            0.916,
+            0.9205,
+            0.9182
+          ]
+        },
+        "4": {
+          "mean": 0.6056666666666667,
+          "std": 0.014235284799867323,
+          "values": [
+            0.622,
+            0.5991,
+            0.5959
+          ]
+        },
+        "5": {
+          "mean": 0.3451666666666667,
+          "std": 0.11242180986504947,
+          "values": [
+            0.4736,
+            0.2973,
+            0.2646
+          ]
+        },
+        "6": {
+          "mean": 0.34219999999999995,
+          "std": 0.17266409586245773,
+          "values": [
+            0.5367,
+            0.2829,
+            0.207
+          ]
+        },
+        "7": {
+          "mean": 0.8853,
+          "std": 0.1072239245690998,
+          "values": [
+            0.9061,
+            0.7692,
+            0.9806
+          ]
+        },
+        "8": {
+          "mean": 0.9998,
+          "std": 0.00026457513110642993,
+          "values": [
+            1.0,
+            0.9999,
+            0.9995
+          ]
+        },
+        "9": {
+          "mean": 0.9999333333333333,
+          "std": 5.7735026918956215e-05,
+          "values": [
+            1.0,
+            0.9999,
+            0.9999
+          ]
+        },
+        "10": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "11": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "accuracy_by_carry_in_bucket": {
+        "0": {
+          "mean": 0.9968811685748125,
+          "std": 0.0012944016036916409,
+          "values": [
+            0.9982629293328069,
+            0.9966837741808132,
+            0.9956968022108172
+          ]
+        },
+        "1-4": {
+          "mean": 0.9430516663921374,
+          "std": 0.01536913520226377,
+          "values": [
+            0.9606654587382639,
+            0.932366990611102,
+            0.9361225498270466
+          ]
+        },
+        "5-9": {
+          "mean": 0.8536638900778103,
+          "std": 0.03476675999618089,
+          "values": [
+            0.8926019820235077,
+            0.8257333816218352,
+            0.8426563065880881
+          ]
+        },
+        "10-19": {
+          "mean": 0.6704754399789861,
+          "std": 0.049429765495184894,
+          "values": [
+            0.7264488860233541,
+            0.6328175370728563,
+            0.6521598968407479
+          ]
+        },
+        "20+": {
+          "mean": 0.3891102257636122,
+          "std": 0.04020966761541217,
+          "values": [
+            0.43293492695883135,
+            0.3804780876494024,
+            0.35391766268260294
+          ]
+        }
+      },
+      "convergence_seed0": [
+        {
+          "step": 1000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.016188818961381912
+        },
+        {
+          "step": 2000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.00918634794652462
+        },
+        {
+          "step": 3000,
+          "val_exact_match": 0.0001,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.009761575609445572
+        },
+        {
+          "step": 4000,
+          "val_exact_match": 0.0002,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.007716447114944458
+        },
+        {
+          "step": 5000,
+          "val_exact_match": 0.0001,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006013536360114813
+        },
+        {
+          "step": 6000,
+          "val_exact_match": 0.0003,
+          "train_exact_match": 0.001,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0075995102524757385
+        },
+        {
+          "step": 7000,
+          "val_exact_match": 0.0003,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.007223454769700766
+        },
+        {
+          "step": 8000,
+          "val_exact_match": 0.001,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.008649114519357681
+        },
+        {
+          "step": 9000,
+          "val_exact_match": 0.0011,
+          "train_exact_match": 0.0015,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.007047874387353659
+        },
+        {
+          "step": 10000,
+          "val_exact_match": 0.0011,
+          "train_exact_match": 0.0045,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006563130766153336
+        },
+        {
+          "step": 11000,
+          "val_exact_match": 0.0015,
+          "train_exact_match": 0.002,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.00765738170593977
+        },
+        {
+          "step": 12000,
+          "val_exact_match": 0.0014,
+          "train_exact_match": 0.0035,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.00660999258980155
+        },
+        {
+          "step": 13000,
+          "val_exact_match": 0.0029,
+          "train_exact_match": 0.003,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.005849359091371298
+        },
+        {
+          "step": 14000,
+          "val_exact_match": 0.0028,
+          "train_exact_match": 0.005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.007427220232784748
+        },
+        {
+          "step": 15000,
+          "val_exact_match": 0.0035,
+          "train_exact_match": 0.007,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006706620566546917
+        },
+        {
+          "step": 16000,
+          "val_exact_match": 0.0043,
+          "train_exact_match": 0.006,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006992728915065527
+        },
+        {
+          "step": 17000,
+          "val_exact_match": 0.0043,
+          "train_exact_match": 0.0055,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.007050847169011831
+        },
+        {
+          "step": 18000,
+          "val_exact_match": 0.0069,
+          "train_exact_match": 0.0105,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006000625900924206
+        },
+        {
+          "step": 19000,
+          "val_exact_match": 0.0086,
+          "train_exact_match": 0.0095,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006524117663502693
+        },
+        {
+          "step": 20000,
+          "val_exact_match": 0.0096,
+          "train_exact_match": 0.0175,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006704825907945633
+        },
+        {
+          "step": 21000,
+          "val_exact_match": 0.014,
+          "train_exact_match": 0.023,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.007989209145307541
+        },
+        {
+          "step": 22000,
+          "val_exact_match": 0.0195,
+          "train_exact_match": 0.026,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006938168779015541
+        },
+        {
+          "step": 23000,
+          "val_exact_match": 0.0218,
+          "train_exact_match": 0.027,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0066085150465369225
+        },
+        {
+          "step": 24000,
+          "val_exact_match": 0.0291,
+          "train_exact_match": 0.0375,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.00615514162927866
+        },
+        {
+          "step": 25000,
+          "val_exact_match": 0.0301,
+          "train_exact_match": 0.0415,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006751788314431906
+        },
+        {
+          "step": 26000,
+          "val_exact_match": 0.0416,
+          "train_exact_match": 0.052,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.008725063875317574
+        },
+        {
+          "step": 27000,
+          "val_exact_match": 0.0513,
+          "train_exact_match": 0.068,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006233507301658392
+        },
+        {
+          "step": 28000,
+          "val_exact_match": 0.0538,
+          "train_exact_match": 0.0635,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.007971125654876232
+        },
+        {
+          "step": 29000,
+          "val_exact_match": 0.0627,
+          "train_exact_match": 0.0795,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006835957523435354
+        },
+        {
+          "step": 30000,
+          "val_exact_match": 0.0773,
+          "train_exact_match": 0.102,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0061487844213843346
+        },
+        {
+          "step": 31000,
+          "val_exact_match": 0.0774,
+          "train_exact_match": 0.1,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006069614551961422
+        },
+        {
+          "step": 32000,
+          "val_exact_match": 0.0905,
+          "train_exact_match": 0.113,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006013661623001099
+        },
+        {
+          "step": 33000,
+          "val_exact_match": 0.0959,
+          "train_exact_match": 0.1255,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.005458170082420111
+        },
+        {
+          "step": 34000,
+          "val_exact_match": 0.1089,
+          "train_exact_match": 0.1355,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0068866414949297905
+        },
+        {
+          "step": 35000,
+          "val_exact_match": 0.1145,
+          "train_exact_match": 0.144,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.004841313697397709
+        },
+        {
+          "step": 36000,
+          "val_exact_match": 0.1301,
+          "train_exact_match": 0.172,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.00576947582885623
+        },
+        {
+          "step": 37000,
+          "val_exact_match": 0.1265,
+          "train_exact_match": 0.177,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.005779690109193325
+        },
+        {
+          "step": 38000,
+          "val_exact_match": 0.136,
+          "train_exact_match": 0.187,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006771634798496962
+        },
+        {
+          "step": 39000,
+          "val_exact_match": 0.1501,
+          "train_exact_match": 0.205,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006507154554128647
+        },
+        {
+          "step": 40000,
+          "val_exact_match": 0.1644,
+          "train_exact_match": 0.219,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.004903246648609638
+        },
+        {
+          "step": 41000,
+          "val_exact_match": 0.1722,
+          "train_exact_match": 0.2235,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.005346390418708324
+        },
+        {
+          "step": 42000,
+          "val_exact_match": 0.1595,
+          "train_exact_match": 0.227,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.005707460455596447
+        },
+        {
+          "step": 43000,
+          "val_exact_match": 0.1853,
+          "train_exact_match": 0.25,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.005338962655514479
+        },
+        {
+          "step": 44000,
+          "val_exact_match": 0.1945,
+          "train_exact_match": 0.263,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.005408485885709524
+        },
+        {
+          "step": 45000,
+          "val_exact_match": 0.1959,
+          "train_exact_match": 0.274,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.005669584032148123
+        },
+        {
+          "step": 46000,
+          "val_exact_match": 0.2067,
+          "train_exact_match": 0.2755,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.004947283770889044
+        },
+        {
+          "step": 47000,
+          "val_exact_match": 0.2057,
+          "train_exact_match": 0.2835,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.0063317096792161465
+        },
+        {
+          "step": 48000,
+          "val_exact_match": 0.2105,
+          "train_exact_match": 0.2855,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.004557712934911251
+        },
+        {
+          "step": 49000,
+          "val_exact_match": 0.2113,
+          "train_exact_match": 0.2905,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.005285035818815231
+        },
+        {
+          "step": 50000,
+          "val_exact_match": 0.2125,
+          "train_exact_match": 0.289,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0,
+          "train_aux_diag_mse": 0.006566774100065231
+        }
+      ],
+      "convergence_all_seeds": [
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0002
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0003
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0003
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.001
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0011
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0011
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0015
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0014
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0029
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0028
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.0035
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.0043
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.0043
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.0069
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.0086
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.0096
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.014
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.0195
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.0218
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.0291
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.0301
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.0416
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.0513
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.0538
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.0627
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.0773
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.0774
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.0905
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.0959
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.1089
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.1145
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.1301
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.1265
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.136
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.1501
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.1644
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.1722
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.1595
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.1853
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.1945
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.1959
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.2067
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.2057
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.2105
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.2113
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.2125
+          }
+        ],
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0004
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0005
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0002
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0009
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0011
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0014
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0015
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0017
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.003
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0038
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.0032
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.0035
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.005
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.0048
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.0068
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.0077
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.008
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.0103
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.0123
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.0135
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.0143
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.0159
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.0202
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.0176
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.022
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.0256
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.0289
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.0332
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.0334
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.04
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.0419
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.0453
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.0485
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.0525
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.0586
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.0567
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.0593
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.0616
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.0642
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.0665
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.0657
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.0697
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.0693
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.0689
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.0702
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.0697
+          }
+        ],
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0003
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0004
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0007
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0014
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.001
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.002
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0024
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0024
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0027
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0034
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.0041
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.0049
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.0047
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.0056
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.0059
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.0071
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.0072
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.0068
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.0099
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.0107
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.0113
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.0123
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.0137
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.0155
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.0171
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.0184
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.0202
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.0234
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.0224
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.0271
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.0289
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.0305
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.034
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.0323
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.0379
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.0384
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.0399
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.0418
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.0454
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.047
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.0497
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.0483
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.0489
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.0504
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.05
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.05
+          }
+        ]
+      ]
+    },
+    "both": {
+      "n_params_total": 800013,
+      "n_params_backbone": 799626,
+      "n_params_aux_heads": 387,
+      "use_carry_aux": true,
+      "use_diag_aux": true,
+      "anneal": false,
+      "best_val_exact_match": {
+        "mean": 0.8013333333333333,
+        "std": 0.09871303527565815,
+        "values": [
+          0.6981,
+          0.8948,
+          0.8111
+        ]
+      },
+      "final_val_exact_match": {
+        "mean": 0.8013333333333333,
+        "std": 0.09871303527565815,
+        "values": [
+          0.6981,
+          0.8948,
+          0.8111
+        ]
+      },
+      "final_val_token_accuracy": {
+        "mean": 0.9810277777777778,
+        "std": 0.009949498638029356,
+        "values": [
+          0.9705,
+          0.990275,
+          0.9823083333333333
+        ]
+      },
+      "final_train_exact_match": {
+        "mean": 0.8931666666666667,
+        "std": 0.07605316123168931,
+        "values": [
+          0.8135,
+          0.965,
+          0.901
+        ]
+      },
+      "steps_per_sec": {
+        "mean": 162.60027124335858,
+        "std": 2.83927670812138,
+        "values": [
+          162.40447161697503,
+          159.86396233011334,
+          165.53237978298733
+        ]
+      },
+      "per_position_accuracy": {
+        "0": {
+          "mean": 0.9999,
+          "std": 0.0,
+          "values": [
+            0.9999,
+            0.9999,
+            0.9999
+          ]
+        },
+        "1": {
+          "mean": 0.999,
+          "std": 9.999999999998899e-05,
+          "values": [
+            0.9991,
+            0.999,
+            0.9989
+          ]
+        },
+        "2": {
+          "mean": 0.9928666666666667,
+          "std": 0.002259055849980962,
+          "values": [
+            0.9905,
+            0.9931,
+            0.995
+          ]
+        },
+        "3": {
+          "mean": 0.9657333333333333,
+          "std": 0.019070745484467418,
+          "values": [
+            0.9438,
+            0.9784,
+            0.975
+          ]
+        },
+        "4": {
+          "mean": 0.9503333333333334,
+          "std": 0.023407121423475695,
+          "values": [
+            0.9266,
+            0.9734,
+            0.951
+          ]
+        },
+        "5": {
+          "mean": 0.9359666666666666,
+          "std": 0.0334081327423927,
+          "values": [
+            0.9001,
+            0.9662,
+            0.9416
+          ]
+        },
+        "6": {
+          "mean": 0.9353333333333333,
+          "std": 0.03802924313384809,
+          "values": [
+            0.8988,
+            0.9747,
+            0.9325
+          ]
+        },
+        "7": {
+          "mean": 0.9932666666666666,
+          "std": 0.005735270990400869,
+          "values": [
+            0.9872,
+            0.9986,
+            0.994
+          ]
+        },
+        "8": {
+          "mean": 0.9999333333333333,
+          "std": 0.00011547005383791243,
+          "values": [
+            1.0,
+            1.0,
+            0.9998
+          ]
+        },
+        "9": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "10": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "11": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "accuracy_by_carry_in_bucket": {
+        "0": {
+          "mean": 0.9994736149493354,
+          "std": 0.00039936809857858463,
+          "values": [
+            0.9990130280300039,
+            0.9996841689696012,
+            0.9997236478484011
+          ]
+        },
+        "1-4": {
+          "mean": 0.991357821336408,
+          "std": 0.00617287153843016,
+          "values": [
+            0.9843188930983363,
+            0.9958491187613243,
+            0.9939054521495635
+          ]
+        },
+        "5-9": {
+          "mean": 0.9817052425948485,
+          "std": 0.010813175576500168,
+          "values": [
+            0.9698745596417871,
+            0.9910776018174036,
+            0.9841635663253547
+          ]
+        },
+        "10-19": {
+          "mean": 0.9663896649712252,
+          "std": 0.017719831913540818,
+          "values": [
+            0.9483845547675335,
+            0.9838097284905796,
+            0.9669747116555627
+          ]
+        },
+        "20+": {
+          "mean": 0.9158366533864541,
+          "std": 0.03110634647633197,
+          "values": [
+            0.8866201859229748,
+            0.9485391766268261,
+            0.9123505976095617
+          ]
+        }
+      },
+      "convergence_seed0": [
+        {
+          "step": 1000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.03163488581776619,
+          "train_aux_diag_mse": 0.018564416095614433
+        },
+        {
+          "step": 2000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.01669950969517231,
+          "train_aux_diag_mse": 0.012099649757146835
+        },
+        {
+          "step": 3000,
+          "val_exact_match": 0.0002,
+          "train_exact_match": 0.0005,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.01512362714856863,
+          "train_aux_diag_mse": 0.009729687124490738
+        },
+        {
+          "step": 4000,
+          "val_exact_match": 0.0001,
+          "train_exact_match": 0.001,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.009885219857096672,
+          "train_aux_diag_mse": 0.006313135381788015
+        },
+        {
+          "step": 5000,
+          "val_exact_match": 0.0009,
+          "train_exact_match": 0.0015,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.010905714705586433,
+          "train_aux_diag_mse": 0.008335049264132977
+        },
+        {
+          "step": 6000,
+          "val_exact_match": 0.0009,
+          "train_exact_match": 0.0035,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.008934391662478447,
+          "train_aux_diag_mse": 0.006135083734989166
+        },
+        {
+          "step": 7000,
+          "val_exact_match": 0.0032,
+          "train_exact_match": 0.0035,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.010015803389251232,
+          "train_aux_diag_mse": 0.008032098412513733
+        },
+        {
+          "step": 8000,
+          "val_exact_match": 0.0053,
+          "train_exact_match": 0.0055,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.009314390830695629,
+          "train_aux_diag_mse": 0.007593516260385513
+        },
+        {
+          "step": 9000,
+          "val_exact_match": 0.0064,
+          "train_exact_match": 0.008,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.00931123923510313,
+          "train_aux_diag_mse": 0.007678662892431021
+        },
+        {
+          "step": 10000,
+          "val_exact_match": 0.0091,
+          "train_exact_match": 0.0115,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.008749081753194332,
+          "train_aux_diag_mse": 0.008239507675170898
+        },
+        {
+          "step": 11000,
+          "val_exact_match": 0.0161,
+          "train_exact_match": 0.0225,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.00851811096072197,
+          "train_aux_diag_mse": 0.007190843112766743
+        },
+        {
+          "step": 12000,
+          "val_exact_match": 0.0396,
+          "train_exact_match": 0.0505,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.00837692804634571,
+          "train_aux_diag_mse": 0.00799600500613451
+        },
+        {
+          "step": 13000,
+          "val_exact_match": 0.0506,
+          "train_exact_match": 0.0635,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.007672601845115423,
+          "train_aux_diag_mse": 0.007536421995609999
+        },
+        {
+          "step": 14000,
+          "val_exact_match": 0.0759,
+          "train_exact_match": 0.09,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.00723271956667304,
+          "train_aux_diag_mse": 0.00638914480805397
+        },
+        {
+          "step": 15000,
+          "val_exact_match": 0.0917,
+          "train_exact_match": 0.0985,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.006517605856060982,
+          "train_aux_diag_mse": 0.004767709411680698
+        },
+        {
+          "step": 16000,
+          "val_exact_match": 0.1338,
+          "train_exact_match": 0.1555,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.00670244824141264,
+          "train_aux_diag_mse": 0.005702587775886059
+        },
+        {
+          "step": 17000,
+          "val_exact_match": 0.1429,
+          "train_exact_match": 0.1595,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005712473765015602,
+          "train_aux_diag_mse": 0.004222383257001638
+        },
+        {
+          "step": 18000,
+          "val_exact_match": 0.1408,
+          "train_exact_match": 0.1655,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005903278943151236,
+          "train_aux_diag_mse": 0.005065644159913063
+        },
+        {
+          "step": 19000,
+          "val_exact_match": 0.1603,
+          "train_exact_match": 0.1845,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005521873943507671,
+          "train_aux_diag_mse": 0.005412023514509201
+        },
+        {
+          "step": 20000,
+          "val_exact_match": 0.2328,
+          "train_exact_match": 0.271,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005396254360675812,
+          "train_aux_diag_mse": 0.004750894382596016
+        },
+        {
+          "step": 21000,
+          "val_exact_match": 0.2225,
+          "train_exact_match": 0.2585,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.00594644621014595,
+          "train_aux_diag_mse": 0.00618458678945899
+        },
+        {
+          "step": 22000,
+          "val_exact_match": 0.2197,
+          "train_exact_match": 0.256,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.005273143760859966,
+          "train_aux_diag_mse": 0.004584841430187225
+        },
+        {
+          "step": 23000,
+          "val_exact_match": 0.2493,
+          "train_exact_match": 0.2825,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.004867709707468748,
+          "train_aux_diag_mse": 0.003759633516892791
+        },
+        {
+          "step": 24000,
+          "val_exact_match": 0.3215,
+          "train_exact_match": 0.3645,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.004344864748418331,
+          "train_aux_diag_mse": 0.003642737865447998
+        },
+        {
+          "step": 25000,
+          "val_exact_match": 0.3052,
+          "train_exact_match": 0.3485,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.00423225574195385,
+          "train_aux_diag_mse": 0.0035081375390291214
+        },
+        {
+          "step": 26000,
+          "val_exact_match": 0.3316,
+          "train_exact_match": 0.3965,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.004147290717810392,
+          "train_aux_diag_mse": 0.0033324703108519316
+        },
+        {
+          "step": 27000,
+          "val_exact_match": 0.3404,
+          "train_exact_match": 0.3815,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.004453602246940136,
+          "train_aux_diag_mse": 0.0035591982305049896
+        },
+        {
+          "step": 28000,
+          "val_exact_match": 0.3651,
+          "train_exact_match": 0.4255,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.004040365573018789,
+          "train_aux_diag_mse": 0.0035548179876059294
+        },
+        {
+          "step": 29000,
+          "val_exact_match": 0.3584,
+          "train_exact_match": 0.4175,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.004216595087200403,
+          "train_aux_diag_mse": 0.004029677249491215
+        },
+        {
+          "step": 30000,
+          "val_exact_match": 0.3883,
+          "train_exact_match": 0.453,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003857005387544632,
+          "train_aux_diag_mse": 0.0031503718346357346
+        },
+        {
+          "step": 31000,
+          "val_exact_match": 0.3843,
+          "train_exact_match": 0.4615,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0037852395325899124,
+          "train_aux_diag_mse": 0.0028394802939146757
+        },
+        {
+          "step": 32000,
+          "val_exact_match": 0.4797,
+          "train_exact_match": 0.547,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003936074674129486,
+          "train_aux_diag_mse": 0.0030434089712798595
+        },
+        {
+          "step": 33000,
+          "val_exact_match": 0.4066,
+          "train_exact_match": 0.475,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003910467028617859,
+          "train_aux_diag_mse": 0.00310873962007463
+        },
+        {
+          "step": 34000,
+          "val_exact_match": 0.4778,
+          "train_exact_match": 0.57,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003939828835427761,
+          "train_aux_diag_mse": 0.003369781654328108
+        },
+        {
+          "step": 35000,
+          "val_exact_match": 0.47,
+          "train_exact_match": 0.5365,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003977790474891663,
+          "train_aux_diag_mse": 0.003106513526290655
+        },
+        {
+          "step": 36000,
+          "val_exact_match": 0.482,
+          "train_exact_match": 0.579,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0033848867751657963,
+          "train_aux_diag_mse": 0.002509704791009426
+        },
+        {
+          "step": 37000,
+          "val_exact_match": 0.5097,
+          "train_exact_match": 0.599,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003444499336183071,
+          "train_aux_diag_mse": 0.0026465742848813534
+        },
+        {
+          "step": 38000,
+          "val_exact_match": 0.5029,
+          "train_exact_match": 0.5795,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003537433221936226,
+          "train_aux_diag_mse": 0.0027744246181100607
+        },
+        {
+          "step": 39000,
+          "val_exact_match": 0.5727,
+          "train_exact_match": 0.6685,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003644184209406376,
+          "train_aux_diag_mse": 0.0025697466917335987
+        },
+        {
+          "step": 40000,
+          "val_exact_match": 0.5675,
+          "train_exact_match": 0.6615,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0037372070364654064,
+          "train_aux_diag_mse": 0.002669070614501834
+        },
+        {
+          "step": 41000,
+          "val_exact_match": 0.5874,
+          "train_exact_match": 0.685,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0029378985054790974,
+          "train_aux_diag_mse": 0.0023376543540507555
+        },
+        {
+          "step": 42000,
+          "val_exact_match": 0.6178,
+          "train_exact_match": 0.7235,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003302742261439562,
+          "train_aux_diag_mse": 0.0025086398236453533
+        },
+        {
+          "step": 43000,
+          "val_exact_match": 0.6317,
+          "train_exact_match": 0.7495,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003412342630326748,
+          "train_aux_diag_mse": 0.0025318015832453966
+        },
+        {
+          "step": 44000,
+          "val_exact_match": 0.6533,
+          "train_exact_match": 0.7555,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003389648161828518,
+          "train_aux_diag_mse": 0.0028219528030604124
+        },
+        {
+          "step": 45000,
+          "val_exact_match": 0.6633,
+          "train_exact_match": 0.7755,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0033895731903612614,
+          "train_aux_diag_mse": 0.0025871056132018566
+        },
+        {
+          "step": 46000,
+          "val_exact_match": 0.6786,
+          "train_exact_match": 0.7865,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.0033754080068320036,
+          "train_aux_diag_mse": 0.0025477339513599873
+        },
+        {
+          "step": 47000,
+          "val_exact_match": 0.6848,
+          "train_exact_match": 0.804,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003302281256765127,
+          "train_aux_diag_mse": 0.0024956620763987303
+        },
+        {
+          "step": 48000,
+          "val_exact_match": 0.6927,
+          "train_exact_match": 0.805,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.00375372520647943,
+          "train_aux_diag_mse": 0.002502108458429575
+        },
+        {
+          "step": 49000,
+          "val_exact_match": 0.6978,
+          "train_exact_match": 0.8175,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.003056120593100786,
+          "train_aux_diag_mse": 0.0021754149347543716
+        },
+        {
+          "step": 50000,
+          "val_exact_match": 0.6981,
+          "train_exact_match": 0.8135,
+          "aux_carry_weight": 1.0,
+          "aux_diag_weight": 1.0,
+          "train_aux_carry_mse": 0.002944131148979068,
+          "train_aux_diag_mse": 0.0022626298014074564
+        }
+      ],
+      "convergence_all_seeds": [
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0002
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0009
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0009
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0032
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0053
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0064
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0091
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0161
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0396
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0506
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0759
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.0917
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.1338
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.1429
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.1408
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.1603
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.2328
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.2225
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.2197
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.2493
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.3215
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.3052
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.3316
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.3404
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.3651
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.3584
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.3883
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.3843
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.4797
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.4066
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.4778
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.47
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.482
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.5097
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.5029
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.5727
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.5675
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.5874
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.6178
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.6317
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.6533
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.6633
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.6786
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.6848
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.6927
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.6978
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.6981
+          }
+        ],
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0005
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.001
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0013
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0017
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0034
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0057
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.006
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0107
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0214
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0317
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.0867
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.0915
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.1701
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.1947
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.2175
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.2667
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.3261
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.3382
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.3791
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.2862
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.4337
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.538
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.5426
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.6138
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.6358
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.6004
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.6359
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.6416
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.7186
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.7226
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.7286
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.7551
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.7584
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.8062
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.8158
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.8258
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.8515
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.856
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.8662
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.8802
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.8818
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.8863
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.8908
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.893
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.8944
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.8948
+          }
+        ],
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0006
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0007
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0026
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0022
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0074
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0169
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0254
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0491
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0741
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0823
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.1295
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.1685
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.1934
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.179
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.2435
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.3013
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.3014
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.3157
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.4051
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.317
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.3722
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.4058
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.4849
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.4291
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.4855
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.5041
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.516
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.5536
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.5344
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.5805
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.5948
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.6459
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.6305
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.6468
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.6761
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.6682
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.7182
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.7289
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.7349
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.7602
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.7712
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.7886
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.797
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.8074
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.808
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.8103
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.8111
+          }
+        ]
+      ]
+    },
+    "both_annealed": {
+      "n_params_total": 800013,
+      "n_params_backbone": 799626,
+      "n_params_aux_heads": 387,
+      "use_carry_aux": true,
+      "use_diag_aux": true,
+      "anneal": true,
+      "best_val_exact_match": {
+        "mean": 0.7799333333333334,
+        "std": 0.0768837000497071,
+        "values": [
+          0.6914,
+          0.8299,
+          0.8185
+        ]
+      },
+      "final_val_exact_match": {
+        "mean": 0.7793333333333333,
+        "std": 0.07637305371224415,
+        "values": [
+          0.6914,
+          0.8291,
+          0.8175
+        ]
+      },
+      "final_val_token_accuracy": {
+        "mean": 0.9787388888888889,
+        "std": 0.00794537047827461,
+        "values": [
+          0.9695916666666666,
+          0.983925,
+          0.9827
+        ]
+      },
+      "final_train_exact_match": {
+        "mean": 0.8953333333333333,
+        "std": 0.052821239414967656,
+        "values": [
+          0.8355,
+          0.9355,
+          0.915
+        ]
+      },
+      "steps_per_sec": {
+        "mean": 162.57646441003914,
+        "std": 1.2250266893672226,
+        "values": [
+          162.76299241641925,
+          163.69752979659015,
+          161.268871017108
+        ]
+      },
+      "per_position_accuracy": {
+        "0": {
+          "mean": 0.9998666666666667,
+          "std": 0.00011547005383791243,
+          "values": [
+            1.0,
+            0.9998,
+            0.9998
+          ]
+        },
+        "1": {
+          "mean": 0.9992333333333333,
+          "std": 0.00032145502536645975,
+          "values": [
+            0.999,
+            0.9996,
+            0.9991
+          ]
+        },
+        "2": {
+          "mean": 0.9926666666666667,
+          "std": 0.0013051181300301512,
+          "values": [
+            0.9913,
+            0.9928,
+            0.9939
+          ]
+        },
+        "3": {
+          "mean": 0.9591666666666667,
+          "std": 0.012994742526627169,
+          "values": [
+            0.9452,
+            0.9614,
+            0.9709
+          ]
+        },
+        "4": {
+          "mean": 0.9404333333333333,
+          "std": 0.016498585797980796,
+          "values": [
+            0.9217,
+            0.9468,
+            0.9528
+          ]
+        },
+        "5": {
+          "mean": 0.9251666666666667,
+          "std": 0.026087800469440377,
+          "values": [
+            0.8953,
+            0.9435,
+            0.9367
+          ]
+        },
+        "6": {
+          "mean": 0.9362,
+          "std": 0.03559831456684432,
+          "values": [
+            0.8964,
+            0.965,
+            0.9472
+          ]
+        },
+        "7": {
+          "mean": 0.9921666666666666,
+          "std": 0.006000277771348039,
+          "values": [
+            0.9862,
+            0.9982,
+            0.9921
+          ]
+        },
+        "8": {
+          "mean": 0.9999666666666667,
+          "std": 5.7735026918956215e-05,
+          "values": [
+            1.0,
+            1.0,
+            0.9999
+          ]
+        },
+        "9": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "10": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "11": {
+          "mean": 1.0,
+          "std": 0.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "accuracy_by_carry_in_bucket": {
+        "0": {
+          "mean": 0.9994472956968022,
+          "std": 0.00030833990035163464,
+          "values": [
+            0.9990919857876036,
+            0.9996446900908014,
+            0.9996052112120016
+          ]
+        },
+        "1-4": {
+          "mean": 0.9907209136331192,
+          "std": 0.00523048341384116,
+          "values": [
+            0.9846812716191731,
+            0.9937407346400923,
+            0.9937407346400923
+          ]
+        },
+        "5-9": {
+          "mean": 0.9812991801929345,
+          "std": 0.007776125180586404,
+          "values": [
+            0.9726401738386067,
+            0.9876864320284463,
+            0.9835709347117506
+          ]
+        },
+        "10-19": {
+          "mean": 0.9604914392148435,
+          "std": 0.01516438088553371,
+          "values": [
+            0.9430116770542303,
+            0.9701267999140339,
+            0.9683358406762662
+          ]
+        },
+        "20+": {
+          "mean": 0.9029437804338203,
+          "std": 0.022317532738149765,
+          "values": [
+            0.877324037184595,
+            0.9133466135458167,
+            0.9181606905710491
+          ]
+        }
+      },
+      "convergence_seed0": [
+        {
+          "step": 1000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 0.96,
+          "aux_diag_weight": 0.96,
+          "train_aux_carry_mse": 0.0328463613986969,
+          "train_aux_diag_mse": 0.022082965821027756
+        },
+        {
+          "step": 2000,
+          "val_exact_match": 0.0,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 0.92,
+          "aux_diag_weight": 0.92,
+          "train_aux_carry_mse": 0.015469424426555634,
+          "train_aux_diag_mse": 0.011556973680853844
+        },
+        {
+          "step": 3000,
+          "val_exact_match": 0.0001,
+          "train_exact_match": 0.0,
+          "aux_carry_weight": 0.88,
+          "aux_diag_weight": 0.88,
+          "train_aux_carry_mse": 0.014978836290538311,
+          "train_aux_diag_mse": 0.007656884845346212
+        },
+        {
+          "step": 4000,
+          "val_exact_match": 0.0002,
+          "train_exact_match": 0.001,
+          "aux_carry_weight": 0.84,
+          "aux_diag_weight": 0.84,
+          "train_aux_carry_mse": 0.010345072485506535,
+          "train_aux_diag_mse": 0.007216582074761391
+        },
+        {
+          "step": 5000,
+          "val_exact_match": 0.0006,
+          "train_exact_match": 0.001,
+          "aux_carry_weight": 0.8,
+          "aux_diag_weight": 0.8,
+          "train_aux_carry_mse": 0.011234289035201073,
+          "train_aux_diag_mse": 0.008460387587547302
+        },
+        {
+          "step": 6000,
+          "val_exact_match": 0.0019,
+          "train_exact_match": 0.0035,
+          "aux_carry_weight": 0.76,
+          "aux_diag_weight": 0.76,
+          "train_aux_carry_mse": 0.011211328208446503,
+          "train_aux_diag_mse": 0.00870043970644474
+        },
+        {
+          "step": 7000,
+          "val_exact_match": 0.003,
+          "train_exact_match": 0.0035,
+          "aux_carry_weight": 0.72,
+          "aux_diag_weight": 0.72,
+          "train_aux_carry_mse": 0.010978604666888714,
+          "train_aux_diag_mse": 0.008105332031846046
+        },
+        {
+          "step": 8000,
+          "val_exact_match": 0.0039,
+          "train_exact_match": 0.0045,
+          "aux_carry_weight": 0.6799999999999999,
+          "aux_diag_weight": 0.6799999999999999,
+          "train_aux_carry_mse": 0.011803535744547844,
+          "train_aux_diag_mse": 0.010198943316936493
+        },
+        {
+          "step": 9000,
+          "val_exact_match": 0.0077,
+          "train_exact_match": 0.0165,
+          "aux_carry_weight": 0.64,
+          "aux_diag_weight": 0.64,
+          "train_aux_carry_mse": 0.0119096664711833,
+          "train_aux_diag_mse": 0.011319361627101898
+        },
+        {
+          "step": 10000,
+          "val_exact_match": 0.0134,
+          "train_exact_match": 0.019,
+          "aux_carry_weight": 0.6,
+          "aux_diag_weight": 0.6,
+          "train_aux_carry_mse": 0.0133905541151762,
+          "train_aux_diag_mse": 0.013104054145514965
+        },
+        {
+          "step": 11000,
+          "val_exact_match": 0.0285,
+          "train_exact_match": 0.0325,
+          "aux_carry_weight": 0.56,
+          "aux_diag_weight": 0.56,
+          "train_aux_carry_mse": 0.010499185882508755,
+          "train_aux_diag_mse": 0.007911274209618568
+        },
+        {
+          "step": 12000,
+          "val_exact_match": 0.052,
+          "train_exact_match": 0.0565,
+          "aux_carry_weight": 0.52,
+          "aux_diag_weight": 0.52,
+          "train_aux_carry_mse": 0.011139976792037487,
+          "train_aux_diag_mse": 0.011549090966582298
+        },
+        {
+          "step": 13000,
+          "val_exact_match": 0.0878,
+          "train_exact_match": 0.1035,
+          "aux_carry_weight": 0.48,
+          "aux_diag_weight": 0.48,
+          "train_aux_carry_mse": 0.011339525692164898,
+          "train_aux_diag_mse": 0.01165672019124031
+        },
+        {
+          "step": 14000,
+          "val_exact_match": 0.0905,
+          "train_exact_match": 0.102,
+          "aux_carry_weight": 0.43999999999999995,
+          "aux_diag_weight": 0.43999999999999995,
+          "train_aux_carry_mse": 0.010936558246612549,
+          "train_aux_diag_mse": 0.0099311713129282
+        },
+        {
+          "step": 15000,
+          "val_exact_match": 0.1169,
+          "train_exact_match": 0.1395,
+          "aux_carry_weight": 0.4,
+          "aux_diag_weight": 0.4,
+          "train_aux_carry_mse": 0.009762383066117764,
+          "train_aux_diag_mse": 0.00882498174905777
+        },
+        {
+          "step": 16000,
+          "val_exact_match": 0.1591,
+          "train_exact_match": 0.183,
+          "aux_carry_weight": 0.36,
+          "aux_diag_weight": 0.36,
+          "train_aux_carry_mse": 0.011253086850047112,
+          "train_aux_diag_mse": 0.00996180810034275
+        },
+        {
+          "step": 17000,
+          "val_exact_match": 0.158,
+          "train_exact_match": 0.1845,
+          "aux_carry_weight": 0.31999999999999995,
+          "aux_diag_weight": 0.31999999999999995,
+          "train_aux_carry_mse": 0.010792851448059082,
+          "train_aux_diag_mse": 0.009917731396853924
+        },
+        {
+          "step": 18000,
+          "val_exact_match": 0.1572,
+          "train_exact_match": 0.184,
+          "aux_carry_weight": 0.28,
+          "aux_diag_weight": 0.28,
+          "train_aux_carry_mse": 0.01126190833747387,
+          "train_aux_diag_mse": 0.011080983094871044
+        },
+        {
+          "step": 19000,
+          "val_exact_match": 0.1756,
+          "train_exact_match": 0.215,
+          "aux_carry_weight": 0.24,
+          "aux_diag_weight": 0.24,
+          "train_aux_carry_mse": 0.011369142681360245,
+          "train_aux_diag_mse": 0.013242324814200401
+        },
+        {
+          "step": 20000,
+          "val_exact_match": 0.1834,
+          "train_exact_match": 0.221,
+          "aux_carry_weight": 0.19999999999999996,
+          "aux_diag_weight": 0.19999999999999996,
+          "train_aux_carry_mse": 0.011504578404128551,
+          "train_aux_diag_mse": 0.011937618255615234
+        },
+        {
+          "step": 21000,
+          "val_exact_match": 0.2502,
+          "train_exact_match": 0.302,
+          "aux_carry_weight": 0.16000000000000003,
+          "aux_diag_weight": 0.16000000000000003,
+          "train_aux_carry_mse": 0.011506905779242516,
+          "train_aux_diag_mse": 0.01242942176759243
+        },
+        {
+          "step": 22000,
+          "val_exact_match": 0.225,
+          "train_exact_match": 0.2685,
+          "aux_carry_weight": 0.12,
+          "aux_diag_weight": 0.12,
+          "train_aux_carry_mse": 0.014222182333469391,
+          "train_aux_diag_mse": 0.012480838224291801
+        },
+        {
+          "step": 23000,
+          "val_exact_match": 0.2831,
+          "train_exact_match": 0.3225,
+          "aux_carry_weight": 0.07999999999999996,
+          "aux_diag_weight": 0.07999999999999996,
+          "train_aux_carry_mse": 0.012515641748905182,
+          "train_aux_diag_mse": 0.010932344011962414
+        },
+        {
+          "step": 24000,
+          "val_exact_match": 0.2884,
+          "train_exact_match": 0.3165,
+          "aux_carry_weight": 0.040000000000000036,
+          "aux_diag_weight": 0.040000000000000036,
+          "train_aux_carry_mse": 0.01324878167361021,
+          "train_aux_diag_mse": 0.011855168268084526
+        },
+        {
+          "step": 25000,
+          "val_exact_match": 0.2563,
+          "train_exact_match": 0.2805,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.027903368696570396,
+          "train_aux_diag_mse": 0.024112749844789505
+        },
+        {
+          "step": 26000,
+          "val_exact_match": 0.3501,
+          "train_exact_match": 0.4155,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.21900735795497894,
+          "train_aux_diag_mse": 0.20346158742904663
+        },
+        {
+          "step": 27000,
+          "val_exact_match": 0.334,
+          "train_exact_match": 0.3925,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.3314569890499115,
+          "train_aux_diag_mse": 0.31173810362815857
+        },
+        {
+          "step": 28000,
+          "val_exact_match": 0.3425,
+          "train_exact_match": 0.403,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.36198103427886963,
+          "train_aux_diag_mse": 0.33581143617630005
+        },
+        {
+          "step": 29000,
+          "val_exact_match": 0.3631,
+          "train_exact_match": 0.411,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.4216462969779968,
+          "train_aux_diag_mse": 0.43750032782554626
+        },
+        {
+          "step": 30000,
+          "val_exact_match": 0.387,
+          "train_exact_match": 0.46,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.36083245277404785,
+          "train_aux_diag_mse": 0.38778218626976013
+        },
+        {
+          "step": 31000,
+          "val_exact_match": 0.4211,
+          "train_exact_match": 0.4845,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.5282295942306519,
+          "train_aux_diag_mse": 0.5132020115852356
+        },
+        {
+          "step": 32000,
+          "val_exact_match": 0.4583,
+          "train_exact_match": 0.5275,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.5543280839920044,
+          "train_aux_diag_mse": 0.5653485059738159
+        },
+        {
+          "step": 33000,
+          "val_exact_match": 0.4946,
+          "train_exact_match": 0.566,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.5095543265342712,
+          "train_aux_diag_mse": 0.5273141264915466
+        },
+        {
+          "step": 34000,
+          "val_exact_match": 0.4449,
+          "train_exact_match": 0.527,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.44683346152305603,
+          "train_aux_diag_mse": 0.48008713126182556
+        },
+        {
+          "step": 35000,
+          "val_exact_match": 0.4821,
+          "train_exact_match": 0.5565,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.509135901927948,
+          "train_aux_diag_mse": 0.5556118488311768
+        },
+        {
+          "step": 36000,
+          "val_exact_match": 0.5262,
+          "train_exact_match": 0.6095,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.5326082706451416,
+          "train_aux_diag_mse": 0.5674319267272949
+        },
+        {
+          "step": 37000,
+          "val_exact_match": 0.5427,
+          "train_exact_match": 0.633,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.6034809947013855,
+          "train_aux_diag_mse": 0.637767493724823
+        },
+        {
+          "step": 38000,
+          "val_exact_match": 0.5522,
+          "train_exact_match": 0.6445,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.6743718981742859,
+          "train_aux_diag_mse": 0.6927967071533203
+        },
+        {
+          "step": 39000,
+          "val_exact_match": 0.5774,
+          "train_exact_match": 0.6915,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.5745577812194824,
+          "train_aux_diag_mse": 0.5987340807914734
+        },
+        {
+          "step": 40000,
+          "val_exact_match": 0.5815,
+          "train_exact_match": 0.6665,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.6432867050170898,
+          "train_aux_diag_mse": 0.6666409969329834
+        },
+        {
+          "step": 41000,
+          "val_exact_match": 0.6069,
+          "train_exact_match": 0.7085,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.6166130304336548,
+          "train_aux_diag_mse": 0.6353522539138794
+        },
+        {
+          "step": 42000,
+          "val_exact_match": 0.6246,
+          "train_exact_match": 0.747,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.5418902039527893,
+          "train_aux_diag_mse": 0.5551827549934387
+        },
+        {
+          "step": 43000,
+          "val_exact_match": 0.6372,
+          "train_exact_match": 0.743,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.6094331741333008,
+          "train_aux_diag_mse": 0.6310468316078186
+        },
+        {
+          "step": 44000,
+          "val_exact_match": 0.6522,
+          "train_exact_match": 0.775,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.6995803117752075,
+          "train_aux_diag_mse": 0.7397064566612244
+        },
+        {
+          "step": 45000,
+          "val_exact_match": 0.6645,
+          "train_exact_match": 0.7905,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.7801148891448975,
+          "train_aux_diag_mse": 0.8275415301322937
+        },
+        {
+          "step": 46000,
+          "val_exact_match": 0.682,
+          "train_exact_match": 0.818,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.5228685140609741,
+          "train_aux_diag_mse": 0.5313995480537415
+        },
+        {
+          "step": 47000,
+          "val_exact_match": 0.6855,
+          "train_exact_match": 0.819,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.6794289350509644,
+          "train_aux_diag_mse": 0.6980894804000854
+        },
+        {
+          "step": 48000,
+          "val_exact_match": 0.6893,
+          "train_exact_match": 0.825,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.8174810409545898,
+          "train_aux_diag_mse": 0.8209619522094727
+        },
+        {
+          "step": 49000,
+          "val_exact_match": 0.6901,
+          "train_exact_match": 0.8305,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.6613256931304932,
+          "train_aux_diag_mse": 0.7039927244186401
+        },
+        {
+          "step": 50000,
+          "val_exact_match": 0.6914,
+          "train_exact_match": 0.8355,
+          "aux_carry_weight": 0.0,
+          "aux_diag_weight": 0.0,
+          "train_aux_carry_mse": 0.6936463117599487,
+          "train_aux_diag_mse": 0.7163424491882324
+        }
+      ],
+      "convergence_all_seeds": [
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0002
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0006
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0019
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.003
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0039
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0077
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0134
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0285
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.052
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0878
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0905
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.1169
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.1591
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.158
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.1572
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.1756
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.1834
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.2502
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.225
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.2831
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.2884
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.2563
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.3501
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.334
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.3425
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.3631
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.387
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.4211
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.4583
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.4946
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.4449
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.4821
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.5262
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.5427
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.5522
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.5774
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.5815
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.6069
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.6246
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.6372
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.6522
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.6645
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.682
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.6855
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.6893
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.6901
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.6914
+          }
+        ],
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0001
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0008
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0012
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0016
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0023
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0033
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0058
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0088
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.013
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.0224
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.0359
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.0587
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.12
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.1414
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.2008
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.2211
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.2184
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.3249
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.312
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.3145
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.3519
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.4101
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.3979
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.4867
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.4301
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.507
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.5574
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.5407
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.5852
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.6298
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.6365
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.618
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.568
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.7127
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.725
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.7443
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.7289
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.7616
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.7771
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.7889
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.8037
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.8026
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.8164
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.8243
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.8241
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.8299
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.8291
+          }
+        ],
+        [
+          {
+            "step": 1000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 2000,
+            "val_exact_match": 0.0
+          },
+          {
+            "step": 3000,
+            "val_exact_match": 0.0003
+          },
+          {
+            "step": 4000,
+            "val_exact_match": 0.0007
+          },
+          {
+            "step": 5000,
+            "val_exact_match": 0.0005
+          },
+          {
+            "step": 6000,
+            "val_exact_match": 0.0029
+          },
+          {
+            "step": 7000,
+            "val_exact_match": 0.0032
+          },
+          {
+            "step": 8000,
+            "val_exact_match": 0.0087
+          },
+          {
+            "step": 9000,
+            "val_exact_match": 0.0208
+          },
+          {
+            "step": 10000,
+            "val_exact_match": 0.0268
+          },
+          {
+            "step": 11000,
+            "val_exact_match": 0.0424
+          },
+          {
+            "step": 12000,
+            "val_exact_match": 0.0972
+          },
+          {
+            "step": 13000,
+            "val_exact_match": 0.1171
+          },
+          {
+            "step": 14000,
+            "val_exact_match": 0.1225
+          },
+          {
+            "step": 15000,
+            "val_exact_match": 0.19
+          },
+          {
+            "step": 16000,
+            "val_exact_match": 0.2024
+          },
+          {
+            "step": 17000,
+            "val_exact_match": 0.2166
+          },
+          {
+            "step": 18000,
+            "val_exact_match": 0.2409
+          },
+          {
+            "step": 19000,
+            "val_exact_match": 0.2741
+          },
+          {
+            "step": 20000,
+            "val_exact_match": 0.2644
+          },
+          {
+            "step": 21000,
+            "val_exact_match": 0.3518
+          },
+          {
+            "step": 22000,
+            "val_exact_match": 0.3005
+          },
+          {
+            "step": 23000,
+            "val_exact_match": 0.3137
+          },
+          {
+            "step": 24000,
+            "val_exact_match": 0.347
+          },
+          {
+            "step": 25000,
+            "val_exact_match": 0.4114
+          },
+          {
+            "step": 26000,
+            "val_exact_match": 0.4434
+          },
+          {
+            "step": 27000,
+            "val_exact_match": 0.4092
+          },
+          {
+            "step": 28000,
+            "val_exact_match": 0.4643
+          },
+          {
+            "step": 29000,
+            "val_exact_match": 0.5242
+          },
+          {
+            "step": 30000,
+            "val_exact_match": 0.5006
+          },
+          {
+            "step": 31000,
+            "val_exact_match": 0.5436
+          },
+          {
+            "step": 32000,
+            "val_exact_match": 0.5439
+          },
+          {
+            "step": 33000,
+            "val_exact_match": 0.5823
+          },
+          {
+            "step": 34000,
+            "val_exact_match": 0.6054
+          },
+          {
+            "step": 35000,
+            "val_exact_match": 0.6399
+          },
+          {
+            "step": 36000,
+            "val_exact_match": 0.6541
+          },
+          {
+            "step": 37000,
+            "val_exact_match": 0.67
+          },
+          {
+            "step": 38000,
+            "val_exact_match": 0.6649
+          },
+          {
+            "step": 39000,
+            "val_exact_match": 0.6861
+          },
+          {
+            "step": 40000,
+            "val_exact_match": 0.7267
+          },
+          {
+            "step": 41000,
+            "val_exact_match": 0.7529
+          },
+          {
+            "step": 42000,
+            "val_exact_match": 0.7437
+          },
+          {
+            "step": 43000,
+            "val_exact_match": 0.756
+          },
+          {
+            "step": 44000,
+            "val_exact_match": 0.7786
+          },
+          {
+            "step": 45000,
+            "val_exact_match": 0.7956
+          },
+          {
+            "step": 46000,
+            "val_exact_match": 0.8089
+          },
+          {
+            "step": 47000,
+            "val_exact_match": 0.8112
+          },
+          {
+            "step": 48000,
+            "val_exact_match": 0.8151
+          },
+          {
+            "step": 49000,
+            "val_exact_match": 0.8185
+          },
+          {
+            "step": 50000,
+            "val_exact_match": 0.8175
+          }
+        ]
+      ]
+    }
+  }
+}
