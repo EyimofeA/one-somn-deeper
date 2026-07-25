@@ -518,3 +518,14 @@ PREDICT:    Continuous state should recover the stronger UT-K4 baseline while
 RESULT:     refuted — e5 mean 0.38%, job 16ebb553. Aggregate carry
             supervision is rejected for hosted use; it does not transfer the
             per-column offline mechanism.
+
+DATE:       2026-07-25
+CARD:       pair_n_interaction_e5
+CHANGE:     Replace recurrent/weight-tied UT with a non-recurrent four-block
+            Transformer containing one learned pairwise-X interaction stage
+            and content-dependent attention from that pair representation to
+            N-digit states. No arithmetic operation or routing is hard-coded.
+PREDICT:    If one-step held-X/N failure is caused by a plain Transformer's
+            inability to expose the two required operands, this learned
+            pair/N interface should beat the 1.00% e5 champion. A floor result
+            means final-answer supervision still cannot identify reduction.
