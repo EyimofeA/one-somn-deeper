@@ -475,3 +475,46 @@ RESULT:     Medium m5 0.25% mean (aa699c3f; test 0.20 / ood 0.30). Hard h1
             succeeded — no timeout — score 0.03% mean exact (f4246e70).
             Timeout hypothesis confirmed; learning still at floor.
 ```
+DATE:       2026-07-25
+CARD:       claude_ut_k4_carry_aux_e5
+CHANGE:     Add a learned two-scalar auxiliary head to the validated UT-K4
+            STE anchor. It predicts aggregate schoolbook-squaring carry count
+            and maximum carry from X-token hidden states; primary logits and
+            recurrence are unchanged.
+PREDICT:    Carry supervision should beat the STE e5 anchor's 0.50% if the
+            Task-A mechanism transfers within Easy's short budget, but may
+            remain below the continuous UT champion because the diagnostic
+            benefit emerged over tens of thousands of steps.
+RESULT:     confirmed relative to the STE anchor but not promoted as-is:
+            e5 mean 0.75% (test 0.80%, OOD 0.70%), job 8e5457ad. Python
+            input_ids.tolist() synchronization reduced throughput to 1,349
+            steps versus the STE anchor's 2,521, confounding the mechanism
+            with a severe optimization-budget loss.
+
+DATE:       2026-07-25
+CARD:       claude_ut_k4_carry_aux_tensorized_e5
+CHANGE:     Implementation-only control: replace CPU/Python decoding and
+            carry-target generation with tensorized GPU operations. Auxiliary
+            targets, weight, model, optimizer, data, and metric stay fixed.
+PREDICT:    The e5 curve should retain or improve the 0.75% score while
+            recovering much of the STE anchor's ~2.5k-step throughput. If it
+            does, Medium's 10-minute budget should be a fairer test of whether
+            carry supervision improves held-out X/N learning.
+RESULT:     refuted — tensorization recovered throughput (2,179 steps versus
+            1,349) but e5 mean fell to 0.58% (test 0.80%, OOD 0.30%), job
+            4eff4824. Aggregate carry supervision does not rescue the STE
+            bottleneck.
+
+DATE:       2026-07-25
+CARD:       claude_ut_k4_continuous_carry_aux_e5
+CHANGE:     Remove only the refuted STE token snap between UT loops. The
+            tensorized carry auxiliary head, loss, data, optimizer, and four
+            learned processing blocks stay fixed.
+PREDICT:    Continuous state should recover the stronger UT-K4 baseline while
+            retaining any benefit from carry supervision, beating 0.58% and
+            plausibly matching or exceeding the 1.00% e5 champion. Failure
+            below 1.00% means the aggregate auxiliary target is not useful
+            enough for hosted variable-N learning.
+RESULT:     refuted — e5 mean 0.38%, job 16ebb553. Aggregate carry
+            supervision is rejected for hosted use; it does not transfer the
+            per-column offline mechanism.

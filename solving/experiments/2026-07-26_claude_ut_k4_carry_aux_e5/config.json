@@ -1,0 +1,10 @@
+{
+  "anchor": "2026-07-24_depth_d32_k4_ut_ste",
+  "dataset": "e5",
+  "aux_loss_weight": 0.3,
+  "jobs": {
+    "python_ste": "8e5457ad-f44b-4a8b-85ef-3898bafeeecb",
+    "tensorized_ste": "4eff4824-ae02-4b97-be0e-2b65b1bd22c4",
+    "tensorized_continuous": "16ebb553-75f9-4d00-94dd-b16442de6d77"
+  }
+}
