@@ -529,3 +529,7 @@ PREDICT:    If one-step held-X/N failure is caused by a plain Transformer's
             inability to expose the two required operands, this learned
             pair/N interface should beat the 1.00% e5 champion. A floor result
             means final-answer supervision still cannot identify reduction.
+DATE 2026-07-25
+CARD pair_n_carry_aux_e5
+CHANGE add per-column first-square carry-in/out supervision to the otherwise identical non-recurrent pair/N model.
+PREDICT exceed the 0.71% pair/N baseline and 1.00% e5 reference if carry-state identification transfers to held u,N; floor means first-square supervision does not reach modular reduction within the Easy budget.
