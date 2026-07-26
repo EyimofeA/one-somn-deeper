@@ -183,6 +183,7 @@ def main() -> None:
 
     model = build_model(cfg, max_seq_len=train_ds.max_len, task=task).to(device)
     model_type = cfg["model"]["type"]
+    parameter_count = sum(p.numel() for p in model.parameters())
 
     optim_cfg = cfg["optim"]
     optimizer = torch.optim.AdamW(
@@ -228,6 +229,7 @@ def main() -> None:
         "early_stop_patience_evals": early_stop_patience,
         "model_class": type(model).__name__,
         "model_type": model_type,
+        "parameter_count": parameter_count,
         "device": device,
         "repro": repro.capture(),
     }

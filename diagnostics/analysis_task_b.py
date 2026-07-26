@@ -12,6 +12,7 @@ Writes analysis_out/task_b_analysis.json.
 from __future__ import annotations
 
 import json
+import argparse
 from collections import Counter
 from pathlib import Path
 
@@ -23,9 +24,6 @@ from data.dataset import DiagnosticDataset, load_jsonl
 from data.tokens import NUM_MOD_DIGITS
 from train import build_model
 
-RUN_DIR = Path("runs/mod_transformer_50k")
-OUT_DIR = Path("analysis_out")
-OUT_DIR.mkdir(exist_ok=True)
 W = NUM_MOD_DIGITS  # 4
 
 
@@ -84,11 +82,11 @@ def quotient_bucket(q: int) -> str:
 # ---------------------------------------------------------------------------
 # model loading + inference
 # ---------------------------------------------------------------------------
-def load_trained_model():
-    cfg = yaml.safe_load((RUN_DIR / "config_used.yaml").read_text())
+def load_trained_model(run_dir: Path):
+    cfg = yaml.safe_load((run_dir / "config_used.yaml").read_text())
     train_ds = DiagnosticDataset(cfg["data"]["train"])
     model = build_model(cfg, max_seq_len=train_ds.max_len, task="mod")
-    ckpt = RUN_DIR / "peak.pt"
+    ckpt = run_dir / "peak.pt"
     if not ckpt.exists():
         ckpt = RUN_DIR / "final.pt"
     model.load_state_dict(torch.load(ckpt, map_location="cpu"))
@@ -112,7 +110,14 @@ def run_inference(model, rows: list[dict], batch_size: int = 256):
 
 
 def main() -> None:
-    model, cfg, ckpt_path = load_trained_model()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--run-dir", default="runs/mod_transformer_50k")
+    ap.add_argument("--out-dir", default="analysis_out")
+    args = ap.parse_args()
+    run_dir = Path(args.run_dir)
+    out_dir = Path(args.out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    model, cfg, ckpt_path = load_trained_model(run_dir)
     rows = load_jsonl(cfg["data"]["val"])
     print(f"loaded {len(rows)} val_iid rows, model={ckpt_path}")
 
@@ -251,7 +256,7 @@ def main() -> None:
     print(json.dumps(baselines, indent=2))
 
     results = {
-        "run_dir": str(RUN_DIR), "checkpoint": ckpt_path, "n_val_examples": n,
+        "run_dir": str(run_dir), "checkpoint": ckpt_path, "n_val_examples": n,
         "sanity_check_mismatches": mismatches,
         "error_structure": {
             "bucket_counts": bucket_counts, "first_wrong_position_histogram": dict(first_wrong_hist),
@@ -261,7 +266,7 @@ def main() -> None:
         "feature_bucket_report": feature_bucket_report,
         "baselines": baselines,
     }
-    out_path = OUT_DIR / "task_b_analysis.json"
+    out_path = out_dir / "task_b_analysis.json"
     out_path.write_text(json.dumps(results, indent=2))
     print(f"\nwrote {out_path}")
 
