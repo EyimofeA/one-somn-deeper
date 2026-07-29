@@ -48,6 +48,8 @@ class DiagnosticDataset(Dataset):
             "labels": torch.tensor(label_ids, dtype=torch.long),
             "attention_mask": torch.tensor(attention_mask, dtype=torch.bool),
             "index": idx,
+            "u": torch.tensor(row.get("u", -1), dtype=torch.long),
+            "quotient": torch.tensor(row.get("quotient", -1), dtype=torch.long),
         }
 
     def meta(self, idx: int) -> dict:

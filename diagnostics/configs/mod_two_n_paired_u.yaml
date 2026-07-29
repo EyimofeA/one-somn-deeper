@@ -1,0 +1,24 @@
+task: mod
+seed: 0
+device: cuda
+model:
+  type: transformer
+  d_model: 128
+  n_layers: 4
+  n_heads: 4
+  d_ff: 512
+data:
+  train: data/generated/mod_two_n_paired_u/train.jsonl
+  val: data/generated/mod_two_n_paired_u/val_iid.jsonl
+optim:
+  lr: 3.0e-4
+  weight_decay: 0.01
+  warmup_frac: 0.05
+  total_steps: 50000
+  batch_size: 512
+  grad_clip: 1.0
+log_every: 200
+eval_every: 1000
+eval_train_subset_size: 2000
+early_stop_patience: 10
+out_dir: runs/mod_two_n_paired_u

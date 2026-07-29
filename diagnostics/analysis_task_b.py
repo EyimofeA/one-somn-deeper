@@ -79,49 +79,65 @@ def quotient_bucket(q: int) -> str:
     return "large(10+)"
 
 
+def ratio_bucket(ratio: float) -> str:
+    if ratio < 1:
+        return "<1"
+    if ratio < 2:
+        return "1-<2"
+    if ratio < 10:
+        return "2-<10"
+    if ratio < 100:
+        return "10-<100"
+    return "100+"
+
+
 # ---------------------------------------------------------------------------
 # model loading + inference
 # ---------------------------------------------------------------------------
-def load_trained_model(run_dir: Path):
+def load_trained_model(run_dir: Path, checkpoint: str):
     cfg = yaml.safe_load((run_dir / "config_used.yaml").read_text())
     train_ds = DiagnosticDataset(cfg["data"]["train"])
-    model = build_model(cfg, max_seq_len=train_ds.max_len, task="mod")
-    ckpt = run_dir / "peak.pt"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model = build_model(cfg, max_seq_len=train_ds.max_len, task="mod").to(device)
+    ckpt = run_dir / f"{checkpoint}.pt"
     if not ckpt.exists():
-        ckpt = RUN_DIR / "final.pt"
-    model.load_state_dict(torch.load(ckpt, map_location="cpu"))
+        raise FileNotFoundError(ckpt)
+    model.load_state_dict(torch.load(ckpt, map_location=device))
     model.eval()
-    return model, cfg, str(ckpt)
+    return model, cfg, str(ckpt), device
 
 
 @torch.no_grad()
-def run_inference(model, rows: list[dict], batch_size: int = 256):
+def run_inference(model, rows: list[dict], device: str, batch_size: int = 256):
     all_preds, all_probs = [], []
     for i in range(0, len(rows), batch_size):
         chunk = rows[i : i + batch_size]
-        ids = torch.tensor([r["input_ids"] for r in chunk], dtype=torch.long)
+        ids = torch.tensor([r["input_ids"] for r in chunk], dtype=torch.long, device=device)
         mask = torch.ones_like(ids, dtype=torch.bool)
         logits = model(ids, mask)[:, -W:, :]
         probs = torch.softmax(logits, dim=-1)
         preds = probs.argmax(dim=-1)
-        all_preds.append(preds.numpy())
-        all_probs.append(probs.numpy())
+        all_preds.append(preds.cpu().numpy())
+        all_probs.append(probs.cpu().numpy())
     return np.concatenate(all_preds, axis=0), np.concatenate(all_probs, axis=0)
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--run-dir", default="runs/mod_transformer_50k")
+    ap.add_argument("--data-file", default=None, help="override config validation split")
+    ap.add_argument("--checkpoint", choices=("peak", "final"), default="peak")
     ap.add_argument("--out-dir", default="analysis_out")
     args = ap.parse_args()
     run_dir = Path(args.run_dir)
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    model, cfg, ckpt_path = load_trained_model(run_dir)
-    rows = load_jsonl(cfg["data"]["val"])
-    print(f"loaded {len(rows)} val_iid rows, model={ckpt_path}")
+    model, cfg, ckpt_path, device = load_trained_model(run_dir, args.checkpoint)
+    data_file = Path(args.data_file) if args.data_file else Path(cfg["data"]["val"])
+    rows = load_jsonl(data_file)
+    print(f"loaded {len(rows)} rows from {data_file}, model={ckpt_path}, device={device}")
 
-    preds, probs = run_inference(model, rows)
+    preds, probs = run_inference(model, rows, device)
     targets = np.array([r["labels"][-W:] for r in rows])
     correct = preds == targets
     n = len(rows)
@@ -144,7 +160,16 @@ def main() -> None:
     first_wrong_hist = Counter(p for p in first_wrong_pos if p >= 0)
 
     wrong_idx = np.where(n_wrong > 0)[0]
-    contiguous = sum(1 for i in wrong_idx if len(set(np.diff(np.where(~correct[i])[0]).tolist())) <= 1)
+
+    def longest_error_run(i: int) -> int:
+        longest = current = 0
+        for wrong in ~correct[i]:
+            current = current + 1 if wrong else 0
+            longest = max(longest, current)
+        return longest
+
+    error_run_lengths = [longest_error_run(i) for i in wrong_idx]
+    contiguous = sum(run == n_wrong[i] for run, i in zip(error_run_lengths, wrong_idx))
     frac_contiguous = contiguous / len(wrong_idx) if len(wrong_idx) else None
 
     print("\n=== Error structure ===")
@@ -153,6 +178,7 @@ def main() -> None:
         print(f"  {k}: {v} ({v/n:.4f})")
     print(f"first-wrong-position histogram: {dict(sorted(first_wrong_hist.items()))}")
     print(f"fraction of wrong examples with contiguous wrong positions: {frac_contiguous}")
+    print(f"longest error-run histogram: {dict(sorted(Counter(error_run_lengths).items()))}")
 
     # ---------------- per-position accuracy/confidence/calibration ----------------
     print("\n=== Per-position accuracy/confidence/calibration ===")
@@ -184,12 +210,23 @@ def main() -> None:
         print(f"  {name}: " + ", ".join(f"{k}:{v['exact_match']:.3f}(n={v['n']})" for k, v in sorted(rep.items())))
 
     bucket_report(lambda f: quotient_bucket(f["quotient"]), "quotient_bucket")
+    feature_bucket_report["quotient"] = {
+        str(q): {"n": int(sum(f["quotient"] == q for f in feats)), "exact_match": float(y_exact[[f["quotient"] == q for f in feats]].mean())}
+        for q in sorted({f["quotient"] for f in feats})
+    }
+    bucket_report(lambda f: len(str(f["quotient"])), "quotient_digit_length")
+    bucket_report(lambda f: ratio_bucket(f["ratio_u_over_n"]), "u_over_n_ratio")
     bucket_report(lambda f: f["u_less_than_n"], "u_less_than_n")
     bucket_report(lambda f: f["n_digits_u"], "n_digits_u")
     bucket_report(lambda f: f["n_digits_n"], "n_digits_n")
     bucket_report(lambda f: min(f["n_digits_remainder"], 4), "n_digits_remainder")
+    feature_bucket_report["remainder_value"] = {
+        str(r): {"n": int(sum(f["remainder"] == r for f in feats)), "exact_match": float(y_exact[[f["remainder"] == r for f in feats]].mean())}
+        for r in sorted({f["remainder"] for f in feats})
+    }
     dist0 = np.array([f["dist_remainder_to_0"] for f in feats])
     distn = np.array([f["dist_remainder_to_n"] for f in feats])
+    distnear = np.minimum(dist0, distn)
     dist0_q = np.digitize(dist0, np.quantile(dist0, [0.25, 0.5, 0.75]))
     distn_q = np.digitize(distn, np.quantile(distn, [0.25, 0.5, 0.75]))
     feature_bucket_report["dist_remainder_to_0_quartile"] = {
@@ -200,8 +237,14 @@ def main() -> None:
         str(q): {"n": int((distn_q == q).sum()), "exact_match": float(y_exact[distn_q == q].mean())}
         for q in np.unique(distn_q)
     }
+    distnear_q = np.digitize(distnear, np.quantile(distnear, [0.25, 0.5, 0.75]))
+    feature_bucket_report["dist_to_nearest_multiple_quartile"] = {
+        str(q): {"n": int((distnear_q == q).sum()), "exact_match": float(y_exact[distnear_q == q].mean())}
+        for q in np.unique(distnear_q)
+    }
     print("  dist_remainder_to_0_quartile: " + ", ".join(f"{k}:{v['exact_match']:.3f}(n={v['n']})" for k, v in sorted(feature_bucket_report["dist_remainder_to_0_quartile"].items())))
     print("  dist_remainder_to_n_quartile: " + ", ".join(f"{k}:{v['exact_match']:.3f}(n={v['n']})" for k, v in sorted(feature_bucket_report["dist_remainder_to_n_quartile"].items())))
+    print("  dist_to_nearest_multiple_quartile: " + ", ".join(f"{k}:{v['exact_match']:.3f}(n={v['n']})" for k, v in sorted(feature_bucket_report["dist_to_nearest_multiple_quartile"].items())))
 
     # ---------------- baselines ----------------
     print("\n=== Non-neural baselines ===")
@@ -222,6 +265,14 @@ def main() -> None:
     u_last4 = np.array([[int(c) for c in f"{int(r['u']):04d}"[-4:]] for r in rows])
     baseline_u_unchanged = u_last4 == targets
     exact_u_unchanged, token_u_unchanged = float(baseline_u_unchanged.all(axis=1).mean()), float(baseline_u_unchanged.mean())
+    mod10_baselines, mod10_digits = {}, {}
+    for width in (1, 2, 3):
+        values = np.array([int(r["u"]) % (10 ** width) for r in rows])
+        digits = np.array([[int(c) for c in f"{v:04d}"] for v in values])
+        matches = digits == targets
+        name = f"output_u_mod_10^{width}"
+        mod10_digits[name] = digits
+        mod10_baselines[name] = {"exact_match": float(matches.all(axis=1).mean()), "token_accuracy": float(matches.mean())}
 
     # nearest training example by u (numeric distance), read off its target directly
     order = np.argsort(train_u_arr)
@@ -250,9 +301,20 @@ def main() -> None:
         "most_common_digit_per_position": {"exact_match": exact_mode, "token_accuracy": token_mode},
         "output_zero": {"exact_match": exact_zero, "token_accuracy": token_zero},
         "output_u_unchanged": {"exact_match": exact_u_unchanged, "token_accuracy": token_u_unchanged},
+        **mod10_baselines,
         "nearest_training_by_u": {"exact_match": exact_nearest_u, "token_accuracy": token_nearest_u},
         "naive_nearest_multiple_heuristic": {"exact_match": exact_naive, "token_accuracy": token_naive},
     }
+    baseline_predictions = {
+        "most_common_digit_per_position": np.broadcast_to(mode_digit_per_pos, targets.shape),
+        "output_zero": zero_pred,
+        "output_u_unchanged": u_last4,
+        "nearest_training_by_u": train_targets[nearest_orig],
+        "naive_nearest_multiple_heuristic": naive_digits,
+        **mod10_digits,
+    }
+    for name, digits in baseline_predictions.items():
+        baselines[name]["model_exact_agreement"] = float((preds == digits).all(axis=1).mean())
     print(json.dumps(baselines, indent=2))
 
     results = {
@@ -260,6 +322,7 @@ def main() -> None:
         "sanity_check_mismatches": mismatches,
         "error_structure": {
             "bucket_counts": bucket_counts, "first_wrong_position_histogram": dict(first_wrong_hist),
+            "longest_error_run_histogram": dict(Counter(error_run_lengths)),
             "frac_contiguous_given_wrong": frac_contiguous,
         },
         "per_position": per_position,

@@ -10,6 +10,19 @@ Hard shot #2 `99c4d7d3` scored **0.05%** mean exact (test 0.1%/ood_t 0/ood_n_t 0
 under the *old* Hard metric — not the current Max T rank key. The current local
 mechanism work is a bounded, non-submission carry diagnostic; its results are below.
 
+## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
+
+| Setting | Final held-out-u exact | Reading |
+|---|---:|---|
+| fixed N=1349, baseline (3 seeds) | **33.65±2.95%** | unseen-u reduction remains unsolved despite 98.03% train exact |
+| two N={1349,1357}, baseline (3 seeds) | **11.27±0.63%** | adding a second N collapses generalization |
+| two N, correct N broadcast | **11.55±0.30%** | no material gain vs baseline |
+| two N, shuffled broadcast control | **11.35±0.39%** | confirms no semantic N-routing effect |
+| fixed N, quotient auxiliary | **29.38±6.91%** | refuted vs baseline |
+| fixed N, u-copy auxiliary control | **22.35±0.40%** | auxiliary head/extra loss is harmful |
+
+Counterfactual two-N evaluation: baseline changes predictions with N on 92.55% of pairs, but responds incorrectly under both N on 92.38%; correct broadcast does not repair this. The parallel standard-Transformer branch is **falsified for Task B**. Do not scale N broadcast or quotient auxiliaries. The next justified Task-B branch is a learned serial remainder/borrow workspace with a capacity-matched non-serial control; it is **not launched**. Evidence: `diagnostics/analysis_out/task_b_n_broadcast_ablation.md`, `diagnostics/analysis_out/task_b_fixed_n_quotient_aux_ablation.md`.
+
 ## Current research state: digit recurrence gates
 
 | Gate | Data and held-out split | Metric | Result | Meaning |

@@ -767,3 +767,15 @@ composition, still locally and without promoting weights to a submission.
 - **Hard:** Exact validated multi-block file launched at 23:55 UTC, job
   `de4c3c51`; predicted certified Max T=0, with possible T=1 partial gain.
 
+### 2026-07-30 — Task B N-broadcast semantic ablation
+- **Hypothesis:** The two-N held-out-u collapse reflects an inadequate learned route from N digits to output slots; broadcasting pooled N states after every Transformer layer should help, while a wrong-N broadcast should not.
+- **Setup:** Fixed unpaired N={1349,1357} Task-B data (8k train / 2k held-out u), 4L d128 standard Transformer, seeds 0–2. Compared baseline (799,498 params) to correct and shuffled input-N broadcast (865,546 params); all new variants passed direct-forward and 32-row 100% smoke checks. Counterfactual evaluation used the same 2,000 u under both N, excluded from either train set.
+- **Result:** **Refuted (Case C).** Final held-out-u EM: baseline 11.27±0.63%, correct broadcast 11.55±0.30%, shuffled control 11.35±0.39%. Counterfactual predictions change with N 92.55%/95.10%/95.02%, respectively, but correct modulus-specific pairs are 0% in every condition; ~92–95% respond yet are wrong under both. N broadcast is slower (95.5 vs 112.0 steps/s) and does not provide a material gain.
+- **Next:** Diagnose fixed-N=1349 generalization. Its final held-out-u EM is 36.60%, q≥10 is 33.9%, and a crude nearest-multiple baseline reaches 39.7%; test a quotient-estimation intervention only after comparing it to an equally sized non-quotient auxiliary control.
+
+### 2026-07-30 — Task B fixed-N quotient auxiliary control
+- **Hypothesis:** Fixed-N unseen-u failure is primarily missing quotient estimation; a four-digit quotient auxiliary head should improve held-out-u reduction, unlike an equal-size u-copy target.
+- **Setup:** N=1349, 8k/2k disjoint-u data, same 4L d128 Transformer and budget, seeds 0–2. Baseline vs 1,290-parameter quotient-digit auxiliary (λ=.25) vs same-head u-copy control. All new variants passed manual q checks, direct autograd, and 32-row 100% smoke.
+- **Result:** **Refuted.** Final held-out-u EM: baseline **33.65±2.95%**, quotient aux **29.38±6.91%**, u-copy control **22.35±0.40%**. Fixed-N error diagnostic: 1/2/3/4 quotient-digit EM=94.4/39.2/38.0/24.6%; 82.6% of wrong rows have a contiguous error run. Copy/interpolation baselines do not explain predictions; nearest-multiple heuristic reaches 39.7% but model agreement is only 11.0%.
+- **Next:** Stop the parallel standard-Transformer branch. The remaining supported hypothesis is a missing learned serial remainder/borrow state; any next Task-B run must introduce a learned serial workspace plus a capacity-matched non-serial control.
+
