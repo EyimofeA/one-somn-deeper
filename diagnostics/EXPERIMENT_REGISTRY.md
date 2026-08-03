@@ -13,7 +13,8 @@ Status values: `planned` (not yet run, GPU not started as of 2026-07-25) |
 
 ## Task B serial Phase 1: input-conditioned workspace initialization — Codex
 
-- **Status:** planned
+- **Status:** running (2026-08-03; serial L40 queue launched from source
+  commit `3cde93d`)
 - **Prediction:** a one-time ordered-input read will improve fixed-N=1349
   held-out-u exact match, particularly for `q >= 10`; the shuffled-context
   control will remain near the fixed-workspace result.
