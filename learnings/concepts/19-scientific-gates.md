@@ -23,7 +23,7 @@ Later gates do not compensate for an earlier failure.
 
 The frontier is **before complete one-step generalization**.
 
-- The d=32 fixed-N=1073 T=1 anchor reached 100% train EM but only 3.47% peak
+- `The` d=32 fixed-N=1073 T=1 anchor reached 100% train EM but only 3.47% peak
   held-out-x EM in 1,800 seconds
   (`solving/experiments/metrics/rung1_n1073_1800s_monitor.jsonl`).
 - The digit micro-scan reached 100% train EM but only 1.49% peak held-out-x EM
