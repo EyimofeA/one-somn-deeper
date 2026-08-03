@@ -76,7 +76,10 @@ def test_input_conditioned_workspace_modes_forward_backward_smoke():
             workspace_size=NUM_MOD_DIGITS, num_output_slots=NUM_MOD_DIGITS,
             num_loops=3, workspace_init_mode=mode,
         )
-        kwargs = {}
+        kwargs = {
+            "init_input_ids": input_ids,
+            "init_attention_mask": mask,
+        }
         if mode == "shuffled_context":
             kwargs = {
                 "init_input_ids": input_ids.roll(1, 0),

@@ -21,7 +21,7 @@ Status values: `planned` (not yet run, GPU not started as of 2026-07-25) |
   one cross-attention read from the encoded ordered input. The read reuses the
   recurrent transition's existing cross-attention parameters, so parameter
   count and K=8 tied transition are unchanged. `shuffled_context` changes only
-  that read's source through a deterministic non-identity batch derangement.
+  that read's source through a deterministic non-identity row-level derangement.
 - **Controls held fixed:** existing 8k/2k N=1349 split, tokenizer, d=144,
   K=8, eight workspace tokens, optimizer, batch size 512, 50k step budget,
   decoder, no auxiliary loss.

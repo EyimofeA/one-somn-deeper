@@ -22,7 +22,7 @@ import torch
 import yaml
 from torch.utils.data import DataLoader
 
-from data.dataset import DiagnosticDataset, ShuffledContextDataset
+from data.dataset import DiagnosticDataset, InputContextDataset, ShuffledContextDataset
 from data.tokens import OUTPUT_WIDTH
 from models.recurrent_workspace import RecurrentWorkspaceModel
 from models.transformer import StandardTransformer
@@ -159,7 +159,10 @@ def main() -> None:
     for split in args.splits:
         path = data_dir / f"{split}.jsonl"
         ds = DiagnosticDataset(path)
-        if cfg["model"].get("workspace_init_mode") == "shuffled_context":
+        init_mode = cfg["model"].get("workspace_init_mode")
+        if init_mode == "input_context":
+            ds = InputContextDataset(ds)
+        elif init_mode == "shuffled_context":
             ds = ShuffledContextDataset(ds, seed=cfg.get("seed", 0))
         correct, token_correct, meta = run_split(model, ds, output_width, model_type, device)
         split_report = {

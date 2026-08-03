@@ -120,13 +120,10 @@ class RecurrentWorkspaceModel(nn.Module):
         if self.workspace_init_mode == "fixed":
             return w
 
-        if self.workspace_init_mode == "shuffled_context":
+        if self.workspace_init_mode in {"input_context", "shuffled_context"}:
             if init_context is None:
-                raise ValueError("shuffled_context requires init_input_ids")
+                raise ValueError(f"{self.workspace_init_mode} requires init_input_ids")
             init_mask = init_context_key_padding_mask
-        else:
-            init_context = c
-            init_mask = context_key_padding_mask
         query = self.transition.norm2(w)
         init_read, _ = self.transition.cross_attn(
             query, init_context, init_context,

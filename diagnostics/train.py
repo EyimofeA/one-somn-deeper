@@ -25,7 +25,7 @@ from torch import nn
 from torch.utils.data import DataLoader, Subset
 
 import repro
-from data.dataset import DiagnosticDataset, ShuffledContextDataset
+from data.dataset import DiagnosticDataset, InputContextDataset, ShuffledContextDataset
 from data.tokens import OUTPUT_WIDTH
 from models.recurrent_workspace import RecurrentWorkspaceModel
 from models.transformer import StandardTransformer
@@ -204,7 +204,11 @@ def main() -> None:
 
     train_ds = DiagnosticDataset(cfg["data"]["train"])
     val_ds = DiagnosticDataset(cfg["data"]["val"])
-    if cfg["model"].get("workspace_init_mode") == "shuffled_context":
+    init_mode = cfg["model"].get("workspace_init_mode")
+    if init_mode == "input_context":
+        train_ds = InputContextDataset(train_ds)
+        val_ds = InputContextDataset(val_ds)
+    elif init_mode == "shuffled_context":
         train_ds = ShuffledContextDataset(train_ds, seed=cfg.get("seed", 0))
         val_ds = ShuffledContextDataset(val_ds, seed=cfg.get("seed", 0))
     batch_size = cfg["optim"].get("batch_size", 64)

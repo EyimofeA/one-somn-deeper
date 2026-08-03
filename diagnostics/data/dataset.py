@@ -56,12 +56,36 @@ class DiagnosticDataset(Dataset):
         return self.rows[idx]
 
 
-class ShuffledContextDataset(Dataset):
+class InputContextDataset(Dataset):
+    """Attach each row's own context as the explicit initialization input.
+
+    This deliberately makes the correct-context condition take the same
+    second ContextEncoder pass as its shuffled counterpart.  It is therefore
+    a matched information control, rather than a throughput control.
+    """
+
+    def __init__(self, base: DiagnosticDataset):
+        self.base = base
+        self.max_len = base.max_len
+
+    def __len__(self) -> int:
+        return len(self.base)
+
+    def __getitem__(self, idx: int) -> dict[str, torch.Tensor]:
+        item = dict(self.base[idx])
+        item["init_input_ids"] = item["input_ids"]
+        item["init_attention_mask"] = item["attention_mask"]
+        return item
+
+    def meta(self, idx: int) -> dict:
+        return self.base.meta(idx)
+
+
+class ShuffledContextDataset(InputContextDataset):
     """Attach a fixed, non-self source context for an initialization control."""
 
     def __init__(self, base: DiagnosticDataset, seed: int):
-        self.base = base
-        self.max_len = base.max_len
+        super().__init__(base)
         generator = torch.Generator().manual_seed(seed)
         identity = torch.arange(len(base))
         while True:
