@@ -78,6 +78,9 @@ A shared 11,104-parameter continuous carry scan reached 79.45% overall; c6/c7
 improved slightly to 71.94% / 56.11%, but exact match still decayed with chain
 length
 (`solving/experiments/2026-07-23_gate1_carry_scan/metrics/per_c_final.json`).
+A fixed right-aligned internal register preserved 99.50% same-length exact
+match but produced only 6.70% at length 4
+(`solving/experiments/2026-07-23_gate1_fixed_register/metrics/monitor.jsonl`).
 
 **Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
 and carry propagation. Do not test modular reduction or T.
