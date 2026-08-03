@@ -120,6 +120,7 @@ def build_model(cfg: dict, max_seq_len: int, task: str) -> nn.Module:
             workspace_size=workspace_size,
             num_output_slots=m.get("num_output_slots", output_width),
             num_loops=m.get("num_loops", 8),
+            workspace_init_mode=m.get("workspace_init_mode", "fixed"),
         )
     raise ValueError(f"unknown model.type {m['type']!r}")
 

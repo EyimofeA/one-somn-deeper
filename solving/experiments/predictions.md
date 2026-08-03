@@ -549,3 +549,12 @@ DATE 2026-07-25
 CARD pair_n_multiblock_supervision_e5_rep1
 CHANGE exact hosted replication; no code or configuration change.
 PREDICT remain at or above 0.71% if the gain is directional; below 0.5% classifies the 1.04% run as e5 noise.
+CARD:       taskb_input_conditioned_workspace
+CHANGE:     Fixed learned K=8 workspace initialization becomes one learned
+            ordered-input cross-attention read using the existing transition
+            attention; shuffled-context uses the same read from a deterministic
+            non-identity batch derangement.
+PREDICT:    Correct context will improve held-out-u exact match, especially
+            q>=10, while shuffled context remains near the fixed-workspace
+            result; otherwise the fixed initializer is not the primary
+            bottleneck.

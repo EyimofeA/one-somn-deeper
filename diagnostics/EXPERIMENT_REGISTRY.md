@@ -11,6 +11,28 @@ committed summary of record via `analysis_out/`).
 Status values: `planned` (not yet run, GPU not started as of 2026-07-25) |
 `running` | `done`.
 
+## Task B serial Phase 1: input-conditioned workspace initialization — Codex
+
+- **Status:** planned
+- **Prediction:** a one-time ordered-input read will improve fixed-N=1349
+  held-out-u exact match, particularly for `q >= 10`; the shuffled-context
+  control will remain near the fixed-workspace result.
+- **Changed variable:** `workspace_init_mode`: fixed learned registers versus
+  one cross-attention read from the encoded ordered input. The read reuses the
+  recurrent transition's existing cross-attention parameters, so parameter
+  count and K=8 tied transition are unchanged. `shuffled_context` changes only
+  that read's source through a deterministic non-identity batch derangement.
+- **Controls held fixed:** existing 8k/2k N=1349 split, tokenizer, d=144,
+  K=8, eight workspace tokens, optimizer, batch size 512, 50k step budget,
+  decoder, no auxiliary loss.
+- **Conditions/seeds:** correct input context and shuffled context, seeds 0, 1,
+  2; compare against the completed fixed-workspace and deep controls.
+- **Pre-registered interpretation:** correct > fixed and shuffled supports
+  semantic initialization. Correct ≈ shuffled implies an optimization-path
+  effect. Neither improves closes fixed workspace initialization as the main
+  explanation.
+- **Result:** pending
+
 **Deviation applied to all of A1/A2/A3/B2 (2026-07-25, explicit user request):**
 `batch_size` raised from the established 64 to **512** for every run below,
 and all runs launched concurrently on one GPU rather than sequentially.

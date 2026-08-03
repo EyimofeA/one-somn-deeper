@@ -81,6 +81,7 @@ class RecurrentWorkspaceModel(nn.Module):
         workspace_size: int = 8,
         num_output_slots: int = 8,
         num_loops: int = 8,
+        workspace_init_mode: str = "fixed",
         digit_vocab: int = 10,
     ) -> None:
         super().__init__()
@@ -89,6 +90,9 @@ class RecurrentWorkspaceModel(nn.Module):
         self.workspace_size = workspace_size
         self.num_output_slots = num_output_slots
         self.num_loops = num_loops
+        if workspace_init_mode not in {"fixed", "input_context", "shuffled_context"}:
+            raise ValueError(f"unknown workspace_init_mode {workspace_init_mode!r}")
+        self.workspace_init_mode = workspace_init_mode
 
         self.context_encoder = ContextEncoder(vocab_size, max_seq_len, d_model, n_heads, d_ff, context_layers)
         self.workspace_init = nn.Parameter(torch.randn(workspace_size, d_model) * 0.02)
@@ -97,10 +101,39 @@ class RecurrentWorkspaceModel(nn.Module):
         self.register_norm = nn.LayerNorm(d_model)
         self.output_head = nn.Linear(d_model, digit_vocab)
 
-    def forward(self, input_ids: Tensor, attention_mask: Tensor | None = None, override_loops: int | None = None) -> Tensor:
-        batch = input_ids.shape[0]
-        c, ctx_mask = self.context_encoder(input_ids, attention_mask)
+    def _initialize_workspace(
+        self, c: Tensor, context_key_padding_mask: Tensor | None
+    ) -> Tensor:
+        """Initialize registers, optionally from one ordered context read.
+
+        The input-conditioned read deliberately reuses the tied transition's
+        existing cross-attention parameters, so it adds no capacity.  The
+        shuffled control changes only which batch row supplies that read.
+        """
+        batch = c.shape[0]
         w = self.workspace_init[None, :, :].expand(batch, -1, -1).contiguous()
+        if self.workspace_init_mode == "fixed":
+            return w
+
+        init_context = c
+        init_mask = context_key_padding_mask
+        if self.workspace_init_mode == "shuffled_context":
+            if batch < 2:
+                raise ValueError("shuffled_context requires batch_size >= 2")
+            init_context = c.roll(shifts=1, dims=0)
+            if init_mask is not None:
+                init_mask = init_mask.roll(shifts=1, dims=0)
+        query = self.transition.norm2(w)
+        init_read, _ = self.transition.cross_attn(
+            query, init_context, init_context,
+            key_padding_mask=init_mask,
+            need_weights=False,
+        )
+        return w + init_read
+
+    def forward(self, input_ids: Tensor, attention_mask: Tensor | None = None, override_loops: int | None = None) -> Tensor:
+        c, ctx_mask = self.context_encoder(input_ids, attention_mask)
+        w = self._initialize_workspace(c, ctx_mask)
         loops = self.num_loops if override_loops is None else override_loops
         for t in range(loops):
             w = w + self.iter_embed(torch.tensor(t, device=input_ids.device))[None, None, :]

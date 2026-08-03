@@ -65,6 +65,31 @@ def test_recurrent_workspace_forward_backward_smoke():
     assert any(g is not None and torch.isfinite(g).all() for g in grads)
 
 
+def test_input_conditioned_workspace_modes_forward_backward_smoke():
+    ids, labels = zip(*(encode_mod(1349, u) for u in (2715, 4087, 6791)))
+    input_ids = torch.tensor(ids, dtype=torch.long)
+    targets = torch.tensor(labels, dtype=torch.long)[:, -NUM_MOD_DIGITS:]
+    mask = torch.ones_like(input_ids, dtype=torch.bool)
+    for mode in ("input_context", "shuffled_context"):
+        model = RecurrentWorkspaceModel(
+            max_seq_len=input_ids.shape[1], d_model=32, n_heads=2, d_ff=64,
+            workspace_size=NUM_MOD_DIGITS, num_output_slots=NUM_MOD_DIGITS,
+            num_loops=3, workspace_init_mode=mode,
+        )
+        logits = model(input_ids, mask)
+        assert logits.shape == (3, NUM_MOD_DIGITS, 10)
+        loss = torch.nn.functional.cross_entropy(logits.reshape(-1, 10), targets.reshape(-1))
+        loss.backward()
+        assert any(p.grad is not None and torch.isfinite(p.grad).all() for p in model.parameters())
+
+
+def test_shuffled_context_is_a_nonidentity_derangement():
+    model = RecurrentWorkspaceModel(d_model=16, n_heads=2, d_ff=32, workspace_init_mode="shuffled_context")
+    context = torch.arange(3 * 5 * 16, dtype=torch.float32).view(3, 5, 16)
+    shuffled = context.roll(shifts=1, dims=0)
+    assert all(not torch.equal(context[row], shuffled[row]) for row in range(context.shape[0]))
+
+
 def test_recurrent_workspace_rejects_output_slots_larger_than_workspace():
     try:
         RecurrentWorkspaceModel(workspace_size=4, num_output_slots=8)
