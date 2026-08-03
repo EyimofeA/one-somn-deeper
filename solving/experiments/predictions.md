@@ -579,3 +579,13 @@ CARD:       gate1_square
 CHANGE:     copy X → exact x² without modular reduction
 PREDICT:    digit multiplication will not generalize
 RESULT:     confirmed
+
+CARD:       taskb_input_conditioned_workspace
+CHANGE:     Fixed learned K=8 workspace initialization becomes one learned
+            ordered-input cross-attention read using the existing transition
+            attention; shuffled-context uses the same read from a deterministic
+            non-identity row-level derangement.
+PREDICT:    Correct context will improve held-out-u exact match, especially
+            q>=10, while shuffled context remains near the fixed-workspace
+            result; otherwise the fixed initializer is not the primary
+            bottleneck.
