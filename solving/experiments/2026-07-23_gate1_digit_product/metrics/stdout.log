@@ -1,0 +1,27 @@
+scoring splits: ('test',)
+{"type": "train", "step": 1, "elapsed_seconds": 1.0644656229997054, "loss": 2.8182222843170166, "exact_accuracy": 0.0, "lr": 0.0001383624250498924, "weight_norm": 26.150134593141324, "grad_norm": 0.9999992976079091}
+{"type": "eval", "split": "test", "step": 1, "elapsed_seconds": 1.0644656229997054, "loss": 2.8099234104156494, "exact_accuracy": 0.09999999403953552}
+new peak test acc 0.1000 at step 1 -> saved results_local/gate1_digit_product/monitor_peak.pt
+{"type": "train", "step": 100, "elapsed_seconds": 8.990312523999819, "loss": 1.5745413303375244, "exact_accuracy": 0.79296875, "lr": 0.0009230258479889125, "weight_norm": 26.331817968597232, "grad_norm": 0.9999998139231647}
+{"type": "eval", "split": "test", "step": 100, "elapsed_seconds": 8.990312523999819, "loss": 2.682405948638916, "exact_accuracy": 0.14999999105930328}
+new peak test acc 0.1500 at step 100 -> saved results_local/gate1_digit_product/monitor_peak.pt
+{"type": "train", "step": 200, "elapsed_seconds": 16.392882693999127, "loss": 0.11263535171747208, "exact_accuracy": 1.0, "lr": 0.0016558831599778425, "weight_norm": 26.826255766616256, "grad_norm": 0.3383479570981299}
+{"type": "eval", "split": "test", "step": 200, "elapsed_seconds": 16.392882693999127, "loss": 3.6331865787506104, "exact_accuracy": 0.14999999105930328}
+{"type": "train", "step": 300, "elapsed_seconds": 24.452860372999567, "loss": 0.003181248437613249, "exact_accuracy": 1.0, "lr": 0.0024538204996498334, "weight_norm": 26.756008402017223, "grad_norm": 0.010493738715133094}
+{"type": "eval", "split": "test", "step": 300, "elapsed_seconds": 24.452860372999567, "loss": 5.709661483764648, "exact_accuracy": 0.14999999105930328}
+{"type": "train", "step": 400, "elapsed_seconds": 32.35163294300037, "loss": 0.0001667263568378985, "exact_accuracy": 1.0, "lr": 0.002999872048992088, "weight_norm": 26.436542319758566, "grad_norm": 0.0006446363069197495}
+{"type": "eval", "split": "test", "step": 400, "elapsed_seconds": 32.35163294300037, "loss": 7.412858486175537, "exact_accuracy": 0.14999999105930328}
+{"type": "train", "step": 500, "elapsed_seconds": 40.13879672099938, "loss": 1.2815910849894863e-05, "exact_accuracy": 1.0, "lr": 0.002997668222029833, "weight_norm": 26.08126956525373, "grad_norm": 6.902271314419327e-05}
+{"type": "eval", "split": "test", "step": 500, "elapsed_seconds": 40.13879672099938, "loss": 9.284059524536133, "exact_accuracy": 0.14999999105930328}
+{"type": "train", "step": 600, "elapsed_seconds": 48.07921387100032, "loss": 9.671097132013529e-07, "exact_accuracy": 1.0, "lr": 0.002992609168573756, "weight_norm": 25.759727512851757, "grad_norm": 4.37873457857226e-06}
+{"type": "eval", "split": "test", "step": 600, "elapsed_seconds": 48.07921387100032, "loss": 11.102882385253906, "exact_accuracy": 0.14999999105930328}
+{"type": "train", "step": 700, "elapsed_seconds": 56.24296579200018, "loss": 4.8740734115426676e-08, "exact_accuracy": 1.0, "lr": 0.0029844578863266256, "weight_norm": 25.40983927145663, "grad_norm": 7.741773021890643e-07}
+{"type": "eval", "split": "test", "step": 700, "elapsed_seconds": 56.24296579200018, "loss": 12.652246475219727, "exact_accuracy": 0.14999999105930328}
+{"type": "train", "step": 800, "elapsed_seconds": 64.64200095900014, "loss": 0.0011291740229353309, "exact_accuracy": 1.0, "lr": 0.0029729674742160427, "weight_norm": 25.59954290700805, "grad_norm": 0.22377525263792614}
+{"type": "eval", "split": "test", "step": 800, "elapsed_seconds": 64.64200095900014, "loss": 11.892861366271973, "exact_accuracy": 0.14999999105930328}
+{"type": "train", "step": 900, "elapsed_seconds": 72.49912409199897, "loss": 7.407620614685584e-06, "exact_accuracy": 1.0, "lr": 0.002959389957083063, "weight_norm": 25.095704338450155, "grad_norm": 9.814837572041512e-05}
+{"type": "eval", "split": "test", "step": 900, "elapsed_seconds": 72.49912409199897, "loss": 11.327778816223145, "exact_accuracy": 0.14999999105930328}
+{"type": "train", "step": 1000, "elapsed_seconds": 80.16834800600009, "loss": 2.0251052319508744e-06, "exact_accuracy": 1.0, "lr": 0.002943525059645707, "weight_norm": 24.601143392304305, "grad_norm": 1.2626140346966686e-05}
+{"type": "eval", "split": "test", "step": 1000, "elapsed_seconds": 80.16834800600009, "loss": 11.43776798248291, "exact_accuracy": 0.14999999105930328}
+saved final checkpoint: results_local/gate1_digit_product/monitor_final.pt
+done
