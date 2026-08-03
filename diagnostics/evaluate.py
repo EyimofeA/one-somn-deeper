@@ -160,7 +160,7 @@ def main() -> None:
         path = data_dir / f"{split}.jsonl"
         ds = DiagnosticDataset(path)
         if cfg["model"].get("workspace_init_mode") == "shuffled_context":
-            ds = ShuffledContextDataset(ds, seed=10_000 + cfg.get("seed", 0))
+            ds = ShuffledContextDataset(ds, seed=cfg.get("seed", 0))
         correct, token_correct, meta = run_split(model, ds, output_width, model_type, device)
         split_report = {
             "n": len(correct),

@@ -206,7 +206,7 @@ def main() -> None:
     val_ds = DiagnosticDataset(cfg["data"]["val"])
     if cfg["model"].get("workspace_init_mode") == "shuffled_context":
         train_ds = ShuffledContextDataset(train_ds, seed=cfg.get("seed", 0))
-        val_ds = ShuffledContextDataset(val_ds, seed=10_000 + cfg.get("seed", 0))
+        val_ds = ShuffledContextDataset(val_ds, seed=cfg.get("seed", 0))
     batch_size = cfg["optim"].get("batch_size", 64)
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=True)
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
