@@ -1,0 +1,11 @@
+{
+  "card": "gate1_carry_scan",
+  "date": "2026-07-23",
+  "change": "model mechanism: parallel Transformer decoding -> shared learned LSD-to-MSD recurrent carry-state scan",
+  "hidden_size": 32,
+  "shared_cell": "GRUCell",
+  "flush_steps": 2,
+  "target_function": "bounded_carry_normalization",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_carry_scan/metrics/*.jsonl"
+}

@@ -1,88 +1,54 @@
 # AGENTS.md
 
-## Goal
+Research sandbox for [One Layer Deeper](https://github.com/tilde-research/one-layer-deeper). Learn the task, measure baselines, aim for a Hard submission.
 
-Research sandbox for [One Layer Deeper](https://github.com/tilde-research/one-layer-deeper). Learn the task, measure baselines, aim for a decent Hard submission.
+## How you work
 
-## Read order (strict — do not duplicate content elsewhere)
+1. **You don't say everything upfront.** The agent asks clarifying questions (use `ask_user_question`) when requirements are ambiguous. When it can proceed with reasonable defaults, it states assumptions explicitly and continues.
+2. **The agent describes, not just shows code.** Do not assume the human sees files, diffs, or the editor. Describe what changed, why, and what it means. Show the command when a run starts and the endpoint when it finishes.
+3. **Teach, don't just do.** Explain the *why* — mechanism, trade-off, failure mode. Notes in `learnings/` should let a future reader understand the problem without re-reading the competition repo.
+4. **Proactive suggestions are welcome.** Flag patterns, call out bugs, suggest what's missing. Still present options for decisions (per RESEARCH_PROTOCOL.md §2), but don't be silent about observations.
+5. **Default lazy (ponytail full).** Shortest working diff, stdlib first, no unrequested abstractions. Override only when the human asks for the full version.
+6. **Skills are self-service.** Any skill can be loaded at any time — just say "loading the X skill" and use it. Don't wait for the user to ask. If a skill would help, offer it.
 
-1. **This file** — roles, compute, forbidden shortcuts only.
-2. **`RESEARCH_PROTOCOL.md`** — decisions, predictions, options format, ban list.
-3. **`solving/STATUS.md`** — scoreboard and next actions.
-4. **`HYPOTHESES.md`** — uncited ideas (separate from learnings).
-5. **`learnings/sessions/`** — day syntheses (start with latest).
-6. **`learnings/concepts/01-the-problem.md`** — math and scoring (Unicode, no LaTeX).
-7. **`learnings/curriculum.md`** — concept index.
-8. **`learnings/readings/one-layer-deeper-notes.md`** — mechanism lecture (Paths A–G).
-9. **`solving/RESEARCH_LOG.md`** — append-only experiment facts.
-10. **`solving/experiments/`** — `LAYOUT.md`, `predictions.md`, `OPS.md`, metrics, figures.
-11. **`solving/submissions/`** — active cards only (`README.md`).
+## Read order (strict — link, don't duplicate)
 
-If something belongs in steps 2–11, link it — do not restate it in chat, plans, or rules.
+1. **This file** — roles, behavior, tool map, forbidden shortcuts
+2. **[`PITFALLS.md`](PITFALLS.md)** — recurring mistakes and how to avoid them
+3. **[`RESEARCH_PROTOCOL.md`](RESEARCH_PROTOCOL.md)** — prediction rule, options format, ban list
+4. **[`solving/STATUS.md`](solving/STATUS.md)** — scoreboard, current question, next actions
+5. **[`HYPOTHESES.md`](HYPOTHESES.md)** — uncited ideas
+6. **[`learnings/sessions/`](learnings/sessions/)** — day syntheses (start with latest)
+7. **[`learnings/concepts/01-the-problem.md`](learnings/concepts/01-the-problem.md)** — math and scoring
+8. **[`learnings/curriculum.md`](learnings/curriculum.md)** — concept index
+9. **[`learnings/readings/one-layer-deeper-notes.md`](learnings/readings/one-layer-deeper-notes.md)** — mechanism lecture
+10. **[`solving/RESEARCH_LOG.md`](solving/RESEARCH_LOG.md)** — append-only experiment facts
+11. **[`solving/experiments/`](solving/experiments/)** — OPS, metrics, card snapshots
+12. **[`solving/submissions/`](solving/submissions/)** — active submissions
 
-## Who writes what
+If something belongs in steps 2–12, link it — don't restate.
 
-| Owner | Writes |
-|-------|--------|
-| **You (human)** | Hard approval, `one-layer login`, and strategic choices when you want direct control |
-| **Parent agent** | Predictions when delegated, result classification, implementation, validation, `learnings/*`, `solving/RESEARCH_LOG.md`, figures, STATUS updates, options lists, experiment cards, and notebooks |
-| **Subagents (optional)** | Bounded independent work only when the human asks or parallel delegation is clearly useful |
+## Pi tools for research
 
-The parent works directly by default. When the human delegates autonomy, the parent may write `PREDICT`, select the next bounded experiment, and classify its result. Any subagent returns a short findings block (pass/fail, paths, blockers); the parent remains responsible for interpretation and durable notes.
+| Tool | Use for |
+|------|---------|
+| `web_search` | Prior art, technique discovery → write note in `learnings/readings/` |
+| `studio_repl_send` | Quick Python smoke tests, tensor inspection, data exploration |
+| `bash` | GPU box commands, `one-layer validate`, training runs |
+| `ask_user_question` | Clarify before coding when requirements are ambiguous |
+| `fetch_content` | Read papers/URLs, YouTube talks |
 
-## API credit discipline
+## Forbidden (summary — full list: RESEARCH_PROTOCOL.md §6)
 
-Default lean:
-
-- **No routine subagents** — the parent implements and validates directly.
-- Use a subagent only when the human asks or a bounded independent task benefits materially from parallel work.
-- Subagent briefs: file paths + contract + done-when — no essay prompts.
-- Prefer CPU smoke on Mac over GPU subagent runs.
-- **Prior-art / “search the web for plans”** — parent runs WebSearch (and writes a short note under `learnings/readings/`). Do not spawn a web-search subagent unless you explicitly ask.
-
-## Git artifacts
-
-Workspace is a git repo. **One experiment = one commit** after `NOTE.md` (see `solving/experiments/LAYOUT.md`). Local smoke uses a separate clone of [tilde-research/one-layer-deeper](https://github.com/tilde-research/one-layer-deeper) (optional; not part of this repo).
-
-## Subagents
-
-- Optional, not the default workflow.
-- Use only for a concrete, bounded, independent subtask when requested or clearly beneficial.
-- Strategy, predictions, result classification, and durable research synthesis stay with the parent.
-
-## Compute
-
-- **Mac** — CPU smoke, `one-layer validate`, unit tests, μ+λ / digit-count measurements.
-- **GPU box (Prime L40S)** — local Easy/Medium manifests, **zero quota**. Connect/run/rebuild: [`solving/experiments/OPS.md`](solving/experiments/OPS.md) § GPU box. Current box has CUDA 13 → plain `uv sync` OK (old cu126-only L40S is gone).
-- **Competition Easy/Medium** — scored confirmation (~60 Easy / 6 Medium per UTC day).
-- **`one-layer submit`** — official H100 accuracy (requires login). Hard = hosted only.
-
-Multiple applications of a shared block **inside** one `model.forward` are allowed (recurrence). The evaluator still calls forward once per train step.
-
-## Living rules
-
-Patch `.cursor/rules/*.mdc` when we learn something durable. One concern per file.
-
-## Chat experiment context
-
-For every active experiment, report in chat in this order: **project and
-question; data and split; metric; key code; architecture; mechanism and
-prediction; what either outcome teaches us**. Show the actual command when a
-run starts and the measured endpoint when it finishes. Assume the human sees
-only chat, not an editor.
-
-## Forbidden
-
-- Math oracles (φ(N), closed-form mod exp in forward pass)
+- Math oracles (φ(N), closed-form mod exp)
 - Hard-coded weights / answer lookup / hard-coded forward algorithms
 - Broken autograd or CPU offload of model state
 - Auto Hard submit
-- Full ban list: `RESEARCH_PROTOCOL.md` §6 (synced to upstream Rules @ `79f0a09`)
+- Import `sympy`, `gmpy2`, `math.pow` with three args
 
 ## Links
 
 - `README.md` — human entry
-- `RESEARCH_PROTOCOL.md` — decisions
-- `colab/sync.md` — Mac → Colab
+- `RESEARCH_PROTOCOL.md` — decisions, prediction rule, ban list
+- `solving/STATUS.md` — live scoreboard
 - Upstream: [tilde-research/one-layer-deeper](https://github.com/tilde-research/one-layer-deeper)
-- `scripts/extrapolation_curve.py` — frozen T-curve (once implemented)

@@ -43,6 +43,20 @@ def test_mod_task_labels_match_python_mod(tmp_path):
         assert int("".join(str(d) for d in out)) == r["u"] % r["n"]
 
 
+def test_mod_task_train_val_heldout_u_share_no_nu_pairs(tmp_path):
+    # train/val_iid/heldout_u draw from the SAME moduli (train_n), so u values
+    # must be tracked across all three calls or they can collide by chance --
+    # this caught a real bug (809/9990 val_iid rows were literal train dupes
+    # at full scale) before it reached a training run.
+    gen_mod_task(tmp_path, SCALES["small"], seed=0, reverse_digits=False)
+    train_pairs = {(r["n"], r["u"]) for r in _load(tmp_path / "train.jsonl")}
+    val_pairs = {(r["n"], r["u"]) for r in _load(tmp_path / "val_iid.jsonl")}
+    heldout_pairs = {(r["n"], r["u"]) for r in _load(tmp_path / "heldout_u.jsonl")}
+    assert not (train_pairs & val_pairs)
+    assert not (train_pairs & heldout_pairs)
+    assert not (val_pairs & heldout_pairs)
+
+
 def test_square_mod_task_zero_modulus_overlap_and_zero_factor_overlap(tmp_path):
     gen_square_mod_task(tmp_path, SCALES["small"], seed=0, reverse_digits=False, task="square_mod")
     train_n = {r["n"] for r in _load(tmp_path / "train.jsonl")}

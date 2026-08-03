@@ -1,0 +1,11 @@
+{
+  "author": "Codex",
+  "card": "pair_n_interaction_e5",
+  "dataset": "e5",
+  "job_id": "8caf7fa8-d4c6-4b81-877e-5c4c9ba1d30f",
+  "completed_steps": 1504,
+  "train_exact_final": 0.945,
+  "test_exact": 0.004,
+  "ood_exact": 0.010,
+  "mean_exact": 0.007
+}

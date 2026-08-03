@@ -6,7 +6,8 @@ Working digest of organizer + participant chat (pasted 2026-07-21). Not a rules 
 
 | Claim | Source |
 |-------|--------|
-| **Submission deadline: August 31 at 10:00 PM PT** (hard cutoff; service rejects later submits) | Upstream README + `service/competition.py` @ `79f0a09` (2026-07-24) |
+| **Submission deadline: Monday, August 31 at 10:00 PM PT** (hard cutoff; service rejects later submits) | Upstream README + `service/competition.py` @ `8a3c78d` (2026-08-03) |
+| **Beta period:** July 31 through Sunday, August 2 at 10:00 PM PT (closed) | Upstream README @ `8a3c78d` |
 | Earlier Discord: deadline TBD; “likely end of August” | Mark Saroufim, 2026-07-19 (superseded by the pinned deadline above) |
 | Teams allowed | Mark |
 | Submissions private during; public when competition concludes | Mark |
@@ -29,7 +30,7 @@ Working digest of organizer + participant chat (pasted 2026-07-21). Not a rules 
 | A Hard entry that hardwired digit add/mul + `r² mod N` looped T times was called out as a cheat | Lord Tr0lldem0rt self-report; az: “100% shouldn’t be allowed” |
 | Hard was edited so **hard-coding the Easy/Medium algorithm no longer works** | mcleish7 — “slight variant… mismatch secret”; LB resets after patches |
 | Hard is still “extremely close” to Easy/Medium — just far enough to break exact Easy solvers | mcleish7 |
-| No **data augmentation** on Hard (leaderboard) runs | mcleish7 → website rules |
+| No **data augmentation** (any tier; Rule 14) | Upstream README @ `8a3c78d` (was Discord/website-only earlier) |
 
 **Implication for us:** Easy mean ~6% is not “losing to people who learned better” if they shipped solvers. The research score that matters is **Hard under the mismatched recurrence**, with a model that still trains.
 

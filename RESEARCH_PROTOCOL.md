@@ -118,8 +118,10 @@ Audit rule: once a week, open a random `learnings/` file and check one citation.
 ## 6. The ban list
 
 Keep the competition README Rules 6–9 and 14–16 in sync (pinned upstream
-`79f0a09` as of 2026-07-24). Older text that said “copy Rule 10” is stale —
-solver / data-inspection language is now Rule 14.
+`8a3c78d` as of 2026-08-03). Older text that said “copy Rule 10” is stale —
+solver / data-inspection language is now Rule 14. Rule 14 also bans data
+augmentation. Custom loss may be legacy `training_loss` or
+`token_training_loss` (not both).
 
 **Forbidden in `submission.py`:**
 
@@ -127,6 +129,7 @@ solver / data-inspection language is now Rule 14.
 - Any use of the modulus operator on the task values.
 - Any import of `sympy`, `gmpy2`, `math.pow` with three arguments.
 - Any inspection of the dataset.
+- Any data augmentation of evaluator batches (Rule 14).
 - Any custom training loop / participant-controlled backward.
 - Hard-coded weights (`torch.load`, non-random solved init) or a hard-coded
   forward algorithm (Rules 6–7).

@@ -68,15 +68,16 @@ The evaluator scores **exact token accuracy** per example:
 
 ### Hard (leaderboard)
 
-Hard no longer ranks by mean exact accuracy (upstream `79f0a09`, 2026-07-24).
+Hard no longer ranks by mean exact accuracy (upstream `79f0a09`, 2026-07-24;
+tie-break refined `8a3c78d`, 2026-08-03).
 
 - Ladder rungs: T = 1, 2, 4, 8, 16, 32, 64.
 - A rung is **solved** only if **every** example at that T is exactly correct.
 - **Certified Max T** = largest T such that that rung **and every lower rung** are solved (consecutive prefix).
 - **Max T** = certified depth on fresh prompts whose modulus identities appeared in training.
 - **OOD N Max T** = same certification on unseen modulus identities (nearby bit lengths).
-- Leaderboard order: Max T ↓, then OOD N Max T ↓, then earlier submission time.
-- Exact-accuracy split metrics remain private diagnostics and do **not** set Hard rank.
+- Leaderboard order: Max T ↓, then OOD N Max T ↓, then exact accuracy at each profile's first uncertified rung ↓, then earlier submission time.
+- Exact-accuracy split metrics remain private diagnostics and do **not** set Hard rank (except that next-rung accuracy is the published tie-break).
 
 Partial credit does not exist on either track — one wrong digit fails the whole example (and breaks certification for that rung).
 
@@ -96,11 +97,11 @@ This is fast and exact but requires the trapdoor. **We must not use φ(N), facto
 |------------|-------------------|
 | Model architecture and depth | Data generation and splits |
 | Optimizer and LR schedule | Training loop (one forward, one backward) |
-| Optional custom loss | Gradient clipping, seeds, deadlines |
+| Optional custom loss (`training_loss` or `token_training_loss`) | Gradient clipping, seeds, deadlines |
 | Batch sizes (within ceilings) | Final evaluation and aggregation |
 
 ## Competition tiers
 
 - **Easy / Medium** — public datasets, practice; bidirectional attention over prompt; score = mean exact accuracy (Max T diagnostics also reported).
-- **Hard** — private hidden evaluator; public leaderboard ranks by certified Max T then OOD N Max T (not mean exact %).
+- **Hard** — private hidden evaluator; public leaderboard ranks by certified Max T → OOD N Max T → next-rung accuracy (not mean exact %).
 - **Deadline:** submissions close **August 31, 2026 at 10:00 PM PT** (`competition/service/competition.py`).

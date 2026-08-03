@@ -475,3 +475,117 @@ RESULT:     Medium m5 0.25% mean (aa699c3f; test 0.20 / ood 0.30). Hard h1
             succeeded — no timeout — score 0.03% mean exact (f4246e70).
             Timeout hypothesis confirmed; learning still at floor.
 ```
+DATE:       2026-07-25
+CARD:       claude_ut_k4_carry_aux_e5
+CHANGE:     Add a learned two-scalar auxiliary head to the validated UT-K4
+            STE anchor. It predicts aggregate schoolbook-squaring carry count
+            and maximum carry from X-token hidden states; primary logits and
+            recurrence are unchanged.
+PREDICT:    Carry supervision should beat the STE e5 anchor's 0.50% if the
+            Task-A mechanism transfers within Easy's short budget, but may
+            remain below the continuous UT champion because the diagnostic
+            benefit emerged over tens of thousands of steps.
+RESULT:     confirmed relative to the STE anchor but not promoted as-is:
+            e5 mean 0.75% (test 0.80%, OOD 0.70%), job 8e5457ad. Python
+            input_ids.tolist() synchronization reduced throughput to 1,349
+            steps versus the STE anchor's 2,521, confounding the mechanism
+            with a severe optimization-budget loss.
+
+DATE:       2026-07-25
+CARD:       claude_ut_k4_carry_aux_tensorized_e5
+CHANGE:     Implementation-only control: replace CPU/Python decoding and
+            carry-target generation with tensorized GPU operations. Auxiliary
+            targets, weight, model, optimizer, data, and metric stay fixed.
+PREDICT:    The e5 curve should retain or improve the 0.75% score while
+            recovering much of the STE anchor's ~2.5k-step throughput. If it
+            does, Medium's 10-minute budget should be a fairer test of whether
+            carry supervision improves held-out X/N learning.
+RESULT:     refuted — tensorization recovered throughput (2,179 steps versus
+            1,349) but e5 mean fell to 0.58% (test 0.80%, OOD 0.30%), job
+            4eff4824. Aggregate carry supervision does not rescue the STE
+            bottleneck.
+
+DATE:       2026-07-25
+CARD:       claude_ut_k4_continuous_carry_aux_e5
+CHANGE:     Remove only the refuted STE token snap between UT loops. The
+            tensorized carry auxiliary head, loss, data, optimizer, and four
+            learned processing blocks stay fixed.
+PREDICT:    Continuous state should recover the stronger UT-K4 baseline while
+            retaining any benefit from carry supervision, beating 0.58% and
+            plausibly matching or exceeding the 1.00% e5 champion. Failure
+            below 1.00% means the aggregate auxiliary target is not useful
+            enough for hosted variable-N learning.
+RESULT:     refuted — e5 mean 0.38%, job 16ebb553. Aggregate carry
+            supervision is rejected for hosted use; it does not transfer the
+            per-column offline mechanism.
+
+DATE:       2026-07-25
+CARD:       pair_n_interaction_e5
+CHANGE:     Replace recurrent/weight-tied UT with a non-recurrent four-block
+            Transformer containing one learned pairwise-X interaction stage
+            and content-dependent attention from that pair representation to
+            N-digit states. No arithmetic operation or routing is hard-coded.
+PREDICT:    If one-step held-X/N failure is caused by a plain Transformer's
+            inability to expose the two required operands, this learned
+            pair/N interface should beat the 1.00% e5 champion. A floor result
+            means final-answer supervision still cannot identify reduction.
+DATE 2026-07-25
+CARD pair_n_carry_aux_e5
+CHANGE add per-column first-square carry-in/out supervision to the otherwise identical non-recurrent pair/N model.
+PREDICT exceed the 0.71% pair/N baseline and 1.00% e5 reference if carry-state identification transfers to held u,N; floor means first-square supervision does not reach modular reduction within the Easy budget.
+DATE 2026-07-25
+CARD pair_n_t1_objective_e5
+CHANGE keep the non-recurrent pair/N model fixed but stop gradients from T=2,3 examples, scaling T=1 gradients to preserve magnitude.
+PREDICT improve the latent T=1 slice enough to beat the 0.71% pair/N aggregate; failure means even the isolated one-step map remains memorization-bound.
+DATE 2026-07-25
+CARD pair_n_multiblock_supervision_e5
+CHANGE replace final-block-only logits with the mean of shared-head logits after every distinct block; architecture, data, and optimizer otherwise fixed.
+PREDICT beat the 0.71% pair/N baseline if shorter gradient paths make the arithmetic rule identifiable; floor means answer-only deep supervision is insufficient.
+DATE 2026-07-25
+CARD pair_n_multiblock_supervision_h1
+CHANGE promote the exact e5-validated multi-block-supervision file to Hard.
+PREDICT certified Max T remains 0, but T=1 partial exact accuracy may exceed the prior 0.03% Hard reference if the held-N one-step mechanism transfers; no T>1 extrapolation is expected without recurrence.
+DATE 2026-07-25
+CARD pair_n_multiblock_supervision_e5_rep1
+CHANGE exact hosted replication; no code or configuration change.
+PREDICT remain at or above 0.71% if the gain is directional; below 0.5% classifies the 1.04% run as e5 noise.
+
+DATE:       2026-07-23
+CARD:       gate1_quantized_carry_scan
+CHANGE:     continuous shared carry state → 64 learned categorical state prototypes after every transition
+PREDICT:    [agent-authored per human override] held-out exact match exceeds 95% and c6/c7 improve materially because hard prototype projection prevents continuous state drift from compounding
+RESULT:     refuted — the hard state projection collapsed optimization (0.25% peak exact).
+
+DATE:       2026-07-23
+CARD:       gate1_aligned_products
+CHANGE:     one digit-pair product → repeated fixed-width local products without cross-position carry
+PREDICT:    collapse
+RESULT:     confirmed
+
+DATE:       2026-07-23
+CARD:       gate1_digit_product
+CHANGE:     exact multi-digit squaring → one decimal digit pair product without carries
+PREDICT:    fails held-out pairs; multiplication may be a memorization task
+RESULT:     confirmed
+
+DATE:       2026-07-23
+CARD:       gate0_copy
+CHANGE:     modular-squaring target → exact copy of X
+PREDICT:    fail on the first digit; pass on the other three
+RESULT:     refuted
+
+DATE:       2026-07-23
+CARD:       gate1_square
+CHANGE:     copy X → exact x² without modular reduction
+PREDICT:    digit multiplication will not generalize
+RESULT:     confirmed
+
+CARD:       taskb_input_conditioned_workspace
+CHANGE:     Fixed learned K=8 workspace initialization becomes one learned
+            ordered-input cross-attention read using the existing transition
+            attention; shuffled-context uses the same read from a deterministic
+            non-identity row-level derangement.
+PREDICT:    Correct context will improve held-out-u exact match, especially
+            q>=10, while shuffled context remains near the fixed-workspace
+            result; otherwise the fixed initializer is not the primary
+            bottleneck.

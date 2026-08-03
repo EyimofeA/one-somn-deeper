@@ -22,11 +22,11 @@ import torch
 import yaml
 from torch.utils.data import DataLoader
 
-from data.dataset import DiagnosticDataset
+from data.dataset import DiagnosticDataset, InputContextDataset, ShuffledContextDataset
 from data.tokens import OUTPUT_WIDTH
 from models.recurrent_workspace import RecurrentWorkspaceModel
 from models.transformer import StandardTransformer
-from train import build_model, extract_targets_and_logits
+from train import build_model, extract_targets_and_logits, forward_from_batch
 
 
 def bucket_distance(d: int) -> str:
@@ -56,10 +56,8 @@ def run_split(model, ds: DiagnosticDataset, output_width: int, model_type: str, 
     all_meta = []
     idx = 0
     for batch in loader:
-        input_ids = batch["input_ids"].to(device)
-        attention_mask = batch["attention_mask"].to(device)
         labels = batch["labels"].to(device)
-        logits = model(input_ids, attention_mask)
+        logits = forward_from_batch(model, batch, device)
         logits, targets = extract_targets_and_logits(logits, labels, output_width, model_type)
         preds = logits.argmax(dim=-1)
         row_correct = (preds == targets).all(dim=-1)
@@ -106,12 +104,18 @@ def recurrence_depth_sweep(model: RecurrentWorkspaceModel, ds, output_width, dev
     acc_per_depth = {d: [] for d in depths}
     with torch.no_grad():
         for batch in loader:
-            input_ids = batch["input_ids"].to(device)
-            attention_mask = batch["attention_mask"].to(device)
             labels = batch["labels"].to(device)
             targets = labels[:, -output_width:]
             for d in depths:
-                logits = model(input_ids, attention_mask, override_loops=d)
+                kwargs = {"override_loops": d}
+                if "init_input_ids" in batch:
+                    kwargs["init_input_ids"] = batch["init_input_ids"].to(device)
+                    kwargs["init_attention_mask"] = batch["init_attention_mask"].to(device)
+                logits = model(
+                    batch["input_ids"].to(device),
+                    batch["attention_mask"].to(device),
+                    **kwargs,
+                )
                 preds = logits.argmax(dim=-1)
                 row_correct = (preds == targets).all(dim=-1)
                 acc_per_depth[d].append(row_correct.float().mean().item())
@@ -155,6 +159,11 @@ def main() -> None:
     for split in args.splits:
         path = data_dir / f"{split}.jsonl"
         ds = DiagnosticDataset(path)
+        init_mode = cfg["model"].get("workspace_init_mode")
+        if init_mode == "input_context":
+            ds = InputContextDataset(ds)
+        elif init_mode == "shuffled_context":
+            ds = ShuffledContextDataset(ds, seed=cfg.get("seed", 0))
         correct, token_correct, meta = run_split(model, ds, output_width, model_type, device)
         split_report = {
             "n": len(correct),

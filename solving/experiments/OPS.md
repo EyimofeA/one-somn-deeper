@@ -10,7 +10,10 @@
 
 **Deadline:** submissions close **August 31, 2026 10:00 PM PT** (upstream `service/competition.py`).
 
-**Upstream pin:** local `competition/` clone should be at `79f0a09` (Hard = Max T / OOD N Max T). On the GPU box: `cd ~/one-layer-deeper && git pull --ff-only` before smoke; regenerate datasets if `scripts/generate_datasets.sh` changed.
+**Upstream pin:** local `competition/` clone should be at `8a3c78d` (Hard = Max T /
+OOD N Max T / next-rung tie-break; `token_training_loss` available). On the GPU
+box: `cd ~/one-layer-deeper && git pull --ff-only` before smoke; regenerate
+datasets if `scripts/generate_datasets.sh` changed.
 
 When two agents share a day: split Medium (e.g. 3+3). Hard = principal only. Update `left` from CLI after submits.
 
@@ -50,35 +53,38 @@ Don't `cp` the k4_ut file directly without checking `_build_scheduler` first.
 
 Agent skill: `.cursor/skills/osmn-gpu-box/`. Kill does **not** stop cloud billing — terminate the instance in the provider UI.
 
-Current: Prime Intellect **L40S** at `216.81.245.246` (rented 2026-07-24).
-Upstream clone `~/one-layer-deeper` synced to **`79f0a09`** on 2026-07-24 (Max T scoring + regenerated Easy/Medium datasets with depth profiles).
+Current: Prime Intellect **L40** at `216.81.248.94` (rented 2026-08-03).
+SSH alias: **`oneL40`** → `ubuntu@216.81.248.94` (also in
+`solving/experiments/.gpu_box.json`). Upstream clone `~/one-layer-deeper`
+at **`8a3c78d`**, torch **2.12.1+cu130**, CUDA 13.0.
 **Ephemeral: IP/host below only valid while this instance is up.** Local
 `benchmark.runner` runs cost nothing — use this for everything in
 `learnings/concepts/17-recurrence-generalisation.md` (wd sweep, T-curve,
 re-quantised recurrence). Only spend real quota to confirm a result on the
 actual H100 scorer.
 
-Prior L40S (`204.52.24.142`, driver CUDA 12.7 / cu126-only) is dead — do not
-reuse its “never `uv sync`” rule on this box.
+Prior boxes dead — do not reuse: `216.81.245.246` (2026-07-24),
+`204.52.24.142` (cu126-only; never copy that “never `uv sync`” rule here).
 
 ### Connect
 
 ```bash
-ssh ubuntu@216.81.245.246
-# or: ssh oneL40
+ssh oneL40
+# or: ssh ubuntu@216.81.248.94
 ```
 
-Local alias in `~/.ssh/config`: `ssh oneL40`.
+Local alias in `~/.ssh/config`: `ssh oneL40`. Agents: read
+`solving/experiments/.gpu_box.json` for the live target.
 
 Cold-start sanity (before trusting the box):
 
 ```bash
 cd ~/one-layer-deeper && source .venv/bin/activate
 python3 -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"
-# expect: 2.12.1+cu130 True NVIDIA L40S
+# expect: 2.12.1+cu130 True NVIDIA L40
 ```
 
-### Environment (set up 2026-07-24)
+### Environment (set up 2026-08-03)
 
 Repo: `~/one-layer-deeper` (fresh clone of upstream, **not** this workspace).
 
@@ -103,8 +109,8 @@ uv sync
 python -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"
 ```
 
-Datasets generated 2026-07-24 (`bash scripts/generate_datasets.sh`). Acceptance
-card on box: `submissions/depth_d32_k4_ut_optsched.py`.
+Datasets generated 2026-08-03 (`bash scripts/generate_datasets.sh`). Acceptance
+smoke used the card scp'd by `osmn gpu start`.
 
 ### Run something
 

@@ -24,10 +24,13 @@ import yaml
 from torch import nn
 from torch.utils.data import DataLoader, Subset
 
-from data.dataset import DiagnosticDataset
+import repro
+from data.dataset import DiagnosticDataset, InputContextDataset, ShuffledContextDataset
 from data.tokens import OUTPUT_WIDTH
 from models.recurrent_workspace import RecurrentWorkspaceModel
 from models.transformer import StandardTransformer
+from models.transformer_n_broadcast import NBroadcastTransformer
+from models.transformer_quotient_aux import QuotientAuxTransformer
 
 LEARNING_CURVE_FIELDS = [
     "step", "train_loss", "train_token_accuracy", "train_exact_match",
@@ -55,6 +58,9 @@ def set_nested(cfg: dict, dotted_key: str, value: str) -> None:
     for k in keys[:-1]:
         d = d.setdefault(k, {})
     # best-effort type coercion so CLI overrides don't stay strings
+    if value in ("none", "null"):
+        d[keys[-1]] = None
+        return
     for cast in (int, float):
         try:
             value = cast(value)
@@ -87,6 +93,25 @@ def build_model(cfg: dict, max_seq_len: int, task: str) -> nn.Module:
             d_ff=m.get("d_ff", 512),
             dropout=m.get("dropout", 0.0),
         )
+    if m["type"] == "quotient_aux_transformer":
+        return QuotientAuxTransformer(
+            max_seq_len=max_seq_len,
+            d_model=m.get("d_model", 128),
+            n_layers=m.get("n_layers", 4),
+            n_heads=m.get("n_heads", 4),
+            d_ff=m.get("d_ff", 512),
+            dropout=m.get("dropout", 0.0),
+        )
+    if m["type"] == "n_broadcast_transformer":
+        return NBroadcastTransformer(
+            max_seq_len=max_seq_len,
+            d_model=m.get("d_model", 128),
+            n_layers=m.get("n_layers", 4),
+            n_heads=m.get("n_heads", 4),
+            d_ff=m.get("d_ff", 512),
+            dropout=m.get("dropout", 0.0),
+            shuffle_n_broadcast=m.get("shuffle_n_broadcast", False),
+        )
     if m["type"] == "recurrent_workspace":
         workspace_size = m.get("workspace_size", max(8, output_width))
         return RecurrentWorkspaceModel(
@@ -98,16 +123,27 @@ def build_model(cfg: dict, max_seq_len: int, task: str) -> nn.Module:
             workspace_size=workspace_size,
             num_output_slots=m.get("num_output_slots", output_width),
             num_loops=m.get("num_loops", 8),
+            workspace_init_mode=m.get("workspace_init_mode", "fixed"),
         )
     raise ValueError(f"unknown model.type {m['type']!r}")
 
 
 def extract_targets_and_logits(logits: torch.Tensor, labels: torch.Tensor, output_width: int, model_type: str):
     targets = labels[:, -output_width:]
-    if model_type == "transformer":
+    if model_type in ("transformer", "n_broadcast_transformer", "quotient_aux_transformer"):
         logits = logits[:, -output_width:, :]
     # recurrent_workspace already returns exactly (batch, output_width, digit_vocab)
     return logits, targets
+
+
+def forward_from_batch(model: nn.Module, batch: dict, device: str) -> Tensor:
+    kwargs = {}
+    if "init_input_ids" in batch:
+        kwargs["init_input_ids"] = batch["init_input_ids"].to(device)
+        kwargs["init_attention_mask"] = batch["init_attention_mask"].to(device)
+    return model(
+        batch["input_ids"].to(device), batch["attention_mask"].to(device), **kwargs
+    )
 
 
 def lr_factor(step: int, total_steps: int, warmup_frac: float) -> float:
@@ -142,10 +178,8 @@ def evaluate_exact_match(model: nn.Module, loader: DataLoader, output_width: int
     model.eval()
     row_correct_total = digit_correct_total = digit_total = 0
     for batch in loader:
-        input_ids = batch["input_ids"].to(device)
-        attention_mask = batch["attention_mask"].to(device)
         labels = batch["labels"].to(device)
-        logits = model(input_ids, attention_mask)
+        logits = forward_from_batch(model, batch, device)
         logits, targets = extract_targets_and_logits(logits, labels, output_width, model_type)
         preds = logits.argmax(dim=-1)
         row_correct_total += (preds == targets).all(dim=-1).sum().item()
@@ -170,6 +204,13 @@ def main() -> None:
 
     train_ds = DiagnosticDataset(cfg["data"]["train"])
     val_ds = DiagnosticDataset(cfg["data"]["val"])
+    init_mode = cfg["model"].get("workspace_init_mode")
+    if init_mode == "input_context":
+        train_ds = InputContextDataset(train_ds)
+        val_ds = InputContextDataset(val_ds)
+    elif init_mode == "shuffled_context":
+        train_ds = ShuffledContextDataset(train_ds, seed=cfg.get("seed", 0))
+        val_ds = ShuffledContextDataset(val_ds, seed=cfg.get("seed", 0))
     batch_size = cfg["optim"].get("batch_size", 64)
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=True)
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
@@ -182,6 +223,7 @@ def main() -> None:
 
     model = build_model(cfg, max_seq_len=train_ds.max_len, task=task).to(device)
     model_type = cfg["model"]["type"]
+    parameter_count = sum(p.numel() for p in model.parameters())
 
     optim_cfg = cfg["optim"]
     optimizer = torch.optim.AdamW(
@@ -227,7 +269,9 @@ def main() -> None:
         "early_stop_patience_evals": early_stop_patience,
         "model_class": type(model).__name__,
         "model_type": model_type,
+        "parameter_count": parameter_count,
         "device": device,
+        "repro": repro.capture(),
     }
     print("RUN CONFIG:", json.dumps(run_info, indent=2))
 
@@ -254,9 +298,19 @@ def main() -> None:
             attention_mask = batch["attention_mask"].to(device)
             labels = batch["labels"].to(device)
 
-            logits = model(input_ids, attention_mask)
-            logits, targets = extract_targets_and_logits(logits, labels, output_width, model_type)
-            loss = nn.functional.cross_entropy(logits.reshape(-1, logits.shape[-1]), targets.reshape(-1))
+            aux_loss = None
+            if model_type == "quotient_aux_transformer":
+                full_logits, aux_logits = model.forward_with_aux(input_ids, attention_mask)
+                logits, targets = extract_targets_and_logits(full_logits, labels, output_width, model_type)
+                source = batch[cfg["model"]["aux_target"]].to(device)
+                aux_targets = torch.stack([(source // divisor) % 10 for divisor in (1000, 100, 10, 1)], dim=1)
+                aux_loss = nn.functional.cross_entropy(aux_logits.reshape(-1, aux_logits.shape[-1]), aux_targets.reshape(-1))
+                main_loss = nn.functional.cross_entropy(logits.reshape(-1, logits.shape[-1]), targets.reshape(-1))
+                loss = main_loss + cfg["model"].get("aux_weight", 0.25) * aux_loss
+            else:
+                logits = forward_from_batch(model, batch, device)
+                logits, targets = extract_targets_and_logits(logits, labels, output_width, model_type)
+                main_loss = loss = nn.functional.cross_entropy(logits.reshape(-1, logits.shape[-1]), targets.reshape(-1))
 
             optimizer.zero_grad()
             loss.backward()
@@ -280,6 +334,8 @@ def main() -> None:
                     "step": step,
                     "epoch": epoch,
                     "loss": loss.item(),
+                    "main_loss": main_loss.item(),
+                    "aux_loss": aux_loss.item() if aux_loss is not None else None,
                     "exact_accuracy": train_exact,
                     "token_accuracy": train_token_acc,
                     "lr": lr,

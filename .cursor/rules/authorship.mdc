@@ -1,0 +1,14 @@
+---
+description: Identify who authored every durable research artifact
+alwaysApply: true
+---
+
+# Authorship
+
+**Author:** Codex
+
+When an agent writes or materially edits a research note, experiment note, log
+entry, hypothesis section, or plan, add `Author: <agent name>` to that contribution.
+
+Preserve human authorship on predictions and result classifications. Do not label
+human-written text as agent-written.

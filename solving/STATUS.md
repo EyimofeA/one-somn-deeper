@@ -1,14 +1,32 @@
 # Status (living)
 
-Last updated: 2026-07-24. **Upstream competition pin moved `2c56499` → `79f0a09`:**
-Hard now ranks by certified Max T then OOD N Max T (ladder 1…64); Rules renumbered
-with explicit bans on hard-coded weights/algorithms, broken autograd, and CPU
-offload; submissions close Aug 31 10pm PT. Specs refreshed under
-`solving/handoff/PRIMARY_SOURCES.md` + `learnings/concepts/{01,03,07,09,14}`.
+Last updated: 2026-08-03. **Upstream competition pin moved `79f0a09` → `8a3c78d`:**
+`token_training_loss` / `TokenLossBatch` for sequence-level losses (mutually
+exclusive with legacy `training_loss`); Hard tie-break now uses next-rung
+accuracy before submission time; Rule 14 bans data augmentation; Rule 4
+clarifies in-model recurrence vs evaluator outer loop. Specs refreshed under
+`solving/handoff/PRIMARY_SOURCES.md` + `learnings/concepts/{01,03,09,14}` +
+`RESEARCH_PROTOCOL.md` §6. Active cards that only use `training_loss` need no
+code change.
 
 Hard shot #2 `99c4d7d3` scored **0.05%** mean exact (test 0.1%/ood_t 0/ood_n_t 0)
 under the *old* Hard metric — not the current Max T rank key. The current local
 mechanism work is a bounded, non-submission carry diagnostic; its results are below.
+
+## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
+
+| Setting | Final held-out-u exact | Reading |
+|---|---:|---|
+| fixed N=1349, baseline (3 seeds) | **33.65±2.95%** | unseen-u reduction remains unsolved despite 98.03% train exact |
+| two N={1349,1357}, baseline (3 seeds) | **11.27±0.63%** | adding a second N collapses generalization |
+| two N, correct N broadcast | **11.55±0.30%** | no material gain vs baseline |
+| two N, shuffled broadcast control | **11.35±0.39%** | confirms no semantic N-routing effect |
+| fixed N, quotient auxiliary | **29.38±6.91%** | refuted vs baseline |
+| fixed N, u-copy auxiliary control | **22.35±0.40%** | auxiliary head/extra loss is harmful |
+
+Counterfactual two-N evaluation: baseline changes predictions with N on 92.55% of pairs, but responds incorrectly under both N on 92.38%; correct broadcast does not repair this. The parallel standard-Transformer branch is **falsified for Task B**. Do not scale N broadcast or quotient auxiliaries.
+
+**Serial branch:** completed and refuted for the tested formulation. Parameter-matched K=8 learned workspace reaches 29.23±5.84% peak / 23.47±7.08% final held-out-u EM, below baseline (34.75±2.35 / 33.65±2.95) and a five-layer non-recurrent control (38.23±4.67 / 35.65±5.56). More K helps within the recurrent model but it never clears the control; do **not** K-sweep. The next justified Task-B test is input-conditioned versus shuffled-context workspace initialization at K=8, no auxiliary labels. Evidence: `diagnostics/analysis_out/task_b_n_broadcast_ablation.md`, `diagnostics/analysis_out/task_b_fixed_n_quotient_aux_ablation.md`, `diagnostics/analysis_out/task_b_serial_workspace_ablation.md`.
 
 ## Current research state: digit recurrence gates
 

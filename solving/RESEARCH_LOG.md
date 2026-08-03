@@ -746,4 +746,48 @@ composition, still locally and without promoting weights to a submission.
 - **Setup:** `git pull --ff-only` in gitignored `competition/` clone; diffed README / `benchmark/runner.py` / `data/squaring_mod.py` / `service/competition.py`.
 - **Result:** Four upstream commits: (1) submission deadline Aug 31 10pm PT; (2) Rules expanded to 1–16 (trainable-param ceiling; bans on hard-coded weights/algorithms, broken autograd, CPU offload; solvers/data inspection now Rule 14); (3) scoring based on T-extrapolation — Hard ranks certified Max T then OOD N Max T on ladder {1,2,4,8,16,32,64}; Easy/Medium keep mean exact % and gain Max T diagnostics; (4) depth / ood_n depth profile generation in `squaring_mod.py` + runner certification.
 - **Next:** Treat historical Hard mean% as legacy; prefer Max T when re-submitting Hard. Local/GPU clones must pull the same pin before smoke. Specs refreshed: `solving/handoff/PRIMARY_SOURCES.md`, `learnings/concepts/{01,03,07,09,14}`, `RESEARCH_PROTOCOL.md` §6, `SCOREBOARD.md`, `STATUS.md`.
+## 2026-07-25 — Held-u, held-N one-step campaign — Codex
 
+- **Question:** Can a legal, non-recurrent model clear `u² mod N` before
+  returning to T-extrapolation?
+- **Pair/N interaction:** Four distinct Transformer blocks with learned
+  all-pairs u-digit features attending to N. e5 job `8caf7fa8`: train 94.5%,
+  test 0.4%, OOD 1.0%, mean 0.71%. **Memorization collapse.**
+- **Per-column carry auxiliary:** Same model plus first-square carry-in/out
+  supervision. e5 job `faaa00f3`: train 92.6%, test 0.4%, OOD 0.7%, mean
+  0.54%. **Refuted at Easy budget.**
+- **T=1-only objective:** Same pair/N model, gradients only from e5 T=1 rows.
+  Job `5860d424`: aggregate train 29.1%, test 0.5%, OOD 0.7%, mean 0.58%.
+  **Refuted: isolated one-step training still memorizes.**
+- **Multi-block supervision:** Average shared-head logits after every distinct
+  block. Job `dc7c0746`: train 91.8%, test 1.1%, OOD 1.0%, mean 1.04%.
+  **Provisional positive, not confirmed** because it lies inside known e5
+  noise. Exact replication was pre-registered but the service rejected it
+  while Hard was running.
+- **Hard:** Exact validated multi-block file launched at 23:55 UTC, job
+  `de4c3c51`; predicted certified Max T=0, with possible T=1 partial gain.
+
+### 2026-07-30 — Task B N-broadcast semantic ablation
+- **Hypothesis:** The two-N held-out-u collapse reflects an inadequate learned route from N digits to output slots; broadcasting pooled N states after every Transformer layer should help, while a wrong-N broadcast should not.
+- **Setup:** Fixed unpaired N={1349,1357} Task-B data (8k train / 2k held-out u), 4L d128 standard Transformer, seeds 0–2. Compared baseline (799,498 params) to correct and shuffled input-N broadcast (865,546 params); all new variants passed direct-forward and 32-row 100% smoke checks. Counterfactual evaluation used the same 2,000 u under both N, excluded from either train set.
+- **Result:** **Refuted (Case C).** Final held-out-u EM: baseline 11.27±0.63%, correct broadcast 11.55±0.30%, shuffled control 11.35±0.39%. Counterfactual predictions change with N 92.55%/95.10%/95.02%, respectively, but correct modulus-specific pairs are 0% in every condition; ~92–95% respond yet are wrong under both. N broadcast is slower (95.5 vs 112.0 steps/s) and does not provide a material gain.
+- **Next:** Diagnose fixed-N=1349 generalization. Its final held-out-u EM is 36.60%, q≥10 is 33.9%, and a crude nearest-multiple baseline reaches 39.7%; test a quotient-estimation intervention only after comparing it to an equally sized non-quotient auxiliary control.
+
+### 2026-07-30 — Task B fixed-N quotient auxiliary control
+- **Hypothesis:** Fixed-N unseen-u failure is primarily missing quotient estimation; a four-digit quotient auxiliary head should improve held-out-u reduction, unlike an equal-size u-copy target.
+- **Setup:** N=1349, 8k/2k disjoint-u data, same 4L d128 Transformer and budget, seeds 0–2. Baseline vs 1,290-parameter quotient-digit auxiliary (λ=.25) vs same-head u-copy control. All new variants passed manual q checks, direct autograd, and 32-row 100% smoke.
+- **Result:** **Refuted.** Final held-out-u EM: baseline **33.65±2.95%**, quotient aux **29.38±6.91%**, u-copy control **22.35±0.40%**. Fixed-N error diagnostic: 1/2/3/4 quotient-digit EM=94.4/39.2/38.0/24.6%; 82.6% of wrong rows have a contiguous error run. Copy/interpolation baselines do not explain predictions; nearest-multiple heuristic reaches 39.7% but model agreement is only 11.0%.
+- **Next:** Stop the parallel standard-Transformer branch. The remaining supported hypothesis is a missing learned serial remainder/borrow state; any next Task-B run must introduce a learned serial workspace plus a capacity-matched non-serial control.
+
+### 2026-07-30 — Task B serial workspace vs depth control
+- **Hypothesis:** A learned serial workspace, reused eight times while cross-attending to immutable N/u context, will improve fixed-N held-out-u reduction—especially at large quotients—over both the existing baseline and parameter-matched deeper Transformer.
+- **Setup:** N=1349, 8k/2k disjoint-u data, three seeds. Baseline 4L d128 (799,498 params); deep control 5L d120 (877,810); recurrent workspace K=8 d144, two context layers, eight registers and a tied self/cross-attention transition (845,434). Same optimizer/budget; direct-autograd and 32-row smoke passed.
+- **Result:** **Refuted for this workspace formulation.** Peak/final held-out-u EM: baseline 34.75±2.35 / 33.65±2.95; deep 38.23±4.67 / 35.65±5.56; recurrent 29.23±5.84 / 23.47±7.08. Recurrent fits train (~97.20% final) and improves monotonically as its evaluated depth rises to 8, but remains worse on q>=10 (20.2% vs baseline 30.8%) and four-digit quotient (15.3% vs 22.5%).
+- **Next:** Do not K-sweep: recurrence failed its gate. The targeted next test is input-conditioned versus shuffled-context workspace initialization with K=8 held fixed, to separate fixed-state representation from tied-transition capacity; no auxiliary labels.
+
+
+### 2026-08-03 — Upstream competition sync `79f0a09` → `8a3c78d`
+- **Hypothesis:** Specs still describe the Max-T-only Hard tie-break and flattened-only custom loss from `79f0a09`.
+- **Setup:** `git pull --ff-only` in gitignored `competition/` (was `79f0a09`); GPU box `oneL40` already at tip. Diffed README / `benchmark/{api,runner,validation}.py` / `service/{db,views}.py` / `client/cli.py`.
+- **Result:** One upstream commit. Adds `TokenLossBatch` + mutually exclusive `token_training_loss` (legacy `training_loss` still valid). Hard ranking becomes Max T → OOD N Max T → next-rung exact accuracy (`seen_tiebreak_accuracy_percent` / `ood_n_tiebreak_accuracy_percent`) → earlier time. Rule 4 clarifies outer loop vs in-model recurrence/TRM/optimizer curvature. Rule 14 bans data augmentation. README notes closed beta Jul 31–Aug 2 and Monday Aug 31 10pm PT deadline.
+- **Next:** No forced submission rewrites (active cards keep `training_loss`). Prefer `token_training_loss` only when sequence-level loss is the one variable. Specs refreshed: `solving/handoff/PRIMARY_SOURCES.md`, `learnings/concepts/{01,03,09,14}`, `RESEARCH_PROTOCOL.md` §6, `SCOREBOARD.md`, `STATUS.md`, `ASSUMPTIONS.md`.

@@ -3,7 +3,7 @@
 Auto-built 2026-07-24 from `solving/experiments/metrics/*.jsonl` + NOTE/concept recoveries.
 Means are exact-accuracy ×100 (%). **e1 is not a valid ranking signal** (answer-space collapse). Prefer e5 / Medium / Hard.
 
-**Scoring regime note (upstream `79f0a09`, 2026-07-24):** Easy/Medium still rank by mean exact %. Hard leaderboard now ranks by certified **Max T** then **OOD N Max T** on ladder T=1,2,4,8,16,32,64 (consecutive 100%-exact prefix). Historical Hard rows below still show mean% because that is what we logged; they are **not** the current Hard rank key. Re-submit after this pin to populate Max T fields.
+**Scoring regime note (upstream `8a3c78d`, 2026-08-03):** Easy/Medium still rank by mean exact %. Hard leaderboard ranks by certified **Max T** → **OOD N Max T** → next-rung exact accuracy (`seen_tiebreak_accuracy_percent` / `ood_n_tiebreak_accuracy_percent`) → earlier time, on ladder T=1,2,4,8,16,32,64 (consecutive 100%-exact prefix). Historical Hard rows below still show mean% because that is what we logged; they are **not** the current Hard rank key. Re-submit after this pin to populate Max T / tie-break fields.
 
 Live filtered view: Cursor canvas `experiment-scoreboard`.
 

@@ -1,0 +1,73 @@
+loaded 2000 rows from data/generated/mod_two_n_1349_1357/heldout_u.jsonl, model=runs/task_b_two_n_shuffled_n_broadcast/seed2/final.pt, device=cuda
+Computing reference long-division features + sanity check...
+sanity check: long-division simulation vs true u%n mismatches = 0/2000 (must be 0)
+
+=== Error structure ===
+exact match: 233/2000 = 0.1165
+  0 wrong: 233 (0.1165)
+  1 wrong: 448 (0.2240)
+  2-3 wrong: 691 (0.3455)
+  4+ wrong: 628 (0.3140)
+first-wrong-position histogram: {0: 927, 1: 342, 2: 86, 3: 412}
+fraction of wrong examples with contiguous wrong positions: 0.8138087153367289
+longest error-run histogram: {1: 606, 2: 284, 3: 249, 4: 628}
+
+=== Per-position accuracy/confidence/calibration ===
+  pos 0: acc=0.5365 conf=0.973 calib_gap=+0.4367
+  pos 1: acc=0.4410 conf=0.953 calib_gap=+0.5125
+  pos 2: acc=0.4655 conf=0.948 calib_gap=+0.4827
+  pos 3: acc=0.1760 conf=0.885 calib_gap=+0.7091
+
+=== Accuracy by arithmetic-difficulty feature ===
+  quotient_bucket: 0:1.000(n=168), 1:0.000(n=2), large(10+):0.036(n=1818), small(2-9):0.000(n=12)
+  quotient_digit_length: 1:0.923(n=182), 2:0.074(n=81), 3:0.043(n=1196), 4:0.015(n=541)
+  u_over_n_ratio: 1-<2:0.000(n=2), 10-<100:0.074(n=81), 100+:0.034(n=1737), 2-<10:0.000(n=12), <1:1.000(n=168)
+  u_less_than_n: False:0.035(n=1832), True:1.000(n=168)
+  n_digits_u: 1:1.000(n=1), 2:1.000(n=10), 3:1.000(n=116), 4:0.820(n=50), 5:0.056(n=54), 6:0.058(n=792), 7:0.016(n=977)
+  n_digits_n: 4:0.117(n=2000)
+  n_digits_remainder: 1:0.038(n=451), 2:0.238(n=42), 3:0.328(n=357), 4:0.077(n=1150)
+  dist_remainder_to_0_quartile: 0:0.058(n=500), 1:0.306(n=500), 2:0.051(n=492), 3:0.051(n=508)
+  dist_remainder_to_n_quartile: 0:0.064(n=265), 1:0.046(n=734), 2:0.304(n=500), 3:0.060(n=501)
+  dist_to_nearest_multiple_quartile: 0:0.040(n=124), 1:0.045(n=738), 2:0.060(n=638), 3:0.314(n=500)
+
+=== Non-neural baselines ===
+{
+  "trained_model": {
+    "exact_match": 0.1165,
+    "token_accuracy": 0.40475
+  },
+  "most_common_digit_per_position": {
+    "exact_match": 0.0,
+    "token_accuracy": 0.339125
+  },
+  "output_zero": {
+    "exact_match": 0.062,
+    "token_accuracy": 0.2605
+  },
+  "output_u_unchanged": {
+    "exact_match": 0.084,
+    "token_accuracy": 0.17275
+  },
+  "output_u_mod_10^1": {
+    "exact_match": 0.0205,
+    "token_accuracy": 0.278125
+  },
+  "output_u_mod_10^2": {
+    "exact_match": 0.006,
+    "token_accuracy": 0.2585
+  },
+  "output_u_mod_10^3": {
+    "exact_match": 0.0635,
+    "token_accuracy": 0.2345
+  },
+  "nearest_training_by_u": {
+    "exact_match": 0.043,
+    "token_accuracy": 0.4345
+  },
+  "naive_nearest_multiple_heuristic": {
+    "exact_match": 0.361,
+    "token_accuracy": 0.391125
+  }
+}
+
+wrote analysis_out/task_b_final/task_b_two_n_shuffled_n_broadcast_seed2/task_b_analysis.json

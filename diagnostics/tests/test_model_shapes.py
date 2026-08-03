@@ -1,8 +1,9 @@
 import torch
 
-from data.tokens import NUM_SQUARE_DIGITS, VOCAB_SIZE, encode_square
+from data.tokens import NUM_MOD_DIGITS, NUM_SQUARE_DIGITS, VOCAB_SIZE, encode_mod, encode_square
 from models.recurrent_workspace import RecurrentWorkspaceModel
 from models.transformer import StandardTransformer
+from models.transformer_n_broadcast import NBroadcastTransformer
 
 W = NUM_SQUARE_DIGITS  # output width for Task A (square)
 
@@ -33,6 +34,22 @@ def test_standard_transformer_forward_backward_smoke():
     assert any(g is not None and torch.isfinite(g).all() for g in grads)
 
 
+def test_n_broadcast_transformer_forward_backward_smoke():
+    ids, labels = zip(*(encode_mod(n, u) for n, u in ((1349, 2715), (1357, 2731))))
+    input_ids = torch.tensor(ids, dtype=torch.long)
+    labels = torch.tensor(labels, dtype=torch.long)
+    mask = torch.ones_like(input_ids, dtype=torch.bool)
+    for shuffled in (False, True):
+        model = NBroadcastTransformer(
+            max_seq_len=input_ids.shape[1], d_model=32, n_layers=2, n_heads=2, d_ff=64,
+            shuffle_n_broadcast=shuffled,
+        )
+        logits = model(input_ids, mask)[:, -NUM_MOD_DIGITS:, :]
+        loss = torch.nn.functional.cross_entropy(logits.reshape(-1, 10), labels[:, -NUM_MOD_DIGITS:].reshape(-1))
+        loss.backward()
+        assert any(p.grad is not None and torch.isfinite(p.grad).all() for p in model.parameters())
+
+
 def test_recurrent_workspace_forward_backward_smoke():
     input_ids, labels, mask = _batch()
     model = RecurrentWorkspaceModel(
@@ -46,6 +63,44 @@ def test_recurrent_workspace_forward_backward_smoke():
     loss.backward()
     grads = [p.grad for p in model.parameters() if p.requires_grad]
     assert any(g is not None and torch.isfinite(g).all() for g in grads)
+
+
+def test_input_conditioned_workspace_modes_forward_backward_smoke():
+    ids, labels = zip(*(encode_mod(1349, u) for u in (2715, 4087, 6791)))
+    input_ids = torch.tensor(ids, dtype=torch.long)
+    targets = torch.tensor(labels, dtype=torch.long)[:, -NUM_MOD_DIGITS:]
+    mask = torch.ones_like(input_ids, dtype=torch.bool)
+    for mode in ("input_context", "shuffled_context"):
+        model = RecurrentWorkspaceModel(
+            max_seq_len=input_ids.shape[1], d_model=32, n_heads=2, d_ff=64,
+            workspace_size=NUM_MOD_DIGITS, num_output_slots=NUM_MOD_DIGITS,
+            num_loops=3, workspace_init_mode=mode,
+        )
+        kwargs = {
+            "init_input_ids": input_ids,
+            "init_attention_mask": mask,
+        }
+        if mode == "shuffled_context":
+            kwargs = {
+                "init_input_ids": input_ids.roll(1, 0),
+                "init_attention_mask": mask.roll(1, 0),
+            }
+        logits = model(input_ids, mask, **kwargs)
+        assert logits.shape == (3, NUM_MOD_DIGITS, 10)
+        loss = torch.nn.functional.cross_entropy(logits.reshape(-1, 10), targets.reshape(-1))
+        loss.backward()
+        assert any(p.grad is not None and torch.isfinite(p.grad).all() for p in model.parameters())
+
+
+def test_shuffled_context_requires_explicit_nonself_context():
+    model = RecurrentWorkspaceModel(d_model=16, n_heads=2, d_ff=32, workspace_init_mode="shuffled_context")
+    ids = torch.randint(0, VOCAB_SIZE, (2, 5))
+    try:
+        model(ids)
+    except ValueError as error:
+        assert "init_input_ids" in str(error)
+    else:
+        raise AssertionError("shuffled context must not silently use its own input")
 
 
 def test_recurrent_workspace_rejects_output_slots_larger_than_workspace():

@@ -1,0 +1,39 @@
+scoring splits: ('test', 'ood')
+{"type": "train", "step": 1, "elapsed_seconds": 1.0309908029994403, "loss": 2.8097083568573, "exact_accuracy": 0.0, "lr": 0.00013509664492810224, "weight_norm": 26.150106290610132, "grad_norm": 0.9999994666439703}
+{"type": "eval", "split": "test", "step": 1, "elapsed_seconds": 1.0309908029994403, "loss": 2.8049786139138138, "exact_accuracy": 0.0}
+{"type": "eval", "split": "ood", "step": 1, "elapsed_seconds": 1.0309908029994403, "loss": 2.8069586699770896, "exact_accuracy": 0.0}
+new peak ood acc 0.0000 at step 1 -> saved results_local/gate1_length4_priming/monitor_peak.pt
+{"type": "train", "step": 100, "elapsed_seconds": 5.365400454998962, "loss": 2.0388615131378174, "exact_accuracy": 0.1328125, "lr": 0.00056420493970803, "weight_norm": 26.229793014400492, "grad_norm": 0.9999991618554884}
+{"type": "eval", "split": "test", "step": 100, "elapsed_seconds": 5.365400454998962, "loss": 2.0393469780306273, "exact_accuracy": 0.10166666706403096}
+{"type": "eval", "split": "ood", "step": 100, "elapsed_seconds": 5.365400454998962, "loss": 2.1114537337391646, "exact_accuracy": 0.10000000227357923}
+new peak ood acc 0.1000 at step 100 -> saved results_local/gate1_length4_priming/monitor_peak.pt
+{"type": "train", "step": 200, "elapsed_seconds": 9.74384664199897, "loss": 1.3214008808135986, "exact_accuracy": 0.16796875, "lr": 0.0009976736143469515, "weight_norm": 26.606524212699753, "grad_norm": 0.9999997037347855}
+{"type": "eval", "split": "test", "step": 200, "elapsed_seconds": 9.74384664199897, "loss": 1.4019692254971854, "exact_accuracy": 0.12833333373069764}
+{"type": "eval", "split": "ood", "step": 200, "elapsed_seconds": 9.74384664199897, "loss": 1.7318305175328992, "exact_accuracy": 0.09278350607636049}
+{"type": "train", "step": 300, "elapsed_seconds": 14.171733232999031, "loss": 0.7457842230796814, "exact_accuracy": 0.27734375, "lr": 0.0014360337313770013, "weight_norm": 26.96933041743085, "grad_norm": 0.9999997305985381}
+{"type": "eval", "split": "test", "step": 300, "elapsed_seconds": 14.171733232999031, "loss": 0.8483204483985901, "exact_accuracy": 0.20500000139077504}
+{"type": "eval", "split": "ood", "step": 300, "elapsed_seconds": 14.171733232999031, "loss": 1.6797551823645522, "exact_accuracy": 0.05979381509355663}
+{"type": "train", "step": 400, "elapsed_seconds": 18.51320833200043, "loss": 0.3624940812587738, "exact_accuracy": 0.546875, "lr": 0.0018658402830571215, "weight_norm": 27.43449817167703, "grad_norm": 0.9999998099137702}
+{"type": "eval", "split": "test", "step": 400, "elapsed_seconds": 18.51320833200043, "loss": 0.44982095345666134, "exact_accuracy": 0.44166666706403096}
+{"type": "eval", "split": "ood", "step": 400, "elapsed_seconds": 18.51320833200043, "loss": 1.673278698232985, "exact_accuracy": 0.0731958774868975}
+{"type": "train", "step": 500, "elapsed_seconds": 22.854351633999613, "loss": 0.0692329853773117, "exact_accuracy": 0.9296875, "lr": 0.002295613454015984, "weight_norm": 28.066241714483706, "grad_norm": 0.9999996275181945}
+{"type": "eval", "split": "test", "step": 500, "elapsed_seconds": 22.854351633999613, "loss": 0.07681756974021091, "exact_accuracy": 0.9066666666666666}
+{"type": "eval", "split": "ood", "step": 500, "elapsed_seconds": 22.854351633999613, "loss": 1.7505412593330305, "exact_accuracy": 0.0886597947361543}
+{"type": "train", "step": 600, "elapsed_seconds": 26.982766577999428, "loss": 0.03535183146595955, "exact_accuracy": 0.9609375, "lr": 0.002704326688506036, "weight_norm": 28.612961097462495, "grad_norm": 0.9999993569270125}
+{"type": "eval", "split": "test", "step": 600, "elapsed_seconds": 26.982766577999428, "loss": 0.033812473582316045, "exact_accuracy": 0.9550000055631002}
+{"type": "eval", "split": "ood", "step": 600, "elapsed_seconds": 26.982766577999428, "loss": 1.8697289275139877, "exact_accuracy": 0.08969072257120585}
+{"type": "train", "step": 700, "elapsed_seconds": 31.388746181999522, "loss": 0.009799770079553127, "exact_accuracy": 0.98828125, "lr": 0.0029999545599433395, "weight_norm": 29.103559328095947, "grad_norm": 0.6863731982300377}
+{"type": "eval", "split": "test", "step": 700, "elapsed_seconds": 31.388746181999522, "loss": 0.012578861205543898, "exact_accuracy": 0.9783333365122477}
+{"type": "eval", "split": "ood", "step": 700, "elapsed_seconds": 31.388746181999522, "loss": 2.0189983672702434, "exact_accuracy": 0.1020618565918244}
+new peak ood acc 0.1021 at step 700 -> saved results_local/gate1_length4_priming/monitor_peak.pt
+{"type": "train", "step": 800, "elapsed_seconds": 35.7176724130004, "loss": 0.005250907503068447, "exact_accuracy": 0.99609375, "lr": 0.002999254771662303, "weight_norm": 29.4726514203249, "grad_norm": 0.44743872098323895}
+{"type": "eval", "split": "test", "step": 800, "elapsed_seconds": 35.7176724130004, "loss": 0.00685908807135081, "exact_accuracy": 0.9916666682561238}
+{"type": "eval", "split": "ood", "step": 800, "elapsed_seconds": 35.7176724130004, "loss": 2.1195201333036127, "exact_accuracy": 0.07835051612448446}
+{"type": "train", "step": 900, "elapsed_seconds": 40.03662347200043, "loss": 0.0014985830057412386, "exact_accuracy": 1.0, "lr": 0.0029977146257016848, "weight_norm": 29.70075625998466, "grad_norm": 0.08264866093131627}
+{"type": "eval", "split": "test", "step": 900, "elapsed_seconds": 40.03662347200043, "loss": 0.0014987653657746844, "exact_accuracy": 1.0}
+{"type": "eval", "split": "ood", "step": 900, "elapsed_seconds": 40.03662347200043, "loss": 2.137947736327181, "exact_accuracy": 0.07731958815117472}
+{"type": "train", "step": 1000, "elapsed_seconds": 44.59358724199956, "loss": 0.0007222980493679643, "exact_accuracy": 1.0, "lr": 0.0029951787830887772, "weight_norm": 29.8114409336702, "grad_norm": 0.028900276641083075}
+{"type": "eval", "split": "test", "step": 1000, "elapsed_seconds": 44.59358724199956, "loss": 0.0018590093967563743, "exact_accuracy": 1.0}
+{"type": "eval", "split": "ood", "step": 1000, "elapsed_seconds": 44.59358724199956, "loss": 2.1182213434239023, "exact_accuracy": 0.0927835040485736}
+saved final checkpoint: results_local/gate1_length4_priming/monitor_final.pt
+done

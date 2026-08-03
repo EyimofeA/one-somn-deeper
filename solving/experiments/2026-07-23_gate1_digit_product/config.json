@@ -1,0 +1,8 @@
+{
+  "card": "gate1_digit_product",
+  "date": "2026-07-23",
+  "change": "diagnostic data/target: x -> x^2 becomes explicit digits a,b -> a*b",
+  "target_function": "single_digit_product",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_digit_product/metrics/*.jsonl"
+}
