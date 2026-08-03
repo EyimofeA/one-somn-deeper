@@ -340,6 +340,14 @@ PREDICT:    [agent-authored per human override] held-out exact match exceeds 99%
 RESULT:     refuted — 79.45% overall; c6/c7 improved slightly but the curve still decayed to 56.11%
 ```
 
+### 2026-07-23 (p)
+
+```
+CARD:       gate1_quantized_carry_scan
+CHANGE:     continuous shared carry state → 64 learned categorical state prototypes after every transition
+PREDICT:    [agent-authored per human override] held-out exact match exceeds 95% and c6/c7 improve materially because hard prototype projection prevents continuous state drift from compounding
+```
+
 ### 2026-07-23 (h)
 
 ```
