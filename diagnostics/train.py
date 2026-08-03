@@ -58,6 +58,9 @@ def set_nested(cfg: dict, dotted_key: str, value: str) -> None:
     for k in keys[:-1]:
         d = d.setdefault(k, {})
     # best-effort type coercion so CLI overrides don't stay strings
+    if value in ("none", "null"):
+        d[keys[-1]] = None
+        return
     for cast in (int, float):
         try:
             value = cast(value)
