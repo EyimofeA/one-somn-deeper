@@ -54,3 +54,31 @@ class DiagnosticDataset(Dataset):
 
     def meta(self, idx: int) -> dict:
         return self.rows[idx]
+
+
+class ShuffledContextDataset(Dataset):
+    """Attach a fixed, non-self source context for an initialization control."""
+
+    def __init__(self, base: DiagnosticDataset, seed: int):
+        self.base = base
+        self.max_len = base.max_len
+        generator = torch.Generator().manual_seed(seed)
+        identity = torch.arange(len(base))
+        while True:
+            permutation = torch.randperm(len(base), generator=generator)
+            if not (permutation == identity).any():
+                break
+        self.permutation = permutation
+
+    def __len__(self) -> int:
+        return len(self.base)
+
+    def __getitem__(self, idx: int) -> dict[str, torch.Tensor]:
+        item = dict(self.base[idx])
+        context_item = self.base[int(self.permutation[idx])]
+        item["init_input_ids"] = context_item["input_ids"]
+        item["init_attention_mask"] = context_item["attention_mask"]
+        return item
+
+    def meta(self, idx: int) -> dict:
+        return self.base.meta(idx)

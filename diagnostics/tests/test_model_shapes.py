@@ -76,18 +76,28 @@ def test_input_conditioned_workspace_modes_forward_backward_smoke():
             workspace_size=NUM_MOD_DIGITS, num_output_slots=NUM_MOD_DIGITS,
             num_loops=3, workspace_init_mode=mode,
         )
-        logits = model(input_ids, mask)
+        kwargs = {}
+        if mode == "shuffled_context":
+            kwargs = {
+                "init_input_ids": input_ids.roll(1, 0),
+                "init_attention_mask": mask.roll(1, 0),
+            }
+        logits = model(input_ids, mask, **kwargs)
         assert logits.shape == (3, NUM_MOD_DIGITS, 10)
         loss = torch.nn.functional.cross_entropy(logits.reshape(-1, 10), targets.reshape(-1))
         loss.backward()
         assert any(p.grad is not None and torch.isfinite(p.grad).all() for p in model.parameters())
 
 
-def test_shuffled_context_is_a_nonidentity_derangement():
+def test_shuffled_context_requires_explicit_nonself_context():
     model = RecurrentWorkspaceModel(d_model=16, n_heads=2, d_ff=32, workspace_init_mode="shuffled_context")
-    context = torch.arange(3 * 5 * 16, dtype=torch.float32).view(3, 5, 16)
-    shuffled = context.roll(shifts=1, dims=0)
-    assert all(not torch.equal(context[row], shuffled[row]) for row in range(context.shape[0]))
+    ids = torch.randint(0, VOCAB_SIZE, (2, 5))
+    try:
+        model(ids)
+    except ValueError as error:
+        assert "init_input_ids" in str(error)
+    else:
+        raise AssertionError("shuffled context must not silently use its own input")
 
 
 def test_recurrent_workspace_rejects_output_slots_larger_than_workspace():
