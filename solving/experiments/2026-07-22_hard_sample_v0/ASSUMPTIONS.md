@@ -9,12 +9,12 @@ Sample Hard-oriented card. Not scored. Not a claim that this beats the board.
 | F1 | Hard may change aspects of the recurrence; do not assume repeated squaring. |
 | F2 | Official reply: people have guessed a “slightly new family”; some guesses worked, some did not. Exact family unconfirmed. |
 | F3 | Submission = one `submission.py`, `SUBMISSION` contract, ≤500M persistent state, ≤256 KiB. |
-| F4 | Evaluator owns loop; `forward` → `(logits, auxiliary)`; optional `training_loss`. |
+| F4 | Evaluator owns loop; `forward` → `(logits, auxiliary)`; optional `training_loss` **or** `token_training_loss` (not both). |
 | F5 | Hard: 3600s train, 1800s eval, 1 accepted attempt/UTC day, H100. |
 | F6 | Easy/Medium public practice uses digit prompts with markers N/X/T (TOKEN_IDS). |
-| F7 | Rule 14 (was Rule 10 pre-`79f0a09`) bans task-specific solvers / dataset inspection / custom train loops / manifest overrides. Rules 6–9 additionally ban hard-coded weights, hard-coded forward algorithms, broken autograd, and CPU offload. |
-| F8 | Hard ranks by certified Max T then OOD N Max T on T∈{1,2,4,8,16,32,64} (consecutive 100%-exact prefix); mean exact % is diagnostic only. Easy/Medium still score mean exact %. |
-| F9 | Submission deadline: August 31, 2026 10:00 PM PT. |
+| F7 | Rule 14 bans task-specific solvers / dataset inspection / data augmentation / custom train loops / manifest overrides. Rules 6–9 additionally ban hard-coded weights, hard-coded forward algorithms, broken autograd, and CPU offload. |
+| F8 | Hard ranks by certified Max T then OOD N Max T on T∈{1,2,4,8,16,32,64} (consecutive 100%-exact prefix), then next-rung exact accuracy, then earlier time; mean exact % is diagnostic only. Easy/Medium still score mean exact %. |
+| F9 | Submission deadline: Monday, August 31, 2026 10:00 PM PT. |
 
 ## ASSUMPTION (ours — may be wrong)
 

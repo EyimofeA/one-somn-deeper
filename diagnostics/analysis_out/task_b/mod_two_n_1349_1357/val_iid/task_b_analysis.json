@@ -1,0 +1,4276 @@
+{
+  "run_dir": "runs/mod_two_n_1349_1357",
+  "checkpoint": "runs/mod_two_n_1349_1357/peak.pt",
+  "n_val_examples": 2000,
+  "sanity_check_mismatches": 0,
+  "error_structure": {
+    "bucket_counts": {
+      "0 wrong": 313,
+      "1 wrong": 585,
+      "2-3 wrong": 638,
+      "4+ wrong": 464
+    },
+    "first_wrong_position_histogram": {
+      "0": 798,
+      "1": 330,
+      "3": 529,
+      "2": 30
+    },
+    "frac_contiguous_given_wrong": 0.970954356846473
+  },
+  "per_position": [
+    {
+      "position": 0,
+      "accuracy": 0.601,
+      "mean_confidence": 0.6045049428939819,
+      "calibration_gap": 0.003504931926727295,
+      "top_confusions": [
+        [
+          [
+            0,
+            1
+          ],
+          505
+        ],
+        [
+          [
+            1,
+            0
+          ],
+          293
+        ]
+      ]
+    },
+    {
+      "position": 1,
+      "accuracy": 0.5685,
+      "mean_confidence": 0.5215997099876404,
+      "calibration_gap": -0.046900272369384766,
+      "top_confusions": [
+        [
+          [
+            0,
+            3
+          ],
+          535
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          53
+        ],
+        [
+          [
+            2,
+            3
+          ],
+          52
+        ]
+      ]
+    },
+    {
+      "position": 2,
+      "accuracy": 0.5735,
+      "mean_confidence": 0.5427982211112976,
+      "calibration_gap": -0.030701756477355957,
+      "top_confusions": [
+        [
+          [
+            0,
+            4
+          ],
+          268
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          256
+        ],
+        [
+          [
+            1,
+            4
+          ],
+          25
+        ]
+      ]
+    },
+    {
+      "position": 3,
+      "accuracy": 0.224,
+      "mean_confidence": 0.2510964572429657,
+      "calibration_gap": 0.027096450328826904,
+      "top_confusions": [
+        [
+          [
+            4,
+            3
+          ],
+          86
+        ],
+        [
+          [
+            6,
+            3
+          ],
+          83
+        ],
+        [
+          [
+            5,
+            3
+          ],
+          73
+        ]
+      ]
+    }
+  ],
+  "feature_bucket_report": {
+    "quotient_bucket": {
+      "large(10+)": {
+        "n": 1798,
+        "exact_match": 0.06395995550611791
+      },
+      "0": {
+        "n": 198,
+        "exact_match": 1.0
+      },
+      "small(2-9)": {
+        "n": 4,
+        "exact_match": 0.0
+      }
+    },
+    "quotient": {
+      "0": {
+        "n": 198,
+        "exact_match": 1.0
+      },
+      "3": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "7": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "8": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "13": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "14": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "15": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "16": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "17": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "19": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "20": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "21": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "22": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "23": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "24": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "25": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "26": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "28": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "29": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "32": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "33": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "34": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "35": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "37": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "38": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "40": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "41": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "42": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "44": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "45": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "46": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "48": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "49": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "50": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "52": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "53": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "56": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "57": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "58": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "62": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "64": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "65": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "66": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "67": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "68": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "69": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "73": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "74": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "75": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "76": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "77": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "78": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "79": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "81": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "82": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "83": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "84": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "86": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "88": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "89": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "97": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "98": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "99": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "100": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "101": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "103": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "104": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "106": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "108": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "109": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "111": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "112": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "113": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "114": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "115": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "116": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "117": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "119": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "121": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "124": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "125": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "126": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "127": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "128": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "129": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "130": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "132": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "134": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "138": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "139": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "140": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "142": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "143": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "144": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "147": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "148": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "149": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "151": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "152": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "156": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "158": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "159": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "162": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "163": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "164": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "166": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "168": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "173": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "176": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "177": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "178": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "179": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "180": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "181": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "182": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "184": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "185": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "186": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "188": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "189": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "191": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "192": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "193": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "194": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "195": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "196": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "197": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "199": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "203": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "204": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "206": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "207": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "208": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "210": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "212": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "215": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "218": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "219": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "220": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "221": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "222": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "223": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "226": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "229": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "230": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "231": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "235": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "236": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "237": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "238": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "239": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "240": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "241": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "242": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "244": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "245": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "247": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "248": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "249": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "251": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "252": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "254": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "258": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "259": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "260": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "261": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "265": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "266": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "267": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "268": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "269": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "270": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "272": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "273": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "274": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "276": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "277": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "278": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "279": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "280": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "281": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "282": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "283": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "284": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "285": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "287": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "288": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "291": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "293": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "294": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "297": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "298": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "299": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "300": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "301": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "302": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "303": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "304": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "305": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "308": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "310": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "311": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "312": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "313": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "314": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "315": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "316": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "317": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "318": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "319": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "320": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "321": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "322": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "324": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "325": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "326": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "329": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "333": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "337": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "339": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "340": {
+        "n": 3,
+        "exact_match": 0.6666666666666666
+      },
+      "341": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "342": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "343": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "344": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "345": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "348": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "350": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "352": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "353": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "354": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "356": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "357": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "358": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "359": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "361": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "365": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "368": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "369": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "370": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "371": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "372": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "373": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "374": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "376": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "377": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "378": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "381": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "382": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "387": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "388": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "389": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "390": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "391": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "392": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "393": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "395": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "396": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "397": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "398": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "399": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "401": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "402": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "404": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "407": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "408": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "409": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "410": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "411": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "412": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "413": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "414": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "415": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "416": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "417": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "419": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "421": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "422": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "423": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "424": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "426": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "429": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "431": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "434": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "435": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "436": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "437": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "441": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "442": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "443": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "445": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "447": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "448": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "449": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "450": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "451": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "452": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "454": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "455": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "456": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "457": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "458": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "459": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "460": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "461": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "463": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "464": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "469": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "470": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "472": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "473": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "475": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "477": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "479": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "480": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "481": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "484": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "486": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "487": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "488": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "489": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "490": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "492": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "493": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "494": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "496": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "498": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "506": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "507": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "509": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "510": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "511": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "513": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "516": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "518": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "519": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "520": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "522": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "523": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "524": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "525": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "526": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "527": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "528": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "529": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "531": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "532": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "533": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "536": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "538": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "539": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "540": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "542": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "543": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "544": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "545": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "546": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "547": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "548": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "549": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "550": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "551": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "553": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "554": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "555": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "556": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "558": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "559": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "560": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "562": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "564": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "565": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "567": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "569": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "570": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "574": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "575": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "577": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "578": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "579": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "580": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "581": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "582": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "585": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "586": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "587": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "590": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "592": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "593": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "594": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "596": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "597": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "600": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "604": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "605": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "606": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "607": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "609": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "610": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "611": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "612": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "613": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "616": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "619": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "620": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "621": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "622": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "623": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "625": {
+        "n": 3,
+        "exact_match": 0.6666666666666666
+      },
+      "626": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "628": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "630": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "631": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "632": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "633": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "634": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "637": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "638": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "639": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "641": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "642": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "645": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "646": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "648": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "650": {
+        "n": 4,
+        "exact_match": 0.5
+      },
+      "651": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "653": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "654": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "655": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "657": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "660": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "662": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "665": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "666": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "667": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "670": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "673": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "674": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "675": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "676": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "677": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "678": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "679": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "680": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "681": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "682": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "683": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "684": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "685": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "686": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "687": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "688": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "689": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "690": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "692": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "693": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "695": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "696": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "697": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "698": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "700": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "701": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "702": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "703": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "704": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "705": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "706": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "707": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "709": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "711": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "712": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "713": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "714": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "715": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "716": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "717": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "719": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "720": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "721": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "722": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "723": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "725": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "726": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "728": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "729": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "730": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "731": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "732": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "733": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "734": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "735": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "736": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "737": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "738": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "739": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "740": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "741": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "743": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "745": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "746": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "748": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "749": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "751": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "753": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "755": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "756": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "758": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "759": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "760": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "761": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "762": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "763": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "764": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "765": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "766": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "767": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "768": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "769": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "770": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "771": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "772": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "774": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "775": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "776": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "777": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "778": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "779": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "780": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "782": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "784": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "785": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "786": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "788": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "789": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "790": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "791": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "793": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "794": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "795": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "796": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "797": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "798": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "799": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "801": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "802": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "804": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "805": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "806": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "807": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "808": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "809": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "810": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "811": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "812": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "813": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "814": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "815": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "816": {
+        "n": 6,
+        "exact_match": 0.16666666666666666
+      },
+      "817": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "818": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "819": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "820": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "822": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "823": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "824": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "826": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "827": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "828": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "829": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "831": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "832": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "833": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "835": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "836": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "837": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "838": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "839": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "840": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "841": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "842": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "843": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "844": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "845": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "846": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "847": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "848": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "849": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "851": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "852": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "853": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "854": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "855": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "856": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "858": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "860": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "861": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "862": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "863": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "864": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "865": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "866": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "867": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "868": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "869": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "870": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "872": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "873": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "874": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "875": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "876": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "877": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "878": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "879": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "880": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "881": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "882": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "883": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "884": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "886": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "887": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "888": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "889": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "890": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "891": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "893": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "894": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "895": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "896": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "898": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "899": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "901": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "902": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "904": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "905": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "906": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "908": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "909": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "910": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "911": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "913": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "914": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "915": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "916": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "917": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "918": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "919": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "920": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "922": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "923": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "925": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "926": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "927": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "928": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "929": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "930": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "933": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "935": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "938": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "940": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "941": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "942": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "943": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "944": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "946": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "947": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "950": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "952": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "953": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "954": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "955": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "956": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "957": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "960": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "961": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "962": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "963": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "964": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "965": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "966": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "969": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "970": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "972": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "973": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "974": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "975": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "977": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "978": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "979": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "982": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "983": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "984": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "985": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "986": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "987": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "989": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "990": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "992": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "994": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "996": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "997": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "999": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "1000": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1003": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1004": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1005": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1006": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1007": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1008": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1009": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1010": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1011": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1012": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1015": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1016": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1018": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1019": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1020": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1021": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1022": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1023": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1025": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1026": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1027": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1028": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1030": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1032": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "1033": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1034": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1036": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1037": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1038": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1039": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1040": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1041": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1044": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "1045": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1047": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1048": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1049": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1050": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1051": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1052": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1053": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1054": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1055": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1056": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1057": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1058": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1061": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1062": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1063": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "1065": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1066": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1067": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1070": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1071": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1072": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1073": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1075": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1076": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1077": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1078": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "1079": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1080": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1081": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1082": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1083": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1084": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1085": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1086": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1087": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1090": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1091": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1092": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1093": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1094": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1095": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1096": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1097": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1098": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1099": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1100": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1101": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1102": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1103": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1104": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1105": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1107": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1108": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1109": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1110": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "1111": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1114": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "1115": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1116": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1117": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1119": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1120": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1121": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1122": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1123": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1124": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1125": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1126": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1128": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1129": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1130": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1131": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1132": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1133": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1134": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1138": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "1140": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1141": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1142": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1143": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1145": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1146": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1147": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1149": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1150": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1151": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1152": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1153": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "1154": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1155": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1156": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "1157": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1158": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1159": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1160": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1161": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1162": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1164": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1166": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1167": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1168": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1169": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1173": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1174": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1175": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1176": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1177": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1178": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1179": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1180": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1181": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1182": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1183": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1184": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1185": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1186": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1187": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1188": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1189": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1190": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1191": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1192": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1193": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1194": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "1195": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "1196": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1197": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1198": {
+        "n": 3,
+        "exact_match": 0.3333333333333333
+      },
+      "1199": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1200": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1201": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1202": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1203": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1206": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "1207": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "1208": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "1210": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "1211": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1212": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1213": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1214": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1215": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1216": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1217": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1218": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "1219": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1220": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1221": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1222": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1223": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "1224": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1225": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1226": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1227": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1228": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "1229": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1230": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1231": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1232": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1233": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1234": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1236": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1239": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1241": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1242": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1243": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1244": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1245": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1246": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1247": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1248": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "1249": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1250": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1252": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1253": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1254": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1255": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "1256": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1258": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1259": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1260": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1262": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1263": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1264": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "1265": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "1266": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1267": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1268": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "1269": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1270": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "1271": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "1274": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1275": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1276": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1277": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1278": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1280": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1281": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1282": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1283": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1284": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1285": {
+        "n": 4,
+        "exact_match": 0.25
+      },
+      "1286": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1287": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "1288": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1289": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1291": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "1292": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1295": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1296": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1299": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1301": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1303": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1304": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1305": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1306": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1307": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1308": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1310": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1311": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1312": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1313": {
+        "n": 5,
+        "exact_match": 0.0
+      },
+      "1314": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1316": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1317": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1318": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1319": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1321": {
+        "n": 1,
+        "exact_match": 1.0
+      },
+      "1323": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1326": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1327": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1328": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1329": {
+        "n": 2,
+        "exact_match": 0.0
+      },
+      "1330": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1331": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1332": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1333": {
+        "n": 4,
+        "exact_match": 0.0
+      },
+      "1335": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1336": {
+        "n": 2,
+        "exact_match": 0.5
+      },
+      "1337": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1338": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1339": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1340": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1342": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1343": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1344": {
+        "n": 3,
+        "exact_match": 0.0
+      },
+      "1346": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1347": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1348": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1349": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1350": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1351": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1352": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1353": {
+        "n": 1,
+        "exact_match": 0.0
+      },
+      "1354": {
+        "n": 2,
+        "exact_match": 0.0
+      }
+    },
+    "quotient_digit_length": {
+      "3": {
+        "n": 1143,
+        "exact_match": 0.07086614173228346
+      },
+      "1": {
+        "n": 202,
+        "exact_match": 0.9801980198019802
+      },
+      "2": {
+        "n": 98,
+        "exact_match": 0.08163265306122448
+      },
+      "4": {
+        "n": 557,
+        "exact_match": 0.0466786355475763
+      }
+    },
+    "u_over_n_ratio": {
+      "100+": {
+        "n": 1700,
+        "exact_match": 0.06294117647058824
+      },
+      "<1": {
+        "n": 198,
+        "exact_match": 1.0
+      },
+      "10-<100": {
+        "n": 98,
+        "exact_match": 0.08163265306122448
+      },
+      "2-<10": {
+        "n": 4,
+        "exact_match": 0.0
+      }
+    },
+    "u_less_than_n": {
+      "False": {
+        "n": 1802,
+        "exact_match": 0.06381798002219756
+      },
+      "True": {
+        "n": 198,
+        "exact_match": 1.0
+      }
+    },
+    "n_digits_u": {
+      "7": {
+        "n": 990,
+        "exact_match": 0.03838383838383838
+      },
+      "6": {
+        "n": 735,
+        "exact_match": 0.09659863945578231
+      },
+      "3": {
+        "n": 131,
+        "exact_match": 1.0
+      },
+      "5": {
+        "n": 75,
+        "exact_match": 0.08
+      },
+      "4": {
+        "n": 60,
+        "exact_match": 0.9666666666666667
+      },
+      "1": {
+        "n": 3,
+        "exact_match": 1.0
+      },
+      "2": {
+        "n": 6,
+        "exact_match": 1.0
+      }
+    },
+    "n_digits_n": {
+      "4": {
+        "n": 2000,
+        "exact_match": 0.1565
+      }
+    },
+    "n_digits_remainder": {
+      "4": {
+        "n": 1065,
+        "exact_match": 0.1624413145539906
+      },
+      "3": {
+        "n": 412,
+        "exact_match": 0.3179611650485437
+      },
+      "1": {
+        "n": 494,
+        "exact_match": 0.006072874493927126
+      },
+      "2": {
+        "n": 29,
+        "exact_match": 0.20689655172413793
+      }
+    },
+    "dist_remainder_to_0_quartile": {
+      "0": {
+        "n": 500,
+        "exact_match": 0.008
+      },
+      "1": {
+        "n": 500,
+        "exact_match": 0.328
+      },
+      "2": {
+        "n": 432,
+        "exact_match": 0.14583333333333334
+      },
+      "3": {
+        "n": 568,
+        "exact_match": 0.1443661971830986
+      }
+    },
+    "dist_remainder_to_n_quartile": {
+      "0": {
+        "n": 478,
+        "exact_match": 0.1108786610878661
+      },
+      "1": {
+        "n": 522,
+        "exact_match": 0.17624521072796934
+      },
+      "2": {
+        "n": 500,
+        "exact_match": 0.328
+      },
+      "3": {
+        "n": 500,
+        "exact_match": 0.008
+      }
+    }
+  },
+  "baselines": {
+    "trained_model": {
+      "exact_match": 0.1565,
+      "token_accuracy": 0.49175
+    },
+    "most_common_digit_per_position": {
+      "exact_match": 0.0,
+      "token_accuracy": 0.3445
+    },
+    "output_zero": {
+      "exact_match": 0.053,
+      "token_accuracy": 0.27775
+    },
+    "output_u_unchanged": {
+      "exact_match": 0.099,
+      "token_accuracy": 0.188125
+    },
+    "nearest_training_by_u": {
+      "exact_match": 0.0465,
+      "token_accuracy": 0.439625
+    },
+    "naive_nearest_multiple_heuristic": {
+      "exact_match": 0.3975,
+      "token_accuracy": 0.42825
+    }
+  }
+}

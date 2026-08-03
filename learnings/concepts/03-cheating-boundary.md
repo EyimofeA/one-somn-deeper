@@ -1,8 +1,8 @@
 # Cheating boundary — what is / is not allowed
 
-Sources: competition [README](https://github.com/tilde-research/one-layer-deeper) @ `79f0a09` + website rules + `submission_validation.py`. Discord beta chat is summarized in [`14-discord-beta-meta.md`](14-discord-beta-meta.md) — useful, not always binding.
+Sources: competition [README](https://github.com/tilde-research/one-layer-deeper) @ `8a3c78d` + website rules + `benchmark/validation.py`. Discord beta chat is summarized in [`14-discord-beta-meta.md`](14-discord-beta-meta.md) — useful, not always binding.
 
-Rule numbers below match the **2026-07-24** README (rules 1–16). Older notes that say “Rule 10 = solvers” are stale — solvers / data inspection are now **Rule 14**.
+Rule numbers below match the **2026-08-03** README (rules 1–16). Older notes that say “Rule 10 = solvers” are stale — solvers / data inspection / data augmentation are **Rule 14**.
 
 ## Forbidden (ban / invalid score territory)
 
@@ -12,18 +12,18 @@ Rule numbers below match the **2026-07-24** README (rules 1–16). Older notes t
 - **Broken autograd / non-end-to-end learning** — final logits must stay on the autograd graph with an unbroken gradient path from loss to the predicting parameters (**Rule 8**)
 - **CPU offloading** — model state and computation must stay on GPU throughout train/eval (**Rule 9**)
 - **Inspecting / shipping the training set** from inside the submission; reading dataset files at eval time (**Rule 14**)
-- **Custom training loop / your own backward** — evaluator owns one-forward / one-backward (**Rule 14**)
+- **Data augmentation** of evaluator batches (**Rule 14** — now in README, not Discord-only)
+- **Custom training loop / your own backward** — evaluator owns one model forward + one evaluator-owned backward per batch (**Rule 4** + **14**). In-model recurrence / TRMs / optimizer curvature are still allowed.
 - **Manifest overrides** (**Rule 14**)
 - **Exploiting Hard metric recording** (**Rule 16**)
 - **Importing** repo `model` / `optim` / `data` packages or installing extra packages at runtime (**Rule 2**)
-- **Data augmentation** on Hard (leaderboard) runs — stated in Discord and added to website rules
 
 ## Allowed (and expected)
 
 - Any **architecture** under ≤500M model-state ceiling — **trainable params** are capped; persistent buffers and frozen state still count (**Rule 5**)
-- **Recurrence / loops / ACT / routing / memory tokens**
-- **Optimizer + LR schedule** via `OptimizerBundle`
-- **Custom loss** `(logits, labels, aux) → scalar` (evaluator still does backward)
+- **Recurrence / loops / ACT / routing / memory tokens** / TRM-style iterative refinement inside `forward`
+- **Optimizer + LR schedule** via `OptimizerBundle` (including optimizer-side curvature / Hessian approximations)
+- **Custom loss** — either legacy `training_loss(logits, labels, aux)` (flattened valid tokens) **or** `token_training_loss(TokenLossBatch)` (boundary-preserving); mutually exclusive; evaluator still does backward (**Rule 12**)
 - Lower **batch size** / **max_steps** than the manifest ceiling
 - Different depth at `train()` vs `eval()` via `self.training`
 - Random init + learning on the evaluator’s stream

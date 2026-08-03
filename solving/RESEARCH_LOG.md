@@ -785,3 +785,9 @@ composition, still locally and without promoting weights to a submission.
 - **Result:** **Refuted for this workspace formulation.** Peak/final held-out-u EM: baseline 34.75±2.35 / 33.65±2.95; deep 38.23±4.67 / 35.65±5.56; recurrent 29.23±5.84 / 23.47±7.08. Recurrent fits train (~97.20% final) and improves monotonically as its evaluated depth rises to 8, but remains worse on q>=10 (20.2% vs baseline 30.8%) and four-digit quotient (15.3% vs 22.5%).
 - **Next:** Do not K-sweep: recurrence failed its gate. The targeted next test is input-conditioned versus shuffled-context workspace initialization with K=8 held fixed, to separate fixed-state representation from tied-transition capacity; no auxiliary labels.
 
+
+### 2026-08-03 — Upstream competition sync `79f0a09` → `8a3c78d`
+- **Hypothesis:** Specs still describe the Max-T-only Hard tie-break and flattened-only custom loss from `79f0a09`.
+- **Setup:** `git pull --ff-only` in gitignored `competition/` (was `79f0a09`); GPU box `oneL40` already at tip. Diffed README / `benchmark/{api,runner,validation}.py` / `service/{db,views}.py` / `client/cli.py`.
+- **Result:** One upstream commit. Adds `TokenLossBatch` + mutually exclusive `token_training_loss` (legacy `training_loss` still valid). Hard ranking becomes Max T → OOD N Max T → next-rung exact accuracy (`seen_tiebreak_accuracy_percent` / `ood_n_tiebreak_accuracy_percent`) → earlier time. Rule 4 clarifies outer loop vs in-model recurrence/TRM/optimizer curvature. Rule 14 bans data augmentation. README notes closed beta Jul 31–Aug 2 and Monday Aug 31 10pm PT deadline.
+- **Next:** No forced submission rewrites (active cards keep `training_loss`). Prefer `token_training_loss` only when sequence-level loss is the one variable. Specs refreshed: `solving/handoff/PRIMARY_SOURCES.md`, `learnings/concepts/{01,03,09,14}`, `RESEARCH_PROTOCOL.md` §6, `SCOREBOARD.md`, `STATUS.md`, `ASSUMPTIONS.md`.

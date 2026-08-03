@@ -1,0 +1,20 @@
+{
+  "n_pairs": 2000,
+  "checkpoint": "final",
+  "run_dir": "runs/task_b_two_n_shuffled_n_broadcast/seed0",
+  "prediction_changes_when_n_changes": 0.949,
+  "true_target_changes_when_n_changes": 1.0,
+  "prediction_changes_to_correct_alternate_remainder": 0.0,
+  "prediction_unchanged_despite_different_target": 0.051,
+  "accuracy_by_modulus": {
+    "1349": 0.0015,
+    "1357": 0.002
+  },
+  "confusion": {
+    "ignores_n": 0.051,
+    "responds_wrong_both": 0.9455,
+    "correct_modulus_specific": 0.0,
+    "partial_or_same_target": 0.0035
+  },
+  "definition": "correct_alternate requires both predictions to match their respective modulus-specific targets"
+}

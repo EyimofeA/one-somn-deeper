@@ -1,0 +1,22 @@
+{
+  "compaction": {
+    "reserveTokens": 24576,
+    "keepRecentTokens": 40000
+  },
+  "extensions": [
+    ".pi/extensions"
+  ],
+  "skills": [
+    ".pi/skills"
+  ],
+  "retry": {
+    "enabled": true,
+    "maxRetries": 5,
+    "baseDelayMs": 3000,
+    "provider": {
+      "timeoutMs": 600000,
+      "maxRetries": 2,
+      "maxRetryDelayMs": 120000
+    }
+  }
+}

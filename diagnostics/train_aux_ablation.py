@@ -285,10 +285,11 @@ def main() -> None:
     ap.add_argument("--n-layers", type=int, default=None, help="override N_LAYERS (A3 scale check)")
     ap.add_argument("--n-heads", type=int, default=None, help="override N_HEADS (A3 scale check)")
     ap.add_argument("--d-ff", type=int, default=None, help="override D_FF (A3 scale check)")
+    ap.add_argument("--batch-size", type=int, default=None, help="override BATCH_SIZE")
     args = ap.parse_args()
     cond = CONDITIONS[args.condition]
 
-    global TOTAL_STEPS, EVAL_EVERY, D_MODEL, N_LAYERS, N_HEADS, D_FF
+    global TOTAL_STEPS, EVAL_EVERY, D_MODEL, N_LAYERS, N_HEADS, D_FF, BATCH_SIZE
     if args.total_steps is not None:
         TOTAL_STEPS = args.total_steps
     if args.eval_every is not None:
@@ -301,6 +302,8 @@ def main() -> None:
         N_HEADS = args.n_heads
     if args.d_ff is not None:
         D_FF = args.d_ff
+    if args.batch_size is not None:
+        BATCH_SIZE = args.batch_size
 
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)

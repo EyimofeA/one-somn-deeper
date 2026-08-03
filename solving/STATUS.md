@@ -1,10 +1,13 @@
 # Status (living)
 
-Last updated: 2026-07-24. **Upstream competition pin moved `2c56499` → `79f0a09`:**
-Hard now ranks by certified Max T then OOD N Max T (ladder 1…64); Rules renumbered
-with explicit bans on hard-coded weights/algorithms, broken autograd, and CPU
-offload; submissions close Aug 31 10pm PT. Specs refreshed under
-`solving/handoff/PRIMARY_SOURCES.md` + `learnings/concepts/{01,03,07,09,14}`.
+Last updated: 2026-08-03. **Upstream competition pin moved `79f0a09` → `8a3c78d`:**
+`token_training_loss` / `TokenLossBatch` for sequence-level losses (mutually
+exclusive with legacy `training_loss`); Hard tie-break now uses next-rung
+accuracy before submission time; Rule 14 bans data augmentation; Rule 4
+clarifies in-model recurrence vs evaluator outer loop. Specs refreshed under
+`solving/handoff/PRIMARY_SOURCES.md` + `learnings/concepts/{01,03,09,14}` +
+`RESEARCH_PROTOCOL.md` §6. Active cards that only use `training_loss` need no
+code change.
 
 Hard shot #2 `99c4d7d3` scored **0.05%** mean exact (test 0.1%/ood_t 0/ood_n_t 0)
 under the *old* Hard metric — not the current Max T rank key. The current local
