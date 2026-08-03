@@ -549,3 +549,33 @@ DATE 2026-07-25
 CARD pair_n_multiblock_supervision_e5_rep1
 CHANGE exact hosted replication; no code or configuration change.
 PREDICT remain at or above 0.71% if the gain is directional; below 0.5% classifies the 1.04% run as e5 noise.
+
+DATE:       2026-07-23
+CARD:       gate1_quantized_carry_scan
+CHANGE:     continuous shared carry state → 64 learned categorical state prototypes after every transition
+PREDICT:    [agent-authored per human override] held-out exact match exceeds 95% and c6/c7 improve materially because hard prototype projection prevents continuous state drift from compounding
+RESULT:     refuted — the hard state projection collapsed optimization (0.25% peak exact).
+
+DATE:       2026-07-23
+CARD:       gate1_aligned_products
+CHANGE:     one digit-pair product → repeated fixed-width local products without cross-position carry
+PREDICT:    collapse
+RESULT:     confirmed
+
+DATE:       2026-07-23
+CARD:       gate1_digit_product
+CHANGE:     exact multi-digit squaring → one decimal digit pair product without carries
+PREDICT:    fails held-out pairs; multiplication may be a memorization task
+RESULT:     confirmed
+
+DATE:       2026-07-23
+CARD:       gate0_copy
+CHANGE:     modular-squaring target → exact copy of X
+PREDICT:    fail on the first digit; pass on the other three
+RESULT:     refuted
+
+DATE:       2026-07-23
+CARD:       gate1_square
+CHANGE:     copy X → exact x² without modular reduction
+PREDICT:    digit multiplication will not generalize
+RESULT:     confirmed
