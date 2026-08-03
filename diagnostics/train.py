@@ -25,7 +25,7 @@ from torch import nn
 from torch.utils.data import DataLoader, Subset
 
 import repro
-from data.dataset import DiagnosticDataset
+from data.dataset import DiagnosticDataset, InputContextDataset, ShuffledContextDataset
 from data.tokens import OUTPUT_WIDTH
 from models.recurrent_workspace import RecurrentWorkspaceModel
 from models.transformer import StandardTransformer
@@ -58,6 +58,9 @@ def set_nested(cfg: dict, dotted_key: str, value: str) -> None:
     for k in keys[:-1]:
         d = d.setdefault(k, {})
     # best-effort type coercion so CLI overrides don't stay strings
+    if value in ("none", "null"):
+        d[keys[-1]] = None
+        return
     for cast in (int, float):
         try:
             value = cast(value)
@@ -120,6 +123,7 @@ def build_model(cfg: dict, max_seq_len: int, task: str) -> nn.Module:
             workspace_size=workspace_size,
             num_output_slots=m.get("num_output_slots", output_width),
             num_loops=m.get("num_loops", 8),
+            workspace_init_mode=m.get("workspace_init_mode", "fixed"),
         )
     raise ValueError(f"unknown model.type {m['type']!r}")
 
@@ -130,6 +134,16 @@ def extract_targets_and_logits(logits: torch.Tensor, labels: torch.Tensor, outpu
         logits = logits[:, -output_width:, :]
     # recurrent_workspace already returns exactly (batch, output_width, digit_vocab)
     return logits, targets
+
+
+def forward_from_batch(model: nn.Module, batch: dict, device: str) -> Tensor:
+    kwargs = {}
+    if "init_input_ids" in batch:
+        kwargs["init_input_ids"] = batch["init_input_ids"].to(device)
+        kwargs["init_attention_mask"] = batch["init_attention_mask"].to(device)
+    return model(
+        batch["input_ids"].to(device), batch["attention_mask"].to(device), **kwargs
+    )
 
 
 def lr_factor(step: int, total_steps: int, warmup_frac: float) -> float:
@@ -164,10 +178,8 @@ def evaluate_exact_match(model: nn.Module, loader: DataLoader, output_width: int
     model.eval()
     row_correct_total = digit_correct_total = digit_total = 0
     for batch in loader:
-        input_ids = batch["input_ids"].to(device)
-        attention_mask = batch["attention_mask"].to(device)
         labels = batch["labels"].to(device)
-        logits = model(input_ids, attention_mask)
+        logits = forward_from_batch(model, batch, device)
         logits, targets = extract_targets_and_logits(logits, labels, output_width, model_type)
         preds = logits.argmax(dim=-1)
         row_correct_total += (preds == targets).all(dim=-1).sum().item()
@@ -192,6 +204,13 @@ def main() -> None:
 
     train_ds = DiagnosticDataset(cfg["data"]["train"])
     val_ds = DiagnosticDataset(cfg["data"]["val"])
+    init_mode = cfg["model"].get("workspace_init_mode")
+    if init_mode == "input_context":
+        train_ds = InputContextDataset(train_ds)
+        val_ds = InputContextDataset(val_ds)
+    elif init_mode == "shuffled_context":
+        train_ds = ShuffledContextDataset(train_ds, seed=cfg.get("seed", 0))
+        val_ds = ShuffledContextDataset(val_ds, seed=cfg.get("seed", 0))
     batch_size = cfg["optim"].get("batch_size", 64)
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=True)
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
@@ -289,7 +308,7 @@ def main() -> None:
                 main_loss = nn.functional.cross_entropy(logits.reshape(-1, logits.shape[-1]), targets.reshape(-1))
                 loss = main_loss + cfg["model"].get("aux_weight", 0.25) * aux_loss
             else:
-                logits = model(input_ids, attention_mask)
+                logits = forward_from_batch(model, batch, device)
                 logits, targets = extract_targets_and_logits(logits, labels, output_width, model_type)
                 main_loss = loss = nn.functional.cross_entropy(logits.reshape(-1, logits.shape[-1]), targets.reshape(-1))
 
