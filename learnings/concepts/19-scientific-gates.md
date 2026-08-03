@@ -88,6 +88,10 @@ Replacing physical RoPE coordinates with coupled decimal-significance
 coordinates failed to fit the diagnostic: 48.05% final train-batch, 19.50%
 same-length, and 1.50% length-4 exact match
 (`solving/experiments/2026-07-23_gate1_position_coupling/metrics/monitor.jsonl`).
+Adding randomized Abacus digit-significance embeddings beside RoPE produced
+99.33% peak / 98.67% final same-length exact match but only 10.0% peak / 4.4%
+final at length 4
+(`solving/experiments/2026-07-23_gate1_abacus_rope/metrics/monitor.jsonl`).
 
 **Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
 and carry propagation. Do not test modular reduction or T.

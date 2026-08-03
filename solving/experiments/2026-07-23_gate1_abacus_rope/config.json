@@ -1,0 +1,10 @@
+{
+  "card": "gate1_abacus_rope",
+  "date": "2026-07-23",
+  "change": "input embedding: token only -> token plus randomized Abacus digit-significance embedding; RoPE retained",
+  "abacus_random_offset_k": 16,
+  "abacus_eval_beta": 1,
+  "target_function": "aligned_digit_products_no_carry",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_abacus_rope/metrics/*.jsonl"
+}
