@@ -1,0 +1,116 @@
+scoring splits: ('test',)
+{"type": "train", "step": 1, "elapsed_seconds": 1.0649250780006696, "loss": 2.8153464794158936, "exact_accuracy": 0.0, "lr": 0.00013871661626106653, "weight_norm": 26.150097623752483, "grad_norm": 0.9999992892428257}
+{"type": "eval", "split": "test", "step": 1, "elapsed_seconds": 1.0649250780006696, "loss": 2.811978897931543, "exact_accuracy": 0.0}
+new peak test acc 0.0000 at step 1 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 100, "elapsed_seconds": 4.326752940000006, "loss": 2.3517653942108154, "exact_accuracy": 0.0, "lr": 0.00046164159231596575, "weight_norm": 26.155454237260013, "grad_norm": 0.5638652910267674}
+{"type": "eval", "split": "test", "step": 100, "elapsed_seconds": 4.326752940000006, "loss": 2.3542730689975078, "exact_accuracy": 0.0005}
+new peak test acc 0.0005 at step 100 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 200, "elapsed_seconds": 7.585141802999715, "loss": 2.044754981994629, "exact_accuracy": 0.00390625, "lr": 0.0007842221898420941, "weight_norm": 26.342038355939742, "grad_norm": 0.670275897019089}
+{"type": "eval", "split": "test", "step": 200, "elapsed_seconds": 7.585141802999715, "loss": 2.0535819821919215, "exact_accuracy": 0.003}
+new peak test acc 0.0030 at step 200 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 300, "elapsed_seconds": 10.88533880900286, "loss": 1.7832002639770508, "exact_accuracy": 0.0078125, "lr": 0.0011109363608998936, "weight_norm": 26.57604953793501, "grad_norm": 0.7533464618690784}
+{"type": "eval", "split": "test", "step": 300, "elapsed_seconds": 10.88533880900286, "loss": 1.7996191358537783, "exact_accuracy": 0.011}
+new peak test acc 0.0110 at step 300 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 400, "elapsed_seconds": 14.249697152001318, "loss": 1.6683629751205444, "exact_accuracy": 0.015625, "lr": 0.0014440131785009762, "weight_norm": 26.866138032464377, "grad_norm": 0.9999995207871268}
+{"type": "eval", "split": "test", "step": 400, "elapsed_seconds": 14.249697152001318, "loss": 1.6847112106835136, "exact_accuracy": 0.021}
+new peak test acc 0.0210 at step 400 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 500, "elapsed_seconds": 17.99897246800174, "loss": 1.4746699333190918, "exact_accuracy": 0.05859375, "lr": 0.0018151913839981498, "weight_norm": 27.217477038657965, "grad_norm": 0.9999995546712771}
+{"type": "eval", "split": "test", "step": 500, "elapsed_seconds": 17.99897246800174, "loss": 1.4721337305309525, "exact_accuracy": 0.062}
+new peak test acc 0.0620 at step 500 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 600, "elapsed_seconds": 21.257920150001155, "loss": 1.3428462743759155, "exact_accuracy": 0.08984375, "lr": 0.0021378272221379956, "weight_norm": 27.6771689215825, "grad_norm": 0.9999994734388088}
+{"type": "eval", "split": "test", "step": 600, "elapsed_seconds": 21.257920150001155, "loss": 1.3293602777610478, "exact_accuracy": 0.0935}
+new peak test acc 0.0935 at step 600 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 700, "elapsed_seconds": 24.564768665000884, "loss": 1.2112904787063599, "exact_accuracy": 0.12109375, "lr": 0.0024652052827409897, "weight_norm": 28.10452417717597, "grad_norm": 0.9999996560999852}
+{"type": "eval", "split": "test", "step": 700, "elapsed_seconds": 24.564768665000884, "loss": 1.2170927132843357, "exact_accuracy": 0.14}
+new peak test acc 0.1400 at step 700 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 800, "elapsed_seconds": 27.917396534001455, "loss": 0.9827711582183838, "exact_accuracy": 0.1796875, "lr": 0.0027971138287649516, "weight_norm": 28.463299963901534, "grad_norm": 0.9999996677960911}
+{"type": "eval", "split": "test", "step": 800, "elapsed_seconds": 27.917396534001455, "loss": 1.0068620767197207, "exact_accuracy": 0.19}
+new peak test acc 0.1900 at step 800 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 900, "elapsed_seconds": 31.406106182002986, "loss": 0.7727406024932861, "exact_accuracy": 0.2734375, "lr": 0.002999953272616119, "weight_norm": 28.802566040805875, "grad_norm": 0.9999996679088684}
+{"type": "eval", "split": "test", "step": 900, "elapsed_seconds": 31.406106182002986, "loss": 0.8119931962325483, "exact_accuracy": 0.23}
+new peak test acc 0.2300 at step 900 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 1000, "elapsed_seconds": 34.779524864999985, "loss": 0.5949729681015015, "exact_accuracy": 0.34375, "lr": 0.002999477586473957, "weight_norm": 29.06817733618195, "grad_norm": 0.999999780966367}
+{"type": "eval", "split": "test", "step": 1000, "elapsed_seconds": 34.779524864999985, "loss": 0.604239917654729, "exact_accuracy": 0.344}
+new peak test acc 0.3440 at step 1000 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 1100, "elapsed_seconds": 38.217926868001086, "loss": 0.5328027009963989, "exact_accuracy": 0.3828125, "lr": 0.0029984646654392837, "weight_norm": 29.285146163973295, "grad_norm": 0.9999997943923307}
+{"type": "eval", "split": "test", "step": 1100, "elapsed_seconds": 38.217926868001086, "loss": 0.5610010965865883, "exact_accuracy": 0.32499999999813733}
+{"type": "train", "step": 1200, "elapsed_seconds": 41.655186235002475, "loss": 0.49143263697624207, "exact_accuracy": 0.359375, "lr": 0.0029969195788523456, "weight_norm": 29.427462124250333, "grad_norm": 0.9999998009370559}
+{"type": "eval", "split": "test", "step": 1200, "elapsed_seconds": 41.655186235002475, "loss": 0.48489747140768114, "exact_accuracy": 0.3900000000447035}
+new peak test acc 0.3900 at step 1200 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 1300, "elapsed_seconds": 45.11531501799982, "loss": 0.41094720363616943, "exact_accuracy": 0.42578125, "lr": 0.0029948270573152, "weight_norm": 29.538910528479125, "grad_norm": 0.9999997230369971}
+{"type": "eval", "split": "test", "step": 1300, "elapsed_seconds": 45.11531501799982, "loss": 0.4428202746624157, "exact_accuracy": 0.4004999998807907}
+new peak test acc 0.4005 at step 1300 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 1400, "elapsed_seconds": 48.825718191001215, "loss": 0.34648609161376953, "exact_accuracy": 0.46875, "lr": 0.002991985214282511, "weight_norm": 29.609375228605042, "grad_norm": 0.9999996226005549}
+{"type": "eval", "split": "test", "step": 1400, "elapsed_seconds": 48.825718191001215, "loss": 0.41177004634514586, "exact_accuracy": 0.4180000000298023}
+new peak test acc 0.4180 at step 1400 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 1500, "elapsed_seconds": 52.18609776700032, "loss": 0.37278619408607483, "exact_accuracy": 0.4296875, "lr": 0.0029888784143991677, "weight_norm": 29.685325388129492, "grad_norm": 0.9999997396748429}
+{"type": "eval", "split": "test", "step": 1500, "elapsed_seconds": 52.18609776700032, "loss": 0.40557162791882456, "exact_accuracy": 0.3959999997615814}
+{"type": "train", "step": 1600, "elapsed_seconds": 55.492821363000985, "loss": 0.3174080550670624, "exact_accuracy": 0.43359375, "lr": 0.0029853276922213183, "weight_norm": 29.75884580670929, "grad_norm": 0.9999997453987493}
+{"type": "eval", "split": "test", "step": 1600, "elapsed_seconds": 55.492821363000985, "loss": 0.3571987896957265, "exact_accuracy": 0.4289999997019768}
+new peak test acc 0.4290 at step 1600 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 1700, "elapsed_seconds": 58.83453553599975, "loss": 0.3361259996891022, "exact_accuracy": 0.4609375, "lr": 0.0029812432550776983, "weight_norm": 29.839394215264964, "grad_norm": 0.9999998018078972}
+{"type": "eval", "split": "test", "step": 1700, "elapsed_seconds": 58.83453553599975, "loss": 0.3434793887937133, "exact_accuracy": 0.4329999999254942}
+new peak test acc 0.4330 at step 1700 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 1800, "elapsed_seconds": 62.21965117600121, "loss": 0.31008923053741455, "exact_accuracy": 0.4609375, "lr": 0.0029765986732603494, "weight_norm": 29.914784190560034, "grad_norm": 0.9999996665000607}
+{"type": "eval", "split": "test", "step": 1800, "elapsed_seconds": 62.21965117600121, "loss": 0.3758145787057874, "exact_accuracy": 0.423999999910593}
+{"type": "train", "step": 1900, "elapsed_seconds": 65.42994272500073, "loss": 0.23370271921157837, "exact_accuracy": 0.56640625, "lr": 0.0029717239064470965, "weight_norm": 29.971370225842353, "grad_norm": 0.9999997843282012}
+{"type": "eval", "split": "test", "step": 1900, "elapsed_seconds": 65.42994272500073, "loss": 0.2824632637169339, "exact_accuracy": 0.513}
+new peak test acc 0.5130 at step 1900 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 2000, "elapsed_seconds": 68.74215151099997, "loss": 0.17601843178272247, "exact_accuracy": 0.6796875, "lr": 0.002966216413359824, "weight_norm": 29.990708665193473, "grad_norm": 0.9999997090080374}
+{"type": "eval", "split": "test", "step": 2000, "elapsed_seconds": 68.74215151099997, "loss": 0.2571300811702647, "exact_accuracy": 0.5435000000596046}
+new peak test acc 0.5435 at step 2000 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 2100, "elapsed_seconds": 72.03477330500027, "loss": 0.15219318866729736, "exact_accuracy": 0.67578125, "lr": 0.0029602621401082435, "weight_norm": 30.017785968752214, "grad_norm": 0.9999996027417303}
+{"type": "eval", "split": "test", "step": 2100, "elapsed_seconds": 72.03477330500027, "loss": 0.187850287786445, "exact_accuracy": 0.6464999985694885}
+new peak test acc 0.6465 at step 2100 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 2200, "elapsed_seconds": 75.27447344600296, "loss": 0.14117567241191864, "exact_accuracy": 0.7109375, "lr": 0.002953939014768943, "weight_norm": 30.066831833908957, "grad_norm": 0.9999996171381276}
+{"type": "eval", "split": "test", "step": 2200, "elapsed_seconds": 75.27447344600296, "loss": 0.19070819894701369, "exact_accuracy": 0.6530000023841858}
+new peak test acc 0.6530 at step 2200 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 2300, "elapsed_seconds": 78.75067107700306, "loss": 0.12669280171394348, "exact_accuracy": 0.76171875, "lr": 0.0029466441428450526, "weight_norm": 30.149119698471313, "grad_norm": 0.9999994965117918}
+{"type": "eval", "split": "test", "step": 2300, "elapsed_seconds": 78.75067107700306, "loss": 0.15986268892906522, "exact_accuracy": 0.6799999988079071}
+new peak test acc 0.6800 at step 2300 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 2400, "elapsed_seconds": 82.05429146100141, "loss": 0.11526254564523697, "exact_accuracy": 0.74609375, "lr": 0.0029392243533691875, "weight_norm": 30.229189969170925, "grad_norm": 0.9999996739993017}
+{"type": "eval", "split": "test", "step": 2400, "elapsed_seconds": 82.05429146100141, "loss": 0.17098247674580505, "exact_accuracy": 0.6675000002384186}
+{"type": "train", "step": 2500, "elapsed_seconds": 85.35550563600191, "loss": 0.1105051189661026, "exact_accuracy": 0.7734375, "lr": 0.0029313383176055785, "weight_norm": 30.305892325968102, "grad_norm": 0.9999995647275645}
+{"type": "eval", "split": "test", "step": 2500, "elapsed_seconds": 85.35550563600191, "loss": 0.15639886359455374, "exact_accuracy": 0.6994999976158142}
+new peak test acc 0.6995 at step 2500 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 2600, "elapsed_seconds": 88.94273860600151, "loss": 0.15863876044750214, "exact_accuracy": 0.67578125, "lr": 0.002922237556888966, "weight_norm": 30.363540238400105, "grad_norm": 0.9999997849449525}
+{"type": "eval", "split": "test", "step": 2600, "elapsed_seconds": 88.94273860600151, "loss": 0.20848390993089358, "exact_accuracy": 0.621}
+{"type": "train", "step": 2700, "elapsed_seconds": 92.3640276790029, "loss": 0.0854095071554184, "exact_accuracy": 0.83203125, "lr": 0.0029130452542460703, "weight_norm": 30.431255526169036, "grad_norm": 0.9999996339096708}
+{"type": "eval", "split": "test", "step": 2700, "elapsed_seconds": 92.3640276790029, "loss": 0.1523667614265733, "exact_accuracy": 0.7119999985694885}
+new peak test acc 0.7120 at step 2700 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 2800, "elapsed_seconds": 95.6824983530023, "loss": 0.08113604038953781, "exact_accuracy": 0.84375, "lr": 0.002903654246624779, "weight_norm": 30.48760183501069, "grad_norm": 0.999999425477034}
+{"type": "eval", "split": "test", "step": 2800, "elapsed_seconds": 95.6824983530023, "loss": 0.14833247976447747, "exact_accuracy": 0.7189999978542327}
+new peak test acc 0.7190 at step 2800 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 2900, "elapsed_seconds": 99.09998652800277, "loss": 0.07276041805744171, "exact_accuracy": 0.8359375, "lr": 0.0028934975453557507, "weight_norm": 30.549201560568626, "grad_norm": 0.9999994697562629}
+{"type": "eval", "split": "test", "step": 2900, "elapsed_seconds": 99.09998652800277, "loss": 0.15624538892228768, "exact_accuracy": 0.7045000011920929}
+{"type": "train", "step": 3000, "elapsed_seconds": 102.48792201700053, "loss": 0.08631455898284912, "exact_accuracy": 0.78125, "lr": 0.002882945938532677, "weight_norm": 30.660093535430704, "grad_norm": 0.999999529079676}
+{"type": "eval", "split": "test", "step": 3000, "elapsed_seconds": 102.48792201700053, "loss": 0.151830175830284, "exact_accuracy": 0.7144999969005584}
+{"type": "train", "step": 3100, "elapsed_seconds": 106.12111352099964, "loss": 0.07560022920370102, "exact_accuracy": 0.83984375, "lr": 0.002871100648147035, "weight_norm": 30.731719124938017, "grad_norm": 0.9999994471925966}
+{"type": "eval", "split": "test", "step": 3100, "elapsed_seconds": 106.12111352099964, "loss": 0.12485179437009325, "exact_accuracy": 0.7564999988079071}
+new peak test acc 0.7565 at step 3100 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 3200, "elapsed_seconds": 109.72929976100204, "loss": 0.09461306780576706, "exact_accuracy": 0.81640625, "lr": 0.0028587986083834865, "weight_norm": 30.847781904577417, "grad_norm": 0.999999694699294}
+{"type": "eval", "split": "test", "step": 3200, "elapsed_seconds": 109.72929976100204, "loss": 0.15098811670897325, "exact_accuracy": 0.7194999995231628}
+{"type": "train", "step": 3300, "elapsed_seconds": 113.13344101900293, "loss": 0.06313477456569672, "exact_accuracy": 0.875, "lr": 0.002846705017030837, "weight_norm": 30.918416598179665, "grad_norm": 0.9999995576003061}
+{"type": "eval", "split": "test", "step": 3300, "elapsed_seconds": 113.13344101900293, "loss": 0.12506954940631584, "exact_accuracy": 0.7665000019073487}
+new peak test acc 0.7665 at step 3300 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 3400, "elapsed_seconds": 116.56673713400232, "loss": 0.0781194269657135, "exact_accuracy": 0.82421875, "lr": 0.0028340330517262033, "weight_norm": 31.029385436503073, "grad_norm": 0.9999996452040075}
+{"type": "eval", "split": "test", "step": 3400, "elapsed_seconds": 116.56673713400232, "loss": 0.12314610772427156, "exact_accuracy": 0.7680000021457672}
+new peak test acc 0.7680 at step 3400 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 3500, "elapsed_seconds": 119.86935757500032, "loss": 0.0664699599146843, "exact_accuracy": 0.8515625, "lr": 0.0028213976704480996, "weight_norm": 31.13357544446368, "grad_norm": 0.9999996366075742}
+{"type": "eval", "split": "test", "step": 3500, "elapsed_seconds": 119.86935757500032, "loss": 0.12495745486678367, "exact_accuracy": 0.7485000021457672}
+{"type": "train", "step": 3600, "elapsed_seconds": 123.2627787900019, "loss": 0.04036908224225044, "exact_accuracy": 0.9296875, "lr": 0.0028079640797845653, "weight_norm": 31.15766440721919, "grad_norm": 0.9999992058270921}
+{"type": "eval", "split": "test", "step": 3600, "elapsed_seconds": 123.2627787900019, "loss": 0.10773743946690867, "exact_accuracy": 0.784}
+new peak test acc 0.7840 at step 3600 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 3700, "elapsed_seconds": 126.703081974003, "loss": 0.0685381144285202, "exact_accuracy": 0.859375, "lr": 0.0027938832343287565, "weight_norm": 31.28112957212635, "grad_norm": 0.9999994655380242}
+{"type": "eval", "split": "test", "step": 3700, "elapsed_seconds": 126.703081974003, "loss": 0.12234941084723913, "exact_accuracy": 0.7795000057220459}
+{"type": "train", "step": 3800, "elapsed_seconds": 130.06388808700285, "loss": 0.07562708854675293, "exact_accuracy": 0.83203125, "lr": 0.002779683744339749, "weight_norm": 31.378945110393857, "grad_norm": 0.9999997343845382}
+{"type": "eval", "split": "test", "step": 3800, "elapsed_seconds": 130.06388808700285, "loss": 0.10832349522995667, "exact_accuracy": 0.7944999928474427}
+new peak test acc 0.7945 at step 3800 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 3900, "elapsed_seconds": 133.59337501200207, "loss": 0.03176753595471382, "exact_accuracy": 0.93359375, "lr": 0.002764304530517275, "weight_norm": 31.492201799847482, "grad_norm": 0.8812740349938565}
+{"type": "eval", "split": "test", "step": 3900, "elapsed_seconds": 133.59337501200207, "loss": 0.10490086741714298, "exact_accuracy": 0.804499997138977}
+new peak test acc 0.8045 at step 3900 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+{"type": "train", "step": 4000, "elapsed_seconds": 137.08842791200004, "loss": 0.05144750326871872, "exact_accuracy": 0.890625, "lr": 0.0027486097433858385, "weight_norm": 31.618996665504813, "grad_norm": 0.9999997094084425}
+{"type": "eval", "split": "test", "step": 4000, "elapsed_seconds": 137.08842791200004, "loss": 0.10290235337549103, "exact_accuracy": 0.805500002861023}
+new peak test acc 0.8055 at step 4000 -> saved results_local/gate1_carry_normalize_4k/monitor_peak.pt
+saved final checkpoint: results_local/gate1_carry_normalize_4k/monitor_final.pt
+done
