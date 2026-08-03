@@ -1,0 +1,18 @@
+{
+  "card": "gate1_position_coupling",
+  "date": "2026-07-23",
+  "change": "RoPE coordinates: physical sequence indices -> deterministic decimal-significance coupling with distinct marker coordinates",
+  "position_coordinates": {
+    "PAD": 0,
+    "digits": "LSD=1, tens=2, hundreds=3, ... within each numeric span",
+    "BOS": "max_seq_len+1",
+    "N": "max_seq_len+2",
+    "X": "max_seq_len+3",
+    "T": "max_seq_len+4",
+    "ANS": "max_seq_len+5",
+    "EOS": "max_seq_len+6"
+  },
+  "target_function": "aligned_digit_products_no_carry",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_position_coupling/metrics/*.jsonl"
+}

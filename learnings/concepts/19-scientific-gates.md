@@ -84,6 +84,10 @@ match but produced only 6.70% at length 4
 Adding 30 length-4 priming rows produced 10.21% peak / 9.28% final exact match
 on the other 970 length-4 rows while train and same-length reached 100%
 (`solving/experiments/2026-07-23_gate1_length4_priming/metrics/monitor.jsonl`).
+Replacing physical RoPE coordinates with coupled decimal-significance
+coordinates failed to fit the diagnostic: 48.05% final train-batch, 19.50%
+same-length, and 1.50% length-4 exact match
+(`solving/experiments/2026-07-23_gate1_position_coupling/metrics/monitor.jsonl`).
 
 **Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
 and carry propagation. Do not test modular reduction or T.
