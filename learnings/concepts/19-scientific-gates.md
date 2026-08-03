@@ -81,6 +81,9 @@ length
 A fixed right-aligned internal register preserved 99.50% same-length exact
 match but produced only 6.70% at length 4
 (`solving/experiments/2026-07-23_gate1_fixed_register/metrics/monitor.jsonl`).
+Adding 30 length-4 priming rows produced 10.21% peak / 9.28% final exact match
+on the other 970 length-4 rows while train and same-length reached 100%
+(`solving/experiments/2026-07-23_gate1_length4_priming/metrics/monitor.jsonl`).
 
 **Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
 and carry propagation. Do not test modular reduction or T.
