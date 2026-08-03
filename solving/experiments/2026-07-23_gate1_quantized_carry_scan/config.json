@@ -1,0 +1,11 @@
+{
+  "card": "gate1_quantized_carry_scan",
+  "date": "2026-07-23",
+  "change": "carry state: continuous GRU state -> deterministic straight-through selection of one learned prototype after every real transition",
+  "num_prototypes": 64,
+  "prototype_width": 32,
+  "softmax_temperature": 1,
+  "target_function": "bounded_carry_normalization",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_quantized_carry_scan/metrics/*.jsonl"
+}
