@@ -1,0 +1,7 @@
+source_commit=3cde93d
+started_utc=2026-08-03T22:56:44Z
+mode=input_context seed=1
+data=data/generated/mod_fixed_n_1349/train.jsonl,data/generated/mod_fixed_n_1349/val_iid.jsonl,heldout_u.jsonl
+command=train.py configs/mod_fixed_n_recurrent_k8_input_context.yaml --override seed=1 --override out_dir=runs_smoke_matched/task_b_fixed_n_recurrent_k8_input_context/seed1
+train_exit=0 ended_utc=2026-08-03T23:05:40Z
+evaluate_exit=0 evaluated_utc=2026-08-03T23:05:44Z

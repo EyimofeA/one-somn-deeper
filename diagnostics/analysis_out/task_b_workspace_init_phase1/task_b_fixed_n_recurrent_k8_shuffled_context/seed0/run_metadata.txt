@@ -1,0 +1,7 @@
+source_commit=3cde93d
+started_utc=2026-08-03T23:14:29Z
+mode=shuffled_context seed=0
+data=data/generated/mod_fixed_n_1349/train.jsonl,data/generated/mod_fixed_n_1349/val_iid.jsonl,heldout_u.jsonl
+command=train.py configs/mod_fixed_n_recurrent_k8_shuffled_context.yaml --override seed=0 --override out_dir=runs_smoke_matched/task_b_fixed_n_recurrent_k8_shuffled_context/seed0
+train_exit=0 ended_utc=2026-08-03T23:22:42Z
+evaluate_exit=0 evaluated_utc=2026-08-03T23:22:47Z

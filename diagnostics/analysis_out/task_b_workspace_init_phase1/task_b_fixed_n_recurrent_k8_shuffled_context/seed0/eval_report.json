@@ -1,0 +1,71 @@
+{
+  "run_dir": "runs_smoke_matched/task_b_fixed_n_recurrent_k8_shuffled_context/seed0",
+  "checkpoint": "runs_smoke_matched/task_b_fixed_n_recurrent_k8_shuffled_context/seed0/peak.pt",
+  "checkpoint_kind": "peak",
+  "task": "mod",
+  "model_type": "recurrent_workspace",
+  "splits": {
+    "val_iid": {
+      "n": 2000,
+      "exact_match": 0.2385,
+      "token_accuracy": 0.615625,
+      "by_modulus_bit_length": {
+        "11": 0.2385
+      },
+      "by_quotient_size": {
+        "mid": 0.20514511873350924,
+        "small": 0.5058365758754864,
+        "large": 0.15859030837004406
+      },
+      "by_remainder_bucket": {
+        "close": 0.30196629213483145,
+        "near_boundary": 0.21798029556650247,
+        "far": 0.17857142857142858
+      },
+      "by_seen_vs_unseen_modulus": {
+        "seen": 0.2385
+      },
+      "by_recurrence_depth": {
+        "1": 0.018359375011641532,
+        "2": 0.030859375023283064,
+        "3": 0.07968750002328306,
+        "4": 0.14570312527939677,
+        "5": 0.20224609412252903,
+        "6": 0.22285156231373549,
+        "7": 0.24042968824505806,
+        "8": 0.23994140699505806
+      }
+    },
+    "heldout_u": {
+      "n": 2000,
+      "exact_match": 0.1865,
+      "token_accuracy": 0.5125,
+      "by_modulus_bit_length": {
+        "11": 0.1865
+      },
+      "by_quotient_size": {
+        "small": 0.4577777777777778,
+        "large": 0.09130434782608696,
+        "mid": 0.16116504854368932
+      },
+      "by_remainder_bucket": {
+        "far": 0.08423326133909287,
+        "close": 0.32884615384615384,
+        "near_boundary": 0.22382671480144403
+      },
+      "by_seen_vs_unseen_modulus": {
+        "seen": 0.1865
+      },
+      "by_recurrence_depth": {
+        "1": 0.018847656261641532,
+        "2": 0.025683593761641532,
+        "3": 0.06503906252328306,
+        "4": 0.12773437518626451,
+        "5": 0.15097656287252903,
+        "6": 0.17626953125,
+        "7": 0.18496093805879354,
+        "8": 0.18623046856373549
+      }
+    }
+  }
+}

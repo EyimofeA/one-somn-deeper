@@ -786,6 +786,32 @@ composition, still locally and without promoting weights to a submission.
 - **Next:** Do not K-sweep: recurrence failed its gate. The targeted next test is input-conditioned versus shuffled-context workspace initialization with K=8 held fixed, to separate fixed-state representation from tied-transition capacity; no auxiliary labels.
 
 
+### 2026-08-03 — Task B input-conditioned workspace initialization
+- **Hypothesis:** The K=8 tied workspace failed because its registers began as
+  a fixed learned state. One input-derived cross-attention read should make
+  that state semantically useful; a matched read from a different, fixed
+  dataset row should not.
+- **Setup:** Fixed N=1349, 8,000 train / 2,000 disjoint held-out-u examples,
+  three seeds per condition, d=144, two context layers, eight registers, K=8,
+  batch size 512, and the same 50k-step/early-stop budget. Both conditions
+  use two ContextEncoder calls and the tied transition's existing
+  cross-attention parameters; only the source row of the initialization read
+  differs. Source commit `3cde93d`; six runs completed on oneL40.
+- **Result:** **Confirmed.** Ordered input context reached **39.22±3.33%**
+  held-out-u exact (35.45%, 40.45%, 41.75%), compared with 33.65±2.95% for
+  fixed K=8 registers and 35.65±5.56% for the deep non-recurrent control.
+  The matched row-stable shuffled control reached only **14.67±4.43%**
+  (18.65%, 15.45%, 9.90%). All six training and evaluation commands exited 0.
+  Evidence: `diagnostics/analysis_out/task_b_workspace_init_phase1/`.
+- **Interpretation:** This is semantic information use, not a generic extra
+  attention/encoder-pass benefit: correct context beats both controls while
+  the same mechanism with incorrect context is much worse. The registered
+  `q >= 10` subprediction remains untested, because the saved evaluator uses
+  relative small/mid/large quotient buckets rather than that absolute slice.
+- **Next:** Add the absolute quotient slice to evaluator-only analysis of these
+  retained checkpoints. Keep K, transition, and optimizer fixed until that
+  analysis decides whether the gain is where predicted.
+
 ### 2026-08-03 — Upstream competition sync `79f0a09` → `8a3c78d`
 - **Hypothesis:** Specs still describe the Max-T-only Hard tie-break and flattened-only custom loss from `79f0a09`.
 - **Setup:** `git pull --ff-only` in gitignored `competition/` (was `79f0a09`); GPU box `oneL40` already at tip. Diffed README / `benchmark/{api,runner,validation}.py` / `service/{db,views}.py` / `client/cli.py`.

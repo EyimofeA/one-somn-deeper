@@ -1,0 +1,71 @@
+{
+  "run_dir": "runs_smoke_matched/task_b_fixed_n_recurrent_k8_input_context/seed2",
+  "checkpoint": "runs_smoke_matched/task_b_fixed_n_recurrent_k8_input_context/seed2/peak.pt",
+  "checkpoint_kind": "peak",
+  "task": "mod",
+  "model_type": "recurrent_workspace",
+  "splits": {
+    "val_iid": {
+      "n": 2000,
+      "exact_match": 0.59,
+      "token_accuracy": 0.783875,
+      "by_modulus_bit_length": {
+        "11": 0.59
+      },
+      "by_quotient_size": {
+        "mid": 0.5870712401055409,
+        "small": 0.8249027237354085,
+        "large": 0.3436123348017621
+      },
+      "by_remainder_bucket": {
+        "close": 0.7682584269662921,
+        "near_boundary": 0.6711822660098522,
+        "far": 0.18487394957983194
+      },
+      "by_seen_vs_unseen_modulus": {
+        "seen": 0.59
+      },
+      "by_recurrence_depth": {
+        "1": 0.001953125,
+        "2": 0.018359375011641532,
+        "3": 0.15488281240686774,
+        "4": 0.35126953199505806,
+        "5": 0.46494140662252903,
+        "6": 0.5324218757450581,
+        "7": 0.5767578147351742,
+        "8": 0.5905273444950581
+      }
+    },
+    "heldout_u": {
+      "n": 2000,
+      "exact_match": 0.4175,
+      "token_accuracy": 0.634125,
+      "by_modulus_bit_length": {
+        "11": 0.4175
+      },
+      "by_quotient_size": {
+        "small": 0.6577777777777778,
+        "large": 0.3,
+        "mid": 0.4
+      },
+      "by_remainder_bucket": {
+        "far": 0.08747300215982722,
+        "close": 0.7403846153846154,
+        "near_boundary": 0.6660649819494585
+      },
+      "by_seen_vs_unseen_modulus": {
+        "seen": 0.4175
+      },
+      "by_recurrence_depth": {
+        "1": 0.0029296875,
+        "2": 0.01025390625,
+        "3": 0.09882812504656613,
+        "4": 0.24335937481373549,
+        "5": 0.326171875,
+        "6": 0.37021484412252903,
+        "7": 0.39208984375,
+        "8": 0.4182617198675871
+      }
+    }
+  }
+}

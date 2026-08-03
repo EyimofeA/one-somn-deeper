@@ -13,8 +13,7 @@ Status values: `planned` (not yet run, GPU not started as of 2026-07-25) |
 
 ## Task B serial Phase 1: input-conditioned workspace initialization — Codex
 
-- **Status:** running (2026-08-03; serial L40 queue launched from source
-  commit `3cde93d`)
+- **Status:** done (2026-08-03; serial L40 queue, source commit `3cde93d`)
 - **Prediction:** a one-time ordered-input read will improve fixed-N=1349
   held-out-u exact match, particularly for `q >= 10`; the shuffled-context
   control will remain near the fixed-workspace result.
@@ -32,7 +31,20 @@ Status values: `planned` (not yet run, GPU not started as of 2026-07-25) |
   semantic initialization. Correct ≈ shuffled implies an optimization-path
   effect. Neither improves closes fixed workspace initialization as the main
   explanation.
-- **Result:** pending
+- **Result:** correct input context reached held-out-u exact match
+  **39.22±3.33%** across seeds (35.45%, 40.45%, 41.75%); the matched
+  shuffled-context control reached **14.67±4.43%** (18.65%, 15.45%, 9.90%).
+  This clears the fixed-workspace final baseline (33.65±2.95%) by 5.57 points.
+  Raw reports, curves, and per-run metadata:
+  `analysis_out/task_b_workspace_init_phase1/`.
+- **Interpretation:** **confirmed.** Correct > fixed and correct >> shuffled
+  supports semantic initialization; the gain cannot be explained by the extra
+  encoder pass or initialization attention alone. The predicted `q >= 10`
+  comparison was not emitted: this evaluator records relative
+  small/mid/large quotient buckets, so that subprediction remains untested.
+- **Next decision:** input-conditioned initialization is now the recurrent
+  reference. Before changing K or capacity, add the missing absolute-quotient
+  slice to evaluation and compare the retained checkpoints by that slice.
 
 **Deviation applied to all of A1/A2/A3/B2 (2026-07-25, explicit user request):**
 `batch_size` raised from the established 64 to **512** for every run below,
