@@ -1,0 +1,8 @@
+{
+  "card": "gate1_carry_normalize_4k",
+  "date": "2026-07-23",
+  "change": "runtime max_steps: 1000 -> 4000",
+  "target_function": "bounded_carry_normalization",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_carry_normalize_4k/metrics/*.jsonl"
+}

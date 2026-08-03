@@ -1,0 +1,8 @@
+{
+  "card": "gate1_square",
+  "date": "2026-07-23",
+  "change": "target_function: copy_x -> square_x_no_mod",
+  "target_function": "square_x_no_mod",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_square/metrics/*.jsonl"
+}

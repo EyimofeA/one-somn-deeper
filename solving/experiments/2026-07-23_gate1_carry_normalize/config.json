@@ -1,0 +1,8 @@
+{
+  "card": "gate1_carry_normalize",
+  "date": "2026-07-23",
+  "change": "diagnostic data/target: aligned independent products -> bounded base-10 carry normalization",
+  "target_function": "bounded_carry_normalization",
+  "active": false,
+  "metrics_glob": "solving/experiments/2026-07-23_gate1_carry_normalize/metrics/*.jsonl"
+}

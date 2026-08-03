@@ -1,0 +1,13 @@
+{
+  "checkpoint": "monitor_final.pt",
+  "step": 4000,
+  "accuracy_by_column_count": {
+    "1": {"correct": 16, "total": 16, "exact_accuracy": 1.0},
+    "2": {"correct": 182, "total": 184, "exact_accuracy": 0.9891304347826086},
+    "3": {"correct": 333, "total": 360, "exact_accuracy": 0.925},
+    "4": {"correct": 306, "total": 360, "exact_accuracy": 0.85},
+    "5": {"correct": 291, "total": 360, "exact_accuracy": 0.8083333333333333},
+    "6": {"correct": 259, "total": 360, "exact_accuracy": 0.7194444444444444},
+    "7": {"correct": 202, "total": 360, "exact_accuracy": 0.5611111111111111}
+  }
+}
