@@ -1,0 +1,114 @@
+# 19 — Scientific gates
+
+**Author:** Codex
+
+## Purpose
+
+Stop changing end-to-end architectures while an upstream prerequisite is broken.
+The task has one dependency chain:
+
+```text
+parse digits
+  → compute the local arithmetic primitives
+  → compute one complete step for one N
+  → compute one step across N
+  → stay correct on self-generated states
+  → compose across held-out T
+  → fit inside the wall-clock budget
+```
+
+Later gates do not compensate for an earlier failure.
+
+## Current location
+
+The frontier is **before complete one-step generalization**.
+
+- `The` d=32 fixed-N=1073 T=1 anchor reached 100% train EM but only 3.47% peak
+  held-out-x EM in 1,800 seconds
+  (`solving/experiments/metrics/rung1_n1073_1800s_monitor.jsonl`).
+- The digit micro-scan reached 100% train EM but only 1.49% peak held-out-x EM
+  (`solving/experiments/2026-07-23_pathd_digit_microscan/metrics/n1073_monitor.jsonl`).
+- Its hosted e5 test and held-out-T OOD scores were both 0.50%
+  (`solving/experiments/2026-07-23_pathd_digit_microscan/metrics/e5_c22bc015_metrics.jsonl`).
+
+These measurements do not distinguish multiplication failure from reduction
+failure. That is the next scientific question.
+
+## Gate 0 — Measurement integrity
+
+Use separate-input/output data. Split by the variable named in the question.
+Always report exact match, per-digit accuracy, the marginal baseline, train EM,
+steps, and wall time.
+
+**Pass:** answer leakage is absent; the split and baseline are verified.
+
+## Gate 1 — Decimal multiplication
+
+Local diagnostic only. Input decimal x. Target exact x² without modular
+reduction. Hold out x and longer digit lengths.
+
+**Question:** can the representation learn digit products and carry propagation?
+
+**Pass:** ≥99% exact match on held-out x and no collapse at the first held-out
+digit length.
+
+**Stop rule:** if this fails, work only on place alignment, digit-pair interaction,
+and carry propagation. Do not test modular reduction or T.
+
+## Gate 2 — Modular reduction
+
+Local diagnostic only. Input a decimal dividend a and N. Target a reduced to the
+canonical residue. Hold out a, then hold out N.
+
+**Question:** can the representation learn comparison, quotient estimation, and
+conditional subtraction independently of squaring?
+
+**Pass:** ≥99% exact match on held-out a for seen N, followed by a clear non-prior
+signal on held-out N.
+
+**Stop rule:** if multiplication passes and reduction fails, all research targets
+the reduction mechanism. Do not modify the outer T loop.
+
+## Gate 3 — One complete step
+
+Return to x² reduced by N at T=1.
+
+Run three rungs in order:
+
+1. fixed N, held-out x;
+2. many training N, held-out x;
+3. held-out N.
+
+**Pass:** ≥95% exact match at rung 1; then advance one rung at a time. A model
+below this threshold is not a candidate for composition.
+
+## Gate 4 — Reachable-state closure
+
+Evaluate the learned one-step block on states sampled from long true trajectories,
+not only clean training starts.
+
+**Question:** is the step correct on the distribution it will create for itself?
+
+**Pass:** no measurable error on the sampled reachable-state suite. Only after
+this gate should quantization margin and progressive loss be tested.
+
+## Gate 5 — Held-out-T composition
+
+Freeze the step design. Train on T ∈ {1,2,3}. Evaluate T = 4, 5, 8, 16, 32, 64.
+
+**Pass:** exact match stays flat after the training boundary. A graceful decay is
+still failure under exact scoring.
+
+## Gate 6 — Competition viability
+
+Measure steps/s and time-to-gate on the local GPU. Then use one Easy and one
+Medium confirmation. Hard remains human-approved only.
+
+**Pass:** the mechanism learns before the scorer’s wall-clock cutoff and repeats
+under hosted conditions.
+
+## Immediate decision
+
+Do not propose another end-to-end submission. Build Gate 1 and Gate 2 diagnostic
+datasets first, measure the same small anchor on both, and locate the failing
+primitive.

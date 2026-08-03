@@ -26,6 +26,7 @@
 | 16 | Representation vs throughput (e1 caveat) |
 | 17 | Recurrence generalisation (day-1 proposal) |
 | 18 | Lipschitz / quantize / progressive loss |
+| 19 | Scientific gates — prerequisite decomposition (Author: Codex) |
 
 ## Reference
 
