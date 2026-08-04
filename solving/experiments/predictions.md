@@ -1171,3 +1171,39 @@ RESULT:     refuted — the five-way action head partially fits (84.91% q=0,
             remainder exact is 0.146% q=100 (43.45 average steps versus 13
             target) and 0.293% q=1000. This fresh multi-chunk formulation does
             not preserve the established unit subtraction primitive.
+
+DATE:       2026-08-04
+CARD:       taskb_chunk_decoder_from_unit_init
+CHANGE:     Initialize only the chunk reducer's serial digit decoder from the
+            qualified W=14 unit-reducer checkpoint; retain a random five-way
+            k∈{0,1,2,4,8} action head. Keep chunk data, loss, optimizer, seed,
+            W=14 encoder, batch size, and 4,000 updates identical to the fresh
+            chunk card.
+PREDICT:    Preserving the unit digit law restores q=0/q=1 exact and gives the
+            chunk decoder enough local structure to reach q=100 in its 13-step
+            k≤8 minimum. Refutation: initialized q=0/q=1 or q=100 stays near
+            the fresh-card failure.
+RESULT:     refuted — initialization raises q=0 action accuracy to 99.32% but
+            chunk digit next-state exact remains 0% q=0/q=1 and 39.16% q=100;
+            terminal q=100 exact is 0%. The unit decoder initialization alone
+            does not transfer to direct x−kN digit generation.
+
+DATE:       2026-08-04
+CARD:       taskb_frozen_unit_chunk_controller
+CHANGE:     Freeze the complete qualified W=14 comparator-controlled unit
+            reducer and train only a random five-way k∈{0,1,2,4,8} controller
+            on its frozen serial state. At evaluation the predicted action
+            schedules that many repeated learned unit transitions; no decimal
+            arithmetic is implemented in the forward.
+PREDICT:    A controller can learn q=0 stop and chunk actions while the frozen
+            unit primitive keeps q=0/q=1 arithmetic exact; q=100 should finish
+            in 13 outer actions, albeit still 100 inner learned-unit updates.
+            Refutation: controller action accuracy or q=0/q=1 terminal exact
+            fails, showing chunk control itself cannot bind to the learned
+            state.
+RESULT:     refuted as configured — frozen learned arithmetic remains 99.95%
+            macro-transition exact q=0/q=1, but controller action accuracy is
+            0% q=0..5 and 100% q≥8. It never chooses action 0, giving 100%
+            non-stops in all buckets. The q-balanced traces are action-imbalanced
+            (93/101 q values label k=8), so this isolates controller-class
+            imbalance rather than loss of the frozen unit primitive.

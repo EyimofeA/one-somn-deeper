@@ -1594,3 +1594,27 @@ composition, still locally and without promoting weights to a submission.
   initialization from the qualified unit primitive, but must not be confused
   with this refuted from-scratch chunk architecture. Artifact (not committed):
   `diagnostics/artifacts/somn-l40-2026-08-04/serial_chunk_reducer_0248/`.
+
+### 2026-08-04 — Unit-preserving chunk controls (Author: Codex)
+
+- **Option A — initialized direct chunk decoder:** loaded the qualified W=14
+  subtractor weights into the fresh chunk model, leaving only its five-way
+  action head random. All chunk targets, loss, seed, optimizer, batch, and
+  4,000-update budget match the refuted fresh card. **Result: refuted.** q=0
+  action accuracy rises to 99.32%, but next-state exact remains 0% q=0/q=1,
+  43.07% q=8, 39.16% q=100, and 42.33% q=1000; terminal q=100 exact is 0%.
+  Direct `x−kN` digit generation is not obtained merely by initializing from
+  the learned `x−N` primitive.
+- **Option B — frozen unit plus learned controller:** froze the complete W=14
+  comparator-controlled unit reducer and trained only a 645-parameter action
+  head. The predicted action schedules repeated frozen learned unit updates;
+  no arithmetic is added to the forward. **Result: refuted as configured.**
+  Frozen macro transition is 99.95% q=0/q=1, but action accuracy is 0% q=0..5
+  and 100% q≥8; action 0 is never selected, causing 100% non-stops. q-balanced
+  q=0..100 traces are action-imbalanced: 93 quotient buckets label k=8.
+- **Decision:** do not re-open fresh or initialized direct chunk-digit decoders.
+  The frozen controller is a valid diagnostic of scheduling, but needs one
+  action-class-balanced exposure control before concluding that learned chunk
+  selection cannot bind to a preserved unit primitive. Artifacts (not
+  committed): `diagnostics/artifacts/somn-l40-2026-08-04/serial_chunk_reducer_unit_init/`
+  and `diagnostics/artifacts/somn-l40-2026-08-04/frozen_unit_chunk_controller/`.

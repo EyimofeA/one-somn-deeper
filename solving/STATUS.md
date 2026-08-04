@@ -88,6 +88,14 @@ at q=0/q=1, 51.86% at q=100, and 9.03% at q=1000; terminal q=100 exact is
 execution nor justifies public-scale experiments. Do not repeat the fresh
 joint formulation.
 
+**Unit-preserving chunk controls:** initialized direct chunk digits are also
+refuted (0% q=0/q=1 next-state exact; q=100 terminal 0%). Freezing the complete
+unit reducer preserves its 99.95% q=0/q=1 macro transition, but the new
+five-way scheduler predicts k=8 for every q because q-balanced q=0..100 traces
+contain 93 k=8 labels. It never chooses k=0 and has 100% non-stops. The only
+remaining narrow control before judging scheduling is action-class-balanced
+controller exposure; do not modify direct chunk digit generation further.
+
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
 **Evidence correction (2026-08-04, Codex):** the historical `pure reduction

@@ -136,12 +136,16 @@ def main():
     parser.add_argument("--steps", type=int, default=4000)
     parser.add_argument("--batch-size", type=int, default=512)
     parser.add_argument("--max-train-q", type=int, default=100)
+    parser.add_argument("--unit-reducer-checkpoint", help="Load the subtractor weights from a qualified comparator-reducer checkpoint.")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     all_moduli = semiprimes(args.seed, 64)
     train_moduli, test_moduli = all_moduli[:48], all_moduli[48:]
     train = chunk_rows(train_moduli, args.seed, 128, range(args.max_train_q + 1), heldout=False)
     model = SerialChunkReducer().to(args.device)
+    if args.unit_reducer_checkpoint:
+        checkpoint = torch.load(args.unit_reducer_checkpoint, map_location=args.device, weights_only=True)
+        model.digits.load_state_dict(checkpoint["subtractor"])
     optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=.01)
     for step in range(1, args.steps + 1):
         state, modulus, target, action = tensors(batch(train, args.batch_size, step), args.device)
