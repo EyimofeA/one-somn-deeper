@@ -36,6 +36,19 @@ def reduction_rows(modulus_values):
     return [(digits(q * modulus + remainder), digits(modulus), digits(((q - 1) if q else 0) * modulus + remainder), q > 0, q, remainder, modulus) for modulus in modulus_values for remainder in range(modulus) for q in range(modulus - 1)]
 
 
+def vdf_reduction_rows(modulus_values):
+    """Exact intermediate traces encountered while reducing s² for each s."""
+    result = []
+    for modulus in modulus_values:
+        for state in range(modulus):
+            quotient, remainder = divmod(state * state, modulus)
+            for q in range(quotient, -1, -1):
+                value = q * modulus + remainder
+                target = (q - 1 if q else 0) * modulus + remainder
+                result.append((digits(value), digits(modulus), digits(target), q > 0, q, remainder, modulus))
+    return result
+
+
 class Serial(nn.Module):
     def __init__(self, output):
         super().__init__()
@@ -140,17 +153,21 @@ def report(square, subtractor, comparator, modulus_values, device):
 
 
 def main():
-    parser = argparse.ArgumentParser(); parser.add_argument("--out", required=True); parser.add_argument("--seed", type=int, default=0); parser.add_argument("--steps", type=int, default=3000); parser.add_argument("--checkpoint"); parser.add_argument("--device", default="cuda")
+    parser = argparse.ArgumentParser(); parser.add_argument("--out", required=True); parser.add_argument("--seed", type=int, default=0); parser.add_argument("--steps", type=int, default=3000); parser.add_argument("--checkpoint"); parser.add_argument("--square-checkpoint"); parser.add_argument("--reducer-distribution", choices=("uniform", "vdf_square"), default="uniform"); parser.add_argument("--device", default="cuda")
     args = parser.parse_args(); all_moduli = moduli(args.seed); train_moduli, test_moduli = all_moduli[:18], all_moduli[18:]
     square, subtractor, comparator = Square().to(args.device), Subtractor().to(args.device), Comparator().to(args.device)
     if args.checkpoint:
         weights = torch.load(args.checkpoint, map_location=args.device, weights_only=True)
         square.load_state_dict(weights["square"]); subtractor.load_state_dict(weights["subtractor"]); comparator.load_state_dict(weights["comparator"])
     else:
-        reductions = reduction_rows(train_moduli)
-        train_comparator(comparator, reductions, args.steps, args.device); train_digits(subtractor, [row for row in reductions if row[3]], args.steps, args.device); train_digits(square, square_rows(train_moduli), args.steps, args.device)
+        reductions = vdf_reduction_rows(train_moduli) if args.reducer_distribution == "vdf_square" else reduction_rows(train_moduli)
+        train_comparator(comparator, reductions, args.steps, args.device); train_digits(subtractor, [row for row in reductions if row[3]], args.steps, args.device)
+        if args.square_checkpoint:
+            square.load_state_dict(torch.load(args.square_checkpoint, map_location=args.device, weights_only=True)["square"])
+        else:
+            train_digits(square, square_rows(train_moduli), args.steps, args.device)
     square.eval(); subtractor.eval(); comparator.eval()
-    result = {"width": WIDTH, "train_moduli": train_moduli, "test_moduli": test_moduli, "parameters": sum(p.numel() for m in (square, subtractor, comparator) for p in m.parameters()), "seen": report(square, subtractor, comparator, train_moduli, args.device), "unseen": report(square, subtractor, comparator, test_moduli, args.device)}
+    result = {"width": WIDTH, "reducer_distribution": args.reducer_distribution, "train_moduli": train_moduli, "test_moduli": test_moduli, "parameters": sum(p.numel() for m in (square, subtractor, comparator) for p in m.parameters()), "seen": report(square, subtractor, comparator, train_moduli, args.device), "unseen": report(square, subtractor, comparator, test_moduli, args.device)}
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True); (out / "eval_report.json").write_text(json.dumps(result, indent=2) + "\n"); torch.save({"square": square.state_dict(), "subtractor": subtractor.state_dict(), "comparator": comparator.state_dict()}, out / "cell.pt"); print(json.dumps(result), flush=True)
 
 

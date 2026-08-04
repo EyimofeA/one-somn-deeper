@@ -130,6 +130,14 @@ remaining blocker is unseen-modulus reduction composition, not raw squaring or
 T-conditioned recurrence. Evidence:
 `diagnostics/artifacts/somn-l40-2026-08-04/recurrent_vdf_square_reduce_smalln/seed0/localization/eval_report.json`.
 
+**VDF-trace support repairs the clean recurrent cell:** changing only
+comparator/subtractor training rows to intermediate states actually generated
+while reducing seen-modulus squares raises held-out reduction 46.96%→95.56%,
+q≥10 29.92%→94.67%, and tied VDF T=8 33.88%→89.02%. This confirms trace-state
+distribution mismatch as the previous main failure. The remaining ~4.4% T=1
+error still bars submission integration. Evidence:
+`diagnostics/artifacts/somn-l40-2026-08-05/recurrent_vdf_reducer_square_trace_support/seed0/eval_report.json`.
+
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
 **Evidence correction (2026-08-04, Codex):** the historical `pure reduction

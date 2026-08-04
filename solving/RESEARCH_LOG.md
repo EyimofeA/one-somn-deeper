@@ -1786,3 +1786,28 @@ composition, still locally and without promoting weights to a submission.
   representation distribution shift. Do not integrate this cell into a
   submission. Artifact (not committed):
   `diagnostics/artifacts/somn-l40-2026-08-04/recurrent_vdf_square_reduce_smalln/seed0/localization/eval_report.json`.
+
+### 2026-08-05 — VDF-square-trace reducer support (Author: Codex)
+
+- **Question:** did the full VDF cell fail because the reducer was trained on
+  uniform algebraic `qN+r` rows rather than the raw square and intermediate
+  states it sees inside the VDF transition? Change only comparator/subtractor
+  rows: for every seen-modulus residue s, train on every trace state from
+  `s²` down to `s² mod N`. The exact learned Squareθ checkpoint, serial
+  architecture, 3,000-update budget, 18/8 split, and all-residue evaluation
+  are retained.
+- **Held-out-N result (428 examples):** raw Squareθ remains 100%; comparator
+  is 99.91%; generic subtractor teacher exact is 86.17%; but reduction given
+  the true or model raw square is **95.56%**, versus 46.96% under uniform
+  `qN+r` support. Reduction exact by quotient: q=0 100% (62), q=1 100% (22),
+  q=2–3 88.57% (35), q=4–9 96.92% (65), q≥10 **94.67%** (244).
+- **Tied rollout:** unseen-N VDF T=1…8 exact is 95.56, 92.99, 90.65, 89.95,
+  89.02, 87.85, 87.85, 89.02%. The corresponding original uniform-support
+  values were 46.96% at T=1 and 33.88% at T=8.
+- **Interpretation:** confirmed state-distribution mismatch. The existing
+  comparator/subtractor representation can compose with learned square in this
+  complete small-N regime when trained on algorithmically relevant trace
+  states. Residual local reduction error remains, so this is evidence for a
+  clean recurrent transition—not a submission-ready exact solver. Artifact
+  (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-05/recurrent_vdf_reducer_square_trace_support/seed0/eval_report.json`.

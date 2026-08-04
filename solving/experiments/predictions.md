@@ -1316,3 +1316,19 @@ RESULT:     refuted as a full unseen-N VDF step, with a localized reduction
             reduction after a correct square is 46.96% (q>=10: 29.92%). T=8
             rollout remains 33.88%, so the primary problem is unseen-N serial
             reduction, not square generation or catastrophic recurrent drift.
+
+DATE:       2026-08-05
+CARD:       recurrent_vdf_reducer_square_trace_support
+CHANGE:     Replace only reducer/comparator training rows from uniform algebraic
+            qN+r states to every intermediate state in true seen-modulus
+            VDF square traces s²→s² mod N. Reuse the established square
+            checkpoint unchanged; retain the serial architecture, optimizer,
+            update horizon, modulus split, and all-residue held-out evaluation.
+PREDICT:    If raw state-distribution mismatch caused held-out reduction error,
+            q≥10 reduction and held-out VDF T=1/T=8 exact will rise materially
+            above 29.92%/46.96%/33.88%. If they remain near those values, the
+            serial reducer's unseen-modulus representation is the bottleneck.
+RESULT:     confirmed — holding Squareθ fixed, held-out q≥10 reduction rises
+            29.92%→94.67%, T=1 46.96%→95.56%, and T=8 33.88%→89.02%. The
+            primary prior failure was reducer state-distribution mismatch, not
+            square/reduce composition or an intrinsically inadequate reducer.
