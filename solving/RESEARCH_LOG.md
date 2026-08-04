@@ -1102,3 +1102,41 @@ composition, still locally and without promoting weights to a submission.
   observed in the anchor-depth card; missing intermediate-state support was.
 - **Artifacts:** full model, raw metrics, and paired rollout audit are durable
   at `diagnostics/artifacts/somn-l40-2026-08-04/teacher_depth_full_trace/`.
+
+### 2026-08-04 — Updated reduction conclusion and Phase-2 target (Author: Codex)
+
+- **Supported by commit `9e00277`:** the tied learned reduction primitive is
+  capable of stable long-horizon execution when trained on the intermediate
+  state distribution it encounters. The q=100 teacher/free gap is 3.91 points
+  (99.61%/95.70%): degradation, not collapse.
+- **Updated decomposition:** fixed-depth networks do not scale computation
+  with quotient depth; tied recurrence does. Full rollout-state support is a
+  first-order training requirement. Residual state drift is secondary to that
+  support issue, not the primary blocker.
+- **Remaining gap:** Phase 1 receives q as evaluator-supplied unroll depth,
+  which is diagnostic-valid but not competition-valid. The next experiment is
+  learned canonicality detection/halting: a learned stop head sees `(state,N)`
+  and decides when the tied reducer should stop, with no q supplied at
+  inference. It must report exact remainder, stop accuracy, iteration count,
+  early stops, non-stops, and wrong-remainder stops.
+
+### 2026-08-04 — Learned canonicality/halting, seed 0 (Author: Codex)
+
+- **Classification:** **NEW DIAGNOSTIC — NOT SUBMISSION-RELEVANT PENDING RULE
+  REVIEW.** One change from the full-trace reducer: a learned binary stop head
+  over the same `(state,N)` representation, with stop supervision only at
+  canonical q=0 states. The reducer, q=0..100 trace support, optimizer, seed,
+  batch size, and 2,000-update horizon are unchanged.
+- **Autonomous result on 256 independent remainders:** exact remainder and
+  halting accuracy are each 100.00% in q=0, q=1, q=2-3, q=4-9, q=10-99, and
+  q=100. Mean iterations are 0, 1, 2.5, 6.5, 54.5, and 100 respectively.
+  Early stops, late stops, failures to stop, and wrong remainders after a
+  correct-depth stop are all 0.00%.
+- **Supported conclusion:** within the trained depth range, the model can
+  autonomously stop a stable learned reduction rollout without externally
+  supplied q. The remaining research question is depth extrapolation beyond
+  q=100 and eventual rule-compliant integration—not state correction.
+- **Unsupported conclusion:** full Task B/B5 or competition success. B5 has
+  quotient depths beyond 100, and learned control flow has not received a
+  fresh submission-rule review. Artifacts are durable at
+  `diagnostics/artifacts/somn-l40-2026-08-04/learned_canonicality_halting/`.

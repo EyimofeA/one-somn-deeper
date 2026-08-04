@@ -727,3 +727,22 @@ RESULT:     confirmed — free terminal exact is q=5 99.22%, q=10 99.22%,
             q=50 97.27%, and q=100 95.70%; corresponding final teacher-forced
             exact is 99.61% at every depth. Full intermediate-state coverage,
             not a new state representation, removes the former q>=10 collapse.
+
+DATE:       2026-08-04
+CARD:       taskb_learned_canonicality_halting
+CLASS:      NEW DIAGNOSTIC — NOT SUBMISSION-RELEVANT PENDING RULE REVIEW
+CHANGE:     Add one learned binary stop head to the stable full-trace tied
+            reducer. It is supervised as stop=1 only for canonical trace
+            states (q=0), and evaluator-supplied q is removed at inference;
+            the reducer, state representation, trace data, optimizer, seed,
+            and 2,000-update horizon are otherwise retained.
+PREDICT:    If stable reduction is the solved primitive, learned stopping will
+            terminate near the true depth and retain high held-out exact at
+            q=4-9 and q=10-99. If it stops early or never stops while q-known
+            rollout succeeds, canonicality detection—not reduction—is the
+            remaining gap.
+RESULT:     confirmed within the trained q=0..100 range — independent held-out
+            remainders score 100.00% exact and halting accuracy in q=0, q=1,
+            q=2-3, q=4-9, q=10-99, and q=100. There are no early/late stops,
+            non-stops, or wrong-remainder stops. This does not test q>100 or
+            establish competition legality for learned control flow.
