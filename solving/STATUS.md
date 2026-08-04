@@ -1,14 +1,20 @@
 # Status (living)
 
-Last updated: 2026-08-04. **Rule audit:** local competition checkout remains
-`8a3c78d`; live upstream is `e32c2f9` (2026-08-03), which adds bounded
-evaluator-owned multi-backward-pass and same-batch-reuse hooks and explicitly
-bans participant-started derivative/nested-training calls. Hard scoring is
-unchanged: certified Max T → OOD-N Max T → first-uncertified-rung accuracy →
-time. Full diff and impact: [`RULE_AUDIT_2026-08-04.md`](RULE_AUDIT_2026-08-04.md).
-The audit found no scoring/data change and no newly prohibited call in local
-submission sources; this session proceeds only with the non-submission Task B
-diagnostic.
+Last updated: 2026-08-05. **Rule audit:** the local competition checkout is now
+the live upstream `e32c2f9`. It adds bounded evaluator-owned structured
+metrics plus multiple evaluator-owned backward passes/same-batch reuse, while
+explicitly banning participant-started derivative or nested-training calls.
+Hard scoring is unchanged: certified Max T → OOD-N Max T → first-uncertified
+rung accuracy → time. The source audit found no scoring or data-distribution
+change and no newly prohibited call in the archived candidates.
+
+**Submission execution update (2026-08-05):** no new hosted submission has
+been made. A current local L40 revalidation rejects both immediately available
+Easy sources: the research-transfer recurrent source gets 0.00% test / 1.00%
+OOD (0.50% mean), and Fable v2 gets 0.00% / 0.00%. Their train curves and
+provenance are preserved under Git-ignored `runs/`; the selection rationale is
+[`submissions/SUBMISSION_EXECUTION_REPORT.md`](submissions/SUBMISSION_EXECUTION_REPORT.md).
+Do not spend a tier attempt on either result.
 
 Hard Fable v2 job `602bf7f1-eab7-46c2-91e8-e4a4a010f9d7` completed with
 **0.0467%** mean exact (5/9,999 test; 5/10,002 OOD-T; 4/10,002 OOD-N) but
