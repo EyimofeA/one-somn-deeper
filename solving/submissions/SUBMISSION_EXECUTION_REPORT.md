@@ -17,8 +17,8 @@ all-example-exact `T=1,2,4,8,16,32,64` prefix, then OOD-N prefix.
 
 | Tier | Candidate source | Architecture | Local evidence | Decision |
 | --- | --- | --- | --- | --- |
-| Easy | `submissions/fable_tcap_adamw/submission.py` | 1,595,904-state tied register with train-time random effective depth | e1: 0.67% test, 8.00% OOD, 4.33% mean; no T=1 certificate | Promoted for one hosted Easy attempt |
-| Medium | `experiments/2026-08-04_deadline/hard_fable_v2/submission.py` | 2,142,474-state tied digital register | no Medium run; same source gets 0.00% mean on e1 | Packaged baseline only; no 600-second run or submission justified |
+| Easy | `submissions/fable_tcap_adamw/submission.py` | 1,595,904-state tied register with train-time random effective depth | hosted e1 `56335b5e-b460-4de2-a7d0-ed91fb9881fe`: 6% test, 11% OOD, **8.50% mean**; no T=1 certificate | Submitted successfully |
+| Medium | `submissions/fable_tcap_adamw/submission.py` | same validated tied register | m1 `d71cad94-07ba-469f-8c7c-676e55d611a9` is running | Submitted; result pending |
 | Hard | `experiments/2026-08-04_deadline/hard_fable_v2/submission.py` | same Fable register | prior hosted H1 `602bf7f1-eab7-46c2-91e8-e4a4a010f9d7`: 0.0467% mean, no certified T=1; current e1 is 0.00% | Rejected; preserve the sole daily Hard attempt |
 
 Both files pass `one-layer validate`. “Packaged baseline” means a self-contained
@@ -48,6 +48,7 @@ precomputed-square reducer.
 | `easy_serial_recurrent_e1_current_retry1` | L40 | loss 17.732 → 1.424; batch exact 0.2% → 14.1%; 506 updates / 60.07 s | test 0.00%, OOD 1.00%, mean 0.50% | `runs/easy_serial_recurrent_e1_current_retry1/` |
 | `fable_v2_e1_current` | L40 | loss 2.974 → 0.130; batch exact 0.0% → 92.8%; 417 updates / 60.10 s | test 0.00%, OOD 0.00%, mean 0.00% | `runs/fable_v2_e1_current/` |
 | `fable_tcap_adamw_e1_control` | L40 | loss 2.884 → 1.842; batch exact 0.4% → 1.6%; 941 updates / 60.02 s | test 0.67%, OOD 8.00%, mean 4.33% | `runs/fable_tcap_adamw_e1_control/` |
+| hosted `56335b5e-b460-4de2-a7d0-ed91fb9881fe` | H100 | loss 2.884 → 1.917; batch exact 0.4% → 2.0%; 165 updates / 60.0 s | test 6.00%, OOD 11.00%, mean **8.50%** | `runs/fable_tcap_adamw_e1_hosted_metrics.jsonl` |
 
 Fable v2 is overfit: its training exactness is 92.8% while both held-out splits
 are exactly zero. The recurrent-transfer candidate also improves training fit
