@@ -1342,3 +1342,7 @@ PREDICT:    Its train-time random depth exposure should generalize better than
             Fable v2's 0.00% mean, but it will still fail the submission gate
             unless held-out mean exact exceeds the 1.00% hosted Easy reference.
             Refutation: zero or near-zero mean exact despite nontrivial train fit.
+RESULT:     confirmed — unchanged source reaches 0.67% test and 8.00% OOD
+            exact (4.33% mean) in the current e1 harness, above the 1.00%
+            hosted Easy reference. It does not certify T=1, so it is promoted
+            only for an Easy mean-exact attempt, not Medium or Hard.

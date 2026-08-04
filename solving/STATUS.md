@@ -14,7 +14,9 @@ Easy sources: the research-transfer recurrent source gets 0.00% test / 1.00%
 OOD (0.50% mean), and Fable v2 gets 0.00% / 0.00%. Their train curves and
 provenance are preserved under Git-ignored `runs/`; the selection rationale is
 [`submissions/SUBMISSION_EXECUTION_REPORT.md`](submissions/SUBMISSION_EXECUTION_REPORT.md).
-Do not spend a tier attempt on either result.
+Do not spend a tier attempt on either result. The distinct Fable
+T-cap/AdamW control is the current Easy candidate: 0.67% test / 8.00% OOD
+(4.33% mean), with no certified T=1 rung. It is promoted only to Easy.
 
 Hard Fable v2 job `602bf7f1-eab7-46c2-91e8-e4a4a010f9d7` completed with
 **0.0467%** mean exact (5/9,999 test; 5/10,002 OOD-T; 4/10,002 OOD-N) but
