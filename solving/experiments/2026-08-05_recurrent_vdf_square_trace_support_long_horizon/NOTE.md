@@ -11,3 +11,9 @@ This isolates optimization horizon as the explanation for the residual held-out
 one-step error. Prediction is registered in `solving/experiments/predictions.md`.
 Metrics/checkpoint stay outside Git at
 `diagnostics/artifacts/somn-l40-2026-08-05/recurrent_vdf_square_trace_support_long_horizon/`.
+
+## Result
+
+Unclear due to infrastructure, not arithmetic: the remote mirror did not have
+the frozen Square checkpoint required by `--square-checkpoint`, so the process
+exited before the first update. No result should be interpreted from this card.

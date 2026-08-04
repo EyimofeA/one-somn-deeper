@@ -1358,6 +1358,10 @@ PREDICT:    If the residual 4.44% held-out T=1 error is optimization-limited,
             remain near the original values, the residual is a representation
             or unseen-modulus generalization limit rather than insufficient
             update count.
+RESULT:     unclear — the remote run exited before training because the frozen
+            Square checkpoint was absent from that mirror; it produced no
+            transition or rollout metric and must be relaunched only after
+            artifact synchronization, outside the deadline window.
 
 DATE:       2026-08-05
 CARD:       fable_muon_adamw_e1_optimizer_control
