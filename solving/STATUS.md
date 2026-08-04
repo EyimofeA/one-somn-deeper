@@ -72,6 +72,14 @@ execution. Hard h1's N distribution is hidden and must not be inspected. The
 next serial branch must address learned multi-unit reduction/chunk selection;
 widening six digits alone is necessary for public scales but insufficient.
 
+**Width control:** fresh W=14 leading-zero padding retains 100% unseen-N q=1
+subtraction, 100% boundary comparison, and 100% q=1..100 one-step composition,
+but q=0 fixed points/autonomous outcomes are 99.9512% (2,047/2,048), from one
+canonical false-continue. Therefore width does not catastrophically break the
+serial mechanism, but this seed is not exact and widening is not promoted as a
+submission component. The next registered change is learned chunk action,
+not a width retune.
+
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
 **Evidence correction (2026-08-04, Codex):** the historical `pure reduction

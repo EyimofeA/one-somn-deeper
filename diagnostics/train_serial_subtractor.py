@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import time
 from pathlib import Path
@@ -19,7 +20,7 @@ from torch import nn
 from torch.nn import functional as F
 
 
-WIDTH = 6
+WIDTH = int(os.environ.get("SERIAL_WIDTH", "6"))
 
 
 def digits(value: int) -> list[int]:

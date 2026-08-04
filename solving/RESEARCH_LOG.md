@@ -1548,3 +1548,26 @@ composition, still locally and without promoting weights to a submission.
   solution. The next controlled branch must preserve the serial learned path
   while testing a learned multi-unit/quotient-chunk reduction mechanism, after
   first setting a public-scale width target. No hidden data was read.
+
+### 2026-08-04 — Width-six to width-fourteen serial control (Author: Codex)
+
+- **Question:** does leading-zero expansion from six to fourteen decimal
+  positions itself break the validated serial comparator/reducer? Fresh W=14
+  weights repeated the seed-0 q=1..10 subtractor, boundary-balanced comparator,
+  q=0..20 gated reducer, and q=0..100 support stages. LSD-first order, four-
+  digit 48/16 seen/unseen split, optimizer, batch 512, and stage update counts
+  were otherwise unchanged.
+- **Result:** held-out q=1 subtractor exact is 100%. Comparator held-out-N
+  accuracy is 98.4615% (4,160 examples) and N−1/N/N+1 boundary accuracy is
+  100% (64 examples). At the final q≤100 stage, composed teacher transitions
+  are 100% for q=1..100 and 99.9512% q=0; true fixed points and autonomous
+  remainder/exact-halt are 99.9512% in each audited q bucket (2,047/2,048).
+  Frozen q=1,5,10,20,50,100 checks give 100% initial comparator, raw
+  subtractor, and composed transition, with the same 99.9512% terminal result.
+- **Interpretation:** W=14 padding does not damage learned subtraction or
+  boundary comparison, but one canonical state false-continues and so exact
+  autonomous behavior is not preserved. This is a narrow comparator/fixed-point
+  defect, not evidence that width alone yields public-scale reduction. Do not
+  tune it inside this card; proceed to the separately registered chunk test.
+  Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/serial_comparator_width14_control/`.

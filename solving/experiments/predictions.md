@@ -1131,3 +1131,22 @@ RESULT:     confirmed in the representable extrapolation band — q=101,110,120,
             transition, and autonomous rollout exact (2,048 examples/bucket).
             The initial q≥120 0% read was an audit-cap bug (110 steps), fixed
             before interpreting the experiment; the rerun used q_max+10 steps.
+
+DATE:       2026-08-04
+CARD:       taskb_serial_reducer_width14_control
+CHANGE:     Change only decimal state width from six to fourteen digits. Re-run
+            the qualified seed-0 serial pipeline: q=1..10 subtractor, boundary-
+            balanced comparator, q=0..20 gated reducer, then q=0..100 support.
+            Keep LSD-first order, GRU components, split, seed, optimizer,
+            batch size, and each stage's update horizon unchanged.
+PREDICT:    Leading-zero padding and learned place embeddings preserve unseen-N
+            comparator boundaries, q=0 fixed points, and q=0..100 transitions.
+            Refutation: width alone harms these controlled four-digit results,
+            which would make serial positional scaling unsafe before public-
+            scale N tests.
+RESULT:     near-confirmed, not exact — W=14 preserves 100% held-out q=1
+            subtraction, 100% boundary comparison, and 100% composed q=1..100
+            teacher transitions, but q=0 fixed points and every autonomous
+            bucket are 99.951% (one of 2,048 canonical states false-continues).
+            Width padding is not catastrophic, yet this seed does not equal the
+            exact W=6 control and is not a promoted submission component.
