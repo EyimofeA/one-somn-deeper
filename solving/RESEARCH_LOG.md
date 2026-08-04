@@ -1638,3 +1638,55 @@ composition, still locally and without promoting weights to a submission.
   would be a new research branch and requires an explicit card choice. Artifact
   (not committed):
   `diagnostics/artifacts/somn-l40-2026-08-04/frozen_unit_chunk_controller_balanced_actions/`.
+
+### 2026-08-04 — Frozen unit threshold-bank controller (Author: Codex)
+
+- **Question:** does decomposing a multi-unit chunk into four learned binary
+  magnitude bits fix the frozen controller's action-selection failure? The
+  complete qualified W=14 comparator-controlled unit reducer remains frozen.
+  A 516-parameter head emits bits for a safe greedy code `k=min(q,15)` and
+  schedules that many repeated learned unit transitions. This uses a code, not
+  literal independent “can subtract” labels: the latter would choose 15 at
+  q=8 and overshoot. Training balances the sixteen codes on the same q≤100,
+  48-seen/16-unseen-modulus setup, then evaluates 2,048 unseen-N examples per
+  quotient.
+- **Result:** q=0 is fully preserved (1.0 fixed-point/remainder exact). At
+  q=1, selected-code/macro/remainder exact are 15.72%/77.25%/77.25%. At
+  q=100, individual-bit accuracies are 94.43%, 80.32%, 74.07%, and 92.68%;
+  selected-code/macro/remainder exact are 73.29%/73.29%/30.18%, with 4.22 mean
+  outer actions against a seven-action greedy target. q=1000 remainder exact
+  is 0%, with 13.33% non-stops under the 70-step audit cap.
+- **Decision:** refute threshold coding as a promotion candidate: it improves
+  high-q terminal accuracy relative to the 0% five-way balanced control but
+  violates the q=1 preservation gate and remains unstable under rollout. The
+  next permitted diagnostic is a representation audit comparing the frozen
+  GRU’s final state with its per-position states; do not add another controller
+  mechanism first. Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/frozen_unit_threshold_bank/seed0/eval_report.json`.
+
+### 2026-08-04 — Final-state versus per-position controller audit (Author: Codex)
+
+- **Question:** is the failed threshold-bank controller missing quotient
+  information because the frozen serial GRU compresses all digit positions into
+  one final state? Change only its controller input from that final 128-vector
+  to the concatenation of all fourteen frozen GRU position states. The same
+  W=14 reducer, safe four-bit chunk code, q≤100 rows, sixteen-code balancing,
+  seed, batch 512, AdamW, 4,000 updates, and unseen 16-modulus evaluation are
+  retained. The per-position linear head has 7,172 parameters versus 516.
+- **Result:** support the compression hypothesis. q=0 stays 100% fixed-point
+  and terminal exact. q=1 selected-code/macro/remainder exact are
+  89.06%/99.95%/99.95%; q=8 remainder exact is 98.93%; q=32 is 99.27%; and
+  q=100 threshold/selected-code/macro exact are all 100%, with 99.51% terminal
+  exact across 2,048 held-out-N examples. At q=100 the controller takes 7.50
+  mean outer actions (seven greedy target) but 102.05 mean inner learned unit
+  updates. q=1000 terminal exact is 0% because the controller has no
+  intermediate-state support above q=100 and stops early, not because its raw
+  q=1000 action prediction is inaccurate.
+- **Decision:** final-state compression is the action-selection bottleneck;
+  the binary code itself is viable when per-position serial features are
+  exposed. This is not a public-scale solution: repeated unit execution keeps
+  inner computation O(q). Close the final-state controller formulation. Any
+  next chunk card must preserve per-position control while changing the *state
+  transition* cost, and requires a new explicit decision. Artifact (not
+  committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/frozen_unit_threshold_bank_per_position/seed0/eval_report.json`.

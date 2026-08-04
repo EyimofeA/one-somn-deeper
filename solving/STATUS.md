@@ -104,6 +104,24 @@ class balance produces a learned sublinear controller. The direct-chunk and
 frozen-controller formulations are closed. Any next step needs an explicitly
 new controller representation, not another training tweak.
 
+**Threshold-bank control is also refuted for promotion:** replacing the five-way
+controller with four learned binary bits for a safe greedy `k=min(q,15)` code
+raises q=100 terminal exact from 0% to 30.18% (4.22 mean outer actions), but
+breaks q=1 terminal exact at 77.25% and achieves only 73.29% exact q=100 code
+selection. This does not preserve the unit primitive’s local behavior. The
+only next narrow chunk diagnostic is a final-state versus per-position feature
+audit; do not add controller complexity before it. Evidence:
+`diagnostics/artifacts/somn-l40-2026-08-04/frozen_unit_threshold_bank/seed0/eval_report.json`.
+
+**Representation audit confirms final-state compression is the controller
+bottleneck:** replacing only that 128-dimensional controller input with all
+fourteen frozen serial position states recovers 99.95% q=1 and 99.51% q=100
+held-out-N terminal exact (selected q=100 chunk is 100%). This establishes that
+the frozen sequence retains action-relevant quotient information, but a chunk
+still schedules repeated unit updates—102.05 mean inner updates at q=100—so it
+does not yet alter O(q) arithmetic cost. Evidence:
+`diagnostics/artifacts/somn-l40-2026-08-04/frozen_unit_threshold_bank_per_position/seed0/eval_report.json`.
+
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
 **Evidence correction (2026-08-04, Codex):** the historical `pure reduction

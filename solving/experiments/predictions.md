@@ -1224,3 +1224,41 @@ RESULT:     refuted — balanced sampling makes q=0 action/macro/terminal exact
             (0% q=2, 41.85% q=100) and q=100 terminal exact is 0%. Thus class
             imbalance explained the missing stop action, not the failure to
             infer a useful chunk from frozen serial state.
+
+DATE:       2026-08-04
+CARD:       taskb_frozen_unit_threshold_bank
+CHANGE:     Replace the refuted five-way frozen-state chunk classifier with four
+            independently learned bits encoding the safe greedy chunk
+            k=min(q,15). Preserve the frozen W=14 comparator-controlled unit
+            reducer, q<=100 seen-modulus traces, and unseen-modulus test split.
+            Training balances the sixteen chunk-code targets. Literal
+            independent "can subtract 1/2/4/8" predicates would select 15 at
+            q=8 and overshoot, so this is a learned safe binary code instead.
+PREDICT:    If quotient magnitude is recoverable as simple thresholds, bit and
+            selected-k accuracy will exceed the five-way controller, retain
+            q=0/q=1, and produce nonzero q=100 terminal exact in about seven
+            outer actions. If selected-k remains poor, frozen final-state
+            compression—not multiclass coupling—is the controller limit.
+RESULT:     refuted for promotion — q=100 terminal exact rises from 0% to
+            30.18% (4.22 mean outer actions), but q=1 terminal exact falls to
+            77.25% and exact q=100 chunk selection is only 73.29%. Threshold
+            coding helps high-q action selection but does not preserve local
+            behavior, so it is not a viable controller replacement.
+
+DATE:       2026-08-04
+CARD:       taskb_frozen_unit_threshold_bank_per_position
+CHANGE:     replace only the threshold bank's frozen controller feature from
+            the final serial-GRU state to the concatenation of all fourteen
+            per-position GRU states. Preserve frozen W=14 arithmetic, binary
+            safe-chunk code, q<=100 traces, sixteen-code balancing, optimizer,
+            batch size, update count, seed, and unseen-N evaluation.
+PREDICT:    If q information is discarded by final-state compression, position
+            features restore q=1 selected-code/remainder exact and improve
+            q=100 terminal exact beyond 30.18%. If they do not, action
+            selection is not limited by that compression and this controller
+            family should be closed without added mechanisms.
+RESULT:     confirmed — per-position features restore q=1 remainder exact to
+            99.95% and q=100 selected-code/macro exact to 100%, producing
+            99.51% q=100 terminal exact. The final-state readout had discarded
+            action-relevant quotient information; the remaining issue is that
+            scheduling k repeated unit transitions still costs O(q) inner work.
