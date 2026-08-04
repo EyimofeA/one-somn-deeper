@@ -7,6 +7,7 @@ competition/
 
 # Generated / regeneratable
 data/generated/
+runs/
 solving/experiments/**/metrics.jsonl
 solving/experiments/**/*.pt
 solving/experiments/**/checkpoints/

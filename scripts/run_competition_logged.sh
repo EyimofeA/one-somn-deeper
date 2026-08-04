@@ -15,7 +15,11 @@ run_dir="$run_root/$name"
 repo_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 
 mkdir -p "$run_dir/checkpoints"
-git -C "$repo_root" rev-parse HEAD > "$run_dir/git_commit.txt"
+if [ -n "${RESEARCH_COMMIT:-}" ]; then
+  printf '%s\n' "$RESEARCH_COMMIT" > "$run_dir/git_commit.txt"
+else
+  git -C "$repo_root" rev-parse HEAD > "$run_dir/git_commit.txt"
+fi
 git rev-parse HEAD > "$run_dir/evaluator_commit.txt"
 cp "$manifest" "$run_dir/manifest.json"
 cp "$submission" "$run_dir/submission.py"

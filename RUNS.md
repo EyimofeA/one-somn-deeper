@@ -21,6 +21,14 @@ runs/<submission_name>/
 not patch the benchmark runner, modify batches, add evaluator calls, alter
 validation timing, or read evaluator-owned data.
 
+Run directories are intentionally Git-ignored: they can contain large copied
+submission snapshots, telemetry, and checkpoints. Their source revision and
+location belong in the corresponding committed report instead.
+
+For a remote mirror rather than a Git checkout, set `RESEARCH_COMMIT` to the
+source revision before invoking the wrapper. The wrapper then records that
+immutable revision rather than guessing from the remote working directory.
+
 ## What the official runner records
 
 - Bounded training checkpoints: step, wall time, total loss, batch exact
