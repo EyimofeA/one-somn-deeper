@@ -1419,3 +1419,26 @@ composition, still locally and without promoting weights to a submission.
   not generalize their invariant across unseen moduli. They interfere with the
   compositional q-transition map, rather than converting it into a learned
   reduction primitive. Do not scale this data mixture or add q support/seeds.
+
+### 2026-08-04 — Clean piecewise identity/subtraction transition (Author: Codex)
+
+- **Question:** can the unchanged serial GRU learn the actual piecewise local
+  map `F(u,N)=u-N` for u≥N and `F(u,N)=u` for u<N, without frozen-model recovery
+  labels? Training used exactly balanced q=0..20 buckets: 6,144 identity rows
+  q=0 and 6,144 subtraction rows at each q=1..20 (129,024 total), same width,
+  optimizer family, batch, and 4,000 updates. There were zero recovery rows.
+- **Transition result:** unseen-N q=1/5/10 one-step exact is 100%; q=20 is
+  96.44%. But direct fixed-point q=0 is 0% on both the 6,144 seen training
+  remainders and 2,048 unseen remainders. Thus identity did not merely fail to
+  generalize: it was not fitted under this equally balanced training budget.
+- **Prescribed-depth evaluation:** no state is truncated through q=100 (206,848
+  held-out examples). q-supplied rollout is 100% through q=13, first below
+  100% at q=14, first below 95% at q=17, 92.58% q=20, and 89.84% q=100. The
+  q=0 rollout row is trivially 100% because zero transitions are applied; it
+  must not be mistaken for fixed-point evidence.
+- **Decision:** do not train/evaluate a stop head, because the required q=0
+  fixed-point gate fails. This experiment identifies optimization/data-family
+  interference at the present exposure, rather than a held-out-N representation
+  failure. It motivates—but does not establish—the need for a future learned
+  comparator/subtractor decomposition. Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/serial_subtractor_width6_piecewise_q0_q20_seed0/`.

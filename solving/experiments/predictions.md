@@ -1037,3 +1037,23 @@ RESULT:     refuted — unseen-N true remainders remain 0% absorbing (all 2,048
             then 99.66% q=3, 94.43% q=5, 74.56% q=10, and 66.26% q=20: the
             identity/recovery data families interfere with the original
             q-transition dynamics rather than teaching an unseen-N invariant.
+
+DATE:       2026-08-04
+CARD:       taskb_serial_subtractor_piecewise_q0_q20
+CHANGE:     Replace q=1..10-plus-recovery training data with an exactly balanced
+            piecewise transition set: q=0 identity r→r and q=1..20 transitions
+            qN+r→(q-1)N+r, one equal-sized remainder set per q; retain width,
+            serial GRU, optimizer, batch size, and 4,000-update horizon.
+PREDICT:    If the GRU can learn the intended piecewise transition, unseen-N
+            q=0 fixed-point accuracy and q=1/5/10/20 one-step accuracy become
+            near-perfect together, and q=0..100 prescribed-depth rollout is
+            stable. Refutation: q=0 identity generalizes poorly or harms q>0
+            transitions even without recovery data, implying a representation
+            or function-class conflict rather than an optimization issue.
+RESULT:     refuted — q=0 fixed-point transition exact is 0% on both 6,144 seen
+            and 2,048 unseen remainders, while unseen q=1/5/10 transition exact
+            is 100% and q=20 is 96.44%. Prescribed-depth rollout stays 100%
+            through q=13, then 92.58% q=20 and 89.84% q=100. The identity mode
+            was not fitted at this balanced fixed budget, so this is direct
+            data-family optimization/interference, not evidence of an unseen-N
+            representation failure; do not evaluate or retrain halting.

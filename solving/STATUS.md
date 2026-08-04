@@ -37,16 +37,20 @@ stable; this is a control, not a modular-arithmetic failure.
 **Stability gate is refuted:** the frozen q=1..10 subtractor changes every
 held-out true remainder under one more learned update (`F(r,N) != r` for all
 2,048/2,048 samples). A stability-gated terminal rule therefore cannot halt
-even q=0. Adding identity `r→r` and frozen-trajectory wrong-canonical recovery
-labels also fails to generalize this invariant to unseen N and damages the
-formerly perfect fixed-depth rollout (q=10 falls to 74.56%).
+even q=0. Adding identity plus frozen-trajectory recovery labels was harmful.
 
-**Current conclusion:** this serial cell learns a q-indexed convergent
-trajectory, not a reduction transition with canonical states as a fixed-point
-set. Do not scale the identity/recovery mixture, q support, or seed count. The
-next research direction must change how state identity is represented or make
-the transition's fixed-point invariant locally identifiable across N; it is not
-an optimization-budget problem in this formulation.
+**Clean piecewise control:** equal q=0 identity and q=1..20 subtraction support
+removes recovery labels but still has 0% q=0 fixed-point exact on both seen
+(0/6,144) and unseen (0/2,048) remainders, despite 100% unseen q=1/5/10
+subtraction. This is a fitting/interference result at the fixed budget, not an
+unseen-N generalization claim. It retains strong prescribed-depth rollout
+(100% through q=13; 89.84% q=100), but no halting evaluation is valid.
+
+**Current conclusion:** the serial GRU has not learned the piecewise fixed-point
+transition even when directly supervised. Do not add a comparator yet. A future
+comparator/subtractor decomposition is motivated by this failure, but it is not
+yet established; first distinguish whether curriculum/exposure can fit q=0
+identity without sacrificing q>0 subtraction.
 
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
