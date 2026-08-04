@@ -1400,3 +1400,18 @@ PREDICT:    The explicit two-stage inductive bias will produce nonzero e1
             held-out exactness, with T=1 stronger than T=2/3. Refutation is a
             failure to train in the 60-second envelope or no held-out signal
             above the random/direct baseline.
+RESULT:     unclear — it reaches 2.67% test exact after 64 updates, but the
+            first implementation unconditionally ran all 64 cells even where
+            Easy provides T≤3. This is a compute-execution confound, not a
+            test of the VDF mechanism under a useful training horizon.
+
+DATE:       2026-08-05
+CARD:       vdf_square_reduce_dynamic_depth_execution
+CHANGE:     Change only the VDF candidate's outer loop from an unconditional
+            64 iterations with masked updates to exactly `max(T)` tied learned
+            Square→Reduce iterations for the current batch. All cells, state,
+            loss, optimizer, batch, and data remain fixed.
+PREDICT:    Easy's T≤3 batches will execute about twenty times less forward
+            work, yielding far more than 64 optimizer updates in 60 seconds
+            and a materially stronger held-out curve. Refutation: update count
+            does not rise substantially or held-out exact remains near 1.33%.

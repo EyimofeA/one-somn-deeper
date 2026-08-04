@@ -103,7 +103,7 @@ class VDFModel(nn.Module):
         base = self.token(input_ids) + self.position(torch.arange(length, device=input_ids.device)) + self.field(field) + self.place(place)
         state = torch.zeros(batch, length, self.config.vocab_size, device=input_ids.device, dtype=base.dtype)
         hidden = base
-        for depth in range(MAX_STEPS):
+        for depth in range(int(steps.max().item())):
             active = (depth < steps)[:, None, None]
             squared = self.square(base + self.register_projection(state), mask)
             reduced = self.reduce(base + squared, mask)
