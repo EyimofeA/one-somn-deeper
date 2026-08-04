@@ -1346,3 +1346,15 @@ RESULT:     confirmed — unchanged source reaches 0.67% test and 8.00% OOD
             exact (4.33% mean) in the current e1 harness, above the 1.00%
             hosted Easy reference. It does not certify T=1, so it is promoted
             only for an Easy mean-exact attempt, not Medium or Hard.
+
+DATE:       2026-08-05
+CARD:       recurrent_vdf_square_trace_support_long_horizon
+CHANGE:     Increase only comparator/subtractor optimization from 3,000 to
+            12,000 updates on the already validated VDF-square-trace support;
+            keep the frozen learned Square checkpoint, serial architecture,
+            optimizer, data, split, batch size, and evaluation fixed.
+PREDICT:    If the residual 4.44% held-out T=1 error is optimization-limited,
+            T=1 exact rises above 95.56% and T=8 rises above 89.02%; if both
+            remain near the original values, the residual is a representation
+            or unseen-modulus generalization limit rather than insufficient
+            update count.
