@@ -1690,3 +1690,23 @@ composition, still locally and without promoting weights to a submission.
   transition* cost, and requires a new explicit decision. Artifact (not
   committed):
   `diagnostics/artifacts/somn-l40-2026-08-04/frozen_unit_threshold_bank_per_position/seed0/eval_report.json`.
+
+### 2026-08-04 — Track A Easy serial recurrent candidate (Author: Codex)
+
+- **Question:** can the validated representational mechanisms—LSD-relative
+  position, tied recurrence, and learned discrete state—yield a smallest legal
+  end-to-end Easy model from prompt `(N,x,T)` alone? The candidate adds a shared
+  bidirectional-attention/right-to-left-GRU cell and applies it up to four
+  times selected by the prompt T field. It receives no precomputed square,
+  quotient, reduction state, factor, or intermediate target. Public Easy
+  exposes final labels only, so trace supervision is not permitted.
+- **Result:** legal but locally refuted as an Easy improvement. Static source
+  validation and evaluator CPU smoke pass. A tier-faithful public e1 run on an
+  L40 trains 500 updates in 60.00 seconds with 21,152 model-state elements;
+  final test exact is 1.33% (2/150), OOD exact 0% (0/100), and mean exact
+  0.67%. This is below the historical e1 reference (4.7% test / 9.0% OOD /
+  6.8% mean), whose leaderboard meaning is itself documented as weak.
+- **Decision:** keep the source as a legal, audited submission attempt only;
+  do not claim performance improvement or tune it before the requested single
+  submission completes. Evidence: `EASY_SUBMISSION_REPORT.md` and remote
+  `~/somn-taskb/easy_serial_recurrent/e1/run.log`.

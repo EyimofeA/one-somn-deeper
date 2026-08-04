@@ -1262,3 +1262,20 @@ RESULT:     confirmed — per-position features restore q=1 remainder exact to
             99.51% q=100 terminal exact. The final-state readout had discarded
             action-relevant quotient information; the remaining issue is that
             scheduling k repeated unit transitions still costs O(q) inner work.
+
+DATE:       2026-08-04
+CARD:       easy_serial_recurrent
+CHANGE:     Replace the unavailable/stale Easy anchor with a smallest legal
+            end-to-end prompt model: LSD-relative field/place features, a
+            shared bidirectional-attention plus right-to-left GRU transition,
+            and a T-conditioned straight-through recurrent token state. It
+            receives only evaluator `(N,x,T)` tokens and final output labels.
+PREDICT:    On e1, learned decimal alignment plus weight tying will beat the
+            historical direct baseline's test exact accuracy, with strongest
+            signal at T=1; refutation is failure to validate, failure to train
+            in the 60-second local envelope, or no test/OOD gain over the
+            4.7%/9.0% historical split values.
+RESULT:     refuted — source validation and smoke pass, but the tier-faithful
+            local e1 run reaches only 1.33% test, 0% OOD, and 0.67% mean exact
+            in 500 steps/60 seconds, below the historical 4.7%/9.0% e1 split
+            results. The mechanism is legal but not locally competitive.
