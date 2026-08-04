@@ -26,16 +26,22 @@ remainders, with no handwritten arithmetic in the forward. With width-six
 states and q=1..5 trace support, the seed-0 frozen subtractor rolls out at
 100% through q=10; its raw one-step transition softens only at q=8..10.
 
-**Canonicality is now promoted:** a separately trained, 129-parameter learned
-stop readout of the frozen serial GRU state takes only `(state, N)`, not q or
-depth. Autonomous q=0..7 execution is 100% exact in both remainder and stop
-step on unseen N. q=8/9/10 are 95.26%/91.65%/87.50%, with no late/non-stops or
-width errors; this exactly matches the subtractor's pre-existing raw-state
-transition loss. Therefore halting is not the current limiter. The next
-registered branch should extend the same fixed serial transition support above
-q=5, then test whether the unseen-N depth frontier moves; do not redesign the
-subtractor or add generated-state stop-head mixing unless a true-trace stop
-failure appears.
+**Transition-support extension:** changing only serial subtraction support to
+q=1..10 gives 100% q-supplied terminal rollout q=1..20 on unseen N (one-step
+accuracy first softens at q=15). A fresh 129-parameter learned stop readout of
+that frozen GRU takes only `(state, N)`, not q or depth, and makes complete
+autonomous execution 100% through q=13. The preceding stop head cannot be
+reused across independently trained GRUs because latent coordinates are not
+stable; this is a control, not a modular-arithmetic failure.
+
+**Current limiter:** autonomous q=14 has 3.12% accumulated stop-head false
+positives. At q=15–16, the subtractor can enter an *incorrect but canonical*
+state that fixed-depth rollout later self-corrects, whereas legal autonomous
+halting correctly freezes it. q>16 is additionally limited by the deliberate
+16-step cap. The serial reducer is therefore a strong learned convergent map,
+but has not yet proven the state invariant required of a reusable autonomous
+reduction primitive. Do not call q-supplied terminal rollout alone an
+algorithmic solution.
 
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 

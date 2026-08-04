@@ -1,4 +1,4 @@
-"""Roll out the learned q=1 serial subtractor on unseen moduli."""
+"""Audit learned serial subtraction on unseen moduli without changing weights."""
 
 from __future__ import annotations
 
@@ -7,7 +7,18 @@ import json
 
 import torch
 
-from train_serial_subtractor import SerialSubtractor, digits, rows, semiprimes, tensors
+from train_serial_subtractor import WIDTH, SerialSubtractor, digits, rows, semiprimes, tensors
+
+
+def exact_and_digits(pred, target):
+    return {
+        "exact": float((pred == target).all(dim=-1).float().mean()),
+        "per_lsd_position": [float((pred[:, i] == target[:, i]).float().mean()) for i in range(WIDTH)],
+    }
+
+
+def first_below(report, threshold):
+    return next((int(q) for q, values in report.items() if values["rollout_fixed_depth_exact"] < threshold), None)
 
 
 @torch.no_grad()
@@ -26,7 +37,7 @@ def main() -> None:
     test_moduli = all_moduli[args.train_moduli:]
     base = rows(test_moduli, args.seed, args.per_modulus, heldout=False)
     model = SerialSubtractor().to(args.device)
-    model.load_state_dict(torch.load(args.checkpoint, map_location=args.device))
+    model.load_state_dict(torch.load(args.checkpoint, map_location=args.device, weights_only=True))
     model.eval()
     report = {}
     for q in range(1, args.max_q + 1):
@@ -34,16 +45,33 @@ def main() -> None:
         for _, n_lsd, target in base:
             n_value = int("".join(map(str, n_lsd[::-1])))
             r_value = int("".join(map(str, target[::-1])))
+            if len(str(r_value + q * n_value)) > WIDTH:
+                raise ValueError(f"unrepresentable q={q} state at width={WIDTH}")
             examples.append((digits(r_value + q * n_value)[::-1], n_lsd, target))
         state, n, target = tensors(examples, args.device)
         teacher_target = torch.tensor([digits(int("".join(map(str, row[0][::-1]))) - int("".join(map(str, row[1][::-1]))))[::-1] for row in examples], dtype=torch.long, device=args.device)
         teacher = model(state, n).argmax(dim=-1)
         for _ in range(q):
             state = model(state, n).argmax(dim=-1)
-        report[str(q)] = {"teacher_one_step_exact": float((teacher == teacher_target).all(dim=-1).float().mean()), "rollout_exact": float((state == target).all(dim=-1).float().mean())}
+        teacher_metrics = exact_and_digits(teacher, teacher_target)
+        rollout_metrics = exact_and_digits(state, target)
+        report[str(q)] = {
+            "teacher_one_step_exact": teacher_metrics["exact"],
+            "teacher_per_lsd_position": teacher_metrics["per_lsd_position"],
+            "rollout_fixed_depth_exact": rollout_metrics["exact"],
+            "rollout_per_lsd_position": rollout_metrics["per_lsd_position"],
+            "examples": len(examples), "width_errors": 0,
+        }
+    result = {
+        "per_q": report,
+        "first_q_below_100": first_below(report, 1.0),
+        "first_q_below_95": first_below(report, 0.95),
+        "first_zero_exact_q": next((int(q) for q, values in report.items() if values["rollout_fixed_depth_exact"] == 0.0), None),
+        "representability": {"width": WIDTH, "examples": sum(x["examples"] for x in report.values()), "width_errors": 0},
+    }
     with open(args.out, "w") as handle:
-        json.dump(report, handle, indent=2)
-    print(json.dumps(report), flush=True)
+        json.dump(result, handle, indent=2)
+    print(json.dumps(result), flush=True)
 
 
 if __name__ == "__main__":

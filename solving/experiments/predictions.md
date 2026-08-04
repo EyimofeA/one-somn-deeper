@@ -960,3 +960,45 @@ RESULT:     confirmed in the requested seed-0 screen. On 16 unseen moduli ×
             continues on canonical generated states. The residual early
             terminal states arise only after an existing subtractor arithmetic
             error.
+
+DATE:       2026-08-04
+CARD:       taskb_unseen_n_serial_subtractor_q10_support
+CHANGE:     Extend only learned serial-subtractor transition-state support from
+            balanced q=1..5 to balanced q=1..10 traces, retaining width six,
+            the LSD-to-MSD GRU, seen/unseen-modulus split, optimizer, batch,
+            update count, and autonomous inference. Evaluate the new frozen
+            subtractor q=1..20, then attach the existing frozen stop head
+            without retraining it.
+PREDICT:    Direct q=6..10 support moves the first subtractor degradation past
+            q=10: q=1..10 should be near-perfect and q=11..20 should decline
+            gradually rather than at the former q=8 boundary. The existing
+            canonicality head should remain correct on generated states; if
+            complete-system errors track subtractor errors, no head retraining
+            is warranted. Failure in the directly supported q=8..10 range
+            would instead identify insufficient per-q optimization exposure.
+RESULT:     partly confirmed — q=1..20 fixed-depth terminal rollout is 100%
+            (40,960 representable unseen-N examples, zero width errors), and
+            one-step degradation moves to q=15 (96.88%; first <95% is q=16).
+            The prediction that the old stop head transfers is refuted: its
+            q=0 accuracy is 0% because a separately trained GRU has arbitrary
+            latent coordinates, so it is not a valid canonicality readout.
+
+DATE:       2026-08-04
+CARD:       taskb_unseen_n_serial_subtractor_q10_rebound_stop_head
+CHANGE:     After the q=1..10-trained serial GRU replaces the prior frozen
+            subtractor, train only a fresh 129-parameter canonicality readout
+            against that newly frozen GRU. Keep the width-six representation,
+            q=0..5 balanced stop data, optimizer, and autonomous loop fixed.
+PREDICT:    The prior stop head will not transfer across an independently
+            retrained GRU's arbitrary latent coordinates, even though its
+            architecture is identical. A fresh readout should restore exact
+            canonicality through the 16-step cap; q=17..20 should correctly
+            continue and register as cap-induced non-stops rather than false
+            canonicality predictions.
+RESULT:     partly confirmed — a fresh frozen-GRU readout yields 100% autonomous
+            remainder and exact stop steps q=0..13. q=14 is 96.88% from 3.12%
+            early false-positive stops; q=15 and q=16 are 93.75%, including
+            64 and 128 incorrect-but-canonical generated states respectively.
+            q=17..20 are cap-limited (83.94–89.50% non-stops) and also contain
+            small accumulated early-stop rates. Generated-state false-positive
+            rate is 0.0826%; false-negative canonicality rate is 0%.

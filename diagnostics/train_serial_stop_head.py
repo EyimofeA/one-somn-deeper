@@ -49,10 +49,10 @@ def tensors(batch, device):
 
 
 @torch.no_grad()
-def evaluate(model, dataset, device):
+def evaluate(model, dataset, device, max_q):
     report = {}
     total_fp = total_noncanonical = total_fn = total_canonical = 0
-    for quotient in range(11):
+    for quotient in range(max_q + 1):
         batch = [row for row in dataset if row[4] == quotient]
         state, modulus, target = tensors(batch, device)
         powers = torch.tensor([10**i for i in range(WIDTH)], device=device)
@@ -78,6 +78,7 @@ def evaluate(model, dataset, device):
             next_state = model.subtractor(state, modulus).argmax(dim=-1)
             state = torch.where(active[:, None], next_state, state)
         exact = (state == target).all(dim=-1)
+        final_canonical = (state * powers).sum(dim=-1) < modulus_value
         stop_correct = stopped == quotient
         report[str(quotient)] = {
             "remainder_exact": float(exact.float().mean()),
@@ -90,6 +91,7 @@ def evaluate(model, dataset, device):
             "per_lsd_position": [float((state[:, i] == target[:, i]).float().mean()) for i in range(WIDTH)],
             "examples": len(batch),
             "arithmetic_errors": int((~exact).sum()),
+            "incorrect_but_canonical_generated_states": int((~exact & final_canonical).sum()),
             "width_errors": 0,
             "false_positive_stop_rate": fp / noncanonical if noncanonical else 0.0,
             "false_negative_continue_rate": fn / canonical if canonical else 0.0,
@@ -110,6 +112,8 @@ def main():
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--steps", type=int, default=2000)
     parser.add_argument("--batch-size", type=int, default=512)
+    parser.add_argument("--eval-max-q", type=int, default=10)
+    parser.add_argument("--head-checkpoint")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
 
@@ -121,7 +125,7 @@ def main():
     train = raw_train + [row for row in raw_train if row[2]] * 4
     random.Random(args.seed + 313).shuffle(train)
     # Held-out moduli are never used by either frozen subtractor training or stop-head training.
-    unseen = examples(test_moduli, args.seed, 128, range(11), heldout=False)
+    unseen = examples(test_moduli, args.seed, 128, range(args.eval_max_q + 1), heldout=False)
     subtractor = SerialSubtractor().to(args.device)
     subtractor.load_state_dict(torch.load(args.checkpoint, map_location=args.device, weights_only=True))
     subtractor.eval()
@@ -132,29 +136,33 @@ def main():
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
     (out / "config.json").write_text(json.dumps({
         "classification": "FROZEN-SUBTRACTOR LEARNED CANONICALITY SCREEN",
-        "checkpoint": args.checkpoint, "seed": args.seed, "width": WIDTH,
-        "train_q": [0, 1, 2, 3, 4, 5], "eval_q": list(range(11)),
+        "checkpoint": args.checkpoint, "head_checkpoint": args.head_checkpoint, "seed": args.seed, "width": WIDTH,
+        "train_q": [0, 1, 2, 3, 4, 5], "eval_q": list(range(args.eval_max_q + 1)),
         "train_moduli": train_moduli, "test_moduli": test_moduli,
         "train_examples": len(train), "stop_continue_balance": "exactly 1:1 via q=0 trace oversampling",
         "steps": args.steps, "batch_size": args.batch_size,
         "inference": "while learned_stop(state,N) is false: frozen_subtractor(state,N), capped at 16; no q/depth input",
     }, indent=2) + "\n")
-    start = time.perf_counter()
-    with (out / "metrics.jsonl").open("w") as log:
-        for step in range(1, args.steps + 1):
-            offset = ((step - 1) * args.batch_size) % len(train)
-            batch = [train[(offset + i) % len(train)] for i in range(args.batch_size)]
-            state, modulus, _ = tensors(batch, args.device)
-            label = torch.tensor([row[2] for row in batch], dtype=torch.float32, device=args.device)
-            loss = F.binary_cross_entropy_with_logits(model(state, modulus), label)
-            optimizer.zero_grad(set_to_none=True); loss.backward(); optimizer.step()
-            if step % 200 == 0 or step == args.steps:
-                record = {"step": step, "loss": float(loss.detach()), "steps_per_sec": step / (time.perf_counter() - start)}
-                log.write(json.dumps(record) + "\n"); log.flush(); print(json.dumps(record), flush=True)
+    if args.head_checkpoint:
+        model.head.load_state_dict(torch.load(args.head_checkpoint, map_location=args.device, weights_only=True))
+    else:
+        start = time.perf_counter()
+        with (out / "metrics.jsonl").open("w") as log:
+            for step in range(1, args.steps + 1):
+                offset = ((step - 1) * args.batch_size) % len(train)
+                batch = [train[(offset + i) % len(train)] for i in range(args.batch_size)]
+                state, modulus, _ = tensors(batch, args.device)
+                label = torch.tensor([row[2] for row in batch], dtype=torch.float32, device=args.device)
+                loss = F.binary_cross_entropy_with_logits(model(state, modulus), label)
+                optimizer.zero_grad(set_to_none=True); loss.backward(); optimizer.step()
+                if step % 200 == 0 or step == args.steps:
+                    record = {"step": step, "loss": float(loss.detach()), "steps_per_sec": step / (time.perf_counter() - start)}
+                    log.write(json.dumps(record) + "\n"); log.flush(); print(json.dumps(record), flush=True)
     model.eval()
-    report = evaluate(model, unseen, args.device)
+    report = evaluate(model, unseen, args.device, args.eval_max_q)
     (out / "eval_report.json").write_text(json.dumps(report, indent=2) + "\n")
-    torch.save(model.head.state_dict(), out / "stop_head.pt")
+    if not args.head_checkpoint:
+        torch.save(model.head.state_dict(), out / "stop_head.pt")
     print(json.dumps(report), flush=True)
 
 

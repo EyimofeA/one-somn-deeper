@@ -1363,3 +1363,33 @@ composition, still locally and without promoting weights to a submission.
   exact curve; the apparent early stops follow a prior erroneous subtractor
   state that is already below N, rather than a false positive on a correct true
   trace. Generated-state mixture training is therefore not indicated yet.
+
+### 2026-08-04 — Serial q=1..10 transition support and autonomous check (Author: Codex)
+
+- **One changed training variable:** serial subtractor transitions were expanded
+  from balanced q=1..5 to balanced q=1..10 across the same 48 seen moduli.
+  Width six, LSD-to-MSD GRU, optimizer family, 4,000 updates, batch size, and
+  16 held-out moduli × 128 remainders remained fixed. Every q=1..20 state is
+  representable (40,960 total examples; zero width failures).
+- **Subtractor-only result:** teacher-forced one-step exact is 100% q=1..14,
+  96.88% q=15, 93.75% q=16, and 94.53/89.50/87.50/88.38% q=17..20. In contrast,
+  q-supplied fixed-depth terminal rollout is 100% at every q=1..20 and every
+  digit position. First one-step <100%=q15; first <95%=q16; no zero-exact q.
+  Artifact (not committed, including checkpoint/logs):
+  `diagnostics/artifacts/somn-l40-2026-08-04/serial_subtractor_width6_q10_support_seed0/`.
+- **Old-head control:** the original q=1..5 stop head is 0% even at q=0 when
+  attached to this independently retrained GRU (99.24% generated-state false
+  positives and 100% canonical false negatives). This is a latent-coordinate
+  mismatch control, not evidence that canonicality itself ceased to be learned.
+- **Conditionally permitted rebound head:** a fresh 129-parameter readout was
+  trained on the unchanged balanced q=0..5 stop states while the new q=1..10
+  subtractor stayed frozen. Autonomous unseen-N remainder/stop-step exact is
+  100% q=0..13, 96.88% q=14, and 93.75% q=15..16. The learned 16-step cap makes
+  q=17..20 primarily non-stops (89.50/87.50/87.50/83.94%), as expected.
+- **New boundary diagnosis:** q=14 has 3.12% early stops from accumulated
+  stop-head false positives. At q=15 and q=16, 64 and 128 examples respectively
+  reach an *incorrect but canonical* generated decimal state. The readout is
+  correct to stop there, but fixed-q rollout would later self-correct it. Thus
+  100% q-supplied terminal rollout does not yet establish a true reduction
+  primitive with a correct state invariant. Across generated states, stop-head
+  false-positive rate is 0.0826% and false-negative rate is 0%.
