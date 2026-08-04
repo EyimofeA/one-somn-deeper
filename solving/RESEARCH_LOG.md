@@ -1172,3 +1172,39 @@ composition, still locally and without promoting weights to a submission.
   fixed-N depth extrapolation has this cliff.
 - **Artifacts:** `quotient_extrapolation_101_500.json` is synced under
   `diagnostics/artifacts/somn-l40-2026-08-04/learned_canonicality_halting/`.
+
+### 2026-08-04 — Revised quotient-depth plan after Stage 1 (Author: Codex)
+
+- **Interpretation constraint:** the q=148 cliff does not yet prove a finite
+  recurrent horizon. Teacher-forced and autonomous metrics collapse together,
+  but the learned stop head may still be responsible for the observed early
+  stops.
+- **Next ordered tests:** (1) reducer-only q-known rollout at q=101..500;
+  (2) a no-training boundary map at q=101,110,120,130,140,145..150 derived
+  from the same curve; (3) only after component separation, curriculum
+  extensions q=0..200→201..500 and q=0..500→501..1000. Architecture remains
+  fixed. Unseen-N and competition-distribution tests remain gated off.
+
+### 2026-08-04 — Reducer-only separation and boundary map (Author: Codex)
+
+- **Reducer-only result:** externally supplying q and applying the unchanged
+  reducer exactly q times yields 11.81% terminal exact across q=101..500—the
+  same as autonomous learned-halting exact. The stop head is not causal.
+- **Requested boundary map:** q=101,110,120,130,140,145,146,147 are 100%; q=148
+  is 25.78%; q=149 has 2.73% teacher one-step but 0% q-known terminal; q=150
+  is 0%. The learned transition encounters an unsupported-state cliff.
+- **Next card:** one-variable depth-curriculum extension q=0..200, tested at
+  q=201..500. If the cliff moves with support, it favors coverage over a fixed
+  architectural horizon; unseen-N and competition-shaped evaluation remain
+  gated off until this is known.
+
+### 2026-08-04 — Curriculum q=0..200, extrapolation q=201..500 (Author: Codex)
+
+- **Result:** q=201..221 have 100% teacher-one-step, q-known terminal,
+  autonomous remainder, and halting exact; q=222 is 37.89% on all four;
+  q=223..500 are 0% and stop early. Aggregate q=201..500 q-known/autonomous
+  exact is 7.13%.
+- **Classification:** Confirmed the support-coverage hypothesis. Expanding
+  support q<=100→q<=200 moves the first imperfect depth 148→222 while the
+  reducer architecture remains fixed. The next pre-registered stage expands
+  only trace support to q<=500 and tests q=501..1000.

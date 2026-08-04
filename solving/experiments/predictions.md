@@ -764,3 +764,42 @@ RESULT:     refuted — held-out q=101-500 averages 11.82% teacher one-step,
             early stops. It is perfect through q=147, falls to 25.78% at
             q=148, and is 0% from q=149 through q=500. Local unseen-state
             failure and stopping fail together; this is not rollout-only decay.
+
+DATE:       2026-08-04
+CARD:       taskb_reducer_only_quotient_extrapolation
+CHANGE:     Evaluation-only removal of the learned stop head from the q=0..100
+            checkpoint's inference path: externally supply q and apply the
+            unchanged reducer exactly q times on independent q=101..500
+            states. No weights, architecture, trace data, or optimizer change.
+PREDICT:    If the q=148 cliff is primarily canonicality detection, reducer-only
+            terminal remainder exact will extend materially past q=148. If it
+            shares the teacher-one-step cliff, the learned transition—not
+            halting—is the first failed component.
+RESULT:     refuted — q-known terminal exact exactly matches learned-halting
+            autonomous exact: 11.81% aggregate. Boundary map: q=101,110,120,
+            130,140,145,146,147 are 100%; q=148 is 25.78%; q=149 terminal is
+            0% (2.73% one-step); q=150 is 0%. The transition is the failure.
+
+DATE:       2026-08-04
+CARD:       taskb_reducer_curriculum_200_to_500
+CHANGE:     Extend only full-trace training support from q=0..100 to q=0..200
+            for the identical tied reducer and learned stop head; optimizer,
+            model, seed, independent remainders, batch size, and 2,000 updates
+            are unchanged. Test every unseen q=201..500.
+PREDICT:    If the q=148 cliff is state-support coverage, the exact transition
+            and stop boundary will move beyond q=200, with high q=201..~250
+            accuracy. If it remains near q=148, the architecture has a finite
+            horizon unrelated to the trained quotient range.
+RESULT:     confirmed — q=201..221 are 100%; q=222 is 37.89%; q=223..500 are
+            0%. The extrapolation boundary moves from 148 to 222 when training
+            support moves from q<=100 to q<=200, favoring state coverage over
+            a fixed architectural horizon.
+
+DATE:       2026-08-04
+CARD:       taskb_reducer_curriculum_500_to_1000
+CHANGE:     Extend only full-trace training support from q=0..200 to q=0..500
+            for the identical tied reducer and learned stop head; all other
+            settings remain unchanged. Test every unseen q=501..1000.
+PREDICT:    If the boundary is controlled by state support, it will move beyond
+            q=500. The amount of extrapolation beyond 500 measures whether
+            curriculum coverage alone is becoming sufficient for scalable q.

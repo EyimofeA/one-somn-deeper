@@ -23,6 +23,10 @@ def measure(model: ReducerCell, remainders: list[int], depth: int, device: str, 
     )
     teacher = model(n, state).argmax(dim=-1)
     teacher_correct = teacher == one_step_target
+    q_known_state = state.clone()
+    for _ in range(depth):
+        q_known_state = model(n, q_known_state).argmax(dim=-1)
+    q_known_exact = (q_known_state == target).all(dim=-1)
     active = torch.ones(len(remainders), dtype=torch.bool, device=device)
     stopped_at = torch.full((len(remainders),), -1, dtype=torch.long, device=device)
     for iteration in range(max_steps + 1):
@@ -39,6 +43,7 @@ def measure(model: ReducerCell, remainders: list[int], depth: int, device: str, 
     return {
         "teacher_one_step_exact": float(teacher_correct.all(dim=-1).float().mean()),
         "teacher_one_step_token": float(teacher_correct.float().mean()),
+        "q_known_remainder_exact": float(q_known_exact.float().mean()),
         "remainder_exact": float(exact.float().mean()),
         "halting_accuracy": float(correct_depth.float().mean()),
         "mean_iterations": float(torch.where(stopped_at < 0, torch.full_like(stopped_at, max_steps), stopped_at).float().mean()),
