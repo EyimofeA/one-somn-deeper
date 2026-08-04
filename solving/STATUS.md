@@ -80,6 +80,14 @@ serial mechanism, but this seed is not exact and widening is not promoted as a
 submission component. The next registered change is learned chunk action,
 not a width retune.
 
+**First chunk control is refuted:** a fresh W=14 serial GRU with learned action
+`k∈{0,1,2,4,8}` plus learned next digits does not retain the unit primitive.
+Although action accuracy reaches 100% for q≥20, digit next-state exact is 0%
+at q=0/q=1, 51.86% at q=100, and 9.03% at q=1000; terminal q=100 exact is
+0.146%. This is local transition failure, so it neither solves sublinear
+execution nor justifies public-scale experiments. Do not repeat the fresh
+joint formulation.
+
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
 **Evidence correction (2026-08-04, Codex):** the historical `pure reduction

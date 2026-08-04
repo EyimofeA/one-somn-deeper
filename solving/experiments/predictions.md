@@ -1150,3 +1150,24 @@ RESULT:     near-confirmed, not exact — W=14 preserves 100% held-out q=1
             bucket are 99.951% (one of 2,048 canonical states false-continues).
             Width padding is not catastrophic, yet this seed does not equal the
             exact W=6 control and is not a promoted submission component.
+
+DATE:       2026-08-04
+CARD:       taskb_serial_chunk_reducer_0248
+CHANGE:     Replace the unit-transition target with a learned five-way chunk
+            action k∈{0,1,2,4,8} plus learned next-state digits. Keep W=14,
+            LSD-first shared GRU digit encoding, seed-0 modulus split, q=0
+            identity rows, optimizer, batch size, and 4,000 updates. The
+            forward predicts both action and digits; it contains no explicit
+            comparison, subtraction, or multiplication.
+PREDICT:    A learned chunk controller preserves q=0/q=1 and reaches q=100
+            exactly in 13 or fewer updates, the minimum possible with max k=8.
+            It should make q=1000 materially shorter than a unit loop, though
+            raw q=1000 transition extrapolation may fail. Refutation: q=0/q=1
+            transfer breaks, or q=100 cannot reach the true remainder within
+            13 updates despite direct q≤100 transition support.
+RESULT:     refuted — the five-way action head partially fits (84.91% q=0,
+            93.31% q=1, 100% q≥20) but the simultaneously learned chunked
+            digit transition is 0% q=0/q=1 and only 51.86% q=100. Autonomous
+            remainder exact is 0.146% q=100 (43.45 average steps versus 13
+            target) and 0.293% q=1000. This fresh multi-chunk formulation does
+            not preserve the established unit subtraction primitive.

@@ -1571,3 +1571,26 @@ composition, still locally and without promoting weights to a submission.
   tune it inside this card; proceed to the separately registered chunk test.
   Artifact (not committed):
   `diagnostics/artifacts/somn-l40-2026-08-04/serial_comparator_width14_control/`.
+
+### 2026-08-04 — Learned chunk reducer k∈{0,1,2,4,8} (Author: Codex)
+
+- **Question:** can the same LSD-first serial GRU learn a multi-unit reduction
+  action and its next digits, avoiding O(q) unit steps? The W=14 model adds a
+  learned five-class action head to the serial digit decoder. It is trained
+  from random initialization on q=0..100 targets `qN+r→(q−k)N+r`, where the
+  largest allowed k not exceeding q is the synthetic label. The forward emits
+  only learned action and digit logits; it contains no implemented comparison,
+  subtraction, multiplication, or quotient calculation. Split, seed, batch,
+  optimizer, and 4,000 updates match the preceding control.
+- **Result:** refuted. Action accuracy is 84.91% q=0, 93.31% q=1, and 100%
+  q≥20, but next-state exact is 0% q=0/q=1, 55.86% q=8, 51.86% q=100, and
+  9.03% q=1000. Autonomous remainder exact is 84.91% q=0, 0% q=1, 0.146%
+  q=100 (43.45 mean steps, versus its k≤8 lower-bound target of 13), and
+  0.293% q=1000. The local learned chunk transition—not merely halting or
+  long rollout—fails.
+- **Decision:** kill this fresh joint action-and-digit formulation. It does not
+  preserve the validated unit subtraction law, so do not proceed to public
+  14/18/22-bit data or claim sublinear reduction. A future card may isolate
+  initialization from the qualified unit primitive, but must not be confused
+  with this refuted from-scratch chunk architecture. Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/serial_chunk_reducer_0248/`.
