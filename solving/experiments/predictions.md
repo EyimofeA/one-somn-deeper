@@ -671,3 +671,21 @@ PREDICT:    If the digit-serial state supplies a usable long-reduction bias,
 RESULT:     refuted — train exact reaches 65.87%, but held-out exact is 3.12%
             and q=4-9, q=10-99, and q>=4 are each 0.00%. It is below every
             B5 baseline bucket and fails the nonzero-q>=4 promotion gate.
+
+DATE:       2026-08-04
+CARD:       taskb_teacher_depth_iterative_reducer
+CLASS:      NEW DIAGNOSTIC — NOT SUBMISSION-RELEVANT
+CHANGE:     Replace one-shot reduction supervision with generated intermediate
+            trace supervision for one tied, fully learned `(state,N)->next
+            state` cell. The evaluator supplies a known unroll count q only
+            for Phase-1 diagnosis; the model forward contains no arithmetic
+            subtraction, quotient, comparison, lookup table, or halting rule.
+PREDICT:    If fixed effective computation is the blocker and the learned
+            primitive can be exact, terminal exact stays high at q=5 and is
+            nonzero at q=10 or beyond. If error compounds, terminal exact
+            collapses rapidly after q=3 despite high one-transition accuracy,
+            falsifying this primitive-before-halting formulation.
+RESULT:     refuted at q>=10 — terminal exact is 100.00% at q=0/1/2,
+            72.27% at q=5, and 0.00% at q=10/50/100 after 2,000 updates.
+            Teacher-forced loss reaches 0.00013, so a learned single step can
+            fit while greedy self-fed state errors still compound to collapse.

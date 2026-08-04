@@ -1008,3 +1008,40 @@ composition, still locally and without promoting weights to a submission.
   seeds, digit-order control, state-init control, or parameter-matched control
   is justified. Those controls would diagnose an already-killed formulation,
   not change the q>=4 decision.
+
+### 2026-08-04 — Scalable iterative-reducer hypothesis (Author: Codex)
+
+- **User-supplied working theory:** the controlled B5 results support a fixed
+  effective-computation failure, not a general inability to learn decimal
+  modular operations: q=0 through q=3 can be learned, while q>=4 is zero.
+- **Legal reformulation:** the literal program `s <- s-kN until s<N` cannot
+  appear in a model forward because it would be a handwritten reduction loop.
+  Phase 1 is therefore a diagnostic-only learned transition, trained on
+  generator-produced trace targets. The evaluator supplies q as an unroll
+  depth only to test composition; this is not valid submission inference.
+- **Pre-registered next card:** one tied learned `(state,N)->next-state` cell,
+  tested at q=0,1,2,5,10,50,100. It separates reusable-step accuracy from
+  adaptive halting. Learned halting, digit-order, state-init, and
+  parameter-matched controls remain separate cards, contingent on a signal.
+
+### 2026-08-04 — Teacher-depth iterative reducer, seed 0 (Author: Codex)
+
+- **Classification:** **NEW DIAGNOSTIC — NOT SUBMISSION-RELEVANT.** The
+  evaluator supplies q only as an unroll count, so this cannot be used for
+  competition inference.
+- **Mechanism:** one 400,906-parameter tied Transformer transition maps the
+  decimal digits of `(current state,N)` to the next-state digits. Training
+  rows are generated trace targets at depths 0,1,2,5,10,50,100 for 800
+  remainders; 256 remainders are disjoint for self-fed terminal evaluation.
+  The forward contains no arithmetic reduction operation.
+- **Result:** at 2,000 updates, teacher-forced loss is 0.000128 and throughput
+  139.8 steps/s. Greedy terminal exact is q=0 100.00%, q=1 100.00%, q=2
+  100.00%, q=5 72.27%, and q=10/50/100 **0.00%**.
+- **Classification:** Refuted the primitive-before-halting formulation at
+  q>=10. This supports the updated theory only in part: adding tied depth can
+  reach beyond q=3, but high one-step accuracy is not enough for scalable
+  execution because self-generated digit errors compound. Learned halting is
+  not promoted: it would choose when to stop an already-collapsed trajectory,
+  not repair state fidelity.
+- **Artifacts:** metrics, report, config, and checkpoint are durable at
+  `diagnostics/artifacts/somn-l40-2026-08-04/teacher_depth_reducer/`.
