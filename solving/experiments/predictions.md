@@ -1310,3 +1310,9 @@ PREDICT:    If validated serial reduction can compose with learned squaring,
             accuracy will track one-step quality rather than collapsing at T=2.
             Refutation is near-zero held-out-N one-step exact or a major gap
             between one-step and self-fed rollout despite correct primitive loss.
+RESULT:     refuted as a full unseen-N VDF step, with a localized reduction
+            failure — held-out-N Squareθ/raw-square exact is 100%, comparator
+            is 99.97%, but subtractor teacher exact is 80.36% and full
+            reduction after a correct square is 46.96% (q>=10: 29.92%). T=8
+            rollout remains 33.88%, so the primary problem is unseen-N serial
+            reduction, not square generation or catastrophic recurrent drift.

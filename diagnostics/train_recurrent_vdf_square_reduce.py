@@ -33,7 +33,7 @@ def square_rows(modulus_values):
 
 
 def reduction_rows(modulus_values):
-    return [(digits(q * modulus + remainder), digits(modulus), digits((q - 1) * modulus + remainder), q > 0, q, remainder, modulus) for modulus in modulus_values for remainder in range(modulus) for q in range(modulus - 1)]
+    return [(digits(q * modulus + remainder), digits(modulus), digits(((q - 1) if q else 0) * modulus + remainder), q > 0, q, remainder, modulus) for modulus in modulus_values for remainder in range(modulus) for q in range(modulus - 1)]
 
 
 class Serial(nn.Module):
@@ -114,9 +114,14 @@ def report(square, subtractor, comparator, modulus_values, device):
     rs, rn, rt = tensors(red, device)
     subtract_exact = float((subtractor(rs, rn).argmax(-1) == rt).all(-1).float().mean())
     comp_exact = float(((comparator(rs, rn).sigmoid() >= .5) == torch.tensor([row[3] for row in red], device=device)).float().mean())
-    predicted_raw = square(s, n).argmax(-1); one, reduce_steps = reduce_state(subtractor, comparator, predicted_raw, n)
+    predicted_raw = square(s, n).argmax(-1); true_reduced, _ = reduce_state(subtractor, comparator, raw, n); one, reduce_steps = reduce_state(subtractor, comparator, predicted_raw, n)
     target_one = torch.tensor([digits((value * value) % modulus) for _, _, _, value, modulus in sq], device=device)
     one_exact = float((one == target_one).all(-1).float().mean())
+    q_values = torch.tensor([value * value // modulus for _, _, _, value, modulus in sq], device=device)
+    q_buckets = {}
+    for name, lower, upper in (("q0", 0, 0), ("q1", 1, 1), ("q2_3", 2, 3), ("q4_9", 4, 9), ("q10_plus", 10, 10_000)):
+        mask = (q_values >= lower) & (q_values <= upper)
+        q_buckets[name] = {"examples": int(mask.sum()), "reduce_exact": float((true_reduced[mask] == target_one[mask]).all(-1).float().mean()) if mask.any() else None}
     rollout = {}
     base = torch.tensor([digits(value) for modulus in modulus_values for value in range(modulus)], device=device)
     base_n = torch.tensor([digits(modulus) for modulus in modulus_values for _ in range(modulus)], device=device)
@@ -131,15 +136,19 @@ def report(square, subtractor, comparator, modulus_values, device):
                 expected_values.append(digits(value))
         expected = torch.tensor(expected_values, device=device)
         rollout[str(depth)] = float((current == expected).all(-1).float().mean())
-    return {"square_exact": square_exact, "subtractor_exact": subtract_exact, "comparator_accuracy": comp_exact, "one_step_exact": one_exact, "mean_reduction_steps": float(reduce_steps.float().mean()), "rollout_exact": rollout, "examples": len(sq)}
+    return {"square_exact": square_exact, "raw_square_representation_exact": square_exact, "subtractor_exact": subtract_exact, "comparator_accuracy": comp_exact, "reduce_given_true_square_exact": float((true_reduced == target_one).all(-1).float().mean()), "reduce_given_model_square_exact": one_exact, "one_step_exact": one_exact, "q_buckets": q_buckets, "mean_reduction_steps": float(reduce_steps.float().mean()), "rollout_exact": rollout, "examples": len(sq)}
 
 
 def main():
-    parser = argparse.ArgumentParser(); parser.add_argument("--out", required=True); parser.add_argument("--seed", type=int, default=0); parser.add_argument("--steps", type=int, default=3000); parser.add_argument("--device", default="cuda")
+    parser = argparse.ArgumentParser(); parser.add_argument("--out", required=True); parser.add_argument("--seed", type=int, default=0); parser.add_argument("--steps", type=int, default=3000); parser.add_argument("--checkpoint"); parser.add_argument("--device", default="cuda")
     args = parser.parse_args(); all_moduli = moduli(args.seed); train_moduli, test_moduli = all_moduli[:18], all_moduli[18:]
     square, subtractor, comparator = Square().to(args.device), Subtractor().to(args.device), Comparator().to(args.device)
-    reductions = reduction_rows(train_moduli)
-    train_comparator(comparator, reductions, args.steps, args.device); train_digits(subtractor, [row for row in reductions if row[3]], args.steps, args.device); train_digits(square, square_rows(train_moduli), args.steps, args.device)
+    if args.checkpoint:
+        weights = torch.load(args.checkpoint, map_location=args.device, weights_only=True)
+        square.load_state_dict(weights["square"]); subtractor.load_state_dict(weights["subtractor"]); comparator.load_state_dict(weights["comparator"])
+    else:
+        reductions = reduction_rows(train_moduli)
+        train_comparator(comparator, reductions, args.steps, args.device); train_digits(subtractor, [row for row in reductions if row[3]], args.steps, args.device); train_digits(square, square_rows(train_moduli), args.steps, args.device)
     square.eval(); subtractor.eval(); comparator.eval()
     result = {"width": WIDTH, "train_moduli": train_moduli, "test_moduli": test_moduli, "parameters": sum(p.numel() for m in (square, subtractor, comparator) for p in m.parameters()), "seen": report(square, subtractor, comparator, train_moduli, args.device), "unseen": report(square, subtractor, comparator, test_moduli, args.device)}
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True); (out / "eval_report.json").write_text(json.dumps(result, indent=2) + "\n"); torch.save({"square": square.state_dict(), "subtractor": subtractor.state_dict(), "comparator": comparator.state_dict()}, out / "cell.pt"); print(json.dumps(result), flush=True)

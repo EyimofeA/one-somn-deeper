@@ -122,6 +122,14 @@ still schedules repeated unit updates—102.05 mean inner updates at q=100—so 
 does not yet alter O(q) arithmetic cost. Evidence:
 `diagnostics/artifacts/somn-l40-2026-08-04/frozen_unit_threshold_bank_per_position/seed0/eval_report.json`.
 
+**Clean full recurrent VDF gate is refuted on held-out N:** in a complete W=4
+two-digit-semiprime regime, learned Squareθ is 100% exact even on held-out N,
+but learned serial reduction after that correct raw square is only 46.96%
+(q≥10: 29.92%) and T=8 is 33.88%. The square/reducer interface is clean; the
+remaining blocker is unseen-modulus reduction composition, not raw squaring or
+T-conditioned recurrence. Evidence:
+`diagnostics/artifacts/somn-l40-2026-08-04/recurrent_vdf_square_reduce_smalln/seed0/localization/eval_report.json`.
+
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
 **Evidence correction (2026-08-04, Codex):** the historical `pure reduction

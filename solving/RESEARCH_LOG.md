@@ -1753,3 +1753,36 @@ composition, still locally and without promoting weights to a submission.
   require up to 4,194,302 unit reductions per square, so the current hierarchy
   is not eligible for Medium integration. Full source-backed audit:
   `VDF_PIPELINE_AUDIT.md`.
+
+### 2026-08-04 — Clean recurrent learned VDF cell, small-N gate (Author: Codex)
+
+- **Architecture:** a single reusable VDF transition applies an LSD-first
+  learned raw-square GRU, then repeatedly applies learned comparator and
+  learned subtractor GRUs until the comparator says canonical. The same modules
+  have no phase-specific weights and are rolled out for T=1…8. Synthetic
+  intermediate labels train the three primitives; the forward contains no
+  handwritten multiplication, comparison, subtraction, modulo, quotient, or
+  fixed-T answer path. The complete regime uses every residue of 18 seen and 8
+  held-out two-digit semiprime moduli, so raw squares fit W=4 and reducer q
+  support is complete for every seen modulus.
+- **Run recovery:** the first remote artifact never trained because its q=0
+  identity target was accidentally generated as a negative number. Repairing
+  only that label to `r→r` produced the reported clean run; no architecture or
+  optimization setting changed.
+- **Seen-N result (1,147 examples):** Squareθ and its raw square representation
+  are 100%; subtractor teacher exact 97.63%; comparator 99.98%; composed
+  T=1 exact 93.72%. Rollout T=1…8 is 93.72, 91.37, 89.89, 88.14, 88.14, 88.06,
+  88.06, 88.14%.
+- **Held-out-N result (428 examples):** Squareθ/raw-square representation are
+  100%; comparator is 99.97%; subtractor teacher exact is 80.36%; reduction
+  given true raw square is 46.96%; reduction given model raw square is the
+  identical 46.96%. Thus there is no square/reducer interface mismatch. Final
+  rollout T=1…8 is 46.96, 37.62, 34.11, 33.88, 34.58, 34.81, 34.81, 33.88%.
+- **Failure localization:** held-out reduction exact by true quotient is q=0
+  100% (62), q=1 90.91% (22), q=2–3 54.29% (35), q=4–9 41.54% (65), and q≥10
+  29.92% (244). Training includes the same numerical q range, so the failure
+  is unseen-modulus serial subtraction/reduction generalization, magnified by
+  repeated transitions, rather than missing quotient-depth support or a square
+  representation distribution shift. Do not integrate this cell into a
+  submission. Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/recurrent_vdf_square_reduce_smalln/seed0/localization/eval_report.json`.
