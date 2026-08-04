@@ -1115,3 +1115,19 @@ RESULT:     confirmed — all 206,848 held-out transition cases q=0..100 are
             raw subtractor, composed transition, and rollout exactness (2,048
             examples per q). Direct intermediate-state support removes the
             former q=30 primitive frontier in this controlled range.
+
+DATE:       2026-08-04
+CARD:       taskb_comparator_reducer_q100_horizon_probe
+CHANGE:     Freeze the q=0..100 curriculum checkpoint and evaluate only unseen,
+            representable q=101,110,120,130,140 inputs. No training, model,
+            representation, or loop change.
+PREDICT:    If q=0..100 trace support teaches a reusable primitive rather than
+            merely its observed state range, both one-step transition and
+            autonomous rollout remain near-perfect through q=140. A teacher
+            collapse first would instead show a new support frontier; a
+            teacher-to-rollout gap would show recurrence accumulation.
+RESULT:     confirmed in the representable extrapolation band — q=101,110,120,
+            130,140 are all 100% comparator, raw subtractor, composed
+            transition, and autonomous rollout exact (2,048 examples/bucket).
+            The initial q≥120 0% read was an audit-cap bug (110 steps), fixed
+            before interpreting the experiment; the rerun used q_max+10 steps.

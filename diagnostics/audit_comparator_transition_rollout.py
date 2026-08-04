@@ -22,7 +22,7 @@ def inputs(rows, quotient, device):
 
 
 @torch.no_grad()
-def evaluate(model, rows, quotients, device):
+def evaluate(model, rows, quotients, max_steps, device):
     result = {}
     for quotient in quotients:
         state, modulus, remainder, expected_next = inputs(rows, quotient, device)
@@ -34,7 +34,7 @@ def evaluate(model, rows, quotients, device):
         active = torch.ones(len(rows), dtype=torch.bool, device=device)
         first_error = torch.full((len(rows),), -1, dtype=torch.long, device=device)  # 0 branch, 1 subtractor
         stopped = torch.full((len(rows),), -1, dtype=torch.long, device=device)
-        for step in range(111):
+        for step in range(max_steps + 1):
             log_probs, current_gate = model(state, modulus)
             candidate = log_probs.argmax(dim=-1); continue_ = current_gate >= .5
             true_continue = step < quotient
@@ -44,7 +44,7 @@ def evaluate(model, rows, quotients, device):
             first_error[branch_error] = 0; first_error[subtractor_error] = 1
             newly_stopped = active & ~continue_; stopped[newly_stopped] = step
             active &= continue_
-            if step == 110 or not active.any():
+            if step == max_steps or not active.any():
                 break
             state = torch.where(active[:, None], candidate, state)
             if step < quotient - 1:
@@ -73,6 +73,8 @@ def main():
     parser.add_argument("--checkpoint", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--quotients", default="1,5,10,20,30,50,100", help="Comma-separated quotient buckets to audit.")
+    parser.add_argument("--max-steps", type=int, help="Rollout cap; defaults to the largest requested quotient plus ten.")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     checkpoint = torch.load(args.checkpoint, map_location=args.device, weights_only=True)
@@ -80,7 +82,8 @@ def main():
     subtractor = SerialSubtractor().to(args.device); subtractor.load_state_dict(checkpoint["subtractor"])
     model = ComparatorReducer(comparator, subtractor).to(args.device).eval()
     rows = canonical_rows(semiprimes(args.seed, 64)[48:], args.seed, 128)
-    report = evaluate(model, rows, (1, 5, 10, 20, 30, 50, 100), args.device)
+    quotients = tuple(int(value) for value in args.quotients.split(","))
+    report = evaluate(model, rows, quotients, args.max_steps or max(quotients) + 10, args.device)
     Path(args.out).write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report), flush=True)
 

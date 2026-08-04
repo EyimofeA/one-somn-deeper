@@ -1510,3 +1510,21 @@ composition, still locally and without promoting weights to a submission.
   in-range q≤100 execution only; it does not establish quotient extrapolation,
   unlimited reduction, or a competition solution. Artifact (not committed):
   `diagnostics/artifacts/somn-l40-2026-08-04/serial_comparator_controlled_reducer_seed0/stage3_q100/`.
+
+### 2026-08-04 — Frozen q=101..140 horizon probe (Author: Codex)
+
+- **Question:** after q=0..100 trace support, does the learned local reducer
+  execute beyond that observed quotient horizon? The q≤100 checkpoint was
+  frozen and evaluated at q=101, 110, 120, 130, and 140. This is the largest
+  shared extrapolation range that fits all held-out-modulus states in the fixed
+  six-decimal-digit representation; q=145 would overflow for some examples.
+- **Result:** every selected bucket has 100% comparator accuracy, raw subtractor
+  next-state exactness, composed transition exactness, and autonomous final
+  remainder exactness (2,048 examples/bucket). The first attempt displayed 0%
+  q≥120 rollout because the audit itself retained an obsolete 110-step cap;
+  after making the cap `max(requested_q)+10`, the frozen rerun is perfect.
+- **Interpretation:** support through q=100 produces at least 40% quotient-depth
+  extrapolation in this controlled width-six range. It remains a bounded
+  extrapolation result, not evidence for unlimited execution; representation
+  width blocks a clean all-example test at q≥145. Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/serial_comparator_controlled_reducer_seed0/stage3_q100/q101_140_horizon_probe.json`.

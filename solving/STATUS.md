@@ -57,8 +57,11 @@ control extended balanced q=0..100 transition support, and it passes: all
 with correct halting and q=0 fixed points. The q=30 failure was therefore a
 support gap, not a finite-horizon limit in this trained range. This supports
 comparator/subtractor decomposition plus full trace support as a valid learned
-reducer mechanism, but does not establish quotient extrapolation, unlimited
-reduction, or solve the competition's squaring task.
+reducer mechanism. A frozen q=101/110/120/130/140 probe is also 100% one-step
+and autonomous exact for every bucket (2,048 each): bounded extrapolation past
+the observed q≤100 range is established. The fixed six-digit state cannot
+represent every held-out-N example at q≥145, so unlimited reduction and the
+competition's squaring task remain open.
 
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
