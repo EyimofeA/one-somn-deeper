@@ -54,6 +54,45 @@ def rows(moduli: list[int], seed: int, per_modulus: int, heldout: bool, qs: rang
     return result
 
 
+def canonical_rows(moduli: list[int], seed: int, per_modulus: int) -> list[tuple[list[int], list[int], list[int]]]:
+    """Learned identity targets r -> r for sampled canonical states."""
+    result = []
+    for index, modulus in enumerate(moduli):
+        rng = random.Random(seed + 10_000 * index)
+        sampled = rng.sample(list(range(modulus)), per_modulus)
+        for remainder in sampled:
+            state = digits(remainder)[::-1]
+            result.append((state, digits(modulus)[::-1], state))
+    random.Random(seed + 41).shuffle(result)
+    return result
+
+
+@torch.no_grad()
+def wrong_canonical_recovery_rows(checkpoint: str, moduli: list[int], seed: int, per_modulus: int, max_q: int, steps: int, device: str) -> list[tuple[list[int], list[int], list[int]]]:
+    """Frozen-model generated s<N, s!=r states, labeled only with their true r."""
+    base = canonical_rows(moduli, seed, per_modulus)
+    modulus = torch.tensor([row[1] for row in base], dtype=torch.long, device=device)
+    target = torch.tensor([row[0] for row in base], dtype=torch.long, device=device)
+    powers = torch.tensor([10**i for i in range(WIDTH)], device=device)
+    modulus_value = (modulus * powers).sum(dim=-1)
+    teacher = SerialSubtractor().to(device)
+    teacher.load_state_dict(torch.load(checkpoint, map_location=device, weights_only=True))
+    teacher.eval()
+    result, seen = [], set()
+    for quotient in range(max_q + 1):
+        state = torch.tensor([digits(quotient * int("".join(map(str, row[1][::-1]))) + int("".join(map(str, row[0][::-1]))))[::-1] for row in base], dtype=torch.long, device=device)
+        for _ in range(steps):
+            canonical = (state * powers).sum(dim=-1) < modulus_value
+            wrong = canonical & ~(state == target).all(dim=-1)
+            for index in wrong.nonzero(as_tuple=False).flatten().tolist():
+                row = (tuple(state[index].tolist()), tuple(modulus[index].tolist()), tuple(target[index].tolist()))
+                if row not in seen:
+                    seen.add(row); result.append(tuple(map(list, row)))
+            state = teacher(state, modulus).argmax(dim=-1)
+    del teacher
+    return result
+
+
 class SerialSubtractor(nn.Module):
     """A learned six-step recurrence over aligned operand/modulus digits."""
 
@@ -104,12 +143,20 @@ def main() -> None:
     ap.add_argument("--test-moduli", type=int, default=16)
     ap.add_argument("--per-modulus", type=int, default=128)
     ap.add_argument("--max-train-q", type=int, default=1)
+    ap.add_argument("--canonical-identity", action="store_true")
+    ap.add_argument("--recovery-checkpoint")
+    ap.add_argument("--recovery-max-q", type=int, default=10)
+    ap.add_argument("--recovery-steps", type=int, default=24)
     ap.add_argument("--device", default="cuda")
     args = ap.parse_args()
 
     all_moduli = semiprimes(args.seed, args.train_moduli + args.test_moduli)
     train_moduli, test_moduli = all_moduli[:args.train_moduli], all_moduli[args.train_moduli:]
-    train = rows(train_moduli, args.seed, args.per_modulus, heldout=False, qs=range(1, args.max_train_q + 1))
+    transitions = rows(train_moduli, args.seed, args.per_modulus, heldout=False, qs=range(1, args.max_train_q + 1))
+    identity = canonical_rows(train_moduli, args.seed, args.per_modulus) if args.canonical_identity else []
+    recovery = wrong_canonical_recovery_rows(args.recovery_checkpoint, train_moduli, args.seed, args.per_modulus, args.recovery_max_q, args.recovery_steps, args.device) if args.recovery_checkpoint else []
+    train = transitions + identity + recovery
+    random.Random(args.seed + 91).shuffle(train)
     seen = rows(train_moduli, args.seed, args.per_modulus, heldout=True)
     unseen = rows(test_moduli, args.seed, args.per_modulus, heldout=False)
     model = SerialSubtractor().to(args.device)
@@ -118,9 +165,13 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     (out / "config.json").write_text(json.dumps({
         "classification": "NEW REIMPLEMENTATION — NOT SUBMISSION-RELEVANT",
-        "task": "q=1 learned serial subtraction", "train_moduli": train_moduli,
+        "task": "learned serial subtraction", "train_moduli": train_moduli,
         "test_moduli": test_moduli, "steps": args.steps, "batch_size": args.batch_size,
-        "per_modulus": args.per_modulus, "max_train_q": args.max_train_q, "model": "LSD-to-MSD learned GRU digit cell",
+        "per_modulus": args.per_modulus, "max_train_q": args.max_train_q,
+        "canonical_identity": args.canonical_identity, "recovery_checkpoint": args.recovery_checkpoint,
+        "recovery_max_q": args.recovery_max_q, "recovery_steps": args.recovery_steps,
+        "transition_examples": len(transitions), "identity_examples": len(identity), "recovery_examples": len(recovery),
+        "model": "LSD-to-MSD learned GRU digit cell",
     }, indent=2) + "\n")
     start = time.perf_counter()
     with (out / "metrics.jsonl").open("w") as log:

@@ -34,14 +34,19 @@ autonomous execution 100% through q=13. The preceding stop head cannot be
 reused across independently trained GRUs because latent coordinates are not
 stable; this is a control, not a modular-arithmetic failure.
 
-**Current limiter:** autonomous q=14 has 3.12% accumulated stop-head false
-positives. At q=15–16, the subtractor can enter an *incorrect but canonical*
-state that fixed-depth rollout later self-corrects, whereas legal autonomous
-halting correctly freezes it. q>16 is additionally limited by the deliberate
-16-step cap. The serial reducer is therefore a strong learned convergent map,
-but has not yet proven the state invariant required of a reusable autonomous
-reduction primitive. Do not call q-supplied terminal rollout alone an
-algorithmic solution.
+**Stability gate is refuted:** the frozen q=1..10 subtractor changes every
+held-out true remainder under one more learned update (`F(r,N) != r` for all
+2,048/2,048 samples). A stability-gated terminal rule therefore cannot halt
+even q=0. Adding identity `r→r` and frozen-trajectory wrong-canonical recovery
+labels also fails to generalize this invariant to unseen N and damages the
+formerly perfect fixed-depth rollout (q=10 falls to 74.56%).
+
+**Current conclusion:** this serial cell learns a q-indexed convergent
+trajectory, not a reduction transition with canonical states as a fixed-point
+set. Do not scale the identity/recovery mixture, q support, or seed count. The
+next research direction must change how state identity is represented or make
+the transition's fixed-point invariant locally identifiable across N; it is not
+an optimization-budget problem in this formulation.
 
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 

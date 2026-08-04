@@ -1393,3 +1393,29 @@ composition, still locally and without promoting weights to a submission.
   100% q-supplied terminal rollout does not yet establish a true reduction
   primitive with a correct state invariant. Across generated states, stop-head
   false-positive rate is 0.0826% and false-negative rate is 0%.
+
+### 2026-08-04 — Stability gate and absorbing/recovery support (Author: Codex)
+
+- **Frozen stability diagnostic:** with the q=1..10 subtractor and rebound stop
+  head unchanged, a state could halt only when learned-canonical and unchanged
+  by one further learned subtraction; the cap was raised 16→24. This is
+  diagnostic-only code, never a submission mechanism. On every q=0..20 bin,
+  all 2,048 true remainders have `F(r,N) != r`; hence every example is a
+  non-stop at the cap and final exact is 0%. Wrong canonical events never stay
+  unchanged or directly repair to r; all transition to another wrong state.
+- **Required next condition:** held q=1..10 transitions, width-six GRU,
+  optimizer family, batch, and 4,000 updates fixed; added 6,144 canonical
+  identity rows r→r plus 2,299 unique wrong-canonical recovery rows generated
+  by the frozen prior checkpoint on seen moduli. The new subtractor was then
+  given its necessary fresh 129-parameter stop readout solely to bind to its
+  independently trained latent coordinates.
+- **Result:** refuted on unseen N. Direct true-remainder stability remains 0%
+  in every q bin (2,048/2,048 non-absorbing each). Stability-gated q=0..20 is
+  consequently 0% final exact and 100% non-stop. Fixed-depth terminal rollout,
+  formerly 100% q=1..20, is now 100% q=1..2, 99.66% q=3, 98.44% q=4, 94.43%
+  q=5, 74.56% q=10, and 66.26% q=20. Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/serial_subtractor_width6_q10_absorbing_recovery_seed0/`.
+- **Interpretation:** naive identity and frozen-trajectory recovery examples do
+  not generalize their invariant across unseen moduli. They interfere with the
+  compositional q-transition map, rather than converting it into a learned
+  reduction primitive. Do not scale this data mixture or add q support/seeds.
