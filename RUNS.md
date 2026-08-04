@@ -28,6 +28,8 @@ location belong in the corresponding committed report instead.
 For a remote mirror rather than a Git checkout, set `RESEARCH_COMMIT` to the
 source revision before invoking the wrapper. The wrapper then records that
 immutable revision rather than guessing from the remote working directory.
+Set `PYTHON_BIN` to the evaluator environment's Python executable when its
+virtual environment is not active in the launcher shell.
 
 ## What the official runner records
 

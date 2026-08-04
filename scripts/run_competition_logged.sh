@@ -13,6 +13,7 @@ submission="$3"
 run_root="$4"
 run_dir="$run_root/$name"
 repo_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+python_bin="${PYTHON_BIN:-python}"
 
 mkdir -p "$run_dir/checkpoints"
 if [ -n "${RESEARCH_COMMIT:-}" ]; then
@@ -23,7 +24,7 @@ fi
 git rev-parse HEAD > "$run_dir/evaluator_commit.txt"
 cp "$manifest" "$run_dir/manifest.json"
 cp "$submission" "$run_dir/submission.py"
-python - "$name" "$manifest" "$submission" "$run_dir" <<'PY' > "$run_dir/config.json"
+"$python_bin" - "$name" "$manifest" "$submission" "$run_dir" <<'PY' > "$run_dir/config.json"
 import json, pathlib, sys
 print(json.dumps({"name": sys.argv[1], "manifest": sys.argv[2], "submission": sys.argv[3], "run_dir": sys.argv[4]}, indent=2))
 PY
@@ -37,7 +38,7 @@ if command -v nvidia-smi >/dev/null 2>&1; then
 fi
 
 started=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-python -m benchmark.runner --manifest "$manifest" --submission-file "$submission" \
+"$python_bin" -m benchmark.runner --manifest "$manifest" --submission-file "$submission" \
   --include-structured-metrics \
   2>&1 | tee "$run_dir/train.log"
 ended=$(date -u +%Y-%m-%dT%H:%M:%SZ)
@@ -45,7 +46,7 @@ printf 'started_utc: %s\nended_utc: %s\n' "$started" "$ended" > "$run_dir/summar
 
 # RESULT_JSON and structured_metrics are evaluator-owned. Preserve both the full
 # result and the bounded per-event history without changing evaluator behavior.
-python - "$run_dir/train.log" "$run_dir/result.json" "$run_dir/metrics.jsonl" <<'PY'
+"$python_bin" - "$run_dir/train.log" "$run_dir/result.json" "$run_dir/metrics.jsonl" <<'PY'
 import json
 import pathlib
 import sys
