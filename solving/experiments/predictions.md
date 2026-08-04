@@ -1358,3 +1358,14 @@ PREDICT:    If the residual 4.44% held-out T=1 error is optimization-limited,
             remain near the original values, the residual is a representation
             or unseen-modulus generalization limit rather than insufficient
             update count.
+
+DATE:       2026-08-05
+CARD:       fable_muon_adamw_e1_optimizer_control
+CHANGE:     Replace only the existing T-cap/AdamW submission's optimizer with
+            the already-written Muon+AdamW hybrid source; architecture, prompt
+            features, depth cap, manifest, and current e1 evaluator are held
+            fixed.
+PREDICT:    Muon may improve transformation-matrix conditioning enough to beat
+            the T-cap/AdamW 8.50% hosted mean; refutation is local e1 mean at
+            or below 4.33%, which gives no margin over its pre-hosted baseline
+            and does not justify another Easy attempt.
