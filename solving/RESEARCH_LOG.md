@@ -1442,3 +1442,30 @@ composition, still locally and without promoting weights to a submission.
   failure. It motivates—but does not establish—the need for a future learned
   comparator/subtractor decomposition. Artifact (not committed):
   `diagnostics/artifacts/somn-l40-2026-08-04/serial_subtractor_width6_piecewise_q0_q20_seed0/`.
+
+### 2026-08-04 — Comparator-controlled serial reducer (Author: Codex)
+
+- **Why this architecture:** the monolithic serial GRU learned unseen-N
+  subtraction but could not fit the q=0 branch `F(r,N)=r`. This card isolates
+  the discontinuous decision: a learned LSD-first GRU comparator predicts
+  `x≥N`; its probability selects learned subtractor digit probabilities or an
+  identity residual. No handwritten comparison or arithmetic occurs in either
+  learned module's forward; the residual is diagnostic-only and not a
+  submission design.
+- **Stage 1 comparator:** balanced seen-N data has 12,480 rows (half `<N`, half
+  `≥N`) and explicit N−1/N/N+1 cases. The learned comparator is 100% seen-N,
+  99.9279% unseen-N (4,160 rows), and 100% on all 64 held-out boundary rows.
+- **Stage 2 gated reducer:** initialized from Stage 1 and the q=1..10 serial
+  subtractor, then jointly trained on q=0..20 identity/reduction traces. On
+  unseen N, transition exact is 100% q=0..28 (including q=0/1/5/10/20) and
+  true-remainder fixed-point exact is 100%. Autonomous remainder and exact
+  halt are 100% q=0..28 with zero early, late, and non-stops.
+- **Frontier:** q=29 is first degradation (94.04%, all error is early stop);
+  q=30 is 93.75%; q=100 is 37.50%, again entirely early stops after a learned
+  subtraction produces a state below N too early. Thus comparison repairs the
+  established fixed-point failure but does not make high-q learned subtraction
+  exact. Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/serial_comparator_controlled_reducer_seed0/`.
+- **Classification:** supported: the previous missing capability was a learned
+  comparison/branch condition, not digit order. Not established: a complete
+  modular reducer, competition solution, or unlimited quotient extrapolation.

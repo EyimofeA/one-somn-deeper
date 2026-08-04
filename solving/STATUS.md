@@ -40,17 +40,18 @@ held-out true remainder under one more learned update (`F(r,N) != r` for all
 even q=0. Adding identity plus frozen-trajectory recovery labels was harmful.
 
 **Clean piecewise control:** equal q=0 identity and q=1..20 subtraction support
-removes recovery labels but still has 0% q=0 fixed-point exact on both seen
-(0/6,144) and unseen (0/2,048) remainders, despite 100% unseen q=1/5/10
-subtraction. This is a fitting/interference result at the fixed budget, not an
-unseen-N generalization claim. It retains strong prescribed-depth rollout
-(100% through q=13; 89.84% q=100), but no halting evaluation is valid.
+in a monolithic GRU has 0% q=0 fixed-point exact even on seen remainders,
+despite 100% q=1/5/10 subtraction. It is a fitting/interference result, not an
+unseen-N identity claim.
 
-**Current conclusion:** the serial GRU has not learned the piecewise fixed-point
-transition even when directly supervised. Do not add a comparator yet. A future
-comparator/subtractor decomposition is motivated by this failure, but it is not
-yet established; first distinguish whether curriculum/exposure can fit q=0
-identity without sacrificing q>0 subtraction.
+**Comparator-controlled result:** a separate learned serial comparator reaches
+99.93% unseen-N comparison and 100% held-out N−1/N/N+1 boundaries. Gating the
+learned subtractor against an identity residual gives 100% q=0 fixed points,
+transitions through q=28, and complete autonomous unseen-N execution q=0..28.
+The first failure q=29 is an early stop after subtraction error; q=100 is
+37.50%. This supports comparator/subtractor decomposition as the missing local
+branch mechanism, but does not establish an unlimited reducer or solve the
+competition's squaring task.
 
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 

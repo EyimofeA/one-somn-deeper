@@ -1057,3 +1057,23 @@ RESULT:     refuted — q=0 fixed-point transition exact is 0% on both 6,144 see
             was not fitted at this balanced fixed budget, so this is direct
             data-family optimization/interference, not evidence of an unseen-N
             representation failure; do not evaluate or retrain halting.
+
+DATE:       2026-08-04
+CARD:       taskb_serial_comparator_controlled_reducer
+CHANGE:     Replace monolithic q=0/q>0 transition selection with a learned
+            serial comparator whose probability gates learned subtractor logits
+            versus an input identity residual. First train/evaluate the
+            comparator alone; then initialize from it and the q=1..10 serial
+            subtractor, jointly train the gated composition on q=0..20 traces.
+PREDICT:    If the missing operation is comparison, the comparator has
+            near-perfect unseen-N and N−1/N/N+1 accuracy, and the gated reducer
+            gains q=0 fixed points without losing q>0 transitions; autonomous
+            q=0..100 then halts at the true q. Refutation: comparator boundary
+            generalization fails, or it succeeds but fixed points still fail,
+            showing the missing capability lies beyond comparison.
+RESULT:     confirmed for the branch condition — Stage 1 unseen-N comparison is
+            99.93% and boundary accuracy is 100%. Stage 2 has 100% q=0 fixed
+            points and q=0..28 autonomous remainder/exact-halt accuracy; first
+            degradation is q=29 (94.04%), reaching 37.50% at q=100 through
+            early stops after subtractor error. Comparison solves canonical
+            identity but not the remaining high-q transition frontier.
