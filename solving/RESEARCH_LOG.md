@@ -1234,6 +1234,19 @@ composition, still locally and without promoting weights to a submission.
   reducer can execute an exact reusable transition for 166 quotient depths
   beyond its trained horizon. The later cliff still shows finite distribution
   support/representation limits; it does not refute extrapolation.
-- **Next stage:** per the staged plan, hold the architecture fixed and test
-  generalization over unseen moduli. This distinguishes a modular reduction
-  primitive from a fixed-N=1349 state mapping.
+- **Next stage:** per the staged plan, hold the architecture fixed and train
+  on N={1081,1349,1763}, then test unseen N={1189,1517}. This distinguishes a
+  modular reduction primitive from a fixed-N=1349 state mapping.
+
+### 2026-08-04 — Multi-N unseen-modulus screen (Author: Codex)
+
+- **Training:** fixed reducer, q=0..500 traces, N={1081,1349,1763}, 15,000
+  updates (approximately matched transition-row exposure). Held-out remainders
+  on seen N reach 95.31–97.66% terminal exact at q=100, so this is a screening
+  result rather than a clean perfect-in-range reproduction.
+- **Held-out-modulus gate:** at q=1, N=1189 and N=1517 have 0% exact next-state
+  and terminal remainder accuracy. Token accuracy is 66.06% / 56.74%, which is
+  insufficient: the decimal state has at least one wrong digit on every case.
+- **Classification:** Refuted the modulus-generalization hypothesis for this
+  representation/training formulation. Do not spend compute on deeper unseen-N
+  rollouts or competition-distribution evaluation of this checkpoint.

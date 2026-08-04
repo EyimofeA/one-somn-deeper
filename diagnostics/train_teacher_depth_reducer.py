@@ -62,21 +62,21 @@ class ReducerCell(nn.Module):
 
 
 def make_rows(
-    seed: int, count: int, used_remainders: set[int], depths: tuple[int, ...] = DEPTHS
+    n_value: int, seed: int, count: int, used_remainders: set[int], depths: tuple[int, ...] = DEPTHS
 ) -> list[tuple[list[int], list[int], list[int], bool]]:
     rng = random.Random(seed)
-    available = [r for r in range(N_VALUE) if r not in used_remainders]
+    available = [r for r in range(n_value) if r not in used_remainders]
     if count > len(available):
         raise ValueError("not enough disjoint remainders")
     remainders = rng.sample(available, count)
     used_remainders.update(remainders)
     rows = []
-    n = digits(N_VALUE, N_WIDTH)
+    n = digits(n_value, N_WIDTH)
     for remainder in remainders:
         for depth in depths:
-            current = remainder + depth * N_VALUE
+            current = remainder + depth * n_value
             # Label construction only: the cell must learn this transition.
-            next_state = current if depth == 0 else current - N_VALUE
+            next_state = current if depth == 0 else current - n_value
             rows.append((n, digits(current, STATE_WIDTH), digits(next_state, STATE_WIDTH), depth == 0))
     rng.shuffle(rows)
     return rows
@@ -91,9 +91,9 @@ def batch_tensors(rows, device: str):
 
 
 @torch.no_grad()
-def terminal_exact(model: ReducerCell, remainders: list[int], depth: int, device: str) -> float:
-    n = torch.tensor([digits(N_VALUE, N_WIDTH)] * len(remainders), dtype=torch.long, device=device)
-    state = torch.tensor([digits(r + depth * N_VALUE, STATE_WIDTH) for r in remainders], dtype=torch.long, device=device)
+def terminal_exact(model: ReducerCell, n_value: int, remainders: list[int], depth: int, device: str) -> float:
+    n = torch.tensor([digits(n_value, N_WIDTH)] * len(remainders), dtype=torch.long, device=device)
+    state = torch.tensor([digits(r + depth * n_value, STATE_WIDTH) for r in remainders], dtype=torch.long, device=device)
     for _ in range(depth):
         state = model(n, state).argmax(dim=-1)
     target = torch.tensor([digits(r, STATE_WIDTH) for r in remainders], dtype=torch.long, device=device)
@@ -101,12 +101,12 @@ def terminal_exact(model: ReducerCell, remainders: list[int], depth: int, device
 
 
 @torch.no_grad()
-def autonomous_halt_report(model: ReducerCell, remainders: list[int], device: str, max_steps: int = 120) -> dict:
+def autonomous_halt_report(model: ReducerCell, n_value: int, remainders: list[int], device: str, max_steps: int = 120) -> dict:
     """Bounded diagnostic loop; q is used only to score, never to control it."""
     reports = {}
     for depth in DEPTHS:
-        n = torch.tensor([digits(N_VALUE, N_WIDTH)] * len(remainders), dtype=torch.long, device=device)
-        state = torch.tensor([digits(r + depth * N_VALUE, STATE_WIDTH) for r in remainders], dtype=torch.long, device=device)
+        n = torch.tensor([digits(n_value, N_WIDTH)] * len(remainders), dtype=torch.long, device=device)
+        state = torch.tensor([digits(r + depth * n_value, STATE_WIDTH) for r in remainders], dtype=torch.long, device=device)
         target = torch.tensor([digits(r, STATE_WIDTH) for r in remainders], dtype=torch.long, device=device)
         active = torch.ones(len(remainders), dtype=torch.bool, device=device)
         stopped_at = torch.full((len(remainders),), -1, dtype=torch.long, device=device)
@@ -143,21 +143,30 @@ def main() -> None:
     ap.add_argument("--batch-size", type=int, default=512)
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--max-train-depth", type=int, default=None)
+    ap.add_argument("--n-values", type=int, nargs="+", default=[N_VALUE])
     ap.add_argument("--learn-stop", action="store_true")
     args = ap.parse_args()
+    if any(n < 1000 or n > 9999 for n in args.n_values):
+        raise ValueError("all diagnostic moduli must be four digits")
 
     torch.manual_seed(args.seed)
-    used: set[int] = set()
     train_depths = DEPTHS if args.max_train_depth is None else tuple(range(args.max_train_depth + 1))
-    train_rows = make_rows(args.seed, 800, used, train_depths)
-    test_remainders = random.Random(args.seed + 1).sample([r for r in range(N_VALUE) if r not in used], 256)
+    train_rows = []
+    test_remainders_by_n = {}
+    for index, n_value in enumerate(args.n_values):
+        used: set[int] = set()
+        train_rows.extend(make_rows(n_value, args.seed + 10_000 * index, 800, used, train_depths))
+        test_remainders_by_n[n_value] = random.Random(args.seed + 1 + 10_000 * index).sample(
+            [r for r in range(n_value) if r not in used], 256
+        )
+    random.Random(args.seed).shuffle(train_rows)
     model = ReducerCell(with_stop_head=args.learn_stop).to(args.device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=0.01)
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     (out / "config.json").write_text(json.dumps({
         "classification": "NEW DIAGNOSTIC — NOT SUBMISSION-RELEVANT",
-        "n": N_VALUE, "depths": train_depths, "seed": args.seed, "steps": args.steps,
+        "n_values": args.n_values, "depths": train_depths, "seed": args.seed, "steps": args.steps,
         "batch_size": args.batch_size, "train_remainders": 800,
         "heldout_remainders": 256, "model": "tied learned decimal transition",
         "learn_stop": args.learn_stop,
@@ -184,7 +193,11 @@ def main() -> None:
             optimizer.step()
             if step % 200 == 0 or step == args.steps:
                 model.eval()
-                exact = {str(depth): terminal_exact(model, test_remainders, depth, args.device) for depth in DEPTHS}
+                exact = {
+                    str(n_value): {str(depth): terminal_exact(model, n_value, remainders, depth, args.device)
+                                   for depth in DEPTHS}
+                    for n_value, remainders in test_remainders_by_n.items()
+                }
                 record = {
                     "step": step, "loss": float(loss.detach()), "transition_loss": float(transition_loss.detach()),
                     "stop_loss": float(stop_loss.detach()), "steps_per_sec": step / (time.perf_counter() - start),
@@ -195,7 +208,11 @@ def main() -> None:
                 print(json.dumps(record), flush=True)
                 model.train()
     model.eval()
-    final = {str(depth): terminal_exact(model, test_remainders, depth, args.device) for depth in DEPTHS}
+    final = {
+        str(n_value): {str(depth): terminal_exact(model, n_value, remainders, depth, args.device)
+                       for depth in DEPTHS}
+        for n_value, remainders in test_remainders_by_n.items()
+    }
     report = {
         "terminal_exact": final,
         "parameters": sum(p.numel() for p in model.parameters()),
@@ -203,7 +220,10 @@ def main() -> None:
         "note": "Teacher depth is evaluator-supplied; this is not legal submission inference.",
     }
     if args.learn_stop:
-        report["autonomous_halt"] = autonomous_halt_report(model, test_remainders, args.device)
+        report["autonomous_halt"] = {
+            str(n_value): autonomous_halt_report(model, n_value, remainders, args.device)
+            for n_value, remainders in test_remainders_by_n.items()
+        }
     (out / "eval_report.json").write_text(json.dumps(report, indent=2) + "\n")
     torch.save(model.state_dict(), out / "final.pt")
     print(json.dumps(report), flush=True)

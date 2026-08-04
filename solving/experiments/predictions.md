@@ -832,10 +832,16 @@ DATE:       2026-08-04
 CARD:       taskb_reducer_unseen_modulus_screen
 CHANGE:     Hold the tied reducer architecture, optimizer, batch size, trace
             support q=0..500, update exposure, and evaluation protocol fixed;
-            replace fixed N=1349 training with a small stated set of moduli and
+            replace fixed N=1349 training with N={1081,1349,1763} and
+            evaluate N={1189,1517};
             evaluate full traces on held-out N values. No inference algorithm or
             model capacity change.
 PREDICT:    If the transition learned modular reduction rather than a 1349-only
             state map, held-out moduli will retain strong in-range q terminal
             exact and halting. If it memorized fixed-N geometry, performance
             will collapse despite depth support.
+RESULT:     refuted — at q=1, held-out N=1189 and N=1517 each have 0% exact
+            next-state/remainder accuracy (though token accuracy is 66.06% and
+            56.74%). Deeper unseen-N rollout is therefore not informative. The
+            fixed architecture learns a shared seen-N mapping, not a reusable
+            modulus-general reduction primitive.

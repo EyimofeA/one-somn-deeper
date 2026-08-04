@@ -13,12 +13,12 @@ from train_teacher_depth_reducer import N_VALUE, N_WIDTH, STATE_WIDTH, ReducerCe
 
 
 @torch.no_grad()
-def measure(model: ReducerCell, remainders: list[int], depth: int, device: str, max_steps: int) -> dict:
-    n = torch.tensor([digits(N_VALUE, N_WIDTH)] * len(remainders), dtype=torch.long, device=device)
-    state = torch.tensor([digits(r + depth * N_VALUE, STATE_WIDTH) for r in remainders], dtype=torch.long, device=device)
+def measure(model: ReducerCell, n_value: int, remainders: list[int], depth: int, device: str, max_steps: int) -> dict:
+    n = torch.tensor([digits(n_value, N_WIDTH)] * len(remainders), dtype=torch.long, device=device)
+    state = torch.tensor([digits(r + depth * n_value, STATE_WIDTH) for r in remainders], dtype=torch.long, device=device)
     target = torch.tensor([digits(r, STATE_WIDTH) for r in remainders], dtype=torch.long, device=device)
     one_step_target = torch.tensor(
-        [digits(r + max(depth - 1, 0) * N_VALUE, STATE_WIDTH) for r in remainders],
+        [digits(r + max(depth - 1, 0) * n_value, STATE_WIDTH) for r in remainders],
         dtype=torch.long, device=device,
     )
     teacher = model(n, state).argmax(dim=-1)
@@ -65,21 +65,34 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max-depth", type=int, default=100)
     ap.add_argument("--min-depth", type=int, default=0)
+    ap.add_argument("--n-values", type=int, nargs="+", default=[N_VALUE])
     ap.add_argument("--device", default="cuda")
     args = ap.parse_args()
-    train = set(random.Random(args.seed).sample(range(N_VALUE), 800))
-    heldout = random.Random(args.seed + 1).sample([r for r in range(N_VALUE) if r not in train], 256)
     model = ReducerCell(with_stop_head=True).to(args.device)
     model.load_state_dict(torch.load(args.checkpoint, map_location=args.device))
     model.eval()
     if args.min_depth < 0 or args.min_depth > args.max_depth:
         raise ValueError("invalid depth range")
     depths = list(range(args.min_depth, args.max_depth + 1))
-    by_depth = {str(q): measure(model, heldout, q, args.device, args.max_depth + 20) for q in depths}
-    groups = {f"q={args.min_depth}-{args.max_depth}": depths}
-    report = {"by_depth": by_depth, "by_quotient_bucket": {name: mean([by_depth[str(q)] for q in qs]) for name, qs in groups.items()}}
+    by_modulus = {}
+    for index, n_value in enumerate(args.n_values):
+        train = set(random.Random(args.seed + 10_000 * index).sample(range(n_value), 800))
+        heldout = random.Random(args.seed + 1 + 10_000 * index).sample(
+            [r for r in range(n_value) if r not in train], 256
+        )
+        by_depth = {
+            str(q): measure(model, n_value, heldout, q, args.device, args.max_depth + 20)
+            for q in depths
+        }
+        by_modulus[str(n_value)] = {
+            "by_depth": by_depth,
+            "by_quotient_bucket": {f"q={args.min_depth}-{args.max_depth}": mean(list(by_depth.values()))},
+        }
+    report = {"by_modulus": by_modulus}
+    if len(args.n_values) == 1:
+        report.update(by_modulus[str(args.n_values[0])])
     Path(args.out).write_text(json.dumps(report, indent=2) + "\n")
-    print(json.dumps(report["by_quotient_bucket"]), flush=True)
+    print(json.dumps(report["by_modulus"]), flush=True)
 
 
 if __name__ == "__main__":
