@@ -1369,3 +1369,6 @@ PREDICT:    Muon may improve transformation-matrix conditioning enough to beat
             the T-cap/AdamW 8.50% hosted mean; refutation is local e1 mean at
             or below 4.33%, which gives no margin over its pre-hosted baseline
             and does not justify another Easy attempt.
+RESULT:     refuted — Muon reaches 100% train exact but only 1.33% test / 6.00%
+            OOD (3.67% mean), below the AdamW control's 4.33% local mean. The
+            optimizer accelerates memorization, not generalization.
