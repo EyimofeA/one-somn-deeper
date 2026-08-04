@@ -2,7 +2,7 @@
 
 ## Candidate: `easy_serial_recurrent`
 
-Status: source validation and local e1 validation completed; submission pending.
+Status: submitted once; hosted result pending.
 
 The candidate receives only `(N, x, T)` prompt tokens. A shared arithmetic cell
 combines bidirectional learned attention with a right-to-left GRU scan. Learned
@@ -29,3 +29,9 @@ The candidate is legal and is being submitted once as authorized, but the
 local result gives no evidence it will improve the historical Easy score. Its
 expected leaderboard value is therefore low. The tested source and output are
 archived on the L40 at `~/somn-taskb/easy_serial_recurrent/e1/`.
+
+Hosted Easy e1 submission: `dfac516b-2989-4fc1-beb5-0f1407174d42`.
+
+Hosted result: **1.00%** mean exact; no certified T or OOD-N T rung. This is
+slightly above the L40 local mean (0.67%) but remains below the historical
+6.80% e1 reference, so it is not promoted as the primary Easy source.

@@ -1710,3 +1710,25 @@ composition, still locally and without promoting weights to a submission.
   do not claim performance improvement or tune it before the requested single
   submission completes. Evidence: `EASY_SUBMISSION_REPORT.md` and remote
   `~/somn-taskb/easy_serial_recurrent/e1/run.log`.
+
+### 2026-08-04 — Action-conditioned learned macro transition (Author: Codex)
+
+- **Question:** did direct learned chunk transitions fail because their digit
+  decoder never received the selected action? Freeze the qualified W=14 unit
+  comparator/reducer and the successful per-position four-bit controller. A
+  new 136,970-parameter LSD-first serial decoder is initialized from unit
+  subtractor weights and receives the frozen learned chunk bits at every digit
+  update. It alone is trained on q≤100 seen-modulus targets; unseen-N evaluates
+  direct one-call macro transition and autonomous rollout.
+- **Result:** refuted. At q=100 the controller selects the correct chunk on
+  100% of 2,048 unseen-N inputs, but direct macro-transition exact is 0% and
+  autonomous terminal exact 0.10%. q=1 macro/terminal exact are both 47.07%;
+  q=2 macro exact is 0.59%, then q≥8 is 0%. The correct action plus a learned
+  action-conditioned decoder does not preserve exact multi-unit state update.
+- **Decision:** action selection and final-state compression are now ruled out
+  as the main reason multi-unit reduction fails. The blocker is exact learned
+  generation of `F^k(state,N)` itself. Do not retry the same conditioned
+  decoder or merely tune its optimizer; a later branch must introduce a
+  compositional transition representation, not another chunk selector.
+  Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/action_conditioned_macro_transition/seed0/eval_report.json`.

@@ -1279,3 +1279,20 @@ RESULT:     refuted — source validation and smoke pass, but the tier-faithful
             local e1 run reaches only 1.33% test, 0% OOD, and 0.67% mean exact
             in 500 steps/60 seconds, below the historical 4.7%/9.0% e1 split
             results. The mechanism is legal but not locally competitive.
+
+DATE:       2026-08-04
+CARD:       taskb_action_conditioned_macro_transition
+CHANGE:     Replace the refuted direct chunk decoder with a serial digit decoder
+            explicitly conditioned on the frozen per-position controller's
+            four-bit learned chunk code. Freeze the qualified W=14 unit reducer
+            and controller; train only the action-conditioned decoder on the
+            same q<=100, seen-modulus macro targets and evaluate unseen N.
+PREDICT:    If previous direct chunk failure arose because digits never received
+            the selected action, q=0/q=1 macro exact remains near the frozen
+            primitive and q=100 direct macro-transition exact becomes nonzero
+            without applying fifteen unit steps. Refutation is q=0/q=1 damage
+            or near-zero q=100 direct exact despite the correct learned action.
+RESULT:     refuted — controller selected-k is 100% at q=100, but learned
+            one-call macro-transition exact is 0% (q=1 only 47.07%). Giving
+            the decoder the action fixes neither exact multi-unit digits nor
+            autonomous rollout; action selection is not the remaining barrier.
