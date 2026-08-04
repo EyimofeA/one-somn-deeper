@@ -803,3 +803,39 @@ CHANGE:     Extend only full-trace training support from q=0..200 to q=0..500
 PREDICT:    If the boundary is controlled by state support, it will move beyond
             q=500. The amount of extrapolation beyond 500 measures whether
             curriculum coverage alone is becoming sufficient for scalable q.
+RESULT:     partially supported but not promotable — autonomous/q-known exact
+            is 98.05% at q=500 and remains 98.05% through q=518, then declines
+            (90.62% at q=519; 80.47% at q=650) and reaches 0% at q=678. The
+            q=501..1000 aggregate is 29.79% exact and 30.48% halting. Because
+            the endpoint of the training range is already imperfect, this card
+            cannot isolate extrapolation from accumulated in-range error.
+
+DATE:       2026-08-04
+CARD:       taskb_reducer_curriculum_500_exposure_matched
+CHANGE:     Hold the q=0..500 full-trace distribution, tied reducer, learned
+            stop head, optimizer, batch size, seed, and evaluation fixed; raise
+            training updates from 2,000 to 6,200. This matches the q=0..200
+            card's approximately 6.3 passes over its transition-row dataset.
+PREDICT:    If the 98.05% q=500 result is insufficient exposure rather than an
+            intrinsic q=500 limit, q=500 terminal exact will reach the prior
+            card's 100% floor and the first q>500 failure will move materially
+            beyond 518. If it remains imperfect, training support alone is not
+            sufficient at this scale.
+RESULT:     confirmed — q=500 is independently 100% exact/halting, and unseen
+            q=501..666 remain 100% for teacher one-step, q-known terminal,
+            autonomous terminal, and halting. q=667 falls to 69.92% terminal;
+            q=741 is 16.80%; q=742..1000 is 0%. Held-out q=501..1000 averages
+            43.12% terminal exact and 43.65% halting. This demonstrates 166
+            exact quotient steps beyond the trained range with a fixed reducer.
+
+DATE:       2026-08-04
+CARD:       taskb_reducer_unseen_modulus_screen
+CHANGE:     Hold the tied reducer architecture, optimizer, batch size, trace
+            support q=0..500, update exposure, and evaluation protocol fixed;
+            replace fixed N=1349 training with a small stated set of moduli and
+            evaluate full traces on held-out N values. No inference algorithm or
+            model capacity change.
+PREDICT:    If the transition learned modular reduction rather than a 1349-only
+            state map, held-out moduli will retain strong in-range q terminal
+            exact and halting. If it memorized fixed-N geometry, performance
+            will collapse despite depth support.

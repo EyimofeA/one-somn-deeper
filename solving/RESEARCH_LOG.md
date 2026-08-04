@@ -1208,3 +1208,32 @@ composition, still locally and without promoting weights to a submission.
   support q<=100→q<=200 moves the first imperfect depth 148→222 while the
   reducer architecture remains fixed. The next pre-registered stage expands
   only trace support to q<=500 and tests q=501..1000.
+
+### 2026-08-04 — Curriculum q=0..500, extrapolation q=501..1000 (Author: Codex)
+
+- **Result:** q=500 and q=501..518 are 98.05% q-known/autonomous terminal
+  exact; q=519 is 90.62%; q=650 is 80.47%; q=677 is 4.69%; q=678..1000 is 0%.
+  Aggregate q=501..1000 q-known/autonomous exact is 29.79%, halting is 30.48%,
+  teacher-forced one-step exact is 41.40%, and 68.90% stop early.
+- **Interpretation:** This is qualitatively less abrupt than the 148 and 222
+  boundaries and it remains accurate 18 depths beyond support. It is not a
+  clean proof of extrapolation: direct q=500 evaluation is already 98.05%, so
+  its rollout error can accumulate before the held-out range starts.
+- **Next card:** Keep the entire q=0..500 setup fixed and increase updates
+  2,000→6,200 to match q=0..200's transition-row exposure. First require a
+  100% q=500 floor; only then interpret q=501..1000 as quotient extrapolation.
+
+### 2026-08-04 — Exposure-matched q=0..500, extrapolation q=501..1000 (Author: Codex)
+
+- **In-range gate:** independent q=500 rollout is 100% teacher-one-step,
+  q-known terminal, autonomous terminal, and halting exact after 6,200 updates.
+- **Held-out result:** q=501..666 are also 100% on all four measures. q=667 is
+  69.92% terminal, q=741 is 16.80%, and q=742..1000 is 0%. Aggregate q=501..1000
+  teacher-one-step is 47.98%, terminal is 43.12%, and halting is 43.65%.
+- **Classification:** Confirmed the narrow scientific claim: a learned tied
+  reducer can execute an exact reusable transition for 166 quotient depths
+  beyond its trained horizon. The later cliff still shows finite distribution
+  support/representation limits; it does not refute extrapolation.
+- **Next stage:** per the staged plan, hold the architecture fixed and test
+  generalization over unseen moduli. This distinguishes a modular reduction
+  primitive from a fixed-N=1349 state mapping.
