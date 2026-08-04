@@ -1296,3 +1296,17 @@ RESULT:     refuted — controller selected-k is 100% at q=100, but learned
             one-call macro-transition exact is 0% (q=1 only 47.07%). Giving
             the decoder the action fixes neither exact multi-unit digits nor
             autonomous rollout; action selection is not the remaining barrier.
+
+DATE:       2026-08-04
+CARD:       recurrent_vdf_square_reduce_smalln
+CHANGE:     Build a clean staged, tied VDF transition F(s,N) on complete
+            two-digit semiprime families: an LSD-first learned raw-square
+            module followed by a learned serial comparator/subtractor reducer.
+            Train each learned primitive with synthetic intermediate-state
+            labels, freeze neither phase-specific weights into recurrence, and
+            apply the same composed F exactly T times at evaluation.
+PREDICT:    If validated serial reduction can compose with learned squaring,
+            unseen-N one-step square-mod exact will be nonzero and multi-step
+            accuracy will track one-step quality rather than collapsing at T=2.
+            Refutation is near-zero held-out-N one-step exact or a major gap
+            between one-step and self-fed rollout despite correct primitive loss.
