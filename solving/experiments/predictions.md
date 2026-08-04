@@ -1387,3 +1387,16 @@ PREDICT:    Since the 256-batch control used under 1 GiB and low GPU
             utilization, batch 512 increases examples per second without
             reducing local held-out mean below 4.33%. Refutation: throughput
             does not improve or e1 mean falls at/below the 4.33% control.
+
+DATE:       2026-08-05
+CARD:       vdf_square_reduce_final_label_e1
+CHANGE:     Replace the Fable register with a final-label-only VDF cell: a
+            tied learned LSD-first SquareCell followed by a distinct learned
+            LSD-first ReduceCell, with a straight-through learned digit
+            register between T applications. It receives only prompt tokens
+            and evaluator final labels; no diagnostic trace labels or
+            precomputed arithmetic enter the submission.
+PREDICT:    The explicit two-stage inductive bias will produce nonzero e1
+            held-out exactness, with T=1 stronger than T=2/3. Refutation is a
+            failure to train in the 60-second envelope or no held-out signal
+            above the random/direct baseline.
