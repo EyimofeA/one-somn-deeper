@@ -1528,3 +1528,23 @@ composition, still locally and without promoting weights to a submission.
   extrapolation result, not evidence for unlimited execution; representation
   width blocks a clean all-example test at q≥145. Artifact (not committed):
   `diagnostics/artifacts/somn-l40-2026-08-04/serial_comparator_controlled_reducer_seed0/stage3_q100/q101_140_horizon_probe.json`.
+
+### 2026-08-04 — Public competition-scale envelope audit (Author: Codex)
+
+- **Question:** is the controlled width-six, one-subtraction-per-recurrence
+  reducer near submission-ready on the public task scales? This is a source
+  audit, not a dataset inspection or training run. Sources are the public
+  catalog, manifests, README rules, and `competition/data/squaring_mod.py`.
+- **Established public envelope:** generated inputs are units `1≤x<N`; for a
+  one-step square, `u=x²` and `q=floor(u/N)` obey `0≤q≤N−2`. Thus the current
+  learned reducer requires O(q) applications for one modular square. Public
+  Medium includes m4 with 14/18/22-bit N at T=8. A 22-bit N can require a
+  14-decimal-digit raw-square state and up to 4,194,302 unit reductions; its
+  typical q is also O(N), not O(100). Width six covers neither its state nor
+  its iteration count. The public Hard h1 distribution is hidden, so its exact
+  N/q envelope cannot be determined without prohibited data inspection.
+- **Decision:** do not claim that q≤140 establishes competition-scale
+  reduction, and do not spend a run on width seven alone as a submission
+  solution. The next controlled branch must preserve the serial learned path
+  while testing a learned multi-unit/quotient-chunk reduction mechanism, after
+  first setting a public-scale width target. No hidden data was read.

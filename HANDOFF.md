@@ -196,6 +196,10 @@ entries. Card predictions and post-hoc classifications are in
 - Generalization to the actual competition distribution of `N`, `x`, and `T`.
 - All-example depth beyond q=144: six digits cannot encode q≥145 for every
   held-out four-digit modulus.
+- Public-scale feasibility: one ordinary modular square has
+  `q=floor(x²/N)≤N−2`, so public 22-bit Medium inputs can need a 14-digit raw
+  square and up to 4,194,302 unit reductions. The current one-subtraction
+  recurrence is therefore not competition-feasible merely by widening it.
 - Generalization across wider modulus digit lengths, seed stability, and
   retraining from scratch with a widened state representation.
 - Any valid Easy, Medium, or Hard score improvement. Current best Hard result
@@ -207,20 +211,19 @@ entries. Card predictions and post-hoc classifications are in
 Follow the prediction rule and use one card per item. Do not silently combine
 these changes.
 
-1. **Width is now the measurement blocker.** Change only state width from six
-   to seven digits, retain the comparator/subtractor design, q=0…100 support,
-   split, optimizer, batch size, and update count. Re-train (the old checkpoint
-   cannot simply be loaded because of position embeddings) and test a fully
-   representable q=101…500 range. Prediction: if the learned primitive is
-   reusable, the old q≤100/q≤140 behavior reappears at the wider range; failure
-   could instead identify a width-dependent optimization issue.
+1. **Learned chunk-control feasibility.** Keep the LSD-first serial path and
+   isolate whether a learned head can predict a reusable multi-unit reduction
+   action on public-scale-width synthetic states. No handwritten quotient,
+   comparison, multiplication, or subtraction can enter the forward. This is
+   required because ordinary squaring has q=O(N), making one unit subtraction
+   per recurrence infeasible even if state width is expanded.
 
-2. **Map the extrapolation frontier only after the width control.** With a
-   fixed widened checkpoint, report teacher-forced and autonomous curves by q,
-   plus the first q below 100%, 95%, and zero exact. This distinguishes local
-   transition support from recurrence accumulation without changing the model.
+2. **Public-scale width control.** Change only width to the public m4 raw-state
+   requirement (14 decimal digits) and test the existing comparator on matching
+   14/18/22-bit modulus ranges. This does not solve the O(q) loop; it only
+   establishes whether serial digit comparison itself survives required width.
 
-3. **Modulus-range generalization.** Once a width-safe depth result exists,
+3. **Modulus-range generalization.** Once a width-safe chunk mechanism exists,
    train/evaluate disjoint modulus ranges or digit lengths while retaining the
    same serial architecture. q=1 must be reported separately. This tells us
    whether the learned subtraction law is truly compositional rather than
@@ -314,8 +317,9 @@ candidate. Do not auto-submit Hard.
 - Preserve the LSD-first alignment, unseen-modulus split, and separate
   teacher-forced versus autonomous metrics unless a registered card changes
   one of them.
-- Start the width-seven control as the highest-priority next experiment, with
-  an explicit representability audit and exact q/N buckets.
+- Do not mistake a width-seven/q≤500 continuation for a submission-scale
+  solution. First isolate learned chunk-control, and use 14 digits as the
+  public m4 state-width target; Hard's actual size is private.
 - Report per-q: comparator accuracy, raw subtractor next-state exactness,
   composed transition exactness, final remainder exactness, exact stop step,
   early/late/non-stop counts, and number of representable examples.

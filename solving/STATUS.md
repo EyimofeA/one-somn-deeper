@@ -63,6 +63,15 @@ the observed q≤100 range is established. The fixed six-digit state cannot
 represent every held-out-N example at q≥145, so unlimited reduction and the
 competition's squaring task remain open.
 
+**Submission-scale correction (public-source audit, 2026-08-04):** the present
+reducer takes one learned subtraction per recurrence. For an official one-step
+square, `q=floor(x²/N)` can be as large as `N−2`, so public Medium m4's 22-bit
+N can require a 14-digit raw state and up to 4,194,302 reductions. The observed
+q≤140 result therefore proves a bounded primitive, not feasible competition
+execution. Hard h1's N distribution is hidden and must not be inspected. The
+next serial branch must address learned multi-unit reduction/chunk selection;
+widening six digits alone is necessary for public scales but insufficient.
+
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
 **Evidence correction (2026-08-04, Codex):** the historical `pure reduction
