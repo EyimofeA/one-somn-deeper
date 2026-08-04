@@ -168,6 +168,13 @@ class CombinedOptimizer:
         for optimizer in self.optimizers:
             optimizer.zero_grad(set_to_none=set_to_none)
 
+    def state_dict(self):
+        return {"optimizers": [optimizer.state_dict() for optimizer in self.optimizers]}
+
+    def load_state_dict(self, value) -> None:
+        for optimizer, state in zip(self.optimizers, value["optimizers"]):
+            optimizer.load_state_dict(state)
+
 
 def build_model(spec: ModelSpec) -> VDFModel:
     model = VDFModel(spec)
