@@ -845,3 +845,17 @@ RESULT:     refuted — at q=1, held-out N=1189 and N=1517 each have 0% exact
             56.74%). Deeper unseen-N rollout is therefore not informative. The
             fixed architecture learns a shared seen-N mapping, not a reusable
             modulus-general reduction primitive.
+
+DATE:       2026-08-04
+CARD:       taskb_reducer_depth_frontier_300
+CHANGE:     Hold fixed N=1349, the tied reducer, learned stop head, optimizer,
+            batch size, seed, full-trace data construction, and per-transition
+            exposure fixed; change the maximum training quotient from 500 to
+            300, using 3,000 updates (about 6.4 passes over its trace rows).
+            Evaluate every held-out q=301..550.
+PREDICT:    Pre-registered two-point interpolation only, not a scaling law:
+            based on zero-exact frontiers 149 after q<=100 and 742 after
+            q<=500, complete collapse will occur near q=447 (1.49×300).
+            Report the last perfect q, first degradation q, first zero q,
+            teacher one-step exact, autonomous remainder exact, halting errors,
+            and the per-q boundary curve without changing this prediction.

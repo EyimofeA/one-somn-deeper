@@ -1250,3 +1250,29 @@ composition, still locally and without promoting weights to a submission.
 - **Classification:** Refuted the modulus-generalization hypothesis for this
   representation/training formulation. Do not spend compute on deeper unseen-N
   rollouts or competition-distribution evaluation of this checkpoint.
+
+### 2026-08-04 — Fixed-N depth-frontier confirmation plan (Author: Codex)
+
+- **Observation, not law:** full-collapse occurs at q=149 after q<=100 training
+  and q=742 after exposure-matched q<=500 training. Their ratios are 1.49 and
+  1.484. This two-point alignment motivates one intermediate confirmation; it
+  is not evidence of a general scaling law.
+- **Registered card:** train q=0..300 at matched per-transition exposure
+  (3,000 updates) and evaluate every independent q=301..550. The prediction is
+  complete collapse near q=447. It must not be tuned after observing the curve.
+- **Required report:** final perfect q, first degraded q, first zero-exact q,
+  teacher-forced one-step exact, autonomous remainder exact, halting failure
+  types, and a dense per-q curve around the first boundary.
+- **Confound diagnostic:** at fixed N, s=qN+r conflates quotient depth with raw
+  decimal magnitude. After the confirmation, separate (a) teacher-forced rows
+  at matched q but low/high remainder bands, and (b) matched state-magnitude
+  bands produced under different *seen* N values and thus different q. A
+  teacher-forced magnitude failure identifies unsupported decimal state
+  geometry before rollout; a free-only failure identifies recurrence/rollout.
+  A raw-decimal versus N-relative representation comparison is deferred to the
+  unseen-N branch because it changes the representation, not this confirmation.
+- **Priority:** freeze fixed-N depth work after this one confirmation unless the
+  competition's quotient range specifically demands more. The primary blocker
+  remains held-out-N q=1 exact: the present multi-N reducer is 0% there, so a
+  modulus-compositional, digit-significance-aware subtraction representation
+  must pass unseen-N q=1 before any unseen-N depth experiment.
