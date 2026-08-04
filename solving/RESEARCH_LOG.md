@@ -1045,3 +1045,60 @@ composition, still locally and without promoting weights to a submission.
   not repair state fidelity.
 - **Artifacts:** metrics, report, config, and checkpoint are durable at
   `diagnostics/artifacts/somn-l40-2026-08-04/teacher_depth_reducer/`.
+
+### 2026-08-04 — Working-theory correction: stable recurrent execution (Author: Codex)
+
+- **Supported by new run:** fixed effective depth is necessary but not
+  sufficient. A tied learned transition reaches q=5, yet fails at q>=10 while
+  its teacher-forced loss is near zero. The next bottleneck is state fidelity
+  under self-fed rollout: local correctness does not compose.
+- **Not supported:** learned halting as the next intervention. Halting selects
+  a time on a trajectory; it does not restore an invalid state. It remains
+  deferred until a state representation/correction mechanism survives a long
+  rollout.
+- **Next isolation:** a no-training rollout-drift audit records true-state
+  and self-fed fidelity at every step. Representation, quantization,
+  correction, chunking, and hybrid-memory proposals remain hypotheses until
+  that audit distinguishes their target failure shape.
+
+### 2026-08-04 — Correction: anchor-depth reducer did not isolate drift (Author: Codex)
+
+- **Audit result:** the saved q=10 rollout has teacher-forced exact 100.00%,
+  98.05%, 58.20%, then 0.00% at steps 1–4; free rollout is 100.00%, 98.05%,
+  56.25%, then 0.00%. The free path diverges slightly at step 3, but the
+  decisive collapse is also present when the cell receives the true state.
+- **Cause:** Phase-1 generation trained only anchor quotient depths
+  `{0,1,2,5,10,50,100}`, not all intermediate depths on their traces. Thus
+  states with, for example, q=7 were held-out distribution values, despite
+  being necessary during a q=10 rollout. Near-zero training loss did not imply
+  a uniformly correct one-step transition.
+- **Labeled correction:** the earlier conclusion that q>=10 failure was
+  *caused solely* by self-fed drift is unsupported. The supported result is
+  only that anchor-depth support reaches q=5 but not q=10. The next card holds
+  architecture and optimization fixed, fills trace-depth support q=0..100,
+  and reruns the same teacher/free audit to isolate drift cleanly.
+
+### 2026-08-04 — Full-trace iterative reducer: stable rollout correction (Author: Codex)
+
+- **One changed variable:** identical 400,906-parameter tied transition,
+  optimizer, seed, 800/256 disjoint remainders, batch size, and 2,000 updates;
+  training now includes every true trace depth q=0..100 rather than anchor
+  depths only.
+- **Result:** free terminal exact is q=0 100.00%, q=1 99.61%, q=2 99.61%,
+  q=5 99.22%, q=10 99.22%, q=50 97.27%, and q=100 95.70%. The paired audit
+  has final teacher/free exact of 99.61/99.22% at q=5 and q=10,
+  99.61/97.27% at q=50, and 99.61/95.70% at q=100.
+- **Supported conclusion:** a tied learned decimal transition can execute a
+  stable 100-step self-fed reduction trajectory when it is trained on the
+  intermediate-state distribution it will encounter. Fixed depth and an
+  inherently unusable decimal state are not the dominant explanation for the
+  earlier q>=4 failure.
+- **Still unsupported:** competition relevance. Phase 1 receives q from the
+  evaluator as an unroll count, so it is diagnostic-only. The new bottleneck
+  is selecting/learning the stop condition without q; that is a separate
+  learned-halting card, now scientifically justified but not yet implemented.
+- **Labeled correction to the preceding working theory:** state drift exists
+  (3.91 percentage points at q=100), but it is not the primary q>=10 collapse
+  observed in the anchor-depth card; missing intermediate-state support was.
+- **Artifacts:** full model, raw metrics, and paired rollout audit are durable
+  at `diagnostics/artifacts/somn-l40-2026-08-04/teacher_depth_full_trace/`.

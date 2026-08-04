@@ -689,3 +689,41 @@ RESULT:     refuted at q>=10 — terminal exact is 100.00% at q=0/1/2,
             72.27% at q=5, and 0.00% at q=10/50/100 after 2,000 updates.
             Teacher-forced loss reaches 0.00013, so a learned single step can
             fit while greedy self-fed state errors still compound to collapse.
+CORRECTION: The loss covers only anchor depths {0,1,2,5,10,50,100}, not every
+            intermediate trace state. The later drift audit finds teacher-
+            forced q=10 accuracy itself falls to 0% on unseen true states.
+            Therefore q>=10 rollout stability is **unclear**, not a clean
+            state-drift falsification; do not use this card as proof that
+            error accumulation alone caused the collapse.
+
+DATE:       2026-08-04
+CARD:       taskb_teacher_depth_rollout_drift_audit
+CHANGE:     Evaluation-only: retain the completed teacher-depth reducer and
+            its held-out remainders, but report true-state versus self-fed
+            state fidelity at every unroll step for initial q=5/10/50/100.
+PREDICT:    Teacher-forced one-step fidelity remains near-perfect, whereas
+            self-fed exact state falls before terminal failure; q=10 should
+            show the first stable divergence. If both curves remain aligned
+            until the final step, terminal collapse has another cause.
+RESULT:     refuted as an isolation test — teacher-forced fidelity is not
+            near-perfect at all q: for q=10 it falls from 100% at step 1 to
+            58.20% at step 3 and 0% at step 4, before free rollout reaches
+            0%. The anchor-depth training distribution omitted these true
+            intermediate states.
+
+DATE:       2026-08-04
+CARD:       taskb_teacher_depth_full_trace
+CLASS:      NEW DIAGNOSTIC — NOT SUBMISSION-RELEVANT
+CHANGE:     Replace anchor-depth-only trace rows with equal learned-transition
+            supervision for every true quotient depth q=0..100; model,
+            optimizer, seed, batch size, 2,000 updates, held-out remainders,
+            and evaluation audit are unchanged.
+PREDICT:    Teacher-forced exact remains high across q=5/10/50/100. If
+            self-fed exact then still separates sharply from teacher-forced,
+            state drift is isolated. If the curves remain aligned, missing
+            intermediate-state coverage—not self-feeding—is the primary
+            explanation for the anchor-depth collapse.
+RESULT:     confirmed — free terminal exact is q=5 99.22%, q=10 99.22%,
+            q=50 97.27%, and q=100 95.70%; corresponding final teacher-forced
+            exact is 99.61% at every depth. Full intermediate-state coverage,
+            not a new state representation, removes the former q>=10 collapse.

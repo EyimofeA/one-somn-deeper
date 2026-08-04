@@ -51,7 +51,9 @@ class ReducerCell(nn.Module):
         return self.head(self.norm(self.body(hidden))[:, -STATE_WIDTH:])
 
 
-def make_rows(seed: int, count: int, used_remainders: set[int]) -> list[tuple[list[int], list[int], list[int]]]:
+def make_rows(
+    seed: int, count: int, used_remainders: set[int], depths: tuple[int, ...] = DEPTHS
+) -> list[tuple[list[int], list[int], list[int]]]:
     rng = random.Random(seed)
     available = [r for r in range(N_VALUE) if r not in used_remainders]
     if count > len(available):
@@ -61,7 +63,7 @@ def make_rows(seed: int, count: int, used_remainders: set[int]) -> list[tuple[li
     rows = []
     n = digits(N_VALUE, N_WIDTH)
     for remainder in remainders:
-        for depth in DEPTHS:
+        for depth in depths:
             current = remainder + depth * N_VALUE
             # Label construction only: the cell must learn this transition.
             next_state = current if depth == 0 else current - N_VALUE
@@ -94,11 +96,13 @@ def main() -> None:
     ap.add_argument("--steps", type=int, default=2000)
     ap.add_argument("--batch-size", type=int, default=512)
     ap.add_argument("--device", default="cuda")
+    ap.add_argument("--max-train-depth", type=int, default=None)
     args = ap.parse_args()
 
     torch.manual_seed(args.seed)
     used: set[int] = set()
-    train_rows = make_rows(args.seed, 800, used)
+    train_depths = DEPTHS if args.max_train_depth is None else tuple(range(args.max_train_depth + 1))
+    train_rows = make_rows(args.seed, 800, used, train_depths)
     test_remainders = random.Random(args.seed + 1).sample([r for r in range(N_VALUE) if r not in used], 256)
     model = ReducerCell().to(args.device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=0.01)
@@ -106,7 +110,7 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     (out / "config.json").write_text(json.dumps({
         "classification": "NEW DIAGNOSTIC — NOT SUBMISSION-RELEVANT",
-        "n": N_VALUE, "depths": DEPTHS, "seed": args.seed, "steps": args.steps,
+        "n": N_VALUE, "depths": train_depths, "seed": args.seed, "steps": args.steps,
         "batch_size": args.batch_size, "train_remainders": 800,
         "heldout_remainders": 256, "model": "tied learned decimal transition",
     }, indent=2) + "\n")
