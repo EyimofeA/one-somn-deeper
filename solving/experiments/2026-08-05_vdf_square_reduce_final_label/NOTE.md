@@ -26,3 +26,10 @@ having only T=1/2/3, it executed 64 masked outer cells per forward. It completed
 only 64 updates in 60 seconds and reached 2.67% test / 0% OOD (1.33% mean).
 The next card changes only that execution loop to exactly the prompt-selected
 maximum T, keeping all learned computation unchanged.
+
+## Dynamic-depth result
+
+The compute fix is confirmed: 434 updates replace 64, memory falls from 3.1
+GiB to 735 MiB, and e1 test exact rises to 3.33%. OOD remains 0% (1.67% mean),
+so it is not a submission candidate. The next one-variable control changes
+only the optimizer to Muon+AdamW on the same dynamic-depth VDF model.

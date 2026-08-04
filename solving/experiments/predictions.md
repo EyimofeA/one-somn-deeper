@@ -1415,3 +1415,16 @@ PREDICT:    Easy's T≤3 batches will execute about twenty times less forward
             work, yielding far more than 64 optimizer updates in 60 seconds
             and a materially stronger held-out curve. Refutation: update count
             does not rise substantially or held-out exact remains near 1.33%.
+RESULT:     mixed — the update count rises 64→434 and test exact rises
+            2.67%→3.33%, but OOD remains 0% (1.67% mean). The speed fix is
+            confirmed; the architecture is not yet a competitive submission.
+
+DATE:       2026-08-05
+CARD:       vdf_square_reduce_muon_optimizer
+CHANGE:     Replace only AdamW in the dynamic-depth final-label VDF candidate
+            with a standard Muon-for-matrices plus AdamW-for-vectors hybrid;
+            retain cells, state, T execution, batch, loss, and data.
+PREDICT:    Muon will improve early fitting of the two serial arithmetic cells
+            without reducing the 434-update horizon; promotion requires OOD
+            exact above 0% or mean exact materially above 1.67%. Refutation:
+            faster train fit with no held-out gain, as in the Fable control.
