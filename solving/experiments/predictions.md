@@ -746,3 +746,21 @@ RESULT:     confirmed within the trained q=0..100 range — independent held-out
             q=2-3, q=4-9, q=10-99, and q=100. There are no early/late stops,
             non-stops, or wrong-remainder stops. This does not test q>100 or
             establish competition legality for learned control flow.
+
+DATE:       2026-08-04
+CARD:       taskb_reducer_quotient_extrapolation_101_500
+CHANGE:     Evaluation-only quotient-depth extrapolation of the fixed learned
+            reducer and stop head trained at q=0..100. Test independent
+            remainders at every unseen q=101..500; no architecture, weight,
+            trace data, or optimizer changes.
+PREDICT:    If the tied cell learned the reusable one-N transition and
+            canonicality rule rather than a finite horizon, teacher-forced
+            local fidelity and free autonomous remainder/halting accuracy stay
+            high through q=500. If only the trained horizon was learned,
+            free rollout will degrade with q, with early/late/non-stop failure
+            categories locating the break.
+RESULT:     refuted — held-out q=101-500 averages 11.82% teacher one-step,
+            11.81% remainder exact, and 11.81% halting accuracy, with 88.19%
+            early stops. It is perfect through q=147, falls to 25.78% at
+            q=148, and is 0% from q=149 through q=500. Local unseen-state
+            failure and stopping fail together; this is not rollout-only decay.

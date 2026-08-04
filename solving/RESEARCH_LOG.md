@@ -1140,3 +1140,35 @@ composition, still locally and without promoting weights to a submission.
   quotient depths beyond 100, and learned control flow has not received a
   fresh submission-rule review. Artifacts are durable at
   `diagnostics/artifacts/somn-l40-2026-08-04/learned_canonicality_halting/`.
+
+### 2026-08-04 — Generalization plan after learned halting (Author: Codex)
+
+- **Stage 1, active:** quotient extrapolation. Hold the q=0..100 reducer and
+  stop head fixed; evaluate independent remainders at every q=101..500,
+  reporting teacher-forced local fidelity separately from autonomous exact,
+  halting accuracy, rollout length, and classified stop failures.
+- **Stage 2, gated on Stage 1:** train the unchanged reducer on multiple N
+  values and test unseen N, with the same autonomous metrics. This separates
+  learned reduction from modulus memorization.
+- **Stage 3, gated on Stages 1–2:** evaluate the competition-shaped quotient
+  distribution. No architecture change is bundled into any stage.
+
+### 2026-08-04 — Quotient extrapolation q=101..500, Stage 1 (Author: Codex)
+
+- **Setup:** evaluation-only on the committed learned reducer/stop-head
+  checkpoint trained at q=0..100; same 256 independent remainders; every
+  unseen integer depth q=101..500. Teacher-forced one-step accuracy at each
+  unseen starting state is reported separately from autonomous execution.
+- **Result:** aggregate teacher one-step exact is 11.82%, autonomous remainder
+  exact 11.81%, and halting accuracy 11.81%; 88.19% stop early. The model is
+  100% through q=147, 25.78% at q=148, and 0% from q=149 through q=500.
+  q=101-150 averages 94.57% teacher and 94.52% autonomous exact; every later
+  50-depth group is 0% and stops early on every row.
+- **Classification:** Refuted the reusable-transition extrapolation prediction.
+  The first failure is local transition/canonicality quality on unseen large
+  states, not accumulated rollout error: teacher and free metrics fall
+  together. Stage 2 (unseen-N) and Stage 3 (competition distribution) are
+  gated off; they cannot establish algorithmic generalization while the
+  fixed-N depth extrapolation has this cliff.
+- **Artifacts:** `quotient_extrapolation_101_500.json` is synced under
+  `diagnostics/artifacts/somn-l40-2026-08-04/learned_canonicality_halting/`.
