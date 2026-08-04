@@ -1332,3 +1332,13 @@ RESULT:     confirmed — holding Squareθ fixed, held-out q≥10 reduction rise
             29.92%→94.67%, T=1 46.96%→95.56%, and T=8 33.88%→89.02%. The
             primary prior failure was reducer state-distribution mismatch, not
             square/reduce composition or an intrinsically inadequate reducer.
+
+DATE:       2026-08-05
+CARD:       fable_tcap_adamw_e1_baseline_control
+CHANGE:     Evaluate the existing legal Fable T-cap/AdamW submission under the
+            current logged Easy e1 evaluator; no source, model, optimizer, or
+            manifest setting is changed.
+PREDICT:    Its train-time random depth exposure should generalize better than
+            Fable v2's 0.00% mean, but it will still fail the submission gate
+            unless held-out mean exact exceeds the 1.00% hosted Easy reference.
+            Refutation: zero or near-zero mean exact despite nontrivial train fit.
