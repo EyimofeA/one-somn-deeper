@@ -1276,3 +1276,19 @@ composition, still locally and without promoting weights to a submission.
   remains held-out-N q=1 exact: the present multi-N reducer is 0% there, so a
   modulus-compositional, digit-significance-aware subtraction representation
   must pass unseen-N q=1 before any unseen-N depth experiment.
+
+### 2026-08-04 — q<=300 intermediate frontier confirmation (Author: Codex)
+
+- **Qualification:** the originally registered 3,000-update card was invalid
+  because q=300 autonomous exact was 85.55%. A separately registered
+  exposure-matched 3,800-update gate restored q=300 to 100% exact/halting.
+- **Result:** held-out q=301..302 are 100%; q=303 is 94.53% teacher one-step,
+  q-known terminal, autonomous terminal, and halting; q=371..550 is 0% exact
+  and stops early. Thus last perfect q=302, first degradation q=303, and first
+  zero q=371.
+- **Classification:** Refuted the pre-registered q≈447 collapse prediction and
+  the tentative 1.49×q_train frontier relation. Three conditions are not a
+  scaling law: the boundary depends on details beyond maximum q support. Since
+  teacher and autonomous metrics fail together at q=303, this run supports the
+  unsupported decimal-state transition diagnosis over a pure rollout-length
+  diagnosis. Freeze fixed-N frontier fitting as planned.

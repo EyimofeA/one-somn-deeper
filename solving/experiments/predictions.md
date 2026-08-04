@@ -859,3 +859,23 @@ PREDICT:    Pre-registered two-point interpolation only, not a scaling law:
             Report the last perfect q, first degradation q, first zero q,
             teacher one-step exact, autonomous remainder exact, halting errors,
             and the per-q boundary curve without changing this prediction.
+RESULT:     invalidated as a frontier measurement — before held-out-q evaluation,
+            independent in-range q=300 is only 85.55% autonomous remainder
+            exact (86.33% q-known) despite 100% teacher one-step exact. This
+            checkpoint has accumulated in-range rollout error, so q=301..550
+            would not isolate a depth-extrapolation boundary.
+
+DATE:       2026-08-04
+CARD:       taskb_reducer_depth_frontier_300_exposure_gate
+CHANGE:     Hold the q=0..300 data, fixed N, tied reducer, learned stop head,
+            seed, batch size, optimizer, and all architecture settings fixed;
+            raise updates 3,000→3,800 to match the successful q<=500 card's
+            approximately eight passes over its trace rows. First evaluate q=300.
+PREDICT:    This is an optimization gate, not a changed frontier prediction:
+            q=300 autonomous exact should reach 100%. Only then rerun the
+            frozen q=301..550 test with its original q≈447 collapse prediction.
+RESULT:     gate confirmed — independent q=300 is 100% exact/halting. The
+            frozen extrapolation prediction is refuted: q=301..302 are 100%,
+            q=303 falls to 94.53% teacher/q-known/autonomous exact, and
+            q=371..550 is 0%. Teacher and autonomous failure begin together;
+            complete collapse is 371, not the predicted ≈447.
