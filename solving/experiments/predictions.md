@@ -1077,3 +1077,41 @@ RESULT:     confirmed for the branch condition — Stage 1 unseen-N comparison i
             degradation is q=29 (94.04%), reaching 37.50% at q=100 through
             early stops after subtractor error. Comparison solves canonical
             identity but not the remaining high-q transition frontier.
+
+DATE:       2026-08-04
+CARD:       taskb_comparator_reducer_transition_vs_rollout
+CHANGE:     Freeze the qualified comparator-controlled reducer and measure the
+            same unseen-N inputs two ways: one correct qN+r state at a time,
+            then autonomous self-fed execution. No weights, representation,
+            loop, or architecture changes.
+PREDICT:    Comparator accuracy remains near-perfect at every selected q. The
+            teacher transition should first soften around q≈29 but remain above
+            final rollout at q=50/100; a growing teacher→rollout gap would show
+            recurrence accumulation on top of primitive extrapolation error.
+RESULT:     confirmed — comparator accuracy is 100% at every tested q. The
+            frozen learned transition first degrades at q=30 (93.75%), exactly
+            matching rollout there; q=50 is 85.06% teacher-forced versus
+            62.50% rollout, and q=100 is 86.04% versus 37.50%. Thus unsupported
+            high-q states first defeat the primitive, with recurrence adding
+            further loss only after that first transition error.
+
+DATE:       2026-08-04
+CARD:       taskb_comparator_reducer_q100_intermediate_curriculum
+CHANGE:     Keep the comparator-controlled width-six serial reducer, digit
+            scan, optimizer, batch size, and 4,000-update horizon fixed. Resume
+            the qualified q=0..20 reducer and extend its balanced transition
+            traces (including q=0 identity) to q=0..100; no architecture or
+            inference-loop change.
+PREDICT:    Because teacher-forced failure begins only once q=30 states leave
+            support, direct q=0..100 support should restore strong in-range
+            unseen-N teacher transitions and autonomous q=0..100 reduction.
+            If q=30+ remains weak despite this support, the shared primitive's
+            optimization/exposure capacity—not merely missing q range—is the
+            limiting factor.
+RESULT:     confirmed — all 206,848 held-out transition cases q=0..100 are
+            exact, as are every learned continue/stop label, true q=0 fixed
+            point, and autonomous final-remainder/exact-halt outcome. A separate
+            frozen audit at q=1,5,10,20,30,50,100 confirms 100% comparator,
+            raw subtractor, composed transition, and rollout exactness (2,048
+            examples per q). Direct intermediate-state support removes the
+            former q=30 primitive frontier in this controlled range.

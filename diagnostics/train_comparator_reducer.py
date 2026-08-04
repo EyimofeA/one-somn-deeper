@@ -143,6 +143,8 @@ def main():
     parser.add_argument("--batch-size", type=int, default=512)
     parser.add_argument("--comparator-checkpoint")
     parser.add_argument("--subtractor-checkpoint")
+    parser.add_argument("--reducer-checkpoint", help="Resume a qualified comparator/subtractor pair without changing its architecture.")
+    parser.add_argument("--max-train-q", type=int, default=20)
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     moduli = semiprimes(args.seed, 64); train_moduli, test_moduli = moduli[:48], moduli[48:]
@@ -158,10 +160,17 @@ def main():
         model.eval(); report = {"seen": comparator_metrics(model, train, args.device), "unseen": comparator_metrics(model, unseen, args.device), "parameters": sum(p.numel() for p in model.parameters())}
         torch.save(model.state_dict(), out / "comparator.pt")
     else:
-        if not args.comparator_checkpoint or not args.subtractor_checkpoint: raise ValueError("stage reducer needs both checkpoints")
-        comparator = SerialComparator().to(args.device); comparator.load_state_dict(torch.load(args.comparator_checkpoint, map_location=args.device, weights_only=True))
-        subtractor = SerialSubtractor().to(args.device); subtractor.load_state_dict(torch.load(args.subtractor_checkpoint, map_location=args.device, weights_only=True))
-        model = ComparatorReducer(comparator, subtractor).to(args.device); train = transition_rows(train_moduli, args.seed, 128, 20); optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=.01)
+        comparator = SerialComparator().to(args.device)
+        subtractor = SerialSubtractor().to(args.device)
+        if args.reducer_checkpoint:
+            weights = torch.load(args.reducer_checkpoint, map_location=args.device, weights_only=True)
+            comparator.load_state_dict(weights["comparator"])
+            subtractor.load_state_dict(weights["subtractor"])
+        else:
+            if not args.comparator_checkpoint or not args.subtractor_checkpoint: raise ValueError("stage reducer needs --reducer-checkpoint or both component checkpoints")
+            comparator.load_state_dict(torch.load(args.comparator_checkpoint, map_location=args.device, weights_only=True))
+            subtractor.load_state_dict(torch.load(args.subtractor_checkpoint, map_location=args.device, weights_only=True))
+        model = ComparatorReducer(comparator, subtractor).to(args.device); train = transition_rows(train_moduli, args.seed, 128, args.max_train_q); optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=.01)
         for step in range(1, args.steps + 1):
             data = batch(train, args.batch_size, step); state, modulus, target = tensors(data, args.device); continue_label = torch.tensor([row[0] != row[2] for row in data], dtype=torch.float32, device=args.device)
             log_probs, gate = model(state, modulus); loss = F.nll_loss(log_probs.reshape(-1, 10), target.reshape(-1)) + F.binary_cross_entropy(gate, continue_label)

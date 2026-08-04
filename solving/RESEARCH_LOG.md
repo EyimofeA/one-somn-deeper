@@ -1469,3 +1469,44 @@ composition, still locally and without promoting weights to a submission.
 - **Classification:** supported: the previous missing capability was a learned
   comparison/branch condition, not digit order. Not established: a complete
   modular reducer, competition solution, or unlimited quotient extrapolation.
+
+### 2026-08-04 — Frozen transition versus rollout audit (Author: Codex)
+
+- **Question:** is the comparator-controlled reducer's q≥29 frontier caused by
+  an inaccurate local learned transition, or by otherwise-good transitions
+  accumulating errors in self-fed rollout? The q=0..20 checkpoint was frozen;
+  no weights, representation, or loop changed. We tested 2,048 unseen-N
+  examples each at q=1, 5, 10, 20, 30, 50, and 100.
+- **Result:** comparator accuracy is 100% in every bucket. Raw subtractor and
+  composed teacher-forced transition are each 100% through q=20, then 93.75%
+  at q=30, 85.06% at q=50, and 86.04% at q=100. Autonomous final exact is
+  respectively 100%, 62.50%, and 37.50% at those last three depths. The first
+  recorded failure is a subtractor transition, not a comparator branch error.
+- **Decision:** the primary regime is unsupported-state transition failure;
+  rollout accumulation is secondary at q=50/100. The registered next control is
+  q=0..100 intermediate-state curriculum support, with architecture unchanged.
+  Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/serial_comparator_controlled_reducer_seed0/audits/`.
+
+### 2026-08-04 — q=0..100 intermediate-state curriculum (Author: Codex)
+
+- **Question:** can the already-qualified comparator-controlled reducer learn
+  its local piecewise transition on the high-q states that caused the frozen
+  q=30 frontier, without an architecture change? We resumed that q=0..20
+  checkpoint and changed only balanced transition support to q=0..100, retaining
+  q=0 identity, width-six LSD-first scan, optimizer, batch size, and 4,000
+  updates. The 48/16 seen/unseen modulus split and 128 remainders/modulus are
+  unchanged. All q≤100 states fit six digits; none were truncated or dropped.
+- **Result:** on unseen N, all 206,848 teacher-forced transition cases q=0..100
+  are exact; learned continue/stop is also 100% in every q bucket. True q=0
+  remainders are fixed points at 100%. Autonomous q=0..100 terminal remainder
+  and exact halt are 100%, with zero early stops, late stops, or non-stops.
+  The requested independent frozen table at q=1, 5, 10, 20, 30, 50, and 100
+  is 100% for comparator, raw subtractor, composition, and final rollout in
+  every row (2,048 examples/row).
+- **Interpretation:** the former high-q failure was primarily missing
+  algorithmically relevant transition-state support, not an intrinsic finite
+  horizon of this serial comparator/subtractor mechanism. This establishes
+  in-range q≤100 execution only; it does not establish quotient extrapolation,
+  unlimited reduction, or a competition solution. Artifact (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/serial_comparator_controlled_reducer_seed0/stage3_q100/`.

@@ -48,10 +48,17 @@ unseen-N identity claim.
 99.93% unseen-N comparison and 100% held-out N−1/N/N+1 boundaries. Gating the
 learned subtractor against an identity residual gives 100% q=0 fixed points,
 transitions through q=28, and complete autonomous unseen-N execution q=0..28.
-The first failure q=29 is an early stop after subtraction error; q=100 is
-37.50%. This supports comparator/subtractor decomposition as the missing local
-branch mechanism, but does not establish an unlimited reducer or solve the
-competition's squaring task.
+The frozen transition audit isolates the q≥29 frontier: comparator accuracy
+remains 100% q=1..100, but learned one-step exact first degrades at q=30
+(93.75%), before rollout can compound it; q=50/q=100 teacher transitions are
+85.06%/86.04% and final rollouts 62.50%/37.50%. The next fixed-architecture
+control extended balanced q=0..100 transition support, and it passes: all
+206,848 unseen-N one-step cases plus autonomous q=0..100 execution are exact,
+with correct halting and q=0 fixed points. The q=30 failure was therefore a
+support gap, not a finite-horizon limit in this trained range. This supports
+comparator/subtractor decomposition plus full trace support as a valid learned
+reducer mechanism, but does not establish quotient extrapolation, unlimited
+reduction, or solve the competition's squaring task.
 
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
