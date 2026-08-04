@@ -1428,3 +1428,16 @@ PREDICT:    Muon will improve early fitting of the two serial arithmetic cells
             without reducing the 434-update horizon; promotion requires OOD
             exact above 0% or mean exact materially above 1.67%. Refutation:
             faster train fit with no held-out gain, as in the Fable control.
+RESULT:     refuted for the all-matrix split — it reaches 4.00% test but 0%
+            OOD (2.00% mean) while training reaches 99.8%, confirming an
+            overfitting optimizer assignment rather than a generalization gain.
+
+DATE:       2026-08-05
+CARD:       vdf_square_reduce_muon_transform_matrices_only
+CHANGE:     Restrict the VDF Muon+AdamW hybrid's Muon group from every matrix
+            to only SquareCell/ReduceCell attention and MLP transformation
+            matrices; leave all embeddings, GRU weights, register projection,
+            head, norm, model, data, and schedule unchanged.
+PREDICT:    Keeping representational tables and recurrent state on AdamW will
+            reduce the previous Muon overfit and restore nonzero OOD exact.
+            Refutation: OOD remains 0% or mean does not exceed 2.00%.

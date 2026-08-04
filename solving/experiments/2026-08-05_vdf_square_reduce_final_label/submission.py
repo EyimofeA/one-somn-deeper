@@ -184,8 +184,13 @@ def build_model(spec: ModelSpec) -> VDFModel:
 
 def build_optimizer(model: nn.Module, spec: OptimizerSpec) -> OptimizerBundle:
     matrix, other = [], []
-    for parameter in model.parameters():
-        (matrix if parameter.ndim == 2 else other).append(parameter)
+    for name, parameter in model.named_parameters():
+        learned_transform = (
+            parameter.ndim == 2
+            and (name.startswith("square.") or name.startswith("reduce."))
+            and any(part in name for part in ("qkv.weight", "out.weight", "up.weight", "down.weight"))
+        )
+        (matrix if learned_transform else other).append(parameter)
     optimizer = CombinedOptimizer([
         Muon(matrix),
         torch.optim.AdamW(other, lr=2e-3, betas=(0.9, 0.95), weight_decay=0.05, capturable=spec.device_type == "cuda"),
