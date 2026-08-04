@@ -253,6 +253,6 @@ SUBMISSION = Submission(
     build_model=build_model,
     build_optimizer=build_optimizer,
     training_loss=training_loss,
-    batch_size=256,
+    batch_size=512,
     eval_batch_size=1024,
 )

@@ -1376,3 +1376,14 @@ PREDICT:    Muon may improve transformation-matrix conditioning enough to beat
 RESULT:     refuted — Muon reaches 100% train exact but only 1.33% test / 6.00%
             OOD (3.67% mean), below the AdamW control's 4.33% local mean. The
             optimizer accelerates memorization, not generalization.
+
+DATE:       2026-08-05
+CARD:       fable_tcap_adamw_batch512_throughput_control
+CHANGE:     Increase only the selected Fable T-cap/AdamW source's training
+            batch size from 256 to 512; leave its evaluation batch 1,024,
+            architecture, loss, optimizer, schedule, recurrence, and e1
+            manifest unchanged.
+PREDICT:    Since the 256-batch control used under 1 GiB and low GPU
+            utilization, batch 512 increases examples per second without
+            reducing local held-out mean below 4.33%. Refutation: throughput
+            does not improve or e1 mean falls at/below the 4.33% control.
