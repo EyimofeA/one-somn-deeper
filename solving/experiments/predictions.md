@@ -589,3 +589,85 @@ PREDICT:    Correct context will improve held-out-u exact match, especially
             q>=10, while shuffled context remains near the fixed-workspace
             result; otherwise the fixed initializer is not the primary
             bottleneck.
+
+DATE:       2026-08-04
+CARD:       taskb_workspace_depth_audit
+CHANGE:     Evaluation-only override of the retained ordered-context K=8 peak
+            checkpoints at K={1,2,4,8}; model weights, data rows, and
+            initialization context remain fixed.
+PREDICT:    If the tied workspace is carrying out useful iterative reduction,
+            K→2K will selectively repair q>=4 rows more often than it breaks
+            them. If it is merely a depth effect, exact match will peak early
+            or aggregate gains will not concentrate in difficult q buckets.
+RESULT:     confirmed, bounded — K=8 is best on all three retained peak
+            checkpoints (55.98±4.23% exact vs 0.63±0.38% at K=1); q>=4 rises
+            0.53±0.41%→53.87±4.41%, and every K→2K pair has net repairs.
+            This demonstrates useful extra computation, not an identified
+            general remainder recurrence.
+
+DATE:       2026-08-04
+CARD:       taskb_reduction_capability_ladder
+CHANGE:     Replace the single broad fixed-N reduction diagnostic with five
+            fixed-size, disjoint operand regimes B0–B4; architectures A/B/C
+            are matched controls and all optimizer/training settings are fixed.
+PREDICT:    All models pass B0; B1/B2 expose a subtraction/borrow or small-q
+            boundary; B3 should be easier than B4 if the broad-u diagnostic is
+            distribution-mismatched. A recurrent advantage is meaningful only
+            if it concentrates in q>=4 rather than q=0.
+NOTE:       Screening horizon set to 2,000 fixed updates before any valid
+            metric was recorded. The original 20,000-update queue was stopped
+            before step 200 after measured throughput made the full 15-cell
+            matrix impractical; batch size, optimizer, and all other settings
+            remain fixed across cells.
+RESULT:     refuted — every architecture solves B0 (100.00%), B1
+            (98.83–99.61%), and B2 (92.58–96.88%) held-out, but B3 square
+            operands are 0.00–0.39% despite 42.50–64.00% train exact. B4
+            reaches 16.80–20.70%, but almost entirely from q=0 (92.68–97.56%)
+            while q>=4 remains 2.35–6.57%; standard is the B4 screen winner.
+
+DATE:       2026-08-04
+CARD:       taskb_quotient_balanced_broad
+CHANGE:     Replace B4's naturally q=0-heavy broad-u sampling with equal-size
+            q buckets {0, 1, 2-3, >=4}; keep fixed N=1349, disjoint splits,
+            the baseline architecture, optimizer, seed, and 2,000 updates.
+PREDICT:    If B4's apparent gain is mostly q=0 composition, held-out exact
+            will fall sharply and q>=4 will remain below 10%. A materially
+            higher q>=4 score would instead show that broad operand support,
+            not a missing long-reduction mechanism, is the main bottleneck.
+RESULT:     confirmed at seed 0 — held-out exact is 47.27%, but q>=4 is 0.00%
+            (q=0/1/2-3 = 87.50/59.38/42.19%). B4's aggregate was composition-
+            confounded; balanced exposure does not yet yield long reduction.
+
+DATE:       2026-08-04
+CARD:       taskb_quotient_balanced_replication
+CHANGE:     Repeat the quotient-balanced broad diagnostic at data/training
+            seeds 1 and 2; architecture, N, optimizer, split sizes, and
+            2,000-update horizon are unchanged from seed 0.
+PREDICT:    Both replications retain q>=4 exact below 10%, while aggregate
+            held-out remains materially above B4 because q=0 through q=3 are
+            deliberately represented. A q>=4 recovery in either seed would
+            make the apparent long-reduction gate seed-sensitive and block
+            promotion to a new mechanism.
+RESULT:     confirmed — seeds 0/1/2 score 47.27/48.05/51.56% overall held-out
+            exact, but q>=4 is exactly 0.00% in all three. q=0 is
+            87.50/89.06/92.19%, q=1 59.38/57.81/67.19%, and q=2-3
+            42.19/45.31/46.88%. The current baseline has a reproducible
+            long-reduction gate, not a seed-sensitive aggregate artifact.
+
+DATE:       2026-08-04
+CARD:       taskb_learned_reduction_cell_reimplementation
+CLASS:      NEW REIMPLEMENTATION — NOT A REPRODUCTION
+CHANGE:     Replace only the current standard Transformer with a diagnostic
+            interface port of the historically named learned reduction cell:
+            learned digit embeddings, an 8-step GRU digit sweep, learned
+            attention over N digits, soft learned quotient state, learned GRU
+            update, and learned output heads. Data, N=1349, seed, optimizer,
+            batch size, and 2,000-update horizon remain B5-identical.
+PREDICT:    If the digit-serial state supplies a usable long-reduction bias,
+            q>=4 held-out exact becomes nonzero and exceeds the established
+            0.00% B5 baseline. If it remains zero despite train fit, eight
+            input-digit transitions are not sufficient evidence of an
+            effective quotient/reduction iteration at N=1349.
+RESULT:     refuted — train exact reaches 65.87%, but held-out exact is 3.12%
+            and q=4-9, q=10-99, and q>=4 are each 0.00%. It is below every
+            B5 baseline bucket and fails the nonzero-q>=4 promotion gate.

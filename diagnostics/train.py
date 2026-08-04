@@ -28,6 +28,7 @@ import repro
 from data.dataset import DiagnosticDataset, InputContextDataset, ShuffledContextDataset
 from data.tokens import OUTPUT_WIDTH
 from models.recurrent_workspace import RecurrentWorkspaceModel
+from models.learned_reduction import LearnedReductionCell
 from models.transformer import StandardTransformer
 from models.transformer_n_broadcast import NBroadcastTransformer
 from models.transformer_quotient_aux import QuotientAuxTransformer
@@ -125,12 +126,16 @@ def build_model(cfg: dict, max_seq_len: int, task: str) -> nn.Module:
             num_loops=m.get("num_loops", 8),
             workspace_init_mode=m.get("workspace_init_mode", "fixed"),
         )
+    if m["type"] == "learned_reduction_cell":
+        if task != "mod":
+            raise ValueError("learned_reduction_cell is only defined for Task B")
+        return LearnedReductionCell(d_model=m.get("d_model", 128))
     raise ValueError(f"unknown model.type {m['type']!r}")
 
 
 def extract_targets_and_logits(logits: torch.Tensor, labels: torch.Tensor, output_width: int, model_type: str):
     targets = labels[:, -output_width:]
-    if model_type in ("transformer", "n_broadcast_transformer", "quotient_aux_transformer"):
+    if model_type in ("transformer", "n_broadcast_transformer", "quotient_aux_transformer", "learned_reduction_cell"):
         logits = logits[:, -output_width:, :]
     # recurrent_workspace already returns exactly (batch, output_width, digit_vocab)
     return logits, targets

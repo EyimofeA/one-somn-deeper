@@ -817,3 +817,194 @@ composition, still locally and without promoting weights to a submission.
 - **Setup:** `git pull --ff-only` in gitignored `competition/` (was `79f0a09`); GPU box `oneL40` already at tip. Diffed README / `benchmark/{api,runner,validation}.py` / `service/{db,views}.py` / `client/cli.py`.
 - **Result:** One upstream commit. Adds `TokenLossBatch` + mutually exclusive `token_training_loss` (legacy `training_loss` still valid). Hard ranking becomes Max T → OOD N Max T → next-rung exact accuracy (`seen_tiebreak_accuracy_percent` / `ood_n_tiebreak_accuracy_percent`) → earlier time. Rule 4 clarifies outer loop vs in-model recurrence/TRM/optimizer curvature. Rule 14 bans data augmentation. README notes closed beta Jul 31–Aug 2 and Monday Aug 31 10pm PT deadline.
 - **Next:** No forced submission rewrites (active cards keep `training_loss`). Prefer `token_training_loss` only when sequence-level loss is the one variable. Specs refreshed: `solving/handoff/PRIMARY_SOURCES.md`, `learnings/concepts/{01,03,09,14}`, `RESEARCH_PROTOCOL.md` §6, `SCOREBOARD.md`, `STATUS.md`, `ASSUMPTIONS.md`.
+
+## 2026-08-04 — Session open (Author: Codex)
+
+- Current branch/commit: `main` / `fab088c5c5219500d31851234f8628170f3dd8ac`.
+- Competition upstream commit or live-rule timestamp: pending read-only audit.
+- Question being investigated: where learned fixed-`N=1349` decimal reduction first fails across the B0–B4 capability ladder.
+- Approved experiment: initial action was a rule/upstream audit only; the
+  bounded Task B capability ladder follows under the executor-prediction rule.
+- Expected result: executor-authored in `solving/experiments/predictions.md`.
+- Maximum compute: none during audit.
+- Files permitted to change: factual audit/session records only; no competition-facing code.
+
+### 2026-08-04 — Rule audit result (Author: Codex)
+
+- **Setup:** Compared the unchanged local checkout
+  `8a3c78d6eae4047b07cd8c617c1b311f544a0e9f` to fetched upstream
+  `e32c2f985f8ed4107c96d00271448777954ecc0c` (`2026-08-03T23:44:35Z`). Read
+  the live problem page on 2026-08-04. No competition checkout or submission
+  source was modified.
+- **Result:** Upstream adds bounded evaluator-owned multi-backward-pass and
+  same-batch-reuse APIs, and forbids participant-initiated derivative entry
+  points/nested training; scoring and data generation are unchanged. Static
+  scan found no newly forbidden calls in local submission sources. Existing
+  validation artifacts are stale against the new pin. Full file/API/rule diff:
+  `solving/RULE_AUDIT_2026-08-04.md`.
+- **Status correction:** Completed Hard Fable v2 is #19/19 on the live Hard
+  board, with no T=1 certification; earlier `#11 at 0.03%` text was historical.
+- **Next:** Run the executor-predicted fixed-`N` ladder; retain the audit as
+  a scope/legality record.
+
+### 2026-08-04 — Prediction ownership change (Author: Codex)
+
+- **Decision:** User authorized the experiment executor, rather than the
+  human, to write pre-registered predictions and continue the bounded task
+  sequence autonomously.
+- **Protocol change:** `RESEARCH_PROTOCOL.md` §1 now requires an
+  executor-authored prediction before a run; it records the mechanism and
+  falsifier and can be amended by the human. The one-variable and result rules
+  remain unchanged.
+
+### 2026-08-04 — Task B retained-checkpoint depth audit (Author: Codex)
+
+- **Question:** Does the ordered-input K=8 workspace use additional tied steps
+  for difficult reduction cases, or is its reported gain only ordinary depth?
+- **Setup:** Evaluated the same fixed-`N=1349` held-out-u rows at override
+  `K={1,2,4,8}` for the three saved ordered-context **peak** checkpoints.
+  Weights, initialization context, rows, and output decoding were unchanged.
+  Reports: `diagnostics/analysis_out/task_b_workspace_depth_audit/seed{0,1,2}.json`.
+- **Result:** Exact match increased at every depth: K=1 **0.63±0.38%**, K=2
+  **5.37±3.07%**, K=4 **36.93±1.78%**, K=8 **55.98±4.23%**. The `q>=4` bucket
+  likewise climbed **0.53±0.41% → 4.29±2.49% → 34.35±1.43% → 53.87±4.41%**.
+  Aggregated repaired/broken counts were 295/11 (1→2), 1,934/40 (2→4), and
+  1,375/232 (4→8).
+- **Classification:** Confirmed, bounded. Extra tied steps help difficult rows
+  and performance does not peak before K=8. This is not evidence that the
+  transition has learned the mathematical remainder recurrence: every tested
+  K is inside the training architecture's finite range.
+
+### 2026-08-04 — Task B capability-ladder budget amendment (Author: Codex)
+
+- **Setup:** The planned 15-cell, 20,000-update seed-0 screen was started on
+  the L40 and stopped before its first logged metric: it had not reached step
+  200 after more than two minutes. No result was recorded or interpreted.
+- **Decision:** All ladder cells now use a uniform **2,000-update** screening
+  horizon with no early stopping. This preserves comparisons within the ladder
+  while avoiding an all-day wall-clock confound; batch size, optimizer, data
+  sizes, architectures, and seed remain fixed.
+
+### 2026-08-04 — Task B L40 execution record (Author: Codex)
+
+- **Instance:** Prime Intellect pod `025c2d0974444e979138da8ed4627d23`,
+  name `somn-l40`, one L40 48 GB, 14 vCPU, 72 GB RAM, 100 GB disk, created
+  2026-08-04 11:20:52 UTC.
+- **Remote paths:** source `~/somn-taskb/diagnostics`; virtual environment
+  `~/somn-venv`; ladder artifacts `~/somn-taskb/runs/reduction_ladder`;
+  queue log `~/somn-taskb/reduction_ladder_screen.log`.
+- **Durability plan:** sync every completed run directory to
+  `diagnostics/artifacts/somn-l40-2026-08-04/` before provider termination;
+  checkpoints remain outside Git.
+
+### 2026-08-04 — Task B capability ladder, seed-0 screen (Author: Codex)
+
+- **Data:** fixed `N=1349`, 800 train / 256 validation / 256 held-out-u rows,
+  split-disjoint operands; B0=`q=0`, B1=`q=1`, B2=`q=2-3`, B3=`u=x^2` for
+  disjoint `x`, B4=the existing broad sampler. Every cell used 2,000 updates.
+- **Models:** matched standard Transformer, five-layer deep control, and
+  ordered input-context K=8 recurrent workspace. Exact-match held-out-u is
+  the decision metric; token accuracy and quotient buckets are diagnostic.
+- **Result:** B0: all 100.00%; B1: 98.83/99.61/98.83%; B2:
+  96.88/96.09/92.58%; B3: 0.39/0.00/0.39%; B4: 20.70/16.80/18.36%
+  (standard/deep/recurrent order). In B4, q=0 constitutes 41/256 held-out
+  rows and is 95.12/92.68/97.56% correct, while q>=4 is only
+  6.57/2.35/3.29% correct.
+- **Classification:** Refuted the pre-registered B3-easier-than-B4 prediction.
+  The direct gate is not copying or a one-to-three-subtraction primitive; it
+  is general high-quotient reduction. B4's aggregate exact-match is not a
+  valid high-q success because its composition is q=0-heavy.
+- **Artifacts:** all 15 reports/metrics are synced under
+  `diagnostics/artifacts/somn-l40-2026-08-04/reduction_ladder/`; resumable
+  checkpoint copying is separate from the lightweight report backup.
+
+### 2026-08-04 — Quotient-balanced broad reduction, seed 0 (Author: Codex)
+
+- **Question:** Is B4's apparent broad-u gain a real high-quotient reduction
+  capability, or an aggregate artifact of a q=0-heavy split?
+- **Change:** Only the operand distribution: B5 has 200/800 training and
+  64/256 held-out examples in each q bucket `0`, `1`, `2-3`, and `>=4`.
+  Fixed `N=1349`, disjoint operands, standard baseline, and 2,000 updates are
+  otherwise identical to the ladder screen.
+- **Result:** 47.27% held-out exact (train 82.37%). Bucket exact is q=0
+  87.50%, q=1 59.38%, q=2-3 42.19%, and q>=4 **0.00%**.
+- **Replication result:** Seeds 0/1/2 have 47.27/48.05/51.56% held-out exact.
+  The q>=4 bucket is exactly **0.00% in all three**; q=0 is
+  87.50/89.06/92.19%, q=1 59.38/57.81/67.19%, and q=2-3
+  42.19/45.31/46.88%.
+- **Classification:** Confirmed across three seeds. It narrows the unsolved
+  gate to reduction beyond three modulus subtractions, not a seed-sensitive
+  aggregate or B4 composition artifact.
+
+### 2026-08-04 — Prior learned-reduction-cell forensic gate (Author: Codex)
+
+- **Candidate located:** `solving/research/pure_reduction_cell_v2.py` and
+  `generate_pure_reduction_v2.py`, introduced together in commit
+  `60e87717403e46ff57fb5ea66f3dacd5152ea8ef` (2026-07-25 02:37:02 +0100).
+  The historical 78.45% claim refers to this *named* v2 card, rather than the
+  earlier v1: the source difference is weight decay `0.01 -> 1.0`, while the
+  v2 generator changes the direct 8-digit operand distribution to
+  reciprocal/log-uniform sampling at fixed `N=323`.
+- **Mechanism reconstructed from source:** four learned pieces only: digit
+  embeddings, an 8-step GRU state sweep over MSB-first operand digits,
+  attention from state to the three supplied `N` digits, and a soft learned
+  quotient embedding followed by a learned GRU update. The final continuous
+  state feeds three digit heads. No modulo, comparison, handwritten quotient,
+  subtraction loop, or lookup table occurs in `forward`; the fixed loop count
+  is input-digit length (eight), not a quotient-dependent control flow.
+- **Historical setup claimed in prose:** 8,000 reciprocal-sampled direct
+  8-digit operands / 2,000 disjoint held-out operands; fixed `N=323`; final
+  three-digit `P mod N` supervision; reported 78.45% peak at step 26,200 and
+  a 69–84% late window, with a prose-only 75.5% `P>=323` check.
+- **Blocking reconstruction result:** the only committed candidate has
+  `TOTAL_STEPS=20,000`, while the claim requires 80,000 steps. There is no
+  committed 80,000-step source/config, command, generated split, raw metric,
+  checkpoint, or checkpoint hash (`find`/repository-wide search found none).
+  `diagnostics/analysis_out/task_b_canonical_matrix.md` independently labels
+  these raw artifacts missing. Therefore the 78.45% number is not reproduced
+  evidence and cannot identify an exact runnable mechanism/config.
+- **Decision:** Phase 2 reproduction and every N=1349 port/control are
+  stopped by the required gate. Re-running a guessed 80,000-step variant would
+  be a new, bundled experiment, not a reproduction. Historical rows remain
+  unchanged; this is a labeled correction to their evidentiary status.
+
+### 2026-08-04 — Learned reduction-cell new reimplementation, N=1349 (Author: Codex)
+
+- **Classification:** **NEW REIMPLEMENTATION — NOT A REPRODUCTION.** This run
+  tests the architecture form only; it neither confirms nor revises the
+  unverified historical 78.45% claim.
+- **Interface-only port:** `diagnostics/models/learned_reduction.py` preserves
+  learned decimal digit embeddings, an eight-transition GRU sweep over the
+  eight MSB-first `u` digits, learned attention over supplied `N` digits, soft
+  learned quotient embedding, learned state update, and four learned output
+  heads. The necessary interface changes are 3→4 `N` digits, 3→4 output
+  digits, and the current 19-token Task B prompt. Width remains 128; no
+  Abacus, auxiliary target, state discretization, or streaming variation was
+  added.
+- **What is structural versus learned:** decimal prompt layout and exactly
+  eight state transitions are structural. Every state transformation,
+  attention, quotient representation, and output mapping is learned. The
+  eight transitions are tied to input-digit count—not quotient magnitude or
+  an explicit repeated-subtraction count—so the architecture description alone
+  does not imply scaling with q.
+- **Data and command:** B5 quotient-balanced fixed `N=1349`, 800 train / 256
+  validation / 256 independent held-out operands, 64 rows in each q bucket.
+  L40 command: `python train.py configs/mod_fixed_n_learned_reduction.yaml
+  --override out_dir=/home/ubuntu/somn-taskb/runs/learned_reduction_b5/seed0`.
+  Seed 0; AdamW settings, batch 512, and 2,000 updates match B5 baseline.
+- **Result supported by this run:** 242,098 parameters; 45–51 steps/s;
+  65.87% train exact and 3.12% held-out exact. Held-out exact by quotient is
+  q=0 7.81%, q=1 1.56%, q=2-3 3.12%, q=4-9 0.00%, q=10-99 0.00%, and q>=4
+  0.00%. Output-position accuracy is 79.30/30.08/32.42/24.22%. Error runs
+  average 2.16 digits. Run bundle (raw metrics, report, source snapshot via
+  config, and checkpoints) is durable at
+  `diagnostics/artifacts/somn-l40-2026-08-04/learned_reduction_b5/`.
+- **Comparison:** B5 standard baseline is 47.27% held-out with q>=4 0.00%
+  across three seeds and has 799,498 parameters; its q=0/1/2-3 are materially
+  higher. Existing deep (877,810 parameters) and input-context workspace
+  (845,434) controls were not rerun on B5 because D failed the registered
+  nonzero-q>=4 screening gate; their B4 values are not used as a comparison.
+- **Classification:** Refuted. The port fails the promotion rule, so no extra
+  seeds, digit-order control, state-init control, or parameter-matched control
+  is justified. Those controls would diagnose an already-killed formulation,
+  not change the q>=4 decision.

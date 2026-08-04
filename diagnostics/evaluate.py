@@ -54,6 +54,7 @@ def run_split(model, ds: DiagnosticDataset, output_width: int, model_type: str, 
     all_correct = []
     all_token_correct = []
     all_meta = []
+    all_rows = []
     idx = 0
     for batch in loader:
         labels = batch["labels"].to(device)
@@ -65,9 +66,19 @@ def run_split(model, ds: DiagnosticDataset, output_width: int, model_type: str, 
         for i in range(row_correct.shape[0]):
             all_correct.append(bool(row_correct[i]))
             all_token_correct.append(float(token_correct[i]))
-            all_meta.append(ds.meta(idx))
+            meta = ds.meta(idx)
+            all_meta.append(meta)
+            digits_correct = (preds[i] == targets[i]).tolist()
+            all_rows.append(
+                {
+                    "row_correct": bool(row_correct[i]),
+                    "token_correct": digits_correct,
+                    "errors": [not value for value in digits_correct],
+                    "quotient": int(meta.get("quotient", -1)),
+                }
+            )
             idx += 1
-    return all_correct, all_token_correct, all_meta
+    return all_correct, all_token_correct, all_meta, all_rows
 
 
 def stratify(correct: list[bool], meta: list[dict], task: str, train_moduli: set[int] | None) -> dict:
@@ -98,10 +109,96 @@ def stratify(correct: list[bool], meta: list[dict], task: str, train_moduli: set
     return out
 
 
-def recurrence_depth_sweep(model: RecurrentWorkspaceModel, ds, output_width, device, batch_size=128) -> dict:
+def _quotient_bucket(q: int) -> str:
+    if q == 0:
+        return "q=0"
+    if q == 1:
+        return "q=1"
+    if q <= 3:
+        return "q=2-3"
+    return "q>=4"
+
+
+def _quotient_range(q: int) -> str:
+    if q == 0:
+        return "q=0"
+    if q == 1:
+        return "q=1"
+    if q <= 3:
+        return "q=2-3"
+    if q <= 9:
+        return "q=4-9"
+    if q <= 99:
+        return "q=10-99"
+    return "q>=100"
+
+
+def _error_run_lengths(errors: list[bool]) -> tuple[int, int]:
+    runs = 0
+    longest = 0
+    current = 0
+    for wrong in errors:
+        if wrong:
+            current += 1
+            longest = max(longest, current)
+        elif current:
+            runs += 1
+            current = 0
+    return runs + int(current > 0), longest
+
+
+def _depth_summary(rows: list[dict], output_width: int) -> dict:
+    n = len(rows)
+    exact = sum(row["row_correct"] for row in rows) / n
+    token = sum(sum(row["token_correct"]) for row in rows) / (n * output_width)
+    by_q: dict[str, list[bool]] = {}
+    by_q_range: dict[str, list[bool]] = {}
+    by_q_digits: dict[str, list[bool]] = {}
+    run_counts: dict[str, int] = {}
+    longest_runs = []
+    for row in rows:
+        q = row["quotient"]
+        if q >= 0:
+            by_q.setdefault(_quotient_bucket(q), []).append(row["row_correct"])
+            by_q_range.setdefault(_quotient_range(q), []).append(row["row_correct"])
+            by_q_digits.setdefault(str(len(str(q))), []).append(row["row_correct"])
+        run_count, longest = _error_run_lengths(row["errors"])
+        run_counts[str(run_count)] = run_counts.get(str(run_count), 0) + 1
+        longest_runs.append(longest)
+    return {
+        "n": n,
+        "exact_match": exact,
+        "token_accuracy": token,
+        "by_quotient": {bucket: sum(values) / len(values) for bucket, values in by_q.items()},
+        "by_quotient_range": {
+            bucket: sum(values) / len(values) for bucket, values in by_q_range.items()
+        },
+        "by_quotient_digit_length": {
+            digits: sum(values) / len(values) for digits, values in by_q_digits.items()
+        },
+        "per_output_position_accuracy": [
+            sum(row["token_correct"][position] for row in rows) / n
+            for position in range(output_width)
+        ],
+        "contiguous_error_runs": {
+            "row_fraction_by_run_count": {count: value / n for count, value in run_counts.items()},
+            "mean_longest_run": sum(longest_runs) / n,
+        },
+    }
+
+
+def recurrence_depth_sweep(
+    model: RecurrentWorkspaceModel,
+    ds,
+    output_width,
+    device,
+    depths: list[int],
+    batch_size=128,
+) -> dict:
+    if any(depth < 1 or depth > model.num_loops for depth in depths):
+        raise ValueError(f"depths must be in [1, {model.num_loops}]")
     loader = DataLoader(ds, batch_size=batch_size, shuffle=False)
-    depths = list(range(1, model.num_loops + 1))
-    acc_per_depth = {d: [] for d in depths}
+    rows_per_depth = {d: [] for d in depths}
     with torch.no_grad():
         for batch in loader:
             labels = batch["labels"].to(device)
@@ -118,8 +215,33 @@ def recurrence_depth_sweep(model: RecurrentWorkspaceModel, ds, output_width, dev
                 )
                 preds = logits.argmax(dim=-1)
                 row_correct = (preds == targets).all(dim=-1)
-                acc_per_depth[d].append(row_correct.float().mean().item())
-    return {str(d): sum(v) / len(v) for d, v in acc_per_depth.items()}
+                token_correct = preds == targets
+                for i in range(preds.shape[0]):
+                    rows_per_depth[d].append(
+                        {
+                            "row_correct": bool(row_correct[i]),
+                            "token_correct": token_correct[i].tolist(),
+                            "errors": (~token_correct[i]).tolist(),
+                            "quotient": int(batch["quotient"][i]),
+                        }
+                    )
+    changes = {}
+    for d in depths:
+        if 2 * d not in rows_per_depth:
+            continue
+        before, after = rows_per_depth[d], rows_per_depth[2 * d]
+        improved = sum(not left["row_correct"] and right["row_correct"] for left, right in zip(before, after))
+        broken = sum(left["row_correct"] and not right["row_correct"] for left, right in zip(before, after))
+        changes[f"{d}_to_{2 * d}"] = {
+            "improved_examples": improved,
+            "broken_examples": broken,
+            "net_examples": improved - broken,
+        }
+    return {
+        "same_example_count": len(ds),
+        "depths": {str(depth): _depth_summary(rows_per_depth[depth], output_width) for depth in depths},
+        "changes": changes,
+    }
 
 
 def main() -> None:
@@ -127,6 +249,7 @@ def main() -> None:
     ap.add_argument("run_dir")
     ap.add_argument("--data", required=True, help="directory containing <split>.jsonl files")
     ap.add_argument("--splits", nargs="+", required=True)
+    ap.add_argument("--depths", nargs="+", type=int, default=[1, 2, 4, 8])
     ap.add_argument("--out", default=None, help="where to write the json report (default: <run_dir>/eval_report.json)")
     args = ap.parse_args()
 
@@ -164,15 +287,13 @@ def main() -> None:
             ds = InputContextDataset(ds)
         elif init_mode == "shuffled_context":
             ds = ShuffledContextDataset(ds, seed=cfg.get("seed", 0))
-        correct, token_correct, meta = run_split(model, ds, output_width, model_type, device)
-        split_report = {
-            "n": len(correct),
-            "exact_match": sum(correct) / len(correct),
-            "token_accuracy": sum(token_correct) / len(token_correct),
-        }
+        correct, token_correct, meta, rows = run_split(model, ds, output_width, model_type, device)
+        split_report = _depth_summary(rows, output_width)
         split_report.update(stratify(correct, meta, task, train_moduli))
         if model_type == "recurrent_workspace":
-            split_report["by_recurrence_depth"] = recurrence_depth_sweep(model, ds, output_width, device)
+            split_report["recurrence_depth_audit"] = recurrence_depth_sweep(
+                model, ds, output_width, device, args.depths
+            )
         report["splits"][split] = split_report
         print(f"{split}: exact_match={split_report['exact_match']:.4f} token_accuracy={split_report['token_accuracy']:.4f}")
 

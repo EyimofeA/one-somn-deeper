@@ -1,19 +1,31 @@
 # Status (living)
 
-Last updated: 2026-08-03. **Upstream competition pin moved `79f0a09` → `8a3c78d`:**
-`token_training_loss` / `TokenLossBatch` for sequence-level losses (mutually
-exclusive with legacy `training_loss`); Hard tie-break now uses next-rung
-accuracy before submission time; Rule 14 bans data augmentation; Rule 4
-clarifies in-model recurrence vs evaluator outer loop. Specs refreshed under
-`solving/handoff/PRIMARY_SOURCES.md` + `learnings/concepts/{01,03,09,14}` +
-`RESEARCH_PROTOCOL.md` §6. Active cards that only use `training_loss` need no
-code change.
+Last updated: 2026-08-04. **Rule audit:** local competition checkout remains
+`8a3c78d`; live upstream is `e32c2f9` (2026-08-03), which adds bounded
+evaluator-owned multi-backward-pass and same-batch-reuse hooks and explicitly
+bans participant-started derivative/nested-training calls. Hard scoring is
+unchanged: certified Max T → OOD-N Max T → first-uncertified-rung accuracy →
+time. Full diff and impact: [`RULE_AUDIT_2026-08-04.md`](RULE_AUDIT_2026-08-04.md).
+The audit found no scoring/data change and no newly prohibited call in local
+submission sources; this session proceeds only with the non-submission Task B
+diagnostic.
 
-Hard shot #2 `99c4d7d3` scored **0.05%** mean exact (test 0.1%/ood_t 0/ood_n_t 0)
-under the *old* Hard metric — not the current Max T rank key. The current local
-mechanism work is a bounded, non-submission carry diagnostic; its results are below.
+Hard Fable v2 job `602bf7f1-eab7-46c2-91e8-e4a4a010f9d7` completed with
+**0.0467%** mean exact (5/9,999 test; 5/10,002 OOD-T; 4/10,002 OOD-N) but
+certified no T=1 rung. The live Hard leaderboard read on 2026-08-04 placed
+`mof` **#19/19**, with 0.0000% on both displayed T=1 tie-break profiles. This
+replaces stale `#11 at 0.03%` language below; historical rows remain history,
+not the current rank key. The current local mechanism work is a bounded,
+non-submission decimal-reduction diagnostic; its results are below.
 
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
+
+**Evidence correction (2026-08-04, Codex):** the historical `pure reduction
+v2` 78.45% row below is a prose-only claim, not a reproduced artifact. Its
+only committed candidate source has a 20,000-step schedule while the claim
+requires 80,000 steps; no original data split, command, raw metrics, or
+checkpoint remains. It is not a porting or submission basis unless a new,
+explicitly labeled replication succeeds.
 
 | Setting | Final held-out-u exact | Reading |
 |---|---:|---|
@@ -107,7 +119,10 @@ real number. wd=1.0 refuted at d=32 (never fits train, `_wd1/`).
 
 ## Hard leaderboard
 
-We are **#11 at 0.03%** (`mof` / Claude Hard run). Top is **0.40%** (az). Nobody has solved the task.
+Live read 2026-08-04: `mof` is **#19/19**, with no certified T=1 rung in
+either profile. The completed Fable v2 run has scattered mean-exact successes
+but 0.0000% at the displayed T=1 tie-break profiles. Historical `#11 at 0.03%`
+and `top 0.40%` statements are superseded; see the rule audit above.
 
 Protocol: [`../RESEARCH_PROTOCOL.md`](../RESEARCH_PROTOCOL.md).  
 Lecture: [`../learnings/readings/one-layer-deeper-notes.md`](../learnings/readings/one-layer-deeper-notes.md).  
@@ -142,7 +157,7 @@ Symlinks → `experiments/2026-07-21_<name>/`. Full history: all `2026-07-21_*` 
 (form vs. content; learn the operation + reduction instead of hardcoding squaring;
 the true gate is one-step held-out-N).
 
-Write PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
+The executor records PREDICT in [`experiments/predictions.md`](experiments/predictions.md) before any run.
 
 1. Measure μ+λ on local data (no GPU) — gates Path G bonus  
 2. Count digits of N on h1/m5 — gates Path E  

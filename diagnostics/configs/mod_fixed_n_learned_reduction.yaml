@@ -1,0 +1,21 @@
+task: mod
+seed: 0
+device: cuda
+model:
+  type: learned_reduction_cell
+  d_model: 128
+data:
+  train: data/generated/reduction_ladder/b5_quotient_balanced/train.jsonl
+  val: data/generated/reduction_ladder/b5_quotient_balanced/val_iid.jsonl
+optim:
+  lr: 3.0e-4
+  weight_decay: 0.01
+  warmup_frac: 0.05
+  total_steps: 2000
+  batch_size: 512
+  grad_clip: 1.0
+log_every: 100
+eval_every: 200
+eval_train_subset_size: 800
+early_stop_patience: null
+out_dir: runs/task_b_learned_reduction/seed0

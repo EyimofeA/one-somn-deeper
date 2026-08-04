@@ -18,7 +18,7 @@ human. This protocol moves code to the agent and keeps decisions with the human.
 
 **No run starts without a written prediction.**
 
-Before any training run, the human writes three lines in
+Before any training run, the experiment executor writes three lines in
 `solving/experiments/predictions.md`.
 
 ```
@@ -40,7 +40,10 @@ Two reasons for this rule.
 2. A prediction fixes the interpretation before the numbers arrive. Without it,
    any result can be explained after the fact, and the agent will explain it.
 
-**The agent never writes the prediction. The human writes the prediction.**
+**The experiment executor writes the prediction before the run starts.** It must
+name the mechanism, the one changed variable, and the falsifying outcome. The
+human may amend or override it, but a missing human reply does not block a
+bounded experiment.
 
 ---
 
@@ -160,8 +163,10 @@ as a "reference implementation for testing" and then drift into the submission.
 - Which hyperparameter to change next.
 - What a result means.
 - Whether a card worked.
-- The prediction.
 - Every line of `submission.py` that is not boilerplate.
+
+**Executor responsibility.** The agent records every prediction and result in
+`solving/experiments/predictions.md` before and after its bounded run.
 
 `submission.py` is limited to 256 KiB. Keep the whole file in your own head.
 
