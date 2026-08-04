@@ -1618,3 +1618,23 @@ composition, still locally and without promoting weights to a submission.
   selection cannot bind to a preserved unit primitive. Artifacts (not
   committed): `diagnostics/artifacts/somn-l40-2026-08-04/serial_chunk_reducer_unit_init/`
   and `diagnostics/artifacts/somn-l40-2026-08-04/frozen_unit_chunk_controller/`.
+
+### 2026-08-04 — Action-class-balanced frozen chunk controller (Author: Codex)
+
+- **Question:** did the Option-B controller fail only because q-balanced traces
+  place 93 of 101 q values in action k=8? Change only the sampler so all five
+  action labels are equally represented per batch; retain frozen W=14 unit
+  reducer, controller head, q=0..100 rows, targets, loss, seed, optimizer,
+  batch 512, and 4,000 updates.
+- **Result:** refuted as a chunk solution. q=0 action, macro transition, and
+  terminal exact are all 100%; q=1 terminal exact is 93.75%. But action
+  accuracy is 0% q=2, 11.67% q=4, 56.35% q=8, 41.85% q=100, and 57.18%
+  q=1000. q=100 terminal exact is 0%, despite 13.11 mean outer actions versus
+  a 13-action target. The frozen arithmetic remains intact; the controller
+  cannot choose useful multi-unit actions from its frozen serial features.
+- **Decision:** the required controls are complete. Direct chunk-digit learning
+  is refuted both fresh and unit-initialized; frozen scheduling is refuted both
+  q-balanced and action-balanced. A new controller representation/architecture
+  would be a new research branch and requires an explicit card choice. Artifact
+  (not committed):
+  `diagnostics/artifacts/somn-l40-2026-08-04/frozen_unit_chunk_controller_balanced_actions/`.

@@ -1207,3 +1207,20 @@ RESULT:     refuted as configured — frozen learned arithmetic remains 99.95%
             non-stops in all buckets. The q-balanced traces are action-imbalanced
             (93/101 q values label k=8), so this isolates controller-class
             imbalance rather than loss of the frozen unit primitive.
+
+DATE:       2026-08-04
+CARD:       taskb_frozen_unit_chunk_controller_balanced_actions
+CHANGE:     Change only frozen-controller batch sampling from q-balanced to
+            five-way action-class-balanced. Keep the frozen W=14 unit reducer,
+            controller architecture, q=0..100 rows, targets, loss, optimizer,
+            seed, batch size, and 4,000 updates fixed.
+PREDICT:    Equal action exposure restores k=0 and small-k prediction while
+            frozen unit execution retains q=0/q=1 macro exactness; q=100 then
+            reaches the remainder in 13 outer actions but still 100 inner unit
+            updates. Refutation: k=0 action remains poor or q=100 fails despite
+            correct action exposure.
+RESULT:     refuted — balanced sampling makes q=0 action/macro/terminal exact
+            100% and q=1 terminal 93.75%, but multi-chunk action remains weak
+            (0% q=2, 41.85% q=100) and q=100 terminal exact is 0%. Thus class
+            imbalance explained the missing stop action, not the failure to
+            infer a useful chunk from frozen serial state.

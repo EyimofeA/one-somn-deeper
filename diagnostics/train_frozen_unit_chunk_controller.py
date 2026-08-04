@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 from pathlib import Path
 
 import torch
@@ -43,6 +44,11 @@ class FrozenUnitChunkController(nn.Module):
 
 def tensors(rows, device):
     return tuple(torch.tensor([row[index] for row in rows], dtype=torch.long, device=device) for index in range(4))
+
+
+def action_balanced_batch(groups, batch_size, seed, step):
+    rng = random.Random(seed + step)
+    return [rng.choice(groups[index % len(groups)]) for index in range(batch_size)]
 
 
 @torch.no_grad()
@@ -104,16 +110,19 @@ def main():
     parser.add_argument("--steps", type=int, default=4000)
     parser.add_argument("--batch-size", type=int, default=512)
     parser.add_argument("--max-train-q", type=int, default=100)
+    parser.add_argument("--balanced-actions", action="store_true")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     all_moduli = semiprimes(args.seed, 64)
     train_moduli, test_moduli = all_moduli[:48], all_moduli[48:]
     train = chunk_rows(train_moduli, args.seed, 128, range(args.max_train_q + 1), heldout=False)
+    groups = [[row for row in train if row[3] == action] for action in range(len(ACTIONS))]
     checkpoint = torch.load(args.unit_reducer_checkpoint, map_location=args.device, weights_only=True)
     model = FrozenUnitChunkController(checkpoint, args.device).to(args.device)
     optimizer = torch.optim.AdamW(model.action.parameters(), lr=3e-4, weight_decay=.01)
     for step in range(1, args.steps + 1):
-        state, modulus, _, action = tensors(batch(train, args.batch_size, step), args.device)
+        data = action_balanced_batch(groups, args.batch_size, args.seed, step) if args.balanced_actions else batch(train, args.batch_size, step)
+        state, modulus, _, action = tensors(data, args.device)
         loss = F.cross_entropy(model(state, modulus), action)
         optimizer.zero_grad(set_to_none=True)
         loss.backward()

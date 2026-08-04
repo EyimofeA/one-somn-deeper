@@ -96,6 +96,14 @@ contain 93 k=8 labels. It never chooses k=0 and has 100% non-stops. The only
 remaining narrow control before judging scheduling is action-class-balanced
 controller exposure; do not modify direct chunk digit generation further.
 
+**Balanced-controller control is also refuted:** equal action batches restore
+the k=0 stop (q=0 is 100% terminal exact) but not useful chunk inference:
+action accuracy is 0% q=2 and 41.85% q=100, with q=100 terminal exact 0%.
+The validated unit arithmetic survives; neither unit initialization nor action
+class balance produces a learned sublinear controller. The direct-chunk and
+frozen-controller formulations are closed. Any next step needs an explicitly
+new controller representation, not another training tweak.
+
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
 **Evidence correction (2026-08-04, Codex):** the historical `pure reduction
