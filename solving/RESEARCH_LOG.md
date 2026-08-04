@@ -1732,3 +1732,24 @@ composition, still locally and without promoting weights to a submission.
   compositional transition representation, not another chunk selector.
   Artifact (not committed):
   `diagnostics/artifacts/somn-l40-2026-08-04/action_conditioned_macro_transition/seed0/eval_report.json`.
+
+### 2026-08-04 — Hierarchical accelerator reclassification and VDF audit (Author: Codex)
+
+- **Hierarchical accelerator:** the requested architecture already exists in
+  `train_frozen_unit_threshold_controller.py --features positions`: frozen
+  state → learned per-position four-bit controller → selected chunk k → k
+  repeated frozen learned unit updates. Its held-out-N q=0 fixed point is 100%;
+  q=1 terminal exact 99.95%; q=100 selected-k/macro exact 100% and terminal
+  exact 99.51%. It takes 7.50 mean external decisions at q=100.
+- **Critical cost result:** q=100 also takes 102.05 mean *unit* transitions.
+  Thus it is a correct hierarchical scheduler, but not an arithmetic
+  accelerator: repeated unit execution remains O(q). The failed
+  action-conditioned macro decoder confirms that replacing those k calls with
+  one learned digit decoder loses exact state generation.
+- **VDF-pipeline audit:** a legal end-to-end solution must learn
+  `state -> Square(state,N) -> Reduce(raw_square,N)` and repeat it T times.
+  Current evidence begins only at an externally supplied raw reduction state;
+  no learned square-to-reducer bridge is established. Public Medium m4 can
+  require up to 4,194,302 unit reductions per square, so the current hierarchy
+  is not eligible for Medium integration. Full source-backed audit:
+  `VDF_PIPELINE_AUDIT.md`.
