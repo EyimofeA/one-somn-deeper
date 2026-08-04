@@ -12,9 +12,11 @@ manifest="$2"
 submission="$3"
 run_root="$4"
 run_dir="$run_root/$name"
+repo_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 
 mkdir -p "$run_dir/checkpoints"
-git rev-parse HEAD > "$run_dir/git_commit.txt"
+git -C "$repo_root" rev-parse HEAD > "$run_dir/git_commit.txt"
+git rev-parse HEAD > "$run_dir/evaluator_commit.txt"
 cp "$manifest" "$run_dir/manifest.json"
 cp "$submission" "$run_dir/submission.py"
 python - "$name" "$manifest" "$submission" "$run_dir" <<'PY' > "$run_dir/config.json"

@@ -5,7 +5,8 @@ Every local Easy, Medium, or Hard candidate uses:
 ```text
 runs/<submission_name>/
   config.json        command provenance
-  git_commit.txt     exact source revision
+  git_commit.txt     exact research/source revision
+  evaluator_commit.txt pinned competition-evaluator revision
   manifest.json      evaluator configuration
   submission.py      submitted source snapshot
   train.log          evaluator-owned training and final evaluation messages
