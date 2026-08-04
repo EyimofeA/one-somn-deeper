@@ -19,7 +19,7 @@ from torch import nn
 from torch.nn import functional as F
 
 
-WIDTH = 5
+WIDTH = 6
 
 
 def digits(value: int) -> list[int]:
@@ -36,7 +36,7 @@ def semiprimes(seed: int, count: int) -> list[int]:
     return random.Random(seed).sample(values, count)
 
 
-def rows(moduli: list[int], seed: int, per_modulus: int, heldout: bool) -> list[tuple[list[int], list[int], list[int]]]:
+def rows(moduli: list[int], seed: int, per_modulus: int, heldout: bool, qs: range = range(1, 2)) -> list[tuple[list[int], list[int], list[int]]]:
     result = []
     for index, modulus in enumerate(moduli):
         rng = random.Random(seed + 10_000 * index)
@@ -44,13 +44,18 @@ def rows(moduli: list[int], seed: int, per_modulus: int, heldout: bool) -> list[
         train = set(rng.sample(all_remainders, per_modulus))
         choices = [r for r in all_remainders if r not in train] if heldout else list(train)
         for remainder in rng.sample(choices, per_modulus):
-            result.append((digits(modulus + remainder)[::-1], digits(modulus)[::-1], digits(remainder)[::-1]))
+            for q in qs:
+                current = q * modulus + remainder
+                target = (q - 1) * modulus + remainder
+                if len(str(current)) > WIDTH or len(str(target)) > WIDTH:
+                    raise ValueError("state exceeds configured decimal width")
+                result.append((digits(current)[::-1], digits(modulus)[::-1], digits(target)[::-1]))
     random.Random(seed + int(heldout)).shuffle(result)
     return result
 
 
 class SerialSubtractor(nn.Module):
-    """A learned five-step recurrence over aligned operand/modulus digits."""
+    """A learned six-step recurrence over aligned operand/modulus digits."""
 
     def __init__(self, width: int = 128) -> None:
         super().__init__()
@@ -95,12 +100,13 @@ def main() -> None:
     ap.add_argument("--train-moduli", type=int, default=48)
     ap.add_argument("--test-moduli", type=int, default=16)
     ap.add_argument("--per-modulus", type=int, default=128)
+    ap.add_argument("--max-train-q", type=int, default=1)
     ap.add_argument("--device", default="cuda")
     args = ap.parse_args()
 
     all_moduli = semiprimes(args.seed, args.train_moduli + args.test_moduli)
     train_moduli, test_moduli = all_moduli[:args.train_moduli], all_moduli[args.train_moduli:]
-    train = rows(train_moduli, args.seed, args.per_modulus, heldout=False)
+    train = rows(train_moduli, args.seed, args.per_modulus, heldout=False, qs=range(1, args.max_train_q + 1))
     seen = rows(train_moduli, args.seed, args.per_modulus, heldout=True)
     unseen = rows(test_moduli, args.seed, args.per_modulus, heldout=False)
     model = SerialSubtractor().to(args.device)
@@ -111,7 +117,7 @@ def main() -> None:
         "classification": "NEW REIMPLEMENTATION — NOT SUBMISSION-RELEVANT",
         "task": "q=1 learned serial subtraction", "train_moduli": train_moduli,
         "test_moduli": test_moduli, "steps": args.steps, "batch_size": args.batch_size,
-        "per_modulus": args.per_modulus, "model": "LSD-to-MSD learned GRU digit cell",
+        "per_modulus": args.per_modulus, "max_train_q": args.max_train_q, "model": "LSD-to-MSD learned GRU digit cell",
     }, indent=2) + "\n")
     start = time.perf_counter()
     with (out / "metrics.jsonl").open("w") as log:

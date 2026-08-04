@@ -933,3 +933,7 @@ CHANGE:     Change only decimal state width 5→6; keep the LSD-to-MSD learned
 PREDICT:    q=1..5 remains near-perfect across seeds. q=6..10 remains strongly
             above the q=1-only baseline without width failures; any residual
             degradation is gradual arithmetic error, not a representation cliff.
+RESULT:     confirmed for the requested seed-0 screen — all 2,048 unseen-N
+            examples are representable at every q=1..10, with zero truncation
+            failures. Autonomous rollout is 100% at every q=1..10; teacher
+            one-step is 100% q=1..7 and 95.26%, 91.65%, 87.50% q=8..10.

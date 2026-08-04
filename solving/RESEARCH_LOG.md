@@ -1325,3 +1325,15 @@ composition, still locally and without promoting weights to a submission.
   first q<100%, first q<95%, and curve shape. Promote canonicality only if q=1..5
   remains near-perfect, q=6..10 remains strong without collapse, and all remaining
   failures are arithmetic rather than width failures.
+
+### 2026-08-04 — Serial six-digit width audit, seed 0 (Author: Codex)
+
+- **Change:** decimal state width only, 5→6; leading-zero padding and LSD-relative
+  alignment retained. Every generated qN+r and target state was asserted to fit;
+  no examples were truncated or dropped.
+- **Result:** unseen-N q=1 remains 100% exact at every one of six digit positions.
+  Autonomous rollout is 100% through q=10 (2,048 examples per q). Teacher one-step
+  is 100% q=1..7 and 95.26%, 91.65%, 87.50% q=8..10, while rollout remains exact.
+- **Reading:** the prior seed-2 q=10 failure was representation width, not a
+  subtraction failure. This requested one-seed width screen contains no width
+  failures; residual raw-state teacher degradation is gradual, not cliff-like.
