@@ -66,14 +66,17 @@ class SerialSubtractor(nn.Module):
         self.head = nn.Linear(width, 10)
 
     def forward(self, u: torch.Tensor, n: torch.Tensor) -> torch.Tensor:
+        return self.head(self.encode(u, n)[0])
+
+    def encode(self, u: torch.Tensor, n: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
         state = torch.zeros(u.shape[0], self.cell.hidden_size, device=u.device)
-        outputs = []
+        states = []
         for position in range(WIDTH):
             place = self.place.weight[position]
             x = torch.tanh(self.pair(torch.cat((self.digit(u[:, position]) + place, self.digit(n[:, position]) + place), dim=-1)))
             state = self.cell(x, state)
-            outputs.append(self.head(state))
-        return torch.stack(outputs, dim=1)
+            states.append(state)
+        return torch.stack(states, dim=1), state
 
 
 def tensors(batch, device: str):

@@ -22,16 +22,20 @@ non-submission decimal-reduction diagnostic; its results are below.
 
 A learned LSD-to-MSD GRU over aligned `(u digit, N digit)` pairs achieves
 **100% held-out-N q=1 exact** on 16 unseen four-digit semiprimes × 128
-remainders, with no handwritten arithmetic in the forward. q=1-only rollout
-on unseen N remains 94.53%, 88.67%, 83.35%, and 77.15% at q=2..5. The next
-card adds full q=1..5 transition support before testing q=6..10; learned
-halting is gated on near-perfect multi-q unseen-N execution across three seeds.
-The former parallel decimal reducer is control-only.
+remainders, with no handwritten arithmetic in the forward. With width-six
+states and q=1..5 trace support, the seed-0 frozen subtractor rolls out at
+100% through q=10; its raw one-step transition softens only at q=8..10.
 
-The q=1..5 gate is now essentially passed: seed 0 is 100% rollout q=1..10,
-and seed 1 remains 92.72% at q=10. Seed 2 reveals a five-digit state-width
-confound for six-digit qN+r inputs, so the next and only change is a six-digit
-padding audit before any canonicality/halting work.
+**Canonicality is now promoted:** a separately trained, 129-parameter learned
+stop readout of the frozen serial GRU state takes only `(state, N)`, not q or
+depth. Autonomous q=0..7 execution is 100% exact in both remainder and stop
+step on unseen N. q=8/9/10 are 95.26%/91.65%/87.50%, with no late/non-stops or
+width errors; this exactly matches the subtractor's pre-existing raw-state
+transition loss. Therefore halting is not the current limiter. The next
+registered branch should extend the same fixed serial transition support above
+q=5, then test whether the unseen-N depth frontier moves; do not redesign the
+subtractor or add generated-state stop-head mixing unless a true-trace stop
+failure appears.
 
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 

@@ -1337,3 +1337,29 @@ composition, still locally and without promoting weights to a submission.
 - **Reading:** the prior seed-2 q=10 failure was representation width, not a
   subtraction failure. This requested one-seed width screen contains no width
   failures; residual raw-state teacher degradation is gradual, not cliff-like.
+
+### 2026-08-04 — Frozen serial-subtractor learned canonicality, seed 0 (Author: Codex)
+
+- **Setup:** froze width-six checkpoint
+  `serial_subtractor_width6/seed0/final.pt`; trained only a 129-parameter
+  linear stop readout of its final LSD-to-MSD GRU state. Training has true
+  q=0..5 trace states from 48 seen moduli, with q=0 states oversampled so stop
+  and continue labels are exactly 1:1. The stop head receives only current
+  padded state and N: no quotient, remaining depth, or oracle at inference.
+- **Evaluation:** 16 unseen four-digit semiprimes × 128 independent remainders
+  per q, q=0..10. Starting from u=qN+r, execution repeatedly queries learned
+  canonicality and, only when it says continue, applies the frozen learned
+  subtractor; cap is 16 learned reductions. Artifact (not committed, including
+  checkpoint): `diagnostics/artifacts/somn-l40-2026-08-04/serial_stop_head_width6_seed0_balanced_state_labels/`.
+- **Result:** q=0..7 are 100% final remainder, halting correctness, exact stop
+  step, and every output digit. q=8=95.26%, q=9=91.65%, q=10=87.50% on both
+  remainder and correct stop step. There are zero late stops, non-stops,
+  width/truncation errors, false-positive stops on noncanonical generated
+  states, and false-negative continues on canonical generated states.
+  Average executed steps are exactly q through q=7, then 7.823/8.560/9.093 at
+  q=8/9/10 due to early terminal states.
+- **Interpretation:** the canonicality head passes the promotion gate. Its
+  high-q residual exactly matches the frozen subtractor's q=8..10 one-step
+  exact curve; the apparent early stops follow a prior erroneous subtractor
+  state that is already below N, rather than a false positive on a correct true
+  trace. Generated-state mixture training is therefore not indicated yet.

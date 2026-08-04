@@ -937,3 +937,26 @@ RESULT:     confirmed for the requested seed-0 screen — all 2,048 unseen-N
             examples are representable at every q=1..10, with zero truncation
             failures. Autonomous rollout is 100% at every q=1..10; teacher
             one-step is 100% q=1..7 and 95.26%, 91.65%, 87.50% q=8..10.
+
+DATE:       2026-08-04
+CARD:       taskb_unseen_n_serial_subtractor_frozen_stop_head
+CHANGE:     Freeze the qualified width-six serial subtractor checkpoint and
+            train only a learned linear canonicality readout from its final
+            serial GRU state plus N. Train on balanced true q=0..5 states from
+            the 48 seen moduli; run no-q, no-depth autonomous halting on the
+            16 held-out moduli at q=0..10, capped at sixteen reductions.
+PREDICT:    The frozen serial state already supports exact learned subtraction,
+            so a canonicality readout should keep q=0..5 near-perfect with
+            negligible early stops, and preserve strong q=6..10 autonomous
+            accuracy. If it fails while the fixed-q rollout passes, the likely
+            cause is a stop-head distribution shift rather than a need to
+            redesign the subtractor.
+RESULT:     confirmed in the requested seed-0 screen. On 16 unseen moduli ×
+            128 remainders per q, q=0..7 has 100% final-remainder and exact
+            stop-step accuracy. q=8/9/10 is 95.26%/91.65%/87.50%, exactly the
+            frozen subtractor's raw teacher-transition curve; there are no
+            late stops, non-stops, representation failures, false-positive
+            stops on noncanonical generated states, or false-negative
+            continues on canonical generated states. The residual early
+            terminal states arise only after an existing subtractor arithmetic
+            error.
