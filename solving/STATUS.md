@@ -18,6 +18,16 @@ replaces stale `#11 at 0.03%` language below; historical rows remain history,
 not the current rank key. The current local mechanism work is a bounded,
 non-submission decimal-reduction diagnostic; its results are below.
 
+## Primary branch — serial multi-N learned subtraction (2026-08-04)
+
+A learned LSD-to-MSD GRU over aligned `(u digit, N digit)` pairs achieves
+**100% held-out-N q=1 exact** on 16 unseen four-digit semiprimes × 128
+remainders, with no handwritten arithmetic in the forward. q=1-only rollout
+on unseen N remains 94.53%, 88.67%, 83.35%, and 77.15% at q=2..5. The next
+card adds full q=1..5 transition support before testing q=6..10; learned
+halting is gated on near-perfect multi-q unseen-N execution across three seeds.
+The former parallel decimal reducer is control-only.
+
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
 **Evidence correction (2026-08-04, Codex):** the historical `pure reduction

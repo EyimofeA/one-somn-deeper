@@ -1292,3 +1292,20 @@ composition, still locally and without promoting weights to a submission.
   teacher and autonomous metrics fail together at q=303, this run supports the
   unsupported decimal-state transition diagnosis over a pure rollout-length
   diagnosis. Freeze fixed-N frontier fitting as planned.
+
+### 2026-08-04 — Primary branch: serial unseen-N subtractor (Author: Codex)
+
+- **Architecture:** learned digit embeddings, shared GRU, and categorical heads
+  scan aligned `(u digit, N digit)` pairs LSD-to-MSD; no handwritten arithmetic,
+  borrow, comparison, quotient, or lookup occurs in the forward.
+- **q=1 result:** training on 48 seen four-digit semiprimes and evaluating 16
+  unseen semiprimes × 128 independent remainders yields 100% seen-N exact,
+  100% unseen-N exact, and 100% at every digit position. This supersedes the
+  0% held-out-N q=1 parallel-decimal result.
+- **Composition:** q=1-only rollout on unseen N is 100.00%, 94.53%, 88.67%,
+  83.35%, and 77.15% at q=1..5; raw q>1 teacher-one-step fails faster. The
+  remaining issue is unsupported higher-q transition states.
+- **Next card:** keep the serial architecture and split fixed; add balanced
+  q=1..5 transition traces and test unseen-N q=1..5, then q=6..10. Report
+  teacher one-step, autonomous terminal, per-digit exact, failure type, and
+  three-seed stability. Add learned canonicality only after this gate passes.

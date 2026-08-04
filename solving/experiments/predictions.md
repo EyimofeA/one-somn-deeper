@@ -879,3 +879,41 @@ RESULT:     gate confirmed — independent q=300 is 100% exact/halting. The
             q=303 falls to 94.53% teacher/q-known/autonomous exact, and
             q=371..550 is 0%. Teacher and autonomous failure begin together;
             complete collapse is 371, not the predicted ≈447.
+
+DATE:       2026-08-04
+CARD:       taskb_unseen_n_q1_serial_subtractor
+CHANGE:     Replace the parallel decimal-state reducer with a learned
+            LSD-to-MSD GRU over aligned (u-digit, N-digit) pairs. Train q=1 on
+            48 generated four-digit semiprimes and evaluate 16 unseen moduli;
+            all forward computation remains learned categorical digit mapping.
+PREDICT:    If digit significance plus a learned serial state makes subtraction
+            compositional, held-out-N q=1 exact will be nonzero and materially
+            exceed the prior 0%. If it remains zero, this representation still
+            does not identify cross-modulus subtraction.
+RESULT:     confirmed — 100% exact on all 2,048 q=1 examples from 16 unseen
+            four-digit semiprimes (128 independent remainders each), with 100%
+            token accuracy at every LSD-to-MSD digit position.
+
+DATE:       2026-08-04
+CARD:       taskb_unseen_n_serial_subtractor_rollout
+CHANGE:     Evaluation-only: repeatedly apply the unchanged q=1 learned serial
+            subtractor to q=1..5 states for the same unseen moduli and held-out
+            remainders. No weights, data, architecture, or arithmetic changes.
+PREDICT:    If the learned digit-state transition is exact and reusable, exact
+            rollout remains 100% through q=5. Any gap between teacher one-step
+            and rollout exact identifies accumulated transition error.
+RESULT:     partially confirmed — rollout exact is 100%, 94.53%, 88.67%,
+            83.35%, and 77.15% for q=1..5. Teacher one-step drops much faster
+            on raw q>1 states (89.31%, 57.42%, 41.94%, 33.74%), showing the
+            learned q=1 state transition composes better than its unsupported
+            high-magnitude input distribution.
+
+DATE:       2026-08-04
+CARD:       taskb_unseen_n_serial_subtractor_q5_support
+CHANGE:     Extend only serial-subtractor training-state support from q=1 to
+            q=1..5 for the same generated seen/unseen modulus split, model,
+            optimizer, and digit order; evaluate unseen-N q=1..10.
+PREDICT:    If the remaining loss is high-magnitude state support, teacher and
+            rollout exact will become near-perfect through q=5 and retain
+            substantial exactness beyond q=5. If q=1-only learning was special,
+            performance will fall despite the added trace support.
