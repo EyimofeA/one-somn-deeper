@@ -1309,3 +1309,19 @@ composition, still locally and without promoting weights to a submission.
   q=1..5 transition traces and test unseen-N q=1..5, then q=6..10. Report
   teacher one-step, autonomous terminal, per-digit exact, failure type, and
   three-seed stability. Add learned canonicality only after this gate passes.
+
+### 2026-08-04 — Serial q=1..5 support, three-seed audit (Author: Codex)
+
+- **Support gate:** Seed 0 is 100% autonomous rollout q=1..10. Seed 1 is 100%
+  q=1..6 and 96.58%, 95.17%, 93.90%, 92.72% at q=7..10. Seed 2 is 100% q=1..4
+  and 99.76% q=5.
+- **Width confound:** for one seed-2 held-out modulus, q=10 produces a six-digit
+  qN+r state. The five-digit input representation rejects it, so higher-q seed-2
+  interpretation is invalid. This is deterministic representation capacity, not
+  arithmetic failure.
+- **Next registered audit:** change only state width 5→6 and repeat all three
+  seeds through q=10. Report teacher one-step, autonomous terminal, per-digit,
+  representable count, arithmetic errors, width failures, mean/min seed accuracy,
+  first q<100%, first q<95%, and curve shape. Promote canonicality only if q=1..5
+  remains near-perfect, q=6..10 remains strong without collapse, and all remaining
+  failures are arithmetic rather than width failures.

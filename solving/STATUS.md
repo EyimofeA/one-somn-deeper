@@ -28,6 +28,11 @@ card adds full q=1..5 transition support before testing q=6..10; learned
 halting is gated on near-perfect multi-q unseen-N execution across three seeds.
 The former parallel decimal reducer is control-only.
 
+The q=1..5 gate is now essentially passed: seed 0 is 100% rollout q=1..10,
+and seed 1 remains 92.72% at q=10. Seed 2 reveals a five-digit state-width
+confound for six-digit qN+r inputs, so the next and only change is a six-digit
+padding audit before any canonicality/halting work.
+
 ## Task B direct reduction — completed parallel-Transformer branch (2026-07-30)
 
 **Evidence correction (2026-08-04, Codex):** the historical `pure reduction

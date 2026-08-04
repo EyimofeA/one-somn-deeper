@@ -917,3 +917,19 @@ PREDICT:    If the remaining loss is high-magnitude state support, teacher and
             rollout exact will become near-perfect through q=5 and retain
             substantial exactness beyond q=5. If q=1-only learning was special,
             performance will fall despite the added trace support.
+RESULT:     confirmed in-range; promising but width-confounded extrapolation.
+            Seed 0 is 100% rollout q=1..10. Seed 1 is 100% q=1..6 and
+            96.58%, 95.17%, 93.90%, 92.72% at q=7..10. Seed 2 is 100% q=1..4
+            and 99.76% q=5, but q=10 includes six-digit qN+r states which the
+            fixed five-digit representation cannot encode.
+
+DATE:       2026-08-04
+CARD:       taskb_unseen_n_serial_subtractor_width6_audit
+CHANGE:     Change only decimal state width 5→6; keep the LSD-to-MSD learned
+            GRU, embeddings, q=1..5 support, seen/unseen-N split, remainder
+            sampling, optimizer, 4,000 updates, batch size, seeds, and q=1..10
+            evaluation fixed. Use leading-zero padding with LSD-relative digit
+            alignment; reject neither six-digit states nor truncated examples.
+PREDICT:    q=1..5 remains near-perfect across seeds. q=6..10 remains strongly
+            above the q=1-only baseline without width failures; any residual
+            degradation is gradual arithmetic error, not a representation cliff.
