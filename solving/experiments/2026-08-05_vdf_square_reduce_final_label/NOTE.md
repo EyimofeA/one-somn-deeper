@@ -33,3 +33,11 @@ The compute fix is confirmed: 434 updates replace 64, memory falls from 3.1
 GiB to 735 MiB, and e1 test exact rises to 3.33%. OOD remains 0% (1.67% mean),
 so it is not a submission candidate. The next one-variable control changes
 only the optimizer to Muon+AdamW on the same dynamic-depth VDF model.
+
+## Muon controls
+
+Both Muon partitions are refuted. Broad matrix Muon gives 4.00% test / 0% OOD
+(2.00% mean) with 99.8% train exact; restricting it to the Square/Reduce
+attention and MLP matrices gives 2.67% / 0% (1.33% mean), also at 99.8% train.
+Muon accelerates memorization rather than VDF generalization. Dynamic-depth
+AdamW is the reference optimizer for this architecture.

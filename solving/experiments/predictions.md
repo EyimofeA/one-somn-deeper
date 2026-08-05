@@ -1441,3 +1441,6 @@ CHANGE:     Restrict the VDF Muon+AdamW hybrid's Muon group from every matrix
 PREDICT:    Keeping representational tables and recurrent state on AdamW will
             reduce the previous Muon overfit and restore nonzero OOD exact.
             Refutation: OOD remains 0% or mean does not exceed 2.00%.
+RESULT:     refuted — targeted Muon reaches 99.8% train exact but only 2.67%
+            test / 0% OOD (1.33% mean), worse than broad Muon and dynamic-depth
+            AdamW. Muon is not a viable optimizer for this VDF candidate.

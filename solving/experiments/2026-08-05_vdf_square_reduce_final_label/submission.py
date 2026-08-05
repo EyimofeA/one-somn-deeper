@@ -128,54 +128,6 @@ class Schedule:
             group["lr"] = rate * scale
 
 
-def zeropower(gradient: Tensor) -> Tensor:
-    value = gradient.bfloat16()
-    value = value / (value.norm() + 1e-7)
-    transposed = value.size(0) > value.size(1)
-    if transposed:
-        value = value.T
-    for _ in range(5):
-        gram = value @ value.T
-        value = 3.4445 * value + (-4.7750 * gram + 2.0315 * gram @ gram) @ value
-    return value.T if transposed else value
-
-
-class Muon(torch.optim.Optimizer):
-    def __init__(self, params) -> None:
-        super().__init__(params, dict(lr=0.02, momentum=0.95))
-
-    @torch.no_grad()
-    def step(self, closure=None) -> None:
-        for group in self.param_groups:
-            for parameter in group["params"]:
-                if parameter.grad is None:
-                    continue
-                momentum = self.state[parameter].setdefault("momentum", torch.zeros_like(parameter.grad))
-                momentum.mul_(group["momentum"]).add_(parameter.grad)
-                parameter.add_(zeropower(momentum.add(parameter.grad, alpha=group["momentum"])), alpha=-group["lr"])
-
-
-class CombinedOptimizer:
-    def __init__(self, optimizers) -> None:
-        self.optimizers = optimizers
-        self.param_groups = [group for optimizer in optimizers for group in optimizer.param_groups]
-
-    def step(self, closure=None) -> None:
-        for optimizer in self.optimizers:
-            optimizer.step()
-
-    def zero_grad(self, set_to_none=True) -> None:
-        for optimizer in self.optimizers:
-            optimizer.zero_grad(set_to_none=set_to_none)
-
-    def state_dict(self):
-        return {"optimizers": [optimizer.state_dict() for optimizer in self.optimizers]}
-
-    def load_state_dict(self, value) -> None:
-        for optimizer, state in zip(self.optimizers, value["optimizers"]):
-            optimizer.load_state_dict(state)
-
-
 def build_model(spec: ModelSpec) -> VDFModel:
     model = VDFModel(spec)
     assert_model_state(model, spec)
@@ -183,18 +135,7 @@ def build_model(spec: ModelSpec) -> VDFModel:
 
 
 def build_optimizer(model: nn.Module, spec: OptimizerSpec) -> OptimizerBundle:
-    matrix, other = [], []
-    for name, parameter in model.named_parameters():
-        learned_transform = (
-            parameter.ndim == 2
-            and (name.startswith("square.") or name.startswith("reduce."))
-            and any(part in name for part in ("qkv.weight", "out.weight", "up.weight", "down.weight"))
-        )
-        (matrix if learned_transform else other).append(parameter)
-    optimizer = CombinedOptimizer([
-        Muon(matrix),
-        torch.optim.AdamW(other, lr=2e-3, betas=(0.9, 0.95), weight_decay=0.05, capturable=spec.device_type == "cuda"),
-    ])
+    optimizer = torch.optim.AdamW(model.parameters(), lr=2e-3, betas=(0.9, 0.95), weight_decay=0.05, capturable=spec.device_type == "cuda")
     return OptimizerBundle(optimizer, scheduler=Schedule(optimizer, spec.training_time_seconds))
 
 

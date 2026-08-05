@@ -22,6 +22,13 @@ T-cap/AdamW control is the current Easy candidate: 0.67% test / 8.00% OOD
 `d71cad94-07ba-469f-8c7c-676e55d611a9`; no Hard run is started because its
 3,600-second training budget cannot finish before the deadline.
 
+**Hard deadline submission:** `80e46f83-aeff-40cb-90e4-d09a875814ae` is the
+legal final-label-only recurrent VDF candidate from
+`experiments/2026-08-05_vdf_square_reduce_final_label/submission.py`: tied
+learned LSD-first SquareCell → ReduceCell, dynamically executed T times,
+AdamW, no precomputed arithmetic or diagnostic traces. It was source-validated
+and accepted before the deadline; hosted metrics are pending.
+
 Hard Fable v2 job `602bf7f1-eab7-46c2-91e8-e4a4a010f9d7` completed with
 **0.0467%** mean exact (5/9,999 test; 5/10,002 OOD-T; 4/10,002 OOD-N) but
 certified no T=1 rung. The live Hard leaderboard read on 2026-08-04 placed
