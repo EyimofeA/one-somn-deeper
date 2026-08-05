@@ -1530,3 +1530,19 @@ PREDICT:    If final-label credit assignment is the primary blocker, direct
             lift the seen-N depth ladder at T=1 before T=2/4. Refutation: no
             better T=1 rung than the 3.33% dynamic-depth AdamW reference, or
             no coherent improvement with depth.
+RESULT:     refuted for promotion — 461 updates give the same 3.33% test / 0%
+            OOD endpoint as the non-curriculum reference. The seen-N T=1 rung
+            is 5.2632% (2/38) but every rung T>=2 is 0%; one-step exposure does
+            not yield a composable learned transition.
+
+DATE:       2026-08-05
+CARD:       vdf_trace_supervision_ablation_e1
+CHANGE:     Keep the final-label VDF model and public e1 prompt rows fixed in a
+            diagnostic-only loop, but add equal-weight cross-entropy on each
+            model register readout against its generated true intermediate VDF
+            state. This is not a submission or legal competition objective.
+PREDICT:    If architecture capacity rather than model form is the blocker,
+            explicit transition targets will sharply improve final exactness at
+            T=1/2/3 relative to final-label-only curriculum. Refutation: trace
+            loss fits without material final T accuracy, implicating the state
+            interface or recurrent cell instead of final-label credit assignment.
