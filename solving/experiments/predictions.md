@@ -1546,3 +1546,17 @@ PREDICT:    If architecture capacity rather than model form is the blocker,
             T=1/2/3 relative to final-label-only curriculum. Refutation: trace
             loss fits without material final T accuracy, implicating the state
             interface or recurrent cell instead of final-label credit assignment.
+RESULT:     refuted for this architecture/budget — trace supervision raises
+            step-500 train final exact to 24.22% (versus 19.7% at the final
+            curriculum step) but held-out final exact is 0% at each T=1/2/3
+            and OOD T=6. The state interface/cell still does not generalize.
+
+DATE:       2026-08-05
+CARD:       vdf_architecture_audit_direct_transformer_e1
+CHANGE:     Run the upstream direct final-output Transformer baseline unchanged
+            on the same public e1 manifest and evaluator reporting used for the
+            tied VDF and tied-VDF-curriculum controls.
+PREDICT:    It will fit prompt/output statistics but show no certified depth or
+            OOD-N mechanism. Refutation: it exceeds both tied VDF controls at
+            T=1 and retains a materially stronger higher-T ladder, showing the
+            recurrence/state interface is not the primary issue.

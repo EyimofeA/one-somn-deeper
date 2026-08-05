@@ -1851,3 +1851,21 @@ composition, still locally and without promoting weights to a submission.
   prove, the hypothesis that final-only loss cannot identify the diagnostic
   Square/Reduce primitives at m1 scale. Artifact (Git-ignored):
   `runs/vdf_square_reduce_integrated_medium_m1_partial/train.log`.
+
+### 2026-08-05 — Final-label transition-identifiability controls (Author: Codex)
+
+- **Legal e1 curriculum:** existing public final-label rows were staged
+  T=1 → T≤2 → T≤3, while each model forward always executed that row's actual
+  input T. It completed 461 L40 updates in 60.1s: test 3.33%, OOD 0%, seen-N
+  rung T=1 5.2632% (2/38), and zero at every seen rung T≥2. This is a small
+  one-step signal but no composable transition; it does not promote.
+  Artifact: `runs/vdf_final_label_t_curriculum_e1/competition_report.md`.
+- **Trace-supervision ablation (diagnostic only):** the identical VDF model and
+  e1 prompts received equal-weight generated intermediate-state register loss.
+  It reached 598 updates/60.1s and 24.22% batch final exact at step 500, but
+  final held-out exact was 0% at test T=1/2/3 and OOD T=6. Intermediate labels
+  improve fitting yet do not make this prompt-tail register representation
+  generalize in the one-minute envelope. Do not call this evidence that trace
+  supervision is competition-legal or that the serial diagnostic architecture
+  is refuted; it only closes this specific final-label VDF cell formulation.
+  Artifact: `diagnostics/artifacts/vdf_trace_supervision_ablation_e1/report.json`.
