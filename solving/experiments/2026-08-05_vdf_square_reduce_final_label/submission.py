@@ -119,12 +119,13 @@ class VDFModel(nn.Module):
             active_register = register.index_select(0, indices)
             squared = self.square(active_base + self.register_projection(active_state), active_mask)
             reduced = self.reduce(active_base + squared, active_mask)
-            logits = self.head(self.norm(reduced))
-            soft = logits.softmax(-1)
-            hard = F.one_hot(logits.argmax(-1), self.config.vocab_size).to(soft.dtype)
+            register_logits = self.head(self.norm(reduced[active_register]))
+            soft = register_logits.softmax(-1)
+            hard = F.one_hot(register_logits.argmax(-1), self.config.vocab_size).to(soft.dtype)
             next_state = hard + soft - soft.detach() if self.training else hard
-            next_state = torch.where(active_register[:, :, None], next_state, active_state)
-            state = state.index_copy(0, indices, next_state)
+            register_rows, register_columns = active_register.nonzero(as_tuple=True)
+            updated_state = active_state.index_put((register_rows, register_columns), next_state)
+            state = state.index_copy(0, indices, updated_state)
             hidden = hidden.index_copy(0, indices, reduced)
         return self.head(self.norm(hidden)), None
 

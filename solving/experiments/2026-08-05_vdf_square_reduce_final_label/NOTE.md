@@ -52,3 +52,7 @@ dynamic-depth AdamW: 434 updates/60 seconds, 3.33% test, 0% OOD.
 Fused valid-GRU reaches 490 updates (+13%) but 2.00% test / 0% OOD. It is a
 speed improvement but not an accuracy promotion. The next isolated card uses
 active-row compaction in the fused implementation for mixed-T batches.
+
+Active-row compaction reaches 4.00% test / 0% OOD (2.00% mean) at 717 MiB but
+only 463 total updates. The next card changes only intermediate output work:
+head, softmax, and STE quantization are evaluated on register positions alone.

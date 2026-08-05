@@ -1469,3 +1469,17 @@ PREDICT:    Mixed Easy T=1/2/3 batches avoid one-third of their outer cell work,
             raising updates beyond 490/60 seconds without lowering held-out
             accuracy. Refutation: indexing overhead erases speed or exactness
             drops further.
+RESULT:     mixed — it gives 4.00% test / 0% OOD (2.00% mean) and 717 MiB,
+            but completes 463 updates: better accuracy than fused GRU alone,
+            yet no reliable total-throughput gain over 490 updates. Retain as
+            an optional mixed-depth execution path, not a speed promotion.
+
+DATE:       2026-08-05
+CARD:       vdf_square_reduce_register_only_intermediate_logits
+CHANGE:     In the fused-GRU active-row VDF cell, compute head/softmax/STE only
+            for learned register positions during recurrence; keep final full
+            logits, cells, state, AdamW, data, and batch fixed.
+PREDICT:    Avoiding vocabulary heads on non-register prompt tokens raises
+            updates beyond 463/60 seconds without changing register semantics
+            or lowering the 2.00% mean exact control. Refutation: gather/scatter
+            overhead outweighs head savings or exactness regresses.
