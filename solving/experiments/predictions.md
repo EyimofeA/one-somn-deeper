@@ -1499,3 +1499,17 @@ PREDICT:    Because layout runs once per forward, speed gain will be small but
 RESULT:     refuted — the tensorized parser completes 453 updates in 60.1 s,
             below the 494-update register-only control, and reaches only 1.33%
             test / 0% OOD (0.67% mean). The prior sequential parser is restored.
+
+DATE:       2026-08-05
+CARD:       vdf_square_reduce_integrated_medium_m1
+CHANGE:     Integrate the three individually measured execution changes—fused
+            valid-prefix GRU, active-row compaction, and register-only interim
+            logits—into the final-label VDF model; retain its sequential T
+            parser, AdamW, width, cells, loss, and data. Run the real m1
+            Medium manifest for its evaluator-owned 600-second budget.
+PREDICT:    The bundle will preserve basic fitting while increasing the number
+            of Medium updates relative to the original GRUCell implementation;
+            it will still fail the OOD-N ladder because no implementation-only
+            change addresses the unresolved learned VDF transition. Refutation:
+            compile/runtime failure, substantially lower training throughput,
+            or a materially different depth profile.
