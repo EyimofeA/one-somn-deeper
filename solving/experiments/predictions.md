@@ -1575,3 +1575,7 @@ PREDICT:    Genuine T=1→2→4 exposure will give a monotone held-out-x curve a
             least through T=4, unlike the weak e1 T=1 bump. Refutation: held-
             out T=1 remains near chance or T=2/4 collapse despite phase-wise
             final-label fitting, showing final-only curriculum is insufficient.
+RESULT:     refuted — the 180-second run reaches 100% training exact in T=1,
+            T<=2, and near 100% T<=4 phases, but held-out-x exact is 0% at
+            T=1/2/4 (1.54% at T=8, zero otherwise) and unseen-N is <=0.66%.
+            Final-label curriculum fits examples without learning F_theta.

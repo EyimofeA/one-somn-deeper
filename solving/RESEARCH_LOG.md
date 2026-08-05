@@ -1877,3 +1877,22 @@ composition, still locally and without promoting weights to a submission.
   C has a 5.26% seen T=1 bump but zero seen T≥2. This comparison does not
   support the current prompt-tail-register tied-VDF architecture over direct
   output modeling under a final-label-only one-minute objective.
+
+### 2026-08-05 — True final-label depth curriculum (research only, Author: Codex)
+
+- **Question:** can a model learn a reusable tied transition from final labels
+  if it first masters composition depth one? This removes evaluator/submission
+  constraints but retains final labels only: fixed N=323, held-out x split,
+  phase 1 T=1, phase 2 T<=2, phase 3 T<=4, then held-out x ladder T=1…64.
+  No intermediate labels appear in the loss.
+- **Result:** 3,095 updates in 180.0 L40 seconds. Training exact reached 100%
+  in the T=1 phase by step 500, returned to 100% in T<=2, and reached 97.66%
+  at step 3,000 in the T<=4 phase. Nevertheless held-out-x final exact was
+  **0%** at T=1/2/4, 1.54% at T=8 (1/65), and 0% at T=16/32/64. Unseen three-
+  digit semiprime N was at most 0.66%.
+- **Conclusion:** this is strong negative evidence against final-label depth
+  curriculum as the missing ingredient. It fits every phase but does not learn
+  a transferable one-step VDF law. The next branch must alter the state/input
+  representation or use an explicitly supervised/otherwise identifiable local
+  transition; more phase tuning is closed. Artifact:
+  `diagnostics/artifacts/vdf_final_label_true_depth_curriculum/report.json`.
