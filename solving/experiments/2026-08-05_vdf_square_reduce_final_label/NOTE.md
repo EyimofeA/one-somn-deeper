@@ -56,3 +56,7 @@ active-row compaction in the fused implementation for mixed-T batches.
 Active-row compaction reaches 4.00% test / 0% OOD (2.00% mean) at 717 MiB but
 only 463 total updates. The next card changes only intermediate output work:
 head, softmax, and STE quantization are evaluated on register positions alone.
+
+Register-only intermediate logits finish 494 updates with 3.33% test / 0% OOD,
+so they preserve the dynamic AdamW accuracy but are only a marginal speed win.
+The next small control tensorizes one-time T parsing.

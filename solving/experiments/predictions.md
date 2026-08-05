@@ -1483,3 +1483,16 @@ PREDICT:    Avoiding vocabulary heads on non-register prompt tokens raises
             updates beyond 463/60 seconds without changing register semantics
             or lowering the 2.00% mean exact control. Refutation: gather/scatter
             overhead outweighs head savings or exactness regresses.
+RESULT:     confirmed narrowly — 494 updates (+1% over active compaction) with
+            3.33% test / 0% OOD (1.67% mean), preserving the dynamic AdamW
+            accuracy reference. The output head is not a dominant runtime cost.
+
+DATE:       2026-08-05
+CARD:       vdf_square_reduce_tensorized_t_parse
+CHANGE:     Replace only the per-token Python decimal T parsing loop with a
+            place-weighted tensor sum that saturates safely at MAX_STEPS=64;
+            keep fused scan, active compaction, register-only logits, cells,
+            AdamW, data, and batch fixed.
+PREDICT:    Because layout runs once per forward, speed gain will be small but
+            positive; parsed T and held-out accuracy should remain unchanged.
+            Refutation: no throughput gain or a T-dependent correctness change.
