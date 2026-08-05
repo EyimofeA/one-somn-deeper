@@ -1896,3 +1896,18 @@ composition, still locally and without promoting weights to a submission.
   representation or use an explicitly supervised/otherwise identifiable local
   transition; more phase tuning is closed. Artifact:
   `diagnostics/artifacts/vdf_final_label_true_depth_curriculum/report.json`.
+
+### 2026-08-05 — L40 archive and teardown (Author: Codex)
+
+- **Archive:** the complete remote experiment mirror `~/somn-taskb` was copied
+  before teardown to Git-ignored
+  `diagnostics/artifacts/somn-l40-2026-08-05-final-backup/somn-taskb`.
+  Verification matched **437 files** and **18,718,435 bytes** exactly; the
+  manifest is `PRIME_BACKUP_VERIFIED.txt` in that archive. A source snapshot
+  excluding recreatable virtualenv/generated data is retained beside it.
+- **Instance:** verified target is Prime pod `somn-l40`
+  (`bfa4b7489af34ba78a2dec326c8b9bf2`), L40 48GB. Teardown is user-requested
+  after no active GPU process remained.
+- **Completion:** remote `~/somn-taskb`, `~/one-layer-deeper`, and recreatable
+  uv caches were wiped only after archive verification. Prime CLI terminated
+  the exact pod; provider listing then returned zero pods and SSH timed out.
