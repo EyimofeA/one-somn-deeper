@@ -1518,3 +1518,15 @@ RESULT:     partial / intentionally stopped — m1 reached 3,400 updates in
             batch exact only 0–0.39%. It was stopped before evaluator-owned
             final/depth evaluation, so it supplies optimization evidence only,
             not a Medium score or a depth-profile result.
+
+DATE:       2026-08-05
+CARD:       vdf_final_label_t_curriculum_e1
+CHANGE:     Keep the final-label VDF architecture and exact per-input T
+            execution fixed, but stage the legal token loss over existing e1
+            rows: T=1 for the first third of training, T≤2 for the second,
+            and T≤3 for the final third. No intermediate state labels.
+PREDICT:    If final-label credit assignment is the primary blocker, direct
+            T=1 final supervision will identify a useful tied transition and
+            lift the seen-N depth ladder at T=1 before T=2/4. Refutation: no
+            better T=1 rung than the 3.33% dynamic-depth AdamW reference, or
+            no coherent improvement with depth.
