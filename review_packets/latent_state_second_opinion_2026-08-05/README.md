@@ -33,6 +33,8 @@ ordinary optimization failure, or a broader failure of learned recurrence.
   JSON reports.
 - `RESEARCH_LOG.md`, `STATUS.md`, and `predictions.md`: source-of-truth
   chronology, current status, and preregistered predictions.
+- `GPT_PRO_REVIEW_PROMPT.md`: copyable adversarial research-review prompt.
+- `FAILED_EXPERIMENTS.md`: compact failure/evidence table.
 
 ## Key results
 
