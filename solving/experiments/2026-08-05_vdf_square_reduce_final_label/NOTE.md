@@ -60,3 +60,23 @@ head, softmax, and STE quantization are evaluated on register positions alone.
 Register-only intermediate logits finish 494 updates with 3.33% test / 0% OOD,
 so they preserve the dynamic AdamW accuracy but are only a marginal speed win.
 The next small control tensorizes one-time T parsing.
+
+## Execution-optimization audit (local L40, 60 seconds, seed 74)
+
+Author: Codex. Every condition below retains the same final-label-only VDF
+objective, batch size, AdamW schedule, and e1 data. `test` and `OOD` are final
+exact match; mean is their unweighted mean. These are one-seed controls, so
+they establish throughput/correctness compatibility rather than a reliable
+accuracy ranking.
+
+| Condition | Updates | Test | OOD | Mean | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Dynamic-depth GRUCell (Hard-submitted reference) | 434 | 3.33% | 0% | 1.67% | Accuracy reference |
+| Fused valid-prefix GRU | 490 | 2.00% | 0% | 1.00% | +13% updates; no accuracy promotion |
+| Active-row compaction | 463 | 4.00% | 0% | 2.00% | Mixed; optional execution path |
+| Register-only recurrent logits | 494 | 3.33% | 0% | 1.67% | Narrow speed promotion |
+| Tensorized T parser | 453 | 1.33% | 0% | 0.67% | Refuted; reverted |
+
+The L40 is left running but idle. Artifacts are retained on the local-GPU
+mirror under `~/somn-taskb/runs/competition/` and are intentionally excluded
+from Git.

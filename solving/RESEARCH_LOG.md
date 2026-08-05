@@ -1811,3 +1811,24 @@ composition, still locally and without promoting weights to a submission.
   clean recurrent transition—not a submission-ready exact solver. Artifact
   (not committed):
   `diagnostics/artifacts/somn-l40-2026-08-05/recurrent_vdf_reducer_square_trace_support/seed0/eval_report.json`.
+
+### 2026-08-05 — Final-label VDF execution controls (Author: Codex)
+
+- **Scope:** these are legal final-label-only e1 submission-model controls,
+  not evidence that the competition VDF problem is solved. All use the same
+  learned tied Square→Reduce cells, AdamW schedule, batch size, seed 74, and a
+  60-second L40 budget. They measure whether implementation changes preserve
+  exact-match behavior while increasing updates.
+- **Results:** dynamic-depth execution, which is the source submitted for
+  Hard at commit `3bd03d9`, completed 434 updates and obtained 3.33% test / 0%
+  OOD. Fusing the valid digit prefix with `nn.GRU` completed 490 updates
+  (+13%) but fell to 2.00% / 0%. Active-row compaction gave 463 updates and
+  4.00% / 0%. Restricting interim logits to learned register positions gave
+  494 updates and returned to 3.33% / 0%. Tensorizing prompt-T parsing was
+  refuted: 453 updates and 1.33% / 0%; the sequential parser was restored.
+- **Interpretation:** valid-prefix scan and register-only logits are measured
+  throughput improvements; none removes the decisive OOD-generalization
+  failure. Muon controls also overfit (99.8% train exact, 0% OOD). Do not
+  infer an accuracy ordering from these single-seed runs.
+- **Artifacts:** excluded from Git and retained on the GPU mirror as
+  `~/somn-taskb/runs/competition/vdf_square_reduce_{dynamic_depth,fused_valid_gru,active_row_compaction,register_only_logits,tensorized_t_parse}_e1/`.

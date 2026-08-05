@@ -47,9 +47,11 @@ def prompt_layout(ids: Tensor, attention_mask: Tensor | None) -> tuple[Tensor, T
     for current in (n_field, x_field, t_field):
         from_right = torch.flip(torch.flip(current.long(), (-1,)).cumsum(-1), (-1,)) - 1
         place = torch.where(current, from_right, place)
-    digit_value = (ids - DIGIT_OFFSET).clamp(0, 9)
-    decimal_weight = 10 ** place.clamp_max(2)
-    value = torch.where(t_field, digit_value * decimal_weight, torch.zeros_like(ids)).sum(-1)
+    value = torch.zeros(batch, dtype=torch.long, device=ids.device)
+    raw_t = torch.where(t_field, ids - DIGIT_OFFSET, torch.full_like(ids, -1))
+    for index in range(length):
+        digit = raw_t[:, index]
+        value = torch.where(digit.ge(0), value * 10 + digit.clamp_min(0), value)
     n_width = (x_mark - 1).clamp_min(1)
     register = (position >= row_end - n_width) & (position < row_end)
     return field, place.clamp_max(MAX_PLACE - 1), value.clamp(1, MAX_STEPS), register

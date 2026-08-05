@@ -1496,3 +1496,6 @@ CHANGE:     Replace only the per-token Python decimal T parsing loop with a
 PREDICT:    Because layout runs once per forward, speed gain will be small but
             positive; parsed T and held-out accuracy should remain unchanged.
             Refutation: no throughput gain or a T-dependent correctness change.
+RESULT:     refuted — the tensorized parser completes 453 updates in 60.1 s,
+            below the 494-update register-only control, and reaches only 1.33%
+            test / 0% OOD (0.67% mean). The prior sequential parser is restored.
