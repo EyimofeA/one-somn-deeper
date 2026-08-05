@@ -1513,3 +1513,8 @@ PREDICT:    The bundle will preserve basic fitting while increasing the number
             change addresses the unresolved learned VDF transition. Refutation:
             compile/runtime failure, substantially lower training throughput,
             or a materially different depth profile.
+RESULT:     partial / intentionally stopped — m1 reached 3,400 updates in
+            407.4 seconds (about 8.35 steps/s), with loss 28.351→2.249 but
+            batch exact only 0–0.39%. It was stopped before evaluator-owned
+            final/depth evaluation, so it supplies optimization evidence only,
+            not a Medium score or a depth-profile result.

@@ -1832,3 +1832,22 @@ composition, still locally and without promoting weights to a submission.
   infer an accuracy ordering from these single-seed runs.
 - **Artifacts:** excluded from Git and retained on the GPU mirror as
   `~/somn-taskb/runs/competition/vdf_square_reduce_{dynamic_depth,fused_valid_gru,active_row_compaction,register_only_logits,tensorized_t_parse}_e1/`.
+
+### 2026-08-05 — Integrated final-label VDF on public Medium m1 (partial, Author: Codex)
+
+- **Registered engineering integration:** fused valid-prefix scan, active-row
+  compaction, and register-only recurrent logits were combined, while AdamW,
+  width, final-label loss, tied Square→Reduce cells, and sequential T parsing
+  remained fixed. The exact public m1 manifest was generated from the pinned
+  repository command after the L40 was found to have only e1 data.
+- **Observed before intentional stop:** the run reached 3,400 updates in
+  407.4 seconds (about 8.35 steps/s); initial loss fell 28.351→2.249, but
+  recorded batch exact was 0–0.39%. It was stopped at the user's direction
+  before the 600-second training budget and before final evaluator-owned test,
+  OOD, and depth evaluation. It must **not** be cited as a Medium score.
+- **Interpretation:** this is evidence of early optimization/credit-assignment
+  failure, not an execution bottleneck: the model has ample updates but has not
+  learned even its in-batch exact output. It is compatible with, but does not
+  prove, the hypothesis that final-only loss cannot identify the diagnostic
+  Square/Reduce primitives at m1 scale. Artifact (Git-ignored):
+  `runs/vdf_square_reduce_integrated_medium_m1_partial/train.log`.
