@@ -20,3 +20,19 @@ Local L40 e1 run, seed 74, 60.1 seconds: 461 updates, 3.33% test exact and
 promotion criterion. It exposes a small one-step effect but no composed or
 OOD mechanism. Artifact excluded from Git:
 `runs/vdf_final_label_t_curriculum_e1/competition_report.md`.
+
+## Architecture audit (e1, same local L40, one seed)
+
+| Model | Updates | Test | OOD | Seen T=1 | Seen T=2 | Certified T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| A. Direct final-output Transformer | 697 | 2.00% | 1.00% | 2.6316% | 2.6316% | none |
+| B. Tied Square→Reduce VDF | 434 | 3.33% | 0% | 0% | 0% | none |
+| C. Tied VDF + final-label curriculum | 461 | 3.33% | 0% | 5.2632% | 0% | none |
+
+All models are far below a certified rung. The direct model's apparent 1% OOD
+win is not a reusable depth signal: its seen ladder has an isolated 10.5263%
+at T=32 while T=1–16/64 remain near zero. Curriculum creates a weak T=1
+signal but it disappears at T=2. The diagnostic trace-loss control likewise
+has zero held-out final exact at T=1/2/3 despite better in-batch fitting.
+Per-T reports and train/dynamics SVG charts are retained under Git-ignored
+`runs/vdf_{architecture_audit_direct_transformer,final_label_t_curriculum_e1,square_reduce_dynamic_depth_e1}/`.

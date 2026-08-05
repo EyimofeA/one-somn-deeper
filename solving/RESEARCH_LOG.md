@@ -1869,3 +1869,11 @@ composition, still locally and without promoting weights to a submission.
   supervision is competition-legal or that the serial diagnostic architecture
   is refuted; it only closes this specific final-label VDF cell formulation.
   Artifact: `diagnostics/artifacts/vdf_trace_supervision_ablation_e1/report.json`.
+- **Architecture audit:** on the same e1/L40/60-second control, upstream direct
+  Transformer A makes 697 updates and gets 2.00% test/1.00% OOD; tied VDF B
+  makes 434 updates and gets 3.33%/0%; tied VDF curriculum C makes 461 updates
+  and gets 3.33%/0%. No model certifies any T. A's 1% OOD and isolated 10.53%
+  seen T=32 are non-monotone, so they are not evidence of extrapolation.
+  C has a 5.26% seen T=1 bump but zero seen T≥2. This comparison does not
+  support the current prompt-tail-register tied-VDF architecture over direct
+  output modeling under a final-label-only one-minute objective.

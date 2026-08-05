@@ -1560,3 +1560,7 @@ PREDICT:    It will fit prompt/output statistics but show no certified depth or
             OOD-N mechanism. Refutation: it exceeds both tied VDF controls at
             T=1 and retains a materially stronger higher-T ladder, showing the
             recurrence/state interface is not the primary issue.
+RESULT:     confirmed as a non-mechanistic control — 697 updates yield 2.00%
+            test / 1.00% OOD, zero certified depth, and a noisy ladder. It does
+            not establish a reusable transition, but its OOD endpoint exceeds
+            both tied VDF controls in this one-seed, 60-second comparison.
