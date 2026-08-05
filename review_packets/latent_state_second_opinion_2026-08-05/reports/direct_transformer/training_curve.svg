@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-label="Training dynamics">
+<rect width="100%" height="100%" fill="#10131a"/><text x="54" y="346" fill="#d7dde8" font-size="14">training step</text>
+<text x="8" y="54" fill="#d7dde8" font-size="14">exact accuracy / normalized loss</text>
+<line x1="54" y1="306" x2="846" y2="306" stroke="#778"/><line x1="54" y1="54" x2="54" y2="306" stroke="#778"/>
+<text x="54" y="28" fill="#fbad3d" font-size="15">loss</text><text x="264" y="28" fill="#5bd6b0" font-size="15">train exact</text><polyline fill="none" stroke="#fbad3d" stroke-width="3" points="55.1,54.0 167.6,300.2 281.3,300.6 394.9,300.8 508.5,301.0 622.1,301.2 735.8,301.5 846.0,301.8"/><polyline fill="none" stroke="#5bd6b0" stroke-width="3" points="55.1,305.5 167.6,298.2 281.3,296.7 394.9,299.7 508.5,294.7 622.1,287.9 735.8,281.8 846.0,274.5"/></svg>

@@ -1,0 +1,118 @@
+{
+  "classification": "RESEARCH ONLY \u2014 custom generated final-label curriculum; no intermediate labels",
+  "train_N": 323,
+  "phase_schedule": "T=1 -> T<=2 -> T<=4",
+  "steps": 3095,
+  "seconds": 180.01266396400024,
+  "train_curve": [
+    {
+      "step": 1,
+      "seconds": 0.6,
+      "phase_max_T": 1,
+      "loss": 33.64976501464844,
+      "train_exact": 0.0
+    },
+    {
+      "step": 250,
+      "seconds": 12.7,
+      "phase_max_T": 1,
+      "loss": 0.9233242273330688,
+      "train_exact": 0.3020833432674408
+    },
+    {
+      "step": 500,
+      "seconds": 24.4,
+      "phase_max_T": 1,
+      "loss": 0.001060047885403037,
+      "train_exact": 1.0
+    },
+    {
+      "step": 750,
+      "seconds": 35.7,
+      "phase_max_T": 1,
+      "loss": 7.849847065699578e-07,
+      "train_exact": 1.0
+    },
+    {
+      "step": 1000,
+      "seconds": 46.5,
+      "phase_max_T": 1,
+      "loss": 0.00027886719908565283,
+      "train_exact": 1.0
+    },
+    {
+      "step": 1250,
+      "seconds": 57.4,
+      "phase_max_T": 1,
+      "loss": 1.193445655189862e-06,
+      "train_exact": 1.0
+    },
+    {
+      "step": 1500,
+      "seconds": 71.5,
+      "phase_max_T": 2,
+      "loss": 0.21115648746490479,
+      "train_exact": 0.861328125
+    },
+    {
+      "step": 1750,
+      "seconds": 86.6,
+      "phase_max_T": 2,
+      "loss": 0.009532333351671696,
+      "train_exact": 1.0
+    },
+    {
+      "step": 2000,
+      "seconds": 102.9,
+      "phase_max_T": 2,
+      "loss": 0.02164190448820591,
+      "train_exact": 0.986328125
+    },
+    {
+      "step": 2250,
+      "seconds": 119.7,
+      "phase_max_T": 2,
+      "loss": 0.0007776357815600932,
+      "train_exact": 1.0
+    },
+    {
+      "step": 2500,
+      "seconds": 137.7,
+      "phase_max_T": 4,
+      "loss": 0.41797491908073425,
+      "train_exact": 0.701171875
+    },
+    {
+      "step": 2750,
+      "seconds": 155.5,
+      "phase_max_T": 4,
+      "loss": 0.09339290857315063,
+      "train_exact": 0.943359375
+    },
+    {
+      "step": 3000,
+      "seconds": 173.3,
+      "phase_max_T": 4,
+      "loss": 0.04095767065882683,
+      "train_exact": 0.9765625
+    }
+  ],
+  "held_out_x_final_exact_by_T": {
+    "1": 0.0,
+    "2": 0.0,
+    "4": 0.0,
+    "8": 0.015384615384615385,
+    "16": 0.0,
+    "32": 0.0,
+    "64": 0.0
+  },
+  "unseen_N_final_exact_by_T": {
+    "1": 0.006578947368421052,
+    "2": 0.006578947368421052,
+    "4": 0.0,
+    "8": 0.0,
+    "16": 0.0,
+    "32": 0.0,
+    "64": 0.0
+  }
+}

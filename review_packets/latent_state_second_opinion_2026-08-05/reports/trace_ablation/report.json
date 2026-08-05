@@ -1,0 +1,64 @@
+{
+  "classification": "DIAGNOSTIC ONLY \u2014 generated intermediate labels",
+  "steps": 598,
+  "seconds": 60.066499281005235,
+  "trace_weight": 1.0,
+  "train_curve": [
+    {
+      "step": 1,
+      "seconds": 0.7,
+      "loss": 66.3772201538086,
+      "final_loss": 33.223533630371094,
+      "trace_loss": 33.1536865234375,
+      "train_final_exact": 0.0
+    },
+    {
+      "step": 100,
+      "seconds": 10.4,
+      "loss": 3.837097644805908,
+      "final_loss": 1.885923981666565,
+      "trace_loss": 1.9511735439300537,
+      "train_final_exact": 0.0
+    },
+    {
+      "step": 200,
+      "seconds": 20.3,
+      "loss": 3.6491799354553223,
+      "final_loss": 1.8066707849502563,
+      "trace_loss": 1.8425090312957764,
+      "train_final_exact": 0.0078125
+    },
+    {
+      "step": 300,
+      "seconds": 30.2,
+      "loss": 3.279146909713745,
+      "final_loss": 1.565389633178711,
+      "trace_loss": 1.7137572765350342,
+      "train_final_exact": 0.052734375
+    },
+    {
+      "step": 400,
+      "seconds": 40.2,
+      "loss": 2.841543674468994,
+      "final_loss": 1.2972770929336548,
+      "trace_loss": 1.5442664623260498,
+      "train_final_exact": 0.107421875
+    },
+    {
+      "step": 500,
+      "seconds": 50.2,
+      "loss": 2.2063584327697754,
+      "final_loss": 0.9841110110282898,
+      "trace_loss": 1.2222474813461304,
+      "train_final_exact": 0.2421875
+    }
+  ],
+  "test_final_exact_by_T": {
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+  },
+  "ood_final_exact_by_T": {
+    "6": 0.0
+  }
+}

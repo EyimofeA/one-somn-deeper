@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-label="Depth exact-match profile">
+<rect width="100%" height="100%" fill="#10131a"/><text x="54" y="346" fill="#d7dde8" font-size="14">T</text>
+<text x="8" y="54" fill="#d7dde8" font-size="14">exact accuracy / normalized loss</text>
+<line x1="54" y1="306" x2="846" y2="306" stroke="#778"/><line x1="54" y1="54" x2="54" y2="306" stroke="#778"/>
+<text x="54" y="28" fill="#6ea8fe" font-size="15">seen N</text><text x="264" y="28" fill="#f2789f" font-size="15">OOD N</text><polyline fill="none" stroke="#6ea8fe" stroke-width="3" points="66.4,299.4 78.8,299.4 103.5,306.0 153.0,306.0 252.0,306.0 450.0,279.5 846.0,306.0"/><polyline fill="none" stroke="#f2789f" stroke-width="3" points="66.4,305.5 78.8,303.5 103.5,304.5 153.0,305.0 252.0,305.5 450.0,301.6 846.0,304.0"/></svg>
