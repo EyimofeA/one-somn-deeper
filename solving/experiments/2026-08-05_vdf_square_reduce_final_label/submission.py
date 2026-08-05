@@ -112,15 +112,20 @@ class VDFModel(nn.Module):
         state = torch.zeros(batch, length, self.config.vocab_size, device=input_ids.device, dtype=base.dtype)
         hidden = base
         for depth in range(int(steps.max().item())):
-            active = (depth < steps)[:, None, None]
-            squared = self.square(base + self.register_projection(state), mask)
-            reduced = self.reduce(base + squared, mask)
+            indices = torch.nonzero(steps > depth, as_tuple=True)[0]
+            active_base = base.index_select(0, indices)
+            active_state = state.index_select(0, indices)
+            active_mask = mask.index_select(0, indices)
+            active_register = register.index_select(0, indices)
+            squared = self.square(active_base + self.register_projection(active_state), active_mask)
+            reduced = self.reduce(active_base + squared, active_mask)
             logits = self.head(self.norm(reduced))
             soft = logits.softmax(-1)
             hard = F.one_hot(logits.argmax(-1), self.config.vocab_size).to(soft.dtype)
             next_state = hard + soft - soft.detach() if self.training else hard
-            state = torch.where(active & register[:, :, None], next_state, state)
-            hidden = torch.where(active, reduced, hidden)
+            next_state = torch.where(active_register[:, :, None], next_state, active_state)
+            state = state.index_copy(0, indices, next_state)
+            hidden = hidden.index_copy(0, indices, reduced)
         return self.head(self.norm(hidden)), None
 
 

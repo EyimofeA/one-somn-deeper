@@ -48,3 +48,7 @@ The next isolated optimization replaces the Python reverse `GRUCell` scan with
 a fused `nn.GRU` over only a reversed valid prefix. The old scan began from
 right padding, so this is also a correctness control. Its baseline is
 dynamic-depth AdamW: 434 updates/60 seconds, 3.33% test, 0% OOD.
+
+Fused valid-GRU reaches 490 updates (+13%) but 2.00% test / 0% OOD. It is a
+speed improvement but not an accuracy promotion. The next isolated card uses
+active-row compaction in the fused implementation for mixed-T batches.

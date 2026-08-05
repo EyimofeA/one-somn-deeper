@@ -1454,3 +1454,18 @@ PREDICT:    Removing padding-contaminated state and thousands of small scan
             launches increases updates beyond 434/60 seconds while preserving
             or improving the 3.33% test exact baseline. Refutation: no speed
             gain or lower held-out exactness.
+RESULT:     mixed — fused valid-GRU increases updates 434→490 (+13%) and
+            fixes padding exposure, but test/OOD become 2.00%/0% (1.00% mean),
+            below dynamic-depth GRUCell AdamW. Keep it as a speed control, not
+            a promoted accuracy source.
+
+DATE:       2026-08-05
+CARD:       vdf_square_reduce_active_row_compaction
+CHANGE:     In the fused-valid-GRU VDF cell, execute each tied outer step only
+            for rows whose prompt T exceeds that depth; scatter their learned
+            register and hidden states back. Keep cells, AdamW, data, batch,
+            and output math fixed.
+PREDICT:    Mixed Easy T=1/2/3 batches avoid one-third of their outer cell work,
+            raising updates beyond 490/60 seconds without lowering held-out
+            accuracy. Refutation: indexing overhead erases speed or exactness
+            drops further.
