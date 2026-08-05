@@ -1,0 +1,19 @@
+{
+  "seen": {
+    "accuracy": 1.0,
+    "boundary_accuracy": 1.0,
+    "n": 12480,
+    "boundary_n": 192,
+    "negative_accuracy": 1.0,
+    "positive_accuracy": 1.0
+  },
+  "unseen": {
+    "accuracy": 0.9846153855323792,
+    "boundary_accuracy": 1.0,
+    "n": 4160,
+    "boundary_n": 64,
+    "negative_accuracy": 0.9716346263885498,
+    "positive_accuracy": 0.9975961446762085
+  },
+  "parameters": 135169
+}

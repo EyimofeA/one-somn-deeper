@@ -1,0 +1,120 @@
+{
+  "width": 4,
+  "train_moduli": [
+    58,
+    94,
+    62,
+    22,
+    46,
+    74,
+    69,
+    95,
+    51,
+    85,
+    57,
+    77,
+    33,
+    87,
+    26,
+    34,
+    86,
+    91
+  ],
+  "test_moduli": [
+    55,
+    39,
+    35,
+    38,
+    82,
+    93,
+    21,
+    65
+  ],
+  "parameters": 103701,
+  "seen": {
+    "square_exact": 1.0,
+    "raw_square_representation_exact": 1.0,
+    "subtractor_exact": 0.9762968420982361,
+    "comparator_accuracy": 0.9998047351837158,
+    "reduce_given_true_square_exact": 0.9372275471687317,
+    "reduce_given_model_square_exact": 0.9372275471687317,
+    "one_step_exact": 0.9372275471687317,
+    "q_buckets": {
+      "q0": {
+        "examples": 149,
+        "reduce_exact": 1.0
+      },
+      "q1": {
+        "examples": 61,
+        "reduce_exact": 0.9672130346298218
+      },
+      "q2_3": {
+        "examples": 82,
+        "reduce_exact": 0.9390243291854858
+      },
+      "q4_9": {
+        "examples": 163,
+        "reduce_exact": 0.8650306463241577
+      },
+      "q10_plus": {
+        "examples": 692,
+        "reduce_exact": 0.9378612637519836
+      }
+    },
+    "mean_reduction_steps": 23.166521072387695,
+    "rollout_exact": {
+      "1": 0.9372275471687317,
+      "2": 0.9136878848075867,
+      "3": 0.898866593837738,
+      "4": 0.8814297914505005,
+      "5": 0.8814297914505005,
+      "6": 0.8805579543113708,
+      "7": 0.8805579543113708,
+      "8": 0.8814297914505005
+    },
+    "examples": 1147
+  },
+  "unseen": {
+    "square_exact": 0.9999999403953552,
+    "raw_square_representation_exact": 0.9999999403953552,
+    "subtractor_exact": 0.8035860061645508,
+    "comparator_accuracy": 0.9996644854545593,
+    "reduce_given_true_square_exact": 0.46962615847587585,
+    "reduce_given_model_square_exact": 0.46962615847587585,
+    "one_step_exact": 0.46962615847587585,
+    "q_buckets": {
+      "q0": {
+        "examples": 62,
+        "reduce_exact": 1.0
+      },
+      "q1": {
+        "examples": 22,
+        "reduce_exact": 0.9090909361839294
+      },
+      "q2_3": {
+        "examples": 35,
+        "reduce_exact": 0.5428571701049805
+      },
+      "q4_9": {
+        "examples": 65,
+        "reduce_exact": 0.4153846204280853
+      },
+      "q10_plus": {
+        "examples": 244,
+        "reduce_exact": 0.2991802990436554
+      }
+    },
+    "mean_reduction_steps": 19.212615966796875,
+    "rollout_exact": {
+      "1": 0.46962615847587585,
+      "2": 0.37616822123527527,
+      "3": 0.34112149477005005,
+      "4": 0.3387850224971771,
+      "5": 0.3457943797111511,
+      "6": 0.34813082218170166,
+      "7": 0.34813082218170166,
+      "8": 0.3387850224971771
+    },
+    "examples": 428
+  }
+}
