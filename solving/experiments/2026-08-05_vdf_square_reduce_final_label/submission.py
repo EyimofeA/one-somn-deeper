@@ -57,6 +57,15 @@ def prompt_layout(ids: Tensor, attention_mask: Tensor | None) -> tuple[Tensor, T
     return field, place.clamp_max(MAX_PLACE - 1), value.clamp(1, MAX_STEPS), register
 
 
+def reverse_valid(value: Tensor, attention_mask: Tensor) -> Tensor:
+    """Reverse each row's valid prefix while leaving right padding outside the scan."""
+    batch, length, width = value.shape
+    valid_length = attention_mask.long().sum(-1, keepdim=True)
+    position = torch.arange(length, device=value.device)[None, :]
+    reverse_position = torch.where(position < valid_length, valid_length - 1 - position, position)
+    return value.gather(1, reverse_position[:, :, None].expand(batch, length, width))
+
+
 class SerialCell(nn.Module):
     """One learned arithmetic phase: attention then an LSD-to-MSD recurrent scan."""
     def __init__(self) -> None:
@@ -64,7 +73,7 @@ class SerialCell(nn.Module):
         self.attention_norm, self.mlp_norm = RMSNorm(WIDTH), RMSNorm(WIDTH)
         self.qkv, self.out = nn.Linear(WIDTH, 3 * WIDTH), nn.Linear(WIDTH, WIDTH)
         self.up, self.down = nn.Linear(WIDTH, 3 * WIDTH), nn.Linear(3 * WIDTH, WIDTH)
-        self.scan = nn.GRUCell(WIDTH, WIDTH)
+        self.scan = nn.GRU(WIDTH, WIDTH, batch_first=True)
 
     def forward(self, value: Tensor, attention_mask: Tensor) -> Tensor:
         residual, normed = value, self.attention_norm(value)
@@ -76,11 +85,10 @@ class SerialCell(nn.Module):
         attended = F.scaled_dot_product_attention(query, key, val, attn_mask=attention_mask[:, None, None, :])
         mixed = residual + self.out(attended.transpose(1, 2).reshape(batch, length, WIDTH))
         mixed = mixed + self.down(F.silu(self.up(self.mlp_norm(mixed))))
-        state, scans = torch.zeros(batch, WIDTH, dtype=mixed.dtype, device=mixed.device), []
-        for index in range(length - 1, -1, -1):
-            state = self.scan(mixed[:, index], state)
-            scans.append(state)
-        return mixed + torch.stack(tuple(reversed(scans)), dim=1)
+        reversed_mixed = reverse_valid(mixed, attention_mask)
+        reversed_scans, _ = self.scan(reversed_mixed)
+        scans = reverse_valid(reversed_scans, attention_mask)
+        return mixed + scans * attention_mask[:, :, None]
 
 
 class VDFModel(nn.Module):

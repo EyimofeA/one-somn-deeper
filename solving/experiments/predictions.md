@@ -1444,3 +1444,13 @@ PREDICT:    Keeping representational tables and recurrent state on AdamW will
 RESULT:     refuted — targeted Muon reaches 99.8% train exact but only 2.67%
             test / 0% OOD (1.33% mean), worse than broad Muon and dynamic-depth
             AdamW. Muon is not a viable optimizer for this VDF candidate.
+
+DATE:       2026-08-05
+CARD:       vdf_square_reduce_fused_valid_gru
+CHANGE:     Replace only each SerialCell's padded Python GRUCell reverse loop
+            with a fused nn.GRU over the reversed valid prefix. Keep VDF cells,
+            dynamic T execution, AdamW, data, batch size, and output unchanged.
+PREDICT:    Removing padding-contaminated state and thousands of small scan
+            launches increases updates beyond 434/60 seconds while preserving
+            or improving the 3.33% test exact baseline. Refutation: no speed
+            gain or lower held-out exactness.

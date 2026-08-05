@@ -41,3 +41,10 @@ Both Muon partitions are refuted. Broad matrix Muon gives 4.00% test / 0% OOD
 attention and MLP matrices gives 2.67% / 0% (1.33% mean), also at 99.8% train.
 Muon accelerates memorization rather than VDF generalization. Dynamic-depth
 AdamW is the reference optimizer for this architecture.
+
+## Fused valid-GRU card
+
+The next isolated optimization replaces the Python reverse `GRUCell` scan with
+a fused `nn.GRU` over only a reversed valid prefix. The old scan began from
+right padding, so this is also a correctness control. Its baseline is
+dynamic-depth AdamW: 434 updates/60 seconds, 3.33% test, 0% OOD.
