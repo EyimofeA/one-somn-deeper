@@ -1564,3 +1564,14 @@ RESULT:     confirmed as a non-mechanistic control — 697 updates yield 2.00%
             test / 1.00% OOD, zero certified depth, and a noisy ladder. It does
             not establish a reusable transition, but its OOD endpoint exceeds
             both tied VDF controls in this one-seed, 60-second comparison.
+
+DATE:       2026-08-05
+CARD:       vdf_final_label_true_depth_curriculum
+CHANGE:     In a research-only fixed-N=323 final-label dataset, expose only
+            existing T=1 examples for one third of a 180-second run, then
+            T<=2, then T<=4. The tied transition, exact per-row execution, and
+            final-label loss remain unchanged; no intermediate labels.
+PREDICT:    Genuine T=1→2→4 exposure will give a monotone held-out-x curve at
+            least through T=4, unlike the weak e1 T=1 bump. Refutation: held-
+            out T=1 remains near chance or T=2/4 collapse despite phase-wise
+            final-label fitting, showing final-only curriculum is insufficient.
