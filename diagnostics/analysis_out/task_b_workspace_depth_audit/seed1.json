@@ -1,0 +1,172 @@
+{
+  "run_dir": "/home/ubuntu/somn-taskb/runs/task_b_fixed_n_recurrent_k8_input_context/seed1",
+  "checkpoint": "/home/ubuntu/somn-taskb/runs/task_b_fixed_n_recurrent_k8_input_context/seed1/peak.pt",
+  "checkpoint_kind": "peak",
+  "task": "mod",
+  "model_type": "recurrent_workspace",
+  "splits": {
+    "val_iid": {
+      "n": 2000,
+      "exact_match": 0.578,
+      "token_accuracy": 0.771,
+      "by_modulus_bit_length": {
+        "11": 0.578
+      },
+      "by_quotient_size": {
+        "mid": 0.5626649076517151,
+        "small": 0.867704280155642,
+        "large": 0.3524229074889868
+      },
+      "by_remainder_bucket": {
+        "close": 0.6797752808988764,
+        "near_boundary": 0.7192118226600985,
+        "far": 0.18487394957983194
+      },
+      "by_seen_vs_unseen_modulus": {
+        "seen": 0.578
+      },
+      "recurrence_depth_audit": {
+        "same_example_count": 2000,
+        "depths": {
+          "1": {
+            "n": 2000,
+            "exact_match": 0.008,
+            "token_accuracy": 0.394875,
+            "by_quotient": {
+              "q>=4": 0.007878151260504201,
+              "q=0": 0.011111111111111112,
+              "q=2-3": 0.0
+            },
+            "by_quotient_digit_length": {
+              "3": 0.01066447908121411,
+              "4": 0.0,
+              "2": 0.02,
+              "1": 0.009708737864077669
+            },
+            "per_output_position_accuracy": [
+              0.658,
+              0.287,
+              0.549,
+              0.0855
+            ],
+            "contiguous_error_runs": {
+              "row_fraction_by_run_count": {
+                "1": 0.634,
+                "2": 0.358,
+                "0": 0.008
+              },
+              "mean_longest_run": 2.0625
+            }
+          },
+          "2": {
+            "n": 2000,
+            "exact_match": 0.0675,
+            "token_accuracy": 0.482125,
+            "by_quotient": {
+              "q>=4": 0.05672268907563025,
+              "q=0": 0.28888888888888886,
+              "q=2-3": 0.16666666666666666
+            },
+            "by_quotient_digit_length": {
+              "3": 0.07547169811320754,
+              "4": 0.015570934256055362,
+              "2": 0.06,
+              "1": 0.27184466019417475
+            },
+            "per_output_position_accuracy": [
+              0.6725,
+              0.527,
+              0.5475,
+              0.1815
+            ],
+            "contiguous_error_runs": {
+              "row_fraction_by_run_count": {
+                "1": 0.7225,
+                "2": 0.21,
+                "0": 0.0675
+              },
+              "mean_longest_run": 1.8615
+            }
+          },
+          "4": {
+            "n": 2000,
+            "exact_match": 0.3675,
+            "token_accuracy": 0.686625,
+            "by_quotient": {
+              "q>=4": 0.3398109243697479,
+              "q=0": 0.9444444444444444,
+              "q=2-3": 0.5
+            },
+            "by_quotient_digit_length": {
+              "3": 0.3863822805578343,
+              "4": 0.19204152249134948,
+              "2": 0.61,
+              "1": 0.8932038834951457
+            },
+            "per_output_position_accuracy": [
+              0.783,
+              0.759,
+              0.716,
+              0.4885
+            ],
+            "contiguous_error_runs": {
+              "row_fraction_by_run_count": {
+                "1": 0.52,
+                "0": 0.3675,
+                "2": 0.1125
+              },
+              "mean_longest_run": 1.141
+            }
+          },
+          "8": {
+            "n": 2000,
+            "exact_match": 0.578,
+            "token_accuracy": 0.771,
+            "by_quotient": {
+              "q>=4": 0.5567226890756303,
+              "q=0": 1.0,
+              "q=2-3": 1.0
+            },
+            "by_quotient_digit_length": {
+              "3": 0.5931091058244463,
+              "4": 0.42560553633217996,
+              "2": 0.85,
+              "1": 0.9902912621359223
+            },
+            "per_output_position_accuracy": [
+              0.8715,
+              0.7755,
+              0.8005,
+              0.6365
+            ],
+            "contiguous_error_runs": {
+              "row_fraction_by_run_count": {
+                "0": 0.578,
+                "2": 0.0595,
+                "1": 0.3625
+              },
+              "mean_longest_run": 0.8565
+            }
+          }
+        },
+        "changes": {
+          "1_to_2": {
+            "improved_examples": 123,
+            "broken_examples": 4,
+            "net_examples": 119
+          },
+          "2_to_4": {
+            "improved_examples": 618,
+            "broken_examples": 18,
+            "net_examples": 600
+          },
+          "4_to_8": {
+            "improved_examples": 486,
+            "broken_examples": 65,
+            "net_examples": 421
+          }
+        }
+      }
+    }
+  }
+}

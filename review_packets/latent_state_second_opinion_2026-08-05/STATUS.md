@@ -8,19 +8,13 @@ Hard scoring is unchanged: certified Max T → OOD-N Max T → first-uncertified
 rung accuracy → time. The source audit found no scoring or data-distribution
 change and no newly prohibited call in the archived candidates.
 
-**Submission execution update (2026-08-05):** no new hosted submission has
-been made. A current local L40 revalidation rejects both immediately available
-Easy sources: the research-transfer recurrent source gets 0.00% test / 1.00%
-OOD (0.50% mean), and Fable v2 gets 0.00% / 0.00%. Their train curves and
-provenance are preserved under Git-ignored `runs/`; the selection rationale is
-[`submissions/SUBMISSION_EXECUTION_REPORT.md`](submissions/SUBMISSION_EXECUTION_REPORT.md).
-Do not spend a tier attempt on either result. The distinct Fable
-T-cap/AdamW control is the current Easy candidate: 0.67% test / 8.00% OOD
-(4.33% mean), with no certified T=1 rung. Hosted Easy e1
-`56335b5e-b460-4de2-a7d0-ed91fb9881fe` improved to **8.50% mean** (6% test,
-11% OOD) with no certified T. The same audited source is running as Medium m1
-`d71cad94-07ba-469f-8c7c-676e55d611a9`; no Hard run is started because its
-3,600-second training budget cannot finish before the deadline.
+**Submission execution update (2026-08-05):** current active-L40 local revalidation
+of the strongest legal Fable T-cap + AdamW source is complete for Easy e1 and
+Medium m1. Easy achieved 1.33% test / 5.00% OOD / 3.17% mean in 482 updates
+and Medium achieved 0.067% / 0.000% / 0.050% mean in 8,363 updates; neither
+certified T=1, so neither passes the local promotion gate. Full artifacts are
+under `runs/fable_tcap_adamw_easy_e1/` and `runs/fable_tcap_adamw_medium_m1/`.
+No hosted submission was made from these runs.
 
 **Hard deadline submission:** `80e46f83-aeff-40cb-90e4-d09a875814ae` is the
 legal final-label-only recurrent VDF candidate from

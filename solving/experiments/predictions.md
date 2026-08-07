@@ -1579,3 +1579,54 @@ RESULT:     refuted — the 180-second run reaches 100% training exact in T=1,
             T<=2, and near 100% T<=4 phases, but held-out-x exact is 0% at
             T=1/2/4 (1.54% at T=8, zero otherwise) and unseen-N is <=0.66%.
             Final-label curriculum fits examples without learning F_theta.
+
+DATE:       2026-08-05
+CARD:       competition_fable_tcap_adamw_easy_e1_revalidation
+CHANGE:     No model change; re-run the strongest packaged full-task Fable T-cap + AdamW candidate on the current evaluator checkout and active L40, using the e1 Easy manifest.
+PREDICT:    The run will fit substantially faster than the hosted H100 baseline but remain below the historical 8.50% mean due to hardware/seed variance; promotion requires mean exact above 8.50% and a nonzero certified T=1 rung locally.
+
+RESULT:     refuted — 482 updates in 60.0s reached 1.333% test / 5.000% OOD / 3.167% mean, with no certified T=1 rung; the result missed the 8.50% gate.
+
+DATE:       2026-08-05
+CARD:       competition_fable_tcap_adamw_medium_m1_revalidation
+CHANGE:     No model change; run the same legal Fable T-cap + AdamW candidate on the public Medium m1 manifest after Easy revalidation.
+PREDICT:    The longer budget will lower training loss and raise train exactness, but held-out exactness and T=1 certification will remain weak; promotion requires beating the best known hosted Easy reference (8.50% mean) and nonzero local T=1 certification until a Medium-specific hosted reference is available.
+RESULT:     refuted — 8,363 updates in 600.1s reached 0.067% test / 0.000% OOD / 0.050% mean, with no certified T=1 rung; the longer budget did not improve held-out generalization.
+
+DATE:       2026-08-05
+CARD:       research_clean_latent_workspace_smalln_final_label
+CHANGE:     Replace the answer-aligned token/register evolving state with one global learned latent h; encode (N,x) once, apply the same learned transition exactly T times, then decode digits. Compare against a parameter-matched per-position register control under final-label-only supervision.
+PREDICT:    The global latent will improve held-out-N T=1 and preserve more of the T=1 signal through T=2/4/8 because the transition state is not tied to output positions. Success requires held-out-N T=1 >=10% and T=8 >=5%, with latent beating the register control by >=5 percentage points at T=1. Kill if latent does not beat control at T=1 or training exact remains <50% after 120 seconds/model. Budget: <=90 minutes coding and 240 GPU seconds.
+RESULT:     confirmed narrowly — global latent reaches 17.29% unseen-N T=1 vs 9.35% register control (+7.94 points), with 11.68% vs 13.55% at T=4 and 14.49% vs 14.02% at T=8; both fit seen moduli, so the state-interface hypothesis gains a small-N signal but not a competition-ready solution.
+
+DATE:       2026-08-06
+CARD:       deadline_existing_easy_fable_tcap_adamw_e1
+CHANGE:     Resubmit the exact previously hosted 8.50%-mean Fable T-cap AdamW
+            source on Easy e1; no architecture or optimizer change.
+PREDICT:    It remains the highest-EV Easy attempt because it is the only
+            currently valid source with an 8.50% hosted result on e1.
+            Refutation: a materially lower score would establish that the
+            result was not robust across evaluator runs.
+RESULT:     confirmed for selection, with ordinary run variance — hosted e1
+            `1b06d008-89e0-4a49-90d4-f2589a969ed6` scored 8.00%, close to the
+            prior 8.50% and far above the available legal recurrent controls.
+
+DATE:       2026-08-06
+CARD:       deadline_existing_medium_fable_tcap_adamw_m5
+CHANGE:     Resubmit the exact batch-256 Fable T-cap AdamW source that
+            previously reached 0.25% hosted mean on Medium m5; no model change.
+PREDICT:    It should outperform the recent batch-512 Fable m1 result (0.03%)
+            because it is the strongest directly observed Medium configuration.
+            Refutation: <=0.03% would remove the only material Medium evidence.
+RESULT:     confirmed for selection — hosted m5
+            `60510147-ed5b-4944-97b5-ddce0340b883` scored 0.17% (0.20% test,
+            0.10% OOD), below its 0.25% historical run but above the 0.03%
+            recent m1 control.
+
+DATE:       2026-08-06
+CARD:       deadline_existing_hard_fable_v2_h1
+CHANGE:     Submit the exact historically strongest legal Hard source, Fable
+            v2, with no architecture, optimizer, or training change.
+PREDICT:    It should exceed the 0.0367% final-label VDF Hard score because
+            its prior hosted run reached 0.0467%. Refutation: <=0.0367% or a
+            validation/runtime failure.

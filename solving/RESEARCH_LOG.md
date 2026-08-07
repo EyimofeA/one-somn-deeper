@@ -1911,3 +1911,22 @@ composition, still locally and without promoting weights to a submission.
 - **Completion:** remote `~/somn-taskb`, `~/one-layer-deeper`, and recreatable
   uv caches were wiped only after archive verification. Prime CLI terminated
   the exact pod; provider listing then returned zero pods and SSH timed out.
+
+### 2026-08-07 — Five distinct legal submission cards (packaged, not yet scored)
+- **Hypothesis:** Distinct bets (exact-match loss, T=1 specialist, arithmetic tape, modulus memory, dyadic composition) should be controlled separately rather than freestyle-merged into Fable.
+- **Setup:** Implemented five standalone `solving/submissions/*/submission.py` cards under evaluator pin `e32c2f9` (TokenLossBatch, multi-backward, batch reuse). All five pass `one-layer validate`. No hosted submit in this packaging step.
+- **Cards:** `exact_match_optimizer` (Fable + sequence CE/worst-digit/margin/dual-head + 2-pass SAM + reuse); `t1_assassin` (pairwise x-grid × N cross-attn + refine + T router); `gated_arithmetic_tape` (local conv/tape microsteps); `learned_modulus_memory` (product-key memory + gate); `dyadic_semigroup` (level adapters + soft compose KL).
+- **Next:** Hosted Easy e1 for cards 1→2→3 first; kill per design kill-conditions. Do not start Hard on any until T=1 local/hosted signal.
+
+### 2026-08-07 — GPT-5 Pro five-card Easy e5 screen
+- **Cards (labeled GPT-5 Pro):** exact_match_optimizer, t1_assassin, gated_arithmetic_tape, learned_modulus_memory, dyadic_semigroup.
+- **Result (Easy e5 mean exact, Max T none on all):** exact_match **1.04
+### 2026-08-07 — GPT-5 Pro five-card Easy e5 screen
+- **Cards (labeled GPT-5 Pro):** exact_match_optimizer, t1_assassin, gated_arithmetic_tape, learned_modulus_memory, dyadic_semigroup.
+- **Result (Easy e5 mean exact; Max T none on all):**
+  - exact_match_optimizer **1.04%** (`aca0613e`)
+  - dyadic_semigroup 0.75% (`a67a65f4`)
+  - learned_modulus_memory 0.58% (`85dd2faa`)
+  - t1_assassin 0.42% (`2cdf18a8`)
+  - gated_arithmetic_tape 0.13% (`61694c82`)
+- **Next:** Human picks Hard candidate; agent does not auto-submit Hard.

@@ -307,3 +307,13 @@ The executor records PREDICT in [`experiments/predictions.md`](experiments/predi
 ## Ops
 
 [`experiments/OPS.md`](experiments/OPS.md) · [`experiments/LAYOUT.md`](experiments/LAYOUT.md) · [`RESEARCH_LOG.md`](RESEARCH_LOG.md)
+
+## Three-track execution update (2026-08-05)
+
+**Track A:** the legal Fable T-cap + AdamW source passed validation and was revalidated locally on the active L40. Easy e1: 482 updates / 60.0s, 1.33% test, 5.00% OOD, 3.17% mean, 1,595,904 parameters, no certified T=1. Medium m1: 8,363 updates / 600.1s, 0.067% test, 0.000% OOD, 0.050% mean, 1,596,416 parameters, no certified T=1. Both fail the pre-registered promotion gate (mean >8.50% and nonzero T=1); no Hard submission was made. Artifacts: `runs/fable_tcap_adamw_easy_e1/`, `runs/fable_tcap_adamw_medium_m1/`.
+
+**Track B:** review files are now `MODEL_REVIEW_INVENTORY.md`, `MODEL_REVIEW_DISAGREEMENTS.md`, `MODEL_REVIEW_EXPERIMENTS.md`, and `MODEL_REVIEW_SYNTHESIS.md`. Missing external chat responses are explicitly marked rather than inferred.
+
+**Track C:** the first registered clean latent-workspace diagnostic is complete. In a small-N final-label-only comparison, global latent unseen-N exact was 17.29% at T=1 versus 9.35% for a per-position register control; T=8 was 14.49% versus 14.02%. This is a narrow state-interface signal, not a competition candidate. Artifact: `diagnostics/artifacts/clean_latent_workspace_seed0/eval_report.json`.
+
+**Profiling:** Easy telemetry averaged 4.0% GPU utilization (max 5%), indicating a real launch/CPU bottleneck; Medium averaged 40.7% (max 51%), so optimization is secondary to the clear generalization failure. Keep the L40 active; do not submit Hard.

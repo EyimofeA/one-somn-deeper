@@ -12,3 +12,13 @@ solving/experiments/**/metrics.jsonl
 solving/experiments/**/*.pt
 solving/experiments/**/checkpoints/
 solving/experiments/.gpu_box.json
+
+# Local exports and large recoverable archives. Curated packet source is tracked;
+# its Git-history bundle and ZIP are shareable artifacts, not repository blobs.
+diagnostics/artifacts/
+research_packet_*/history/
+research_packet_*.zip
+pi-session-*.html
+studio-response-*.studio.html
+studio-response-*.studio.pdf
+research/overnight_scheduler.log
