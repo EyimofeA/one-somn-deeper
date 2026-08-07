@@ -25,6 +25,8 @@ Research sandbox for [One Layer Deeper](https://github.com/tilde-research/one-la
 10. **[`solving/RESEARCH_LOG.md`](solving/RESEARCH_LOG.md)** — append-only experiment facts
 11. **[`solving/experiments/`](solving/experiments/)** — OPS, metrics, card snapshots
 12. **[`solving/submissions/`](solving/submissions/)** — active submissions
+13. **[`GRIEVANCES.md`](GRIEVANCES.md)** — append-only operational friction log;
+    never use it as research evidence
 
 If something belongs in steps 2–12, link it — don't restate.
 
@@ -51,4 +53,5 @@ If something belongs in steps 2–12, link it — don't restate.
 - `README.md` — human entry
 - `RESEARCH_PROTOCOL.md` — decisions, prediction rule, ban list
 - `solving/STATUS.md` — live scoreboard
+- `GRIEVANCES.md` — operational friction log, separate from evidence
 - Upstream: [tilde-research/one-layer-deeper](https://github.com/tilde-research/one-layer-deeper)
