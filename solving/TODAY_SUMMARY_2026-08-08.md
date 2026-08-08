@@ -15,13 +15,24 @@ optimizer, recurrence, batch reuse, and inference are unchanged.
   1/512; no certified rung.
 - Hosted Easy e5: `cb98f944-9b21-4869-af5a-c924845ca89e`, 0.3750% mean;
   seen-N T=1 3/512; OOD-N T=1 0/512.
-- Hosted Hard: `9e7404cb-b0c9-480a-aa64-8d90cc853d67`, running; daily Hard
-  quota remaining: 0.
+- Hosted Hard: `9e7404cb-b0c9-480a-aa64-8d90cc853d67`, completed at 0.02333%
+  overall (3/9,999 test, 2/10,002 OOD-T, 2/10,002 OOD-N). No rung certified;
+  seen-N and OOD-N T=1 were both 0/768. Daily Hard quota remaining: 0.
 
 The parent exact-match card's hosted e5 profile was 2/512 seen-N T=1 and
 1/512 OOD-N T=1. The new card improves only the primary seen-N count and ties
 the parent's total T=1 hits. This is deliberately a weak first-rung bet, not a
 claimed solution.
+
+The final Hard result refutes transfer of the public T=1 bump. The 3,600-second
+run plateaued near loss 2.47 and ended with 0/768 on both hidden T=1 profiles.
+
+After completion, the L40 evidence was copied and verified at
+`diagnostics/artifacts/prime_backup_2026-08-08T0056Z_hard_complete/somn-taskb/`
+(49 files, 838,421 bytes on both hosts). Prime pod
+`8b90919e9f4541f197a57f3493896542` was then terminated; provider running-pod
+count is zero and SSH is unreachable. Virtual environments/caches were the
+only intentional exclusions.
 
 ## Research completed
 

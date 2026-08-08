@@ -35,3 +35,10 @@ sequence/worst-digit/margin/agreement loss, evaluator-owned two-pass SAM, and
 high-loss batch reuse. The Hard attempt then changed only normalized 8x T=1
 row weighting. It is not derived from `t1_assassin`, the diffusion refiner, or
 the later research-only pair-fold tape.
+
+## Hosted resolution
+
+Hard job `9e7404cb-b0c9-480a-aa64-8d90cc853d67` later completed at 0.02333%
+overall, but both hidden T=1 profiles were 0/768 and no rung certified. Thus
+the exact-source local replication validated provenance/runtime only; its
+4/512 seen-N and 1/512 OOD-N public T=1 hits did not transfer.

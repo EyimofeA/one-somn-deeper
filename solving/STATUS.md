@@ -18,6 +18,13 @@ assignment/identifiability from modular final labels, not another choice of
 state topology, representation, or square-phase depth. Do not transfer either
 card to a competition submission.
 
+**Current Hard result (2026-08-08):** T=1-weighted exact-match/SAM job
+`9e7404cb-b0c9-480a-aa64-8d90cc853d67` completed at **0.02333%** overall:
+3/9,999 test, 2/10,002 OOD-T, and 2/10,002 OOD-N. No rung certified; both
+seen-N and OOD-N T=1 profiles were 0/768. This refutes transfer of its nonzero
+public e5 T=1 hits. The L40 was backed up with exact file/byte verification and
+terminated; Prime now lists zero running pods.
+
 **Submission execution update (2026-08-05):** no new hosted submission has
 been made. A current local L40 revalidation rejects both immediately available
 Easy sources: the research-transfer recurrent source gets 0.00% test / 1.00%

@@ -1697,7 +1697,9 @@ PREDICT:    Concentrating the fixed training budget on the first Hard rung
 RESULT:     confirmed narrowly on the screen — local e5 produced 5/512 seen-N
             T=1 and 0/512 OOD-N T=1; hosted e5 produced 3/512 and 0/512.
             Hosted aggregate mean fell to 0.375%, and total T=1 hits tied the
-            parent card, so the Hard attempt is a weak primary-profile bet.
+            parent card. Final Hard refutes transfer: 0/768 at T=1 on both
+            seen-N and OOD-N profiles, no certified rung, and 0.02333% overall
+            (3/9,999 test, 2/10,002 OOD-T, 2/10,002 OOD-N).
 
 DATE:       2026-08-08
 CARD:       t1_phase_square_reduce_information_flow

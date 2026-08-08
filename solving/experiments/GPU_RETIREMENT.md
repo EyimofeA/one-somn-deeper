@@ -24,8 +24,9 @@ backup script writes and verifies `PRIME_BACKUP_VERIFIED.txt`.
 - The exact hosted-submission source and its SHA/job metadata.
 
 The primary copy target is a dated directory under the Git-ignored local
-`diagnostics/artifacts/` tree. Use resumable `rsync` through
-`scripts/backup_runs.sh`, then compare remote/local file counts and total bytes.
+`diagnostics/artifacts/` tree. Use resumable `rsync` through the installed
+`prime-intellect-gpu-lifecycle` skill's `scripts/backup_runs.sh`, then compare
+remote/local file counts and total bytes.
 
 ## Exclude as recreatable
 
@@ -49,6 +50,7 @@ ignored; only compact notes, configs, source, and plots belong in Git.
 5. Append the local backup path, verification counts, and pod ID to
    `solving/RESEARCH_LOG.md`.
 6. Confirm no `rsync`/`scp` remains active.
-7. Run `scripts/prime_l40.sh kill POD_ID --backup-manifest MANIFEST --yes`.
+7. Run the installed lifecycle skill's `scripts/prime_l40.sh kill POD_ID
+   --backup-manifest MANIFEST --yes`.
 8. Confirm both provider-side termination and unreachable SSH; report any
    intentionally excluded local material.

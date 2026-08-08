@@ -2039,3 +2039,27 @@ composition, still locally and without promoting weights to a submission.
   unrelated to `t1_assassin` and the research-only pair-fold tape.
 - **Artifact:**
   `diagnostics/artifacts/hard_exact_source_e5_replication_2026-08-08/stdout.log`.
+
+### 2026-08-08 — T=1-weighted Hard final and L40 retirement (Author: Codex)
+
+- **Hosted result:** job `9e7404cb-b0c9-480a-aa64-8d90cc853d67` succeeded
+  after 60,915 updates / 3,600.05 training seconds. Overall exact was
+  **0.02333%**: test 3/9,999, OOD-T 2/10,002, OOD-N 2/10,002.
+- **Certification:** no seen-N or OOD-N rung certified. Both T=1 profiles were
+  exactly **0/768**. The 8x T=1 weighting therefore fails its actual Hard goal
+  despite nonzero public e5 T=1 hits.
+- **Training behavior:** final loss was 2.4779 after plateauing near 2.47 for
+  most of the hour. The longer budget did not uncover a reusable transition.
+- **Hard artifact:** structured hosted metrics and full status are preserved
+  under ignored `diagnostics/artifacts/hard_9e7404cb_result_2026-08-08/`.
+- **GPU backup:** Prime pod `8b90919e9f4541f197a57f3493896542`
+  (`somn-l40-2026-08-07`, IP `216.81.248.102`, L40 UUID
+  `GPU-150b876a-ce24-da40-63a8-0580474bb736`) was idle. A cache-excluded
+  backup plus three custom evaluator submission sources was verified at
+  `diagnostics/artifacts/prime_backup_2026-08-08T0056Z_hard_complete/somn-taskb/`:
+  **49 files and 838,421 bytes matched exactly**. Manifest verification time:
+  `2026-08-08T00:58:51Z`.
+- **Termination:** the verified manifest unlocked guarded termination of only
+  pod `8b90919e9f4541f197a57f3493896542`. Prime then listed zero running pods;
+  target status had no IP/SSH, and `ssh oneL40` timed out. Billing compute is
+  retired. Recreatable virtual environments and Python caches were excluded.
