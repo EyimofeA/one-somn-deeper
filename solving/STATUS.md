@@ -316,4 +316,65 @@ The executor records PREDICT in [`experiments/predictions.md`](experiments/predi
 
 **Track C:** the first registered clean latent-workspace diagnostic is complete. In a small-N final-label-only comparison, global latent unseen-N exact was 17.29% at T=1 versus 9.35% for a per-position register control; T=8 was 14.49% versus 14.02%. This is a narrow state-interface signal, not a competition candidate. Artifact: `diagnostics/artifacts/clean_latent_workspace_seed0/eval_report.json`.
 
+**Current causal gate (not yet run):** resolve state topology before another
+architecture search. The next research test is a structured, LSD-aligned
+per-position latent VDF state against the existing pooled global latent and
+prompt/register controls. The decision tree is fixed:
+
+```text
+structured per-position latent VDF test
+├─ works from final labels → validate on Easy, then Medium, then Hard
+├─ works only with diagnostic traces → research the legal-objective bridge;
+│  competition stays on the incumbent
+└─ fails → run a controlled binary/limb representation test; do not transfer
+   it to competition without a positive signal
+```
+
+This gate is motivated by a separate verified reducer audit: final-state
+compression discarded quotient-relevant information, whereas all serial
+per-position states restored q=100 action selection and 99.51% terminal
+exactness. That is reduction evidence, not yet VDF evidence. Keep the
+state-topology and trace-objective questions distinct.
+
 **Profiling:** Easy telemetry averaged 4.0% GPU utilization (max 5%), indicating a real launch/CPU bottleneck; Medium averaged 40.7% (max 51%), so optimization is secondary to the clear generalization failure. Keep the L40 active; do not submit Hard.
+
+## T=1 pivot — 2026-08-08
+
+The T=1-only tournament is complete. Under one common 18-seen/8-unseen
+modulus split, 80/20 held-out-x split, one seed, and 120 seconds per arm on an
+L40:
+
+| Arm | Held-out-x exact | Unseen-N exact |
+|---|---:|---:|
+| Register baseline | 4.62% | 8.64% |
+| Global latent | 10.50% | 16.36% |
+| Structured LSD tape | **12.18%** | **17.06%** |
+
+The structured arm is only a narrow improvement over global latent and is
+larger/slower. It is not promoted to competition. The discrete masked-token
+refiner is also closed: unseen-N exact is 0.47%/7.94%/8.18%/8.88% at K=1/2/4/8,
+with increasing latency. No Easy, Medium, or Hard screen was run from these
+cells. Artifact: `diagnostics/artifacts/t1_tournament_2026-08-08/summary.md`.
+
+**Next gate:** binary/limb representation comparison at T=1. Do not train on
+T>1, run another T curriculum, or perform zero-shot recurrence testing until a
+T=1 model clears a materially stronger promotion threshold.
+
+## T=1 representation branch — 2026-08-08
+
+The matched decimal/binary/fixed-limb comparison is complete. All arms used the
+same T=1 final-label objective, structured LSD-aligned tape, 18/8 modulus split,
+80/20 held-out-x split, AdamW, one seed, and 120 seconds on the L40. The limb
+width (two little-endian 4-bit limbs) was registered before the run.
+
+| Arm | Full-train exact | Held-out-x exact | Unseen-N exact | Params | Updates |
+|---|---:|---:|---:|---:|---:|
+| Decimal control | 100.00% | 11.76% | **18.69%** | 261,962 | 24,524 |
+| Binary (7 bits) | 7.81% | 2.10% | 4.21% | 260,770 | 21,006 |
+| 4-bit limbs (2 limbs) | 100.00% | 11.34% | 14.49% | 262,864 | 27,056 |
+
+**Decision:** representation-only improvement is not supported. Binary and
+limbs remain in the same or worse low-generalization regime, while binary also
+fails to fit the training distribution under the matched budget. Close this
+micro-tuning branch. No T>1 or competition transfer has been launched from it.
+Raw reports and curves: `diagnostics/artifacts/t1_representation_2026-08-08/`.

@@ -11,6 +11,13 @@ Research sandbox for [One Layer Deeper](https://github.com/tilde-research/one-la
 5. **Default lazy (ponytail full).** Shortest working diff, stdlib first, no unrequested abstractions. Override only when the human asks for the full version.
 6. **Skills are self-service.** Any skill can be loaded at any time — just say "loading the X skill" and use it. Don't wait for the user to ask. If a skill would help, offer it.
 
+## Subagent policy
+
+Use a subagent only when a bounded independent review or parallel task is
+actually useful. When one is used, the owner requires a **Luna** subagent.
+Do not silently substitute another model. If Luna is not selectable in the
+current environment, work directly or tell the owner before delegating.
+
 ## Read order (strict — link, don't duplicate)
 
 1. **This file** — roles, behavior, tool map, forbidden shortcuts

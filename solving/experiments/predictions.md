@@ -1263,6 +1263,59 @@ RESULT:     confirmed — per-position features restore q=1 remainder exact to
             action-relevant quotient information; the remaining issue is that
             scheduling k repeated unit transitions still costs O(q) inner work.
 
+DATE:       2026-08-07
+CARD:       research_structured_position_final_label
+CHANGE:     Replace the pooled/register evolving state with a persistent
+            LSD-aligned per-position latent state and shared local updates;
+            retain final-label-only supervision and the small-N VDF harness.
+PREDICT:    Structured state should beat the matched global/register controls
+            at held-out-N T=1 and retain a smaller advantage at T=2 because
+            positional arithmetic information is not compressed. Refute if
+            held-out-N T=1 is not materially above both controls.
+
+DATE:       2026-08-07
+CARD:       research_structured_position_trace_supervision
+CHANGE:     Keep the structured per-position latent architecture fixed and
+            add generated intermediate VDF-state supervision.
+PREDICT:    Trace supervision should improve local transition exactness and
+            T=2/4/8 rollout over the structured final-label cell. Refute if
+            it fits traces without a held-out-N rollout gain.
+
+DATE:       2026-08-07
+CARD:       research_t1_state_topology_tournament
+CHANGE:     Restrict the matched state-topology comparison to T=1 examples;
+            compare register, global latent, and structured LSD-position tape
+            under the same split, optimizer, and wall-clock budget.
+PREDICT:    Removing depth credit assignment should raise all models' T=1
+            exactness, while structured state should retain the best unseen-N
+            result if quotient-relevant position information is causal. Refute
+            the topology branch if it does not beat both controls at T=1.
+
+DATE:       2026-08-07
+CARD:       research_t1_discrete_iterative_refinement
+CHANGE:     Replace one-shot output decoding with a shared discrete masked-token
+            refinement cell; train only on T=1 targets and evaluate K=1,2,4,8
+            refinement steps.
+PREDICT:    Refinement should improve exact match from K=1 to K<=4 if residual
+            digit errors can be corrected conditionally; kill if extra K only
+            adds latency or if unseen-N exact remains at the marginal baseline.
+RESULT:     refuted for promotion — K=1 unseen-N exact was 0.47% and K=4/8
+            rose only to 8.18%/8.88%, while the deterministic structured tape
+            reached 17.06% at the same T=1 budget; refinement added compute
+            without entering a qualitatively stronger regime.
+
+DATE:       2026-08-08
+CARD:       research_t1_representation_decimal_binary_limbs
+CHANGE:     Keep the structured local recurrent tape and final-label T=1
+            objective fixed while replacing decimal tokens with either 7
+            little-endian binary bits or two little-endian 4-bit limbs.
+PREDICT:    If representation is the main ceiling, binary or fixed-width limbs
+            should make a qualitative held-out-x/unseen-N jump over decimal,
+            not merely 1–3 points. The limb width is fixed at 4 bits with two
+            limbs before the run and will not be tuned post hoc. Refute the
+            representation hypothesis if both alternatives remain in the same
+            low-generalization regime.
+
 DATE:       2026-08-04
 CARD:       easy_serial_recurrent
 CHANGE:     Replace the unavailable/stale Easy anchor with a smallest legal
@@ -1630,3 +1683,18 @@ CHANGE:     Submit the exact historically strongest legal Hard source, Fable
 PREDICT:    It should exceed the 0.0367% final-label VDF Hard score because
             its prior hosted run reached 0.0467%. Refutation: <=0.0367% or a
             validation/runtime failure.
+
+DATE:       2026-08-08
+CARD:       hard_t1_weighted_exact_match
+CHANGE:     In the 2026-08-07 GPT-5 Pro exact-match/SAM card, weight prompt
+            rows with T=1 by 8x inside the existing sequence-aware loss and
+            normalize row weights to mean one. Architecture, optimizer, SAM,
+            batch reuse, recurrence, and all inference behavior are unchanged.
+PREDICT:    Concentrating the fixed training budget on the first Hard rung
+            will produce nonzero exact accuracy at seen-N or OOD-N T=1 even
+            if aggregate Easy mean stays flat or falls. Refutation: both T=1
+            profiles remain exactly zero after the bounded Easy screen.
+RESULT:     confirmed narrowly on the screen — local e5 produced 5/512 seen-N
+            T=1 and 0/512 OOD-N T=1; hosted e5 produced 3/512 and 0/512.
+            Hosted aggregate mean fell to 0.375%, and total T=1 hits tied the
+            parent card, so the Hard attempt is a weak primary-profile bet.

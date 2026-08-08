@@ -1,10 +1,11 @@
-"""Card 1: Exact-Match Optimizer — Fable shell + sequence-exact losses + 2-pass SAM.
+"""T=1-weighted Exact-Match Optimizer for the Hard first-rung tie-break.
 
 CHANGE vs fable_tcap_adamw: dual opposite-orientation heads, token_training_loss
 (sequence CE + worst-digit softmax + margin + dual agreement), evaluator-owned
 2-pass SAM perturbation + high-loss batch reuse. Architecture loop unchanged.
 
-Source design: GPT-5 Pro (2026-08-07 five-card suite).
+Base design: GPT-5 Pro (2026-08-07 five-card suite). The only new mechanism is
+normalized loss weighting for rows whose prompt requests T=1.
 """
 from __future__ import annotations
 
@@ -45,6 +46,7 @@ MARGIN_TARGET = 0.5
 SAM_RHO = 0.05
 REUSE_LOSS_THRESHOLD = 2.0
 MAX_REUSES = 2
+T1_WEIGHT = 8.0
 
 
 class Config:
@@ -191,7 +193,11 @@ class Model(nn.Module):
         logits_rev = torch.flip(logits_rev, dims=[1])
         gate = torch.sigmoid(self.fuse_gate(h))
         logits = gate * logits_fwd + (1.0 - gate) * logits_rev
-        self.auxiliary = {"logits_fwd": logits_fwd, "logits_rev": logits_rev}
+        self.auxiliary = {
+            "logits_fwd": logits_fwd,
+            "logits_rev": logits_rev,
+            "t_val": t_val,
+        }
         return logits, self.auxiliary
 
 
@@ -208,12 +214,21 @@ def token_training_loss(batch: TokenLossBatch) -> Tensor:
     )
     counts = valid.sum(dim=1).clamp_min(1.0)
     seq_ce = (token_ce * valid).sum(dim=1) / counts
-    primary = seq_ce.mean()
+    aux = batch.auxiliary
+    row_weight = torch.ones_like(seq_ce)
+    if isinstance(aux, dict) and "t_val" in aux:
+        row_weight = torch.where(
+            aux["t_val"] == 1,
+            torch.full_like(seq_ce, T1_WEIGHT),
+            row_weight,
+        )
+        row_weight = row_weight / row_weight.mean().clamp_min(1.0)
+    primary = (row_weight * seq_ce).mean()
 
     # Softmax over digit losses (worst-digit emphasis)
     masked_ce = token_ce + (1.0 - valid) * (-1e4)
-    worst = (masked_ce.softmax(dim=1) * token_ce * valid).sum(dim=1)
-    worst = (worst / counts).mean()
+    worst = (masked_ce.softmax(dim=1) * token_ce * valid).sum(dim=1) / counts
+    worst = (row_weight * worst).mean()
 
     # Margin: correct logit vs strongest incorrect
     flat_logits = logits
@@ -224,10 +239,9 @@ def token_training_loss(batch: TokenLossBatch) -> Tensor:
     neg.scatter_(-1, flat_labels.unsqueeze(-1), -1e9)
     hard_neg, _ = neg.max(dim=-1)
     margin = F.relu(MARGIN_TARGET - (gather - hard_neg))
-    margin = ((margin * valid).sum(dim=1) / counts).mean()
+    margin = (row_weight * (margin * valid).sum(dim=1) / counts).mean()
 
     agree = torch.tensor(0.0, device=logits.device, dtype=logits.dtype)
-    aux = batch.auxiliary
     if isinstance(aux, dict) and "logits_fwd" in aux and "logits_rev" in aux:
         # Align aux to target length if needed (evaluator may slice logits)
         lf, lr = aux["logits_fwd"], aux["logits_rev"]
@@ -237,7 +251,7 @@ def token_training_loss(batch: TokenLossBatch) -> Tensor:
                 lr.softmax(-1).detach(),
                 reduction="none",
             ).sum(-1)
-            agree = ((agree * valid).sum(dim=1) / counts).mean()
+            agree = (row_weight * (agree * valid).sum(dim=1) / counts).mean()
 
     return primary + LAM_WORST * worst + LAM_MARGIN * margin + LAM_AGREE * agree
 

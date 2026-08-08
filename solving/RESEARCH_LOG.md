@@ -1930,3 +1930,68 @@ composition, still locally and without promoting weights to a submission.
   - t1_assassin 0.42% (`2cdf18a8`)
   - gated_arithmetic_tape 0.13% (`61694c82`)
 - **Next:** Human picks Hard candidate; agent does not auto-submit Hard.
+
+### 2026-08-08 — T=1 state-topology tournament and discrete refinement (Author: Codex)
+
+- **Question:** before any new recurrence-depth work, does a structured
+  LSD-aligned per-position state solve the T=1 transfer bottleneck, and can a
+  discrete iterative refiner improve exactness cheaply?
+- **Control:** the same synthetic small-N VDF harness, 18 seen moduli, 8
+  unseen moduli, 80/20 held-out-x split on seen moduli, all unseen-N residues,
+  AdamW, one seed, and 120 seconds per arm on the L40. Only T=1 rows were
+  trained. Existing T>1 diagnostics were not extended.
+- **Result:** register baseline was 4.62% held-out-x / 8.64% unseen-N; global
+  latent was 10.50% / 16.36%; structured LSD tape was 12.18% / **17.06%**.
+  Structured state is a narrow positive (+1.68/+0.70 points over global) but
+  does not clear the promotion gate. It is 311,626 parameters versus 262,346
+  for controls and runs fewer updates in the same wall-clock budget.
+- **Discrete refiner:** the masked-token shared refinement model scored
+  unseen-N 0.47%, 7.94%, 8.18%, and 8.88% at K=1,2,4,8 respectively, with
+  increasing latency. This is refuted for promotion; it does not justify a
+  competition screen.
+- **Decision:** no Easy/Medium/Hard transfer. Freeze the structured result as
+  research evidence and register a binary/limb T=1 representation comparison
+  next. Do not run zero-shot T>1 recurrence until a T=1 model reaches a
+  qualitatively stronger regime.
+- **Artifact:** `diagnostics/artifacts/t1_tournament_2026-08-08/summary.md`.
+
+### 2026-08-08 — T=1 numerical representation comparison (Author: Codex)
+
+- **Question:** is the current low T=1 transfer ceiling primarily caused by
+  decimal digit representation? This is a matched, final-label-only,
+  single-step comparison; no T>1 training or recurrence evaluation was run.
+- **Controls:** same 18 seen / 8 unseen modulus split, 80/20 held-out-x split,
+  one seed, structured LSD-aligned local tape, AdamW, batch 512, 120-second
+  L40 budget, and the same decoder/topology. The fixed limb choice was made
+  before training: two little-endian 4-bit limbs (8 representable bits), with
+  no post-hoc width tuning.
+- **Results (full-train exact / held-out-x exact / unseen-N exact):** decimal
+  100.00% / **11.76%** / **18.69%**; binary (7 little-endian bits) 7.81% /
+  2.10% / 4.21%; 4-bit limbs 100.00% / 11.34% / 14.49%. Parameter counts
+  were 261,962 / 260,770 / 262,864 respectively. Updates in 120 seconds were
+  24,524 / 21,006 / 27,056. Held-out inference latency was 0.0091 / 0.0120 /
+  0.0077 ms per example (local batch measurement).
+- **Convergence:** decimal and limbs fit their seen training rows rapidly;
+  binary remained near 8% full-train exact and never reached a fitting regime.
+  The complete curves and raw reports are in
+  `diagnostics/artifacts/t1_representation_2026-08-08/{decimal2,binary2,limb42}`.
+- **Conclusion:** **refuted as a representation-only explanation** under this
+  matched budget. Neither binary nor fixed 4-bit limbs produces a qualitative
+  generalization improvement; both are worse than decimal on held-out-x and
+  unseen-N. The representation branch is closed for now. This does not prove
+  binary arithmetic can never work with a different objective or architecture;
+  it says representation micro-tuning did not break the present final-label
+  ceiling. Do not launch T>1 or competition runs from these arms before review.
+
+### 2026-08-08 — T=1-weighted Hard execution (Author: Codex)
+
+- **Change:** weight T=1 rows by 8x, normalized to mean-one row weight, inside
+  the existing GPT-5 Pro exact-match/SAM card. No architecture, optimizer,
+  recurrence, batch-reuse, or inference change.
+- **Screen:** local L40 e5 reached 0.4583% mean and T=1 5/512 seen / 0/512
+  OOD-N. Hosted Easy `cb98f944-9b21-4869-af5a-c924845ca89e` reached 0.3750%
+  mean and T=1 3/512 seen / 0/512 OOD-N. The parent hosted Easy profile was
+  2/512 seen / 1/512 OOD-N, so total T=1 hits did not improve.
+- **Hard:** exact SHA-1 `8c796bf39f3b0d2f90043b08430be26c23f0f180` was
+  accepted as `9e7404cb-b0c9-480a-aa64-8d90cc853d67`; daily Hard quota is
+  exhausted. This is a weak first-profile bet, not a promoted mechanism.
