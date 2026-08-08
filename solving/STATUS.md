@@ -17,9 +17,11 @@ However, full-budget m1 was 0/192 seen and 0/512 OOD-N T=1 after 9,815 updates;
 the mechanism is not promoted. Selection is a first-rung lottery, not a claim
 that T=1 or downward transition identification is solved. See
 [`submissions/t1_canonical_register/CARD.md`](submissions/t1_canonical_register/CARD.md).
-The exact frozen source was accepted as Hard h1 job
-`7714d650-78a4-4d4a-8fc1-a384914d7658`; result is pending and today's Hard
-quota is exhausted.
+The exact frozen source completed as Hard h1 job
+`7714d650-78a4-4d4a-8fc1-a384914d7658`: **0.0500%** mean exact, no certified
+rung, and **0/768** at T=1 on both seen-N and OOD-N profiles. It completed
+163,274 updates in 3,600 seconds and finished at train loss 2.17846. The hosted
+Easy first-rung hits did not transfer to Hard.
 
 **Current T=1 finding (2026-08-08):** three-seed final-label controls close
 two more architecture-only branches. Hiding `N` during a generic square phase

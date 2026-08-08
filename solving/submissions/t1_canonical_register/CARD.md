@@ -7,7 +7,7 @@
 - Evaluator source: `e32c2f9`
 - Model: 1,592,064 persistent elements on public e5
 - Optimizer: AdamW, peak LR 3e-3, batch 512
-- Hard job: `7714d650-78a4-4d4a-8fc1-a384914d7658` (running 2026-08-08)
+- Hard job: `7714d650-78a4-4d4a-8fc1-a384914d7658` (completed 2026-08-08)
 
 The mutable LSD-first register is initialized from `x` once. Every tied cell
 application then sees only the current register and immutable `N`; requested
@@ -47,6 +47,11 @@ materially exceed these chance-scale counts.
 Hard upload validation rechecked the source filename/size policy and exact
 SHA-1 immediately before submission. The service accepted it for `h1` and
 reported zero Hard attempts remaining for the UTC day.
+
+Hard result: 0.0500% mean exact; 8/9,999 test, 2/10,002 OOD-T, and 5/10,002
+OOD-N; no certified rung; 0/768 seen-N T=1 and 0/768 OOD-N T=1. The run
+completed 163,274 updates in 3,600.01 seconds with final train loss 2.17846.
+This refutes transfer of the hosted Easy first-rung counts.
 
 Selection figure:
 [`../../experiments/figures/t1_hard_selection_2026-08-08.png`](../../experiments/figures/t1_hard_selection_2026-08-08.png).

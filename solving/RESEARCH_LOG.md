@@ -2083,9 +2083,12 @@ composition, still locally and without promoting weights to a submission.
 - **Decision:** freeze SHA-1 `5b622f06680600f4b346e34b635b839dde18471c`
   for the owner's explicitly requested Hard attempt. This is a reproducible
   first-rung lottery, not a promoted mechanism or solved T=1 submission.
-- **Submission:** exact frozen source passed validation and was accepted as
-  Hard h1 job `7714d650-78a4-4d4a-8fc1-a384914d7658`; daily Hard quota then
-  reported zero remaining. Result is pending.
+- **Submission:** exact frozen source passed validation and completed as Hard
+  h1 job `7714d650-78a4-4d4a-8fc1-a384914d7658`. It scored 0.0500% mean exact
+  (8/9,999 test, 2/10,002 OOD-T, 5/10,002 OOD-N), certified no rung, and was
+  0/768 at T=1 on both seen-N and OOD-N profiles. Training completed 163,274
+  updates / 3,600.01 seconds at final train loss 2.17846. The two hosted Easy
+  profiles were chance-scale and did not transfer.
 - **GPU retirement:** active L40S pod `aaa91aae061a42efb488ded82707752d`
   (GPU `GPU-ce5e12f8-947e-a813-9811-ba731e8defbf`) was idle. Backup verified
   21 files / 178,089 bytes under ignored

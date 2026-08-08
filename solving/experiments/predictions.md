@@ -1862,4 +1862,8 @@ CHANGE:     Submit exact SHA-1 5b622f06680600f4b346e34b635b839dde18471c
 PREDICT:    No rung will certify. The first-rung lottery target stated before
             upload is nonzero on both private profiles, plausibly 2–8/768
             seen-N and 1–6/768 OOD-N. Refutation: either T=1 profile is zero.
-RESULT:     pending as job `7714d650-78a4-4d4a-8fc1-a384914d7658`.
+RESULT:     refuted — job `7714d650-78a4-4d4a-8fc1-a384914d7658` scored
+            0.0500% mean exact and certified no rung. Both private T=1
+            profiles were exactly zero (0/768 seen-N and 0/768 OOD-N), outside
+            the predicted nonzero ranges. The 163,274-update run ended at
+            train loss 2.17846; public Easy hits did not transfer.
