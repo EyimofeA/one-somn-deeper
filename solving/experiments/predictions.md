@@ -1741,3 +1741,125 @@ PREDICT:    Reproduce the prior local 0.4583% mean neighborhood and retain at
 RESULT:     confirmed — exact SHA produced 0.6250% mean, 4/512 seen-N T=1,
             and 1/512 OOD-N T=1, within 0.1667 points of the prior local mean.
             No rung certified; this validates identity/runtime, not mechanism.
+
+DATE:       2026-08-08
+CARD:       t1_identifiability_ablation
+CHANGE:     Replace the prompt-reinjecting recurrence with a canonical mutable
+            LSD-first register initialized from x once, immutable N context,
+            and T as loop count only. Tie answer logits to state logits. Compare
+            plain CE/AdamW with a T=1-only first 50% curriculum and 4x late T=1
+            weight. No intermediate label or arithmetic oracle is introduced.
+PREDICT:    The canonical curriculum arm gives the strongest T=1 transfer.
+            Promotion requires >=5% exact on both seen-N and OOD-N T=1 and >=3
+            points over canonical plain. Kill if OOD-N T=1 stays below 1% or
+            canonical plain matches it within 1 point. The older prompt-
+            reinjecting curriculum is a loose architecture baseline, not a
+            parameter-matched control. Budget: three 60-second e5 runs.
+RESULT:     refuted for promotion, positive as a weak first-rung bet. Canonical
+            curriculum reached 5/512 seen-N and 2/512 OOD-N T=1 with 0.6667%
+            e5 mean, versus canonical plain at 1/512 and 1/512 with 0.5833%
+            mean. Prompt reinjection reached 1/512 and 1/512 despite 0.7083%
+            aggregate mean. The treatment misses the 5%/5% and 3-point gates.
+
+DATE:       2026-08-08
+CARD:       canonical_register_m1_downward_transfer
+CHANGE:     Run the canonical mutable-state card for the full public Medium m1
+            budget. Because m1 has only T=4/8/16 training labels, the T=1
+            curriculum automatically falls back to ordinary final-label
+            training at actual T. Architecture and optimizer are unchanged.
+PREDICT:    If composed final labels identify the tied transition, the final
+            checkpoint will produce >=1% seen-N T=1 and >=0.2% OOD-N T=1.
+            Kill the Hard thesis if both T=1 profiles are zero. Budget: one
+            600-second m1 run, seed 74.
+RESULT:     refuted — after 9,815 updates / 600.02 seconds, final train CE was
+            2.2930, test was 0/3,000, OOD was 2/3,000, and both seen-N and
+            OOD-N T=1 profiles were exactly zero (0/192 and 0/512). Composed
+            T=4/8/16 labels did not identify the canonical one-step cell.
+
+DATE:       2026-08-08
+CARD:       canonical_register_e5_seed_robustness
+CHANGE:     Repeat the exact robust canonical-register curriculum source on
+            public e5 with runtime seeds 75 and 76; seed 74 is already complete.
+            Data, budget, optimizer, architecture, and curriculum are fixed.
+PREDICT:    The three-seed median will retain >=3/512 seen-N T=1 and >=1/512
+            OOD-N T=1. Refutation: either new seed is zero on both profiles or
+            the median falls below either threshold. Budget: two 60-second runs.
+RESULT:     confirmed — seeds 74/75/76 produced seen-N T=1 counts 5/4/3 and
+            OOD-N counts 2/1/1, so medians were 4 and 1. E5 means were
+            0.6667%/0.7500%/0.8333%. The signal is weak but not single-seed.
+
+DATE:       2026-08-08
+CARD:       canonical_dynamic_slots_hosted_repeat
+CHANGE:     Resubmit exact SHA-1 5b622f06680600f4b346e34b635b839dde18471c
+            to hosted Easy e5. No source, dataset, or tier change.
+PREDICT:    The repeat retains nonzero seen-N and OOD-N T=1. Refutation: either
+            first-rung profile is exactly zero. Budget: one hosted Easy e5 slot.
+RESULT:     confirmed — the repeat improved to 5/512 seen-N and 4/512 OOD-N
+            T=1 with 0.8333% mean and 1,189 updates. The first exact-source
+            hosted run was 2/512 and 3/512 with 0.7083% mean and 1,036 updates.
+
+DATE:       2026-08-08
+CARD:       canonical_register_lr6e3
+CHANGE:     Increase only AdamW peak learning rate from 3e-3 to 6e-3 in the
+            compact width-256, batch-512 canonical card. Schedule, warmup,
+            architecture, curriculum, and all other hyperparameters are fixed.
+PREDICT:    Earlier learning will yield >=8/512 seen-N and >=2/512 OOD-N T=1
+            with e5 mean >=0.60%. Promote only if both T=1 counts match or beat
+            compact 3e-3 and total hits exceed 12. Budget: one 60-second e5 run.
+RESULT:     refuted — 2,422 updates reached only 0/512 seen-N and 2/512 OOD-N
+            T=1 with 0.5000% mean. Higher LR delayed useful fitting and shifted
+            chance hits away from the primary seen-N profile.
+
+DATE:       2026-08-08
+CARD:       canonical_register_batch256
+CHANGE:     Reduce only training batch size from 512 to 256 in the compact
+            width-256 canonical card. Evaluation batch, model, optimizer,
+            curriculum, state, data, and wall-clock budget remain fixed.
+PREDICT:    E5 will complete >=3,500 L40S updates and retain >=8/512 seen-N
+            plus >=1/512 OOD-N T=1. Promote only if both profile counts are
+            nonzero and total T=1 hits exceed compact batch-512's 12.
+            Budget: one 60-second e5 run, seed 74.
+RESULT:     refuted — 3,233 updates, below the 3,500 prediction, produced only
+            2/512 seen-N and 0/512 OOD-N T=1 with 0.6667% mean. Smaller batches
+            delayed the learning transition and lost OOD-N first-rung signal.
+
+DATE:       2026-08-08
+CARD:       canonical_register_width128
+CHANGE:     Reduce only D_MODEL from 256 to 128 in the dynamic-slot canonical
+            card. Heads, layers, state interface, optimizer, curriculum, batch,
+            and data remain fixed.
+PREDICT:    The smaller card will complete >=4,500 L40S e5 steps while retaining
+            at least one exact seen-N and one exact OOD-N T=1 example. Promote
+            over width 256 only if total T=1 hits are >=5 and neither profile
+            is zero. Budget: one 60-second e5 run, seed 74.
+RESULT:     refuted as a speed intervention. L40S completed only 2,390 updates,
+            but optimization per update improved; local profiles were 6/512
+            seen and 1/512 OOD-N with 0.6250% mean. Hosted execution completed
+            568 updates and fell to 2/512 seen, 0/512 OOD-N, so it is rejected.
+
+DATE:       2026-08-08
+CARD:       canonical_register_dynamic_slots
+CHANGE:     Derive active recurrent register slots from ModelSpec.max_seq_len
+            instead of always attending over 16 mutable plus 16 N slots. E5
+            uses five active slots per side; larger suites expand automatically.
+            Parameters, optimizer, loss, curriculum, routing, and loop semantics
+            are unchanged.
+PREDICT:    Hosted-style throughput should improve by >=2x without losing the
+            public first-rung signal: local e5 must retain >=3/512 seen-N and
+            >=1/512 OOD-N T=1. Kill if both profile counts fall or mean exact
+            drops below 0.60%. Budget: one 60-second e5 run, seed 74.
+RESULT:     mixed prediction, selected for Hard profile evidence. L40S
+            throughput was only 2,386 versus 2,306 updates, but local T=1 was
+            11/512 seen and 1/512 OOD-N. Hosted exact-source runs completed
+            1,036 and 1,189 updates and produced 2/512 + 3/512, then 5/512 +
+            4/512 (seen + OOD-N). Hosted means were 0.7083% and 0.8333%.
+
+DATE:       2026-08-08
+CARD:       canonical_dynamic_slots_hard_h1
+CHANGE:     Submit exact SHA-1 5b622f06680600f4b346e34b635b839dde18471c
+            to Hard h1 after two exact hosted e5 runs were nonzero on both T=1
+            profiles. No post-screen source change.
+PREDICT:    No rung will certify. The first-rung lottery target stated before
+            upload is nonzero on both private profiles, plausibly 2–8/768
+            seen-N and 1–6/768 OOD-N. Refutation: either T=1 profile is zero.
+RESULT:     pending as job `7714d650-78a4-4d4a-8fc1-a384914d7658`.

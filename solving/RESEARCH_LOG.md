@@ -2063,3 +2063,33 @@ composition, still locally and without promoting weights to a submission.
   pod `8b90919e9f4541f197a57f3493896542`. Prime then listed zero running pods;
   target status had no IP/SSH, and `ssh oneL40` timed out. Billing compute is
   retired. Recreatable virtual environments and Python caches were excluded.
+
+### 2026-08-08 — Canonical register sprint and forced Hard selection (Author: Codex)
+
+- **Mechanism:** initialize a mutable LSD-first register from `x` once; expose
+  only that state plus immutable `N` to the tied cell; use `T` only as loop
+  count; route the same state logits to the answer. Explicit small embedding
+  initialization repaired initial CE from ~42 to 2.76. Final labels only.
+- **Matched e5 ablation:** prompt-reinject curriculum was 1/512 seen + 1/512
+  OOD-N T=1; canonical plain was 1/512 + 1/512; canonical curriculum was
+  5/512 + 2/512. None passed the registered promotion gate.
+- **Downward-transfer refutation:** full m1 (T=4/8/16 labels) stayed at CE
+  2.2930 for 9,815 updates / 600.02 seconds and produced 0/192 seen plus 0/512
+  OOD-N T=1. Canonical state alone does not identify a one-step root.
+- **Compact selection:** dynamic active slots yielded exact-source hosted e5
+  jobs `b99d4e4b-95f3-420c-ba08-282e4060d4d0` at 2/512 + 3/512 and
+  `e0542460-87d9-49ef-aaa7-a691ac378414` at 5/512 + 4/512 (seen + OOD-N T=1).
+  Width 128, batch 256, and LR 6e-3 each zeroed one first-rung profile.
+- **Decision:** freeze SHA-1 `5b622f06680600f4b346e34b635b839dde18471c`
+  for the owner's explicitly requested Hard attempt. This is a reproducible
+  first-rung lottery, not a promoted mechanism or solved T=1 submission.
+- **Submission:** exact frozen source passed validation and was accepted as
+  Hard h1 job `7714d650-78a4-4d4a-8fc1-a384914d7658`; daily Hard quota then
+  reported zero remaining. Result is pending.
+- **GPU retirement:** active L40S pod `aaa91aae061a42efb488ded82707752d`
+  (GPU `GPU-ce5e12f8-947e-a813-9811-ba731e8defbf`) was idle. Backup verified
+  21 files / 178,089 bytes under ignored
+  `diagnostics/artifacts/prime_backup_2026-08-08T2227Z_canonical_sprint/`
+  before guarded termination. A separate original L40 pod
+  `f9df27bd9eac40be95525d58448521e2` remained stuck in provisioning with no
+  IP/SSH and was not terminated because no real backup could be verified.

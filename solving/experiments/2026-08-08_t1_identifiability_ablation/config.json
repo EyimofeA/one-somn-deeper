@@ -1,0 +1,12 @@
+{
+  "manifest": "benchmark/manifests/h100_easy_e5.json",
+  "arms": {
+    "prompt_reinject_curriculum": {"source": "t1_canonical_curriculum", "t1_only_fraction": 0.5, "t1_late_weight": 4.0},
+    "canonical_plain": {"source": "t1_canonical_register", "t1_only_fraction": 0.0, "t1_late_weight": 1.0},
+    "canonical_t1_curriculum": {"source": "t1_canonical_register", "t1_only_fraction": 0.5, "t1_late_weight": 4.0}
+  },
+  "optimizer": "AdamW",
+  "loss": "final-label token CE",
+  "intermediate_supervision": false,
+  "seeds": [74]
+}

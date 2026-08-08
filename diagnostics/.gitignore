@@ -1,6 +1,9 @@
 .venv/
 data/generated/
 data/generated_reversed/
+data/e5_public/
+controls/
+manifests/
 runs/
 .pytest_cache/
 __pycache__/

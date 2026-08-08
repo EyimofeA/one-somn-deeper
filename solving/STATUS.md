@@ -8,6 +8,19 @@ Hard scoring is unchanged: certified Max T → OOD-N Max T → first-uncertified
 rung accuracy → time. The source audit found no scoring or data-distribution
 change and no newly prohibited call in the archived candidates.
 
+**Current Hard candidate (2026-08-08 evening):** compact canonical register
+SHA-1 `5b622f06680600f4b346e34b635b839dde18471c` is frozen for the owner's
+explicit forced Hard attempt. Two exact hosted e5 runs produced 2/512 seen-N +
+3/512 OOD-N T=1 and 5/512 + 4/512, with 0.7083% and 0.8333% mean exact. This is
+the only tested source today with both hosted T=1 profiles nonzero twice.
+However, full-budget m1 was 0/192 seen and 0/512 OOD-N T=1 after 9,815 updates;
+the mechanism is not promoted. Selection is a first-rung lottery, not a claim
+that T=1 or downward transition identification is solved. See
+[`submissions/t1_canonical_register/CARD.md`](submissions/t1_canonical_register/CARD.md).
+The exact frozen source was accepted as Hard h1 job
+`7714d650-78a4-4d4a-8fc1-a384914d7658`; result is pending and today's Hard
+quota is exhausted.
+
 **Current T=1 finding (2026-08-08):** three-seed final-label controls close
 two more architecture-only branches. Hiding `N` during a generic square phase
 ties the entangled control at 17.29% median unseen-N exact (11.76% versus
