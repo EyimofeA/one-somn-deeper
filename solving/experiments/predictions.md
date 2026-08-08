@@ -1698,3 +1698,33 @@ RESULT:     confirmed narrowly on the screen — local e5 produced 5/512 seen-N
             T=1 and 0/512 OOD-N T=1; hosted e5 produced 3/512 and 0/512.
             Hosted aggregate mean fell to 0.375%, and total T=1 hits tied the
             parent card, so the Hard attempt is a weak primary-profile bet.
+
+DATE:       2026-08-08
+CARD:       t1_phase_square_reduce_information_flow
+CHANGE:     In a matched final-label-only T=1 decimal model, hide N during a
+            four-step square phase, then expose N during a four-step reduction
+            phase. Compare with an identical-depth/parameter control that sees
+            N in both phases. No arithmetic intermediates enter model or loss.
+PREDICT:    Withholding N will impede per-modulus table memorization and force
+            an N-independent x² representation: across seeds 0/1/2, factored
+            median unseen-N exact will be >=35%, held-out-x >=25%, and unseen-N
+            will beat entangled by >=10 points. Kill if factored unseen-N is
+            <=20% or has no consistent advantage. Budget: 18 GPU minutes.
+RESULT:     refuted — factored medians are 11.76% held-out-x and 17.29%
+            unseen-N versus 13.03% and 17.29% for entangled; all six runs fit
+            train 100%. Hiding N neither forces squaring nor improves transfer.
+
+DATE:       2026-08-08
+CARD:       t1_pairfold_square_reduce_final_label
+CHANGE:     Replace the refuted generic x-only square phase with learned digit-
+            pair categories, fixed pair-to-column routing, a shared pair fold,
+            and an LSD-first learned carry scan. Keep final-label-only training
+            and the four-step N-conditioned learned reduction phase.
+PREDICT:    The pair-routed square tape will attack held-out-x composition:
+            median held-out-x and unseen-N exact across seeds 0/1/2 will each
+            be >=25%, and unseen-N will beat the generic factored median by
+            >=10 points. Kill if median held-out-x is <=15% or unseen-N fails
+            to beat 17.29%. Budget: 9 GPU minutes.
+RESULT:     refuted — all seeds fit train 100%, but median held-out-x is
+            10.50% and unseen-N 16.36%, both worse than the generic factored
+            tape. Pair topology does not repair final-label credit assignment.

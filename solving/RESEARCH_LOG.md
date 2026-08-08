@@ -1995,3 +1995,31 @@ composition, still locally and without promoting weights to a submission.
 - **Hard:** exact SHA-1 `8c796bf39f3b0d2f90043b08430be26c23f0f180` was
   accepted as `9e7404cb-b0c9-480a-aa64-8d90cc853d67`; daily Hard quota is
   exhausted. This is a weak first-profile bet, not a promoted mechanism.
+
+### 2026-08-08 — T=1 phase information-flow control (Author: Codex)
+
+- **Question:** does preventing the square phase from seeing `N` force an
+  `N`-independent square representation under final-label-only training?
+- **Control:** matched 443,594-parameter four-step square/four-step reduction
+  tapes. The factored arm sees a learned null during square; the entangled arm
+  sees `N`. Data, optimizer, wall time, depth, and all other computation match.
+- **Result:** all six runs reached 100% train exact. Across seeds 0/1/2,
+  factored median held-out-x/unseen-N exact was **11.76%/17.29%** versus
+  **13.03%/17.29%** entangled.
+- **Conclusion:** refuted. Information withholding alone does not identify
+  squaring and slightly hurts held-out-x. Artifacts:
+  `diagnostics/artifacts/t1_phase_square_reduce_2026-08-08/`.
+
+### 2026-08-08 — T=1 pair-fold square tape (Author: Codex)
+
+- **Question:** can the strongest structural multiplication bias recover
+  upstream square learning from final modular labels: learned digit-pair
+  categories, pair-to-column routing, within-column fold, and LSD carry scan?
+- **Result:** all three 435,530-parameter runs reached 100% train exact, but
+  median held-out-x/unseen-N exact was **10.50%/16.36%**, worse than the
+  generic factored tape's 11.76%/17.29%.
+- **Conclusion:** refuted. Directly supervised raw-square success does not
+  transfer when its only gradient comes through learned reduction. Stop
+  rearranging T=1 topology; the next card must change legal identifiability or
+  credit assignment. Artifacts:
+  `diagnostics/artifacts/t1_pairfold_square_reduce_2026-08-08/`.

@@ -1,0 +1,12 @@
+{
+  "classification": "research_only",
+  "task": "T=1 modular squaring",
+  "representation": "4 little-endian decimal digits",
+  "change": "generic square phase to learned pair-fold plus LSD carry tape",
+  "reduce_steps": 4,
+  "seconds_per_seed": 180,
+  "seeds": [0, 1, 2],
+  "batch_size": 512,
+  "intermediate_supervision": false,
+  "device": "NVIDIA L40"
+}

@@ -13,7 +13,7 @@ optimizer, recurrence, batch reuse, and inference are unchanged.
 - Local L40 e5: 0.4583% mean; seen-N T=1 5/512; OOD-N T=1 0/512.
 - Hosted Easy e5: `cb98f944-9b21-4869-af5a-c924845ca89e`, 0.3750% mean;
   seen-N T=1 3/512; OOD-N T=1 0/512.
-- Hosted Hard: `9e7404cb-b0c9-480a-aa64-8d90cc853d67`, queued; daily Hard
+- Hosted Hard: `9e7404cb-b0c9-480a-aa64-8d90cc853d67`, running; daily Hard
   quota remaining: 0.
 
 The parent exact-match card's hosted e5 profile was 2/512 seen-N T=1 and
@@ -43,14 +43,39 @@ is negative. These results kill another prompt-register curriculum, this
 masked-token refiner, and representation-only micro-tuning under the tested
 conditions.
 
+Two three-seed final-label controls further localize T=1 failure. Hiding `N`
+during a generic square phase gives 11.76% held-out-x / 17.29% unseen-N median,
+versus 13.03% / 17.29% when `N` is visible. Replacing the square phase with
+learned pair categories, pair-to-column routing, a shared fold, and an LSD
+carry scan is worse at 10.50% / 16.36%. All nine runs fit train 100%. The raw-
+square inductive bias that works under direct square labels is not identified
+through final modular labels.
+
 ## Current frontier and next decision
 
-T=1 transition identifiability remains the bottleneck. A model can fit seen
-rows while failing to learn a modulus-conditioned local law. The next useful
-card should combine the validated Square→Reduce phase decomposition with a
-real LSD-aligned latent tape under final-label-only T=1 training, against the
-current structured-tape control. It should not add traces or tune recurrence
-depth. This card is proposed, not launched.
+T=1 transition identifiability remains the bottleneck. Phase separation and
+an LSD-aligned pair-fold tape are now refuted, so the next card must change
+legal credit assignment/identifiability. Do not tune recurrence depth, swap
+number representation again, or transfer either new diagnostic to hosted
+evaluation.
 
 Recent hosted references: Easy e1 8.50% (`7ee881f6`), Medium m5 0.17%
 (`60510147`), prior Hard 0.0600% with zero T=1 (`14ce2afb`).
+
+## Repository organization audit
+
+The conceptual split is sound, but the physical tree has drifted:
+
+- `RESEARCH_PROTOCOL.md` requires per-experiment `NOTE.md` and `config.json`,
+  while `solving/experiments/LAYOUT.md` explicitly forbids them. Reconcile
+  this contradiction first.
+- `diagnostics/` is 1.7 GB and mixes reusable source with 1,076 raw artifacts,
+  analysis exports, logs, and a virtual environment. Keep source/tests/configs
+  there; move generated material under one ignored artifact root with a compact
+  tracked index.
+- Root-level session exports, metrics, and duplicate 177–178 MB research
+  packets obscure the entry points even when ignored. Put recoverable exports
+  outside the repository and retain one manifest/link.
+- `solving/submissions/` is documented as active-only but mixes five historical
+  symlinks, six new source directories, temporary source, and reports. Give
+  each active candidate one named pointer and keep provenance in its card.

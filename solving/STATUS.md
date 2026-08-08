@@ -1,12 +1,22 @@
 # Status (living)
 
-Last updated: 2026-08-05. **Rule audit:** the local competition checkout is now
+Last updated: 2026-08-08. **Rule audit:** the local competition checkout is now
 the live upstream `e32c2f9`. It adds bounded evaluator-owned structured
 metrics plus multiple evaluator-owned backward passes/same-batch reuse, while
 explicitly banning participant-started derivative or nested-training calls.
 Hard scoring is unchanged: certified Max T → OOD-N Max T → first-uncertified
 rung accuracy → time. The source audit found no scoring or data-distribution
 change and no newly prohibited call in the archived candidates.
+
+**Current T=1 finding (2026-08-08):** three-seed final-label controls close
+two more architecture-only branches. Hiding `N` during a generic square phase
+ties the entangled control at 17.29% median unseen-N exact (11.76% versus
+13.03% held-out-x). Replacing that phase with learned pair-to-column routing,
+a shared fold, and an LSD carry scan is worse at 16.36% unseen-N / 10.50%
+held-out-x. Every run fits train 100%. The blocker is upstream credit
+assignment/identifiability from modular final labels, not another choice of
+state topology, representation, or square-phase depth. Do not transfer either
+card to a competition submission.
 
 **Submission execution update (2026-08-05):** no new hosted submission has
 been made. A current local L40 revalidation rejects both immediately available

@@ -1,0 +1,15 @@
+{
+  "classification": "research_only",
+  "task": "T=1 modular squaring",
+  "representation": "4 little-endian decimal digits",
+  "arms": ["factored", "entangled"],
+  "one_variable": "N visibility during square phase",
+  "square_steps": 4,
+  "reduce_steps": 4,
+  "seconds_per_seed": 180,
+  "seeds": [0, 1, 2],
+  "batch_size": 512,
+  "optimizer": "AdamW(lr=0.002, betas=[0.9,0.95], weight_decay=0.05)",
+  "intermediate_supervision": false,
+  "device": "NVIDIA L40"
+}
