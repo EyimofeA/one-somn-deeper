@@ -2023,3 +2023,19 @@ composition, still locally and without promoting weights to a submission.
   rearranging T=1 topology; the next card must change legal identifiability or
   credit assignment. Artifacts:
   `diagnostics/artifacts/t1_pairfold_square_reduce_2026-08-08/`.
+
+### 2026-08-08 — Exact Hard-source local e5 replication (Author: Codex)
+
+- **Identity:** local and L40 source SHA-1 both
+  `8c796bf39f3b0d2f90043b08430be26c23f0f180`, exactly matching Hard job
+  `9e7404cb-b0c9-480a-aa64-8d90cc853d67`; evaluator pin `e32c2f9`.
+- **Result:** public Easy e5 on the idle L40 completed 1,192 updates in 60.03
+  seconds. Test was 7/1,200 (0.5833%), OOD 4/600 (0.6667%), mean **0.6250%**.
+  T=1 profiles were 4/512 seen-N and 1/512 OOD-N; no rung certified.
+- **Interpretation:** no-change replication confirmed source/runtime integrity
+  and the registered prior-local neighborhood. This card descends directly
+  from `fable_tcap_adamw`; exact-match heads/loss/SAM/reuse were added next,
+  and normalized 8x T=1 row weighting is the sole Hard-attempt change. It is
+  unrelated to `t1_assassin` and the research-only pair-fold tape.
+- **Artifact:**
+  `diagnostics/artifacts/hard_exact_source_e5_replication_2026-08-08/stdout.log`.

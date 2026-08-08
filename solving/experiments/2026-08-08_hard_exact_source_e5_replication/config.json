@@ -1,0 +1,8 @@
+{
+  "classification": "exact_source_replication",
+  "submission_sha1": "8c796bf39f3b0d2f90043b08430be26c23f0f180",
+  "hard_job": "9e7404cb-b0c9-480a-aa64-8d90cc853d67",
+  "manifest": "benchmark/manifests/h100_easy_e5.json",
+  "device": "NVIDIA L40",
+  "change": "none"
+}

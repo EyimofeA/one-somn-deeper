@@ -11,6 +11,8 @@ optimizer, recurrence, batch reuse, and inference are unchanged.
 - Static validation: passed on evaluator `e32c2f9`; 1,600,513 model-state
   elements; banned-token audit clean.
 - Local L40 e5: 0.4583% mean; seen-N T=1 5/512; OOD-N T=1 0/512.
+- Exact-source L40 replication: 0.6250% mean; seen-N T=1 4/512; OOD-N T=1
+  1/512; no certified rung.
 - Hosted Easy e5: `cb98f944-9b21-4869-af5a-c924845ca89e`, 0.3750% mean;
   seen-N T=1 3/512; OOD-N T=1 0/512.
 - Hosted Hard: `9e7404cb-b0c9-480a-aa64-8d90cc853d67`, running; daily Hard

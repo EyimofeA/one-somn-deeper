@@ -1728,3 +1728,14 @@ PREDICT:    The pair-routed square tape will attack held-out-x composition:
 RESULT:     refuted — all seeds fit train 100%, but median held-out-x is
             10.50% and unseen-N 16.36%, both worse than the generic factored
             tape. Pair topology does not repair final-label credit assignment.
+
+DATE:       2026-08-08
+CARD:       hard_exact_source_e5_replication
+CHANGE:     None. Re-run SHA-1 8c796bf39f3b0d2f90043b08430be26c23f0f180,
+            the exact active Hard source, on public Easy e5 on the idle L40.
+PREDICT:    Reproduce the prior local 0.4583% mean neighborhood and retain at
+            least one seen-N T=1 exact hit. Refutation: zero seen-N T=1 hits or
+            an absolute mean shift greater than 0.50 percentage points.
+RESULT:     confirmed — exact SHA produced 0.6250% mean, 4/512 seen-N T=1,
+            and 1/512 OOD-N T=1, within 0.1667 points of the prior local mean.
+            No rung certified; this validates identity/runtime, not mechanism.
