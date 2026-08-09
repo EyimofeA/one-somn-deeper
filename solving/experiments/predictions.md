@@ -2014,3 +2014,42 @@ RESULT:     confirmed. Every shift retained 100% subtraction exactness and
             (99.9023%) at q=100; all scales through 99,999,999 cleared 99.9%.
             The selected subtraction count exactly matched the quotient digit
             sum at every fully exact scale.
+
+DATE:       2026-08-10
+CARD:       canonical_local_conv
+CHANGE:     Add one translation-shared depthwise-Conv1d/GLU residual over
+            adjacent LSD-first mutable digits after the canonical register's
+            unchanged global attention step. All data, state routing,
+            curriculum, optimizer, recurrence, and final-label loss are fixed.
+PREDICT:    Local arithmetic propagation improves the public e5 T=1 profiles
+            beyond the canonical chance-scale anchor. Hard promotion requires
+            hosted mean >1% and >=10/512 exact on both seen-N and OOD-N T=1.
+            Kill on either zero profile or any legality/validation failure.
+RESULT:     refuted. Local e5 was 0.6667% with T=1 5/512 seen and
+            1/512 OOD-N; hosted job d53c55a8 was 0.2917% with 3/512 and
+            1/512. Source audit found sigmoid(0.1)=0.525, so this is the
+            strong-residual card rather than the intended 0.1 multiplier.
+
+DATE:       2026-08-10
+CARD:       canonical_local_conv_scale01
+CHANGE:     Relative to the failed strong-residual card, change only the local
+            ConvGLU residual multiplier from sigmoid(0.1)=0.525 to a directly
+            learned scalar initialized at exactly 0.1.
+PREDICT:    Preserving 90% of the canonical path should recover its optimization
+            while retaining useful local propagation. Promote to the forced
+            Hard bet only if hosted e5 is nonzero on both T=1 profiles and
+            improves either total T=1 hits or mean exact over strong residual.
+            Kill on either zero profile.
+RESULT:     refuted. Local mean improved to 0.7500% with T=1 3/512 seen and
+            1/512 OOD-N, but hosted job 00fdf63b scored 0.4167% and 3/512
+            seen plus 0/512 OOD-N. The zero-profile kill fired.
+
+DATE:       2026-08-10
+CARD:       canonical_local_conv_forced_hard
+CHANGE:     Upload the exact strong-residual Easy-tested source SHA-1
+            64639a3c3c51aa0ee6ab23f5cc286e2dc0c1a05a to Hard h1 with no
+            post-screen source change, at the owner's explicit request.
+PREDICT:    No rung certifies. The chance-scale target is 0--4/768 on each
+            private T=1 profile; either profile may be zero. A certified T=1
+            rung would falsify the expectation and promote local mixing.
+RESULT:     pending.

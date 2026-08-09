@@ -1,0 +1,12 @@
+{
+  "anchor_sha1": "5b622f06680600f4b346e34b635b839dde18471c",
+  "change": "one tied depthwise-Conv1d GLU residual over mutable LSD-first digits",
+  "local_kernel": 3,
+  "local_residual_init": 0.1,
+  "local_easy_manifest": "h100_easy_e5.json",
+  "hard_gate": {
+    "mean_exact_percent_gt": 1.0,
+    "seen_n_t1_exact_min": 10,
+    "ood_n_t1_exact_min": 10
+  }
+}

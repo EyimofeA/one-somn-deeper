@@ -8,6 +8,15 @@ Hard scoring is unchanged: certified Max T → OOD-N Max T → first-uncertified
 rung accuracy → time. The source audit found no scoring or data-distribution
 change and no newly prohibited call in the archived candidates.
 
+**Active forced Hard (2026-08-10):** job
+`f79ebe42-b146-4cce-92e5-1e980c27d55e` is running exact SHA-1
+`64639a3c3c51aa0ee6ab23f5cc286e2dc0c1a05a`. It adds one generic local
+ConvGLU residual to the canonical register; no explicit shifted-reduction
+algorithm is included. Hosted Easy e5 was only **0.2917%**, with T=1
+**3/512 seen-N and 1/512 OOD-N**, so this is owner-requested and explicitly
+non-promoted. The exact-0.1 scale control was also refuted (0.4167%, 3/512 +
+0/512) and was not uploaded to Hard.
+
 **Sublinear learned reduction (2026-08-10):** a width-14 learned decimal
 comparator/subtractor was trained on aligned divisors `N*10^p`, then its solved
 subtractor was frozen while the comparator rehearsed uniform and

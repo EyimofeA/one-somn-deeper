@@ -2175,3 +2175,23 @@ composition, still locally and without promoting weights to a submission.
   mechanism in the sandbox. It is direct-supervision research evidence, not a
   T=1 solution; the fixed decimal-shift schedule still needs Rule-7 review.
   Evidence: `experiments/2026-08-09_shifted_long_division_reducer/NOTE.md`.
+
+### 2026-08-10 — Canonical local-Conv Easy screen and forced Hard (Author: Codex)
+
+- **Legal translation:** retain the canonical LSD-first recurrent register,
+  global N-conditioned attention, T1 curriculum, optimizer, and output path;
+  add one learned translation-shared depthwise-Conv1d/GLU neighbor residual.
+  No arithmetic stage, shift traversal, trace label, or solver enters forward.
+- **Strong residual:** the initially intended 0.1 parameter was passed through
+  sigmoid, making the actual multiplier 0.525. Local e5 scored 0.6667% with
+  T1 5/512 seen and 1/512 OOD-N. Hosted job
+  `d53c55a8-1abd-4b21-af31-dec9071ce42b` scored 0.2917%, with 3/512 and
+  1/512. No rung certified.
+- **Exact 0.1 control:** changing only the multiplier to a direct learned
+  scalar initialized at 0.1 raised local mean to 0.7500% (T1 3/512 + 1/512),
+  but hosted job `00fdf63b-4428-4e92-89e1-b213222b13ab` was 0.4167% and
+  3/512 + 0/512. Its zero OOD-N profile fired the registered kill.
+- **Forced Hard:** at the owner's explicit request, exact strong-residual
+  SHA-1 `64639a3c3c51aa0ee6ab23f5cc286e2dc0c1a05a` was uploaded unchanged as
+  Hard job `f79ebe42-b146-4cce-92e5-1e980c27d55e`. It is a non-promoted
+  mechanistic bet; prediction is no rung.

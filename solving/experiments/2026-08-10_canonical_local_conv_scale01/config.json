@@ -1,0 +1,6 @@
+{
+  "parent_sha1": "64639a3c3c51aa0ee6ab23f5cc286e2dc0c1a05a",
+  "one_change": "local ConvGLU residual multiplier sigmoid(0.1) -> direct scalar 0.1",
+  "local_residual_init": 0.1,
+  "manifest": "h100_easy_e5.json"
+}
