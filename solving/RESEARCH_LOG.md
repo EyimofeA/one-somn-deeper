@@ -2155,3 +2155,23 @@ composition, still locally and without promoting weights to a submission.
   next mechanism must make sublinear modular reduction computationally
   plausible. Evidence and plot:
   `experiments/2026-08-09_t1_factored_e5_identity_reducer/NOTE.md`.
+
+### 2026-08-10 — Shifted learned reduction scales sublinearly (Author: Codex)
+
+- **Question:** can the qualified learned comparator/subtractor reuse one local
+  operation on decimal shifts of an unseen modulus, replacing O(q) unit
+  subtraction with at most nine opportunities per quotient digit?
+- **Direct shifted gate:** after 4,000 fine-tuning steps, the subtractor was
+  100% exact at all nine shifts on unseen N. The first comparator missed rare
+  leading-zero boundary states, so q=9,999 and q=999,999 rollouts failed.
+- **Diagnosis:** training negatives were uniform in [0,D); the long-division
+  boundary D-N+r has probability 10^-p under that sampler. Boundary-only
+  comparator repair made every rollout 100% but weakened uniform coverage.
+- **Consolidation:** with the subtractor frozen, mixed uniform plus boundary
+  rehearsal achieved 100% shifted subtraction, 99.9609%--100% comparator
+  accuracy, and >=99.9023% autonomous exactness at every quotient scale from
+  0 through 99,999,999 on 1,024 unseen-N cases per scale.
+- **Interpretation:** this is the first measured sublinear learned reduction
+  mechanism in the sandbox. It is direct-supervision research evidence, not a
+  T=1 solution; the fixed decimal-shift schedule still needs Rule-7 review.
+  Evidence: `experiments/2026-08-09_shifted_long_division_reducer/NOTE.md`.

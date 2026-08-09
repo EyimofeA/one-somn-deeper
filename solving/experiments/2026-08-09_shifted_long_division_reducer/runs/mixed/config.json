@@ -1,0 +1,11 @@
+{
+  "classification": "RESEARCH-ONLY; boundary repair; subtractor frozen",
+  "steps": 1200,
+  "batch_size": 512,
+  "residuals": 128,
+  "max_shift": 8,
+  "init_checkpoint": "/home/ubuntu/somn-taskb/runs/shifted_long_division_seed0/reducer.pt",
+  "uniform_rehearsal": true,
+  "train_examples": 248832,
+  "boundary_definition": "negative=D-N+r; positive=D+r"
+}

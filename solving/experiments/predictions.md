@@ -1963,3 +1963,54 @@ RESULT:     refuted — job `7714d650-78a4-4d4a-8fc1-a384914d7658` scored
             profiles were exactly zero (0/768 seen-N and 0/768 OOD-N), outside
             the predicted nonzero ranges. The 163,274-update run ended at
             train loss 2.17846; public Easy hits did not transfer.
+
+DATE:       2026-08-09
+CARD:       shifted_long_division_reducer
+CHANGE:     Starting from the qualified width-14 learned unit reducer, expose
+            the same comparator/subtractor to decimal-shifted divisors
+            N*10^p for p=0..8 and single quotient digits k=0..9. The fixed
+            autonomous evaluator sweeps shifts high to low with nine learned
+            compare/subtract opportunities per shift.
+PREDICT:    If the learned digit-serial primitives are genuinely aligned and
+            translation-reusable, unseen-N comparator and subtraction accuracy
+            will be >=99.9% at every shift and autonomous remainder exactness
+            will be >=99% through q=999,999. Kill if any shift is below 99% or
+            q=999,999 is below 95%. Research-only pending Rule-7 audit.
+RESULT:     refuted at long range but solved the learned subtraction primitive.
+            Every shift reached 100% unseen-N subtraction exactness and at
+            least 99.9609% comparator accuracy. Autonomous exactness was 100%
+            at q=1/10/100/1000 and 96.19% at q=999, but only 19.34% at q=9,999
+            and 37.40% at q=999,999 because rare false leading-place fires
+            compound. The registered q=999,999 kill threshold fired.
+
+DATE:       2026-08-10
+CARD:       shifted_long_division_boundary_repair
+CHANGE:     Freeze the 100%-exact shifted subtractor and fine-tune only the
+            comparator on long-division boundary states D-N+r (negative) and
+            D+r (positive). Uniform negative sampling almost never presents
+            D-N+r when D=N*10^p at large p.
+PREDICT:    If false leading-place subtractions are the rollout failure, q=9,
+            99, 999, 9,999, and 999,999 will all reach >=99% exact while every
+            shift retains >=99.9% one-step subtraction/comparator accuracy.
+            Refute if q=9,999 remains below 95%. Subtractor is frozen.
+RESULT:     mechanism confirmed, full gate mixed. All 11 autonomous quotient
+            scales from 0 through 99,999,999 were 100% exact on 1,024 unseen-N
+            cases each, with selected subtraction counts exactly matching the
+            quotient digit sums. Boundary-only fine-tuning degraded uniform
+            one-step comparator accuracy to 99.4922% at the weakest shift,
+            below the registered 99.9% requirement; subtraction stayed 100%.
+
+DATE:       2026-08-10
+CARD:       shifted_long_division_mixed_comparator
+CHANGE:     Starting again from the first shifted reducer, freeze the solved
+            subtractor and fine-tune the comparator on a shuffled mix of the
+            boundary cases and its original uniform k=0..9 support.
+PREDICT:    Consolidation succeeds if all autonomous quotient scales through
+            99,999,999 remain >=99.9% exact and every shift's uniform one-step
+            comparator accuracy is >=99.9%. Refute if either minimum fails.
+RESULT:     confirmed. Every shift retained 100% subtraction exactness and
+            99.9609%--100% comparator accuracy on unseen N. Autonomous
+            reduction was 100% exact at 10/11 quotient scales and 1023/1024
+            (99.9023%) at q=100; all scales through 99,999,999 cleared 99.9%.
+            The selected subtraction count exactly matched the quotient digit
+            sum at every fully exact scale.

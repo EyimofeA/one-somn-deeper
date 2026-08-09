@@ -1,0 +1,129 @@
+{
+  "transition": {
+    "0": {
+      "examples": 2560,
+      "comparator_accuracy": 1.0,
+      "subtraction_exact": 1.0
+    },
+    "1": {
+      "examples": 2560,
+      "comparator_accuracy": 1.0,
+      "subtraction_exact": 1.0
+    },
+    "2": {
+      "examples": 2560,
+      "comparator_accuracy": 0.999609375,
+      "subtraction_exact": 1.0
+    },
+    "3": {
+      "examples": 2560,
+      "comparator_accuracy": 1.0,
+      "subtraction_exact": 1.0
+    },
+    "4": {
+      "examples": 2560,
+      "comparator_accuracy": 1.0,
+      "subtraction_exact": 1.0
+    },
+    "5": {
+      "examples": 2560,
+      "comparator_accuracy": 0.999609375,
+      "subtraction_exact": 1.0
+    },
+    "6": {
+      "examples": 2560,
+      "comparator_accuracy": 1.0,
+      "subtraction_exact": 1.0
+    },
+    "7": {
+      "examples": 2560,
+      "comparator_accuracy": 1.0,
+      "subtraction_exact": 1.0
+    },
+    "8": {
+      "examples": 2560,
+      "comparator_accuracy": 1.0,
+      "subtraction_exact": 1.0
+    }
+  },
+  "autonomous": {
+    "0": {
+      "examples": 1024,
+      "remainder_exact": 1.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 0.0,
+      "expected_subtractions": 0
+    },
+    "1": {
+      "examples": 1024,
+      "remainder_exact": 1.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 1.0,
+      "expected_subtractions": 1
+    },
+    "9": {
+      "examples": 1024,
+      "remainder_exact": 1.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 9.0,
+      "expected_subtractions": 9
+    },
+    "10": {
+      "examples": 1024,
+      "remainder_exact": 1.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 1.0,
+      "expected_subtractions": 1
+    },
+    "99": {
+      "examples": 1024,
+      "remainder_exact": 1.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 18.0,
+      "expected_subtractions": 18
+    },
+    "100": {
+      "examples": 1024,
+      "remainder_exact": 0.9990234375,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 1.0087890625,
+      "expected_subtractions": 1
+    },
+    "999": {
+      "examples": 1024,
+      "remainder_exact": 1.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 27.0,
+      "expected_subtractions": 27
+    },
+    "1000": {
+      "examples": 1024,
+      "remainder_exact": 1.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 1.0,
+      "expected_subtractions": 1
+    },
+    "9999": {
+      "examples": 1024,
+      "remainder_exact": 1.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 36.0,
+      "expected_subtractions": 36
+    },
+    "999999": {
+      "examples": 1024,
+      "remainder_exact": 1.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 54.0,
+      "expected_subtractions": 54
+    },
+    "99999999": {
+      "examples": 1024,
+      "remainder_exact": 1.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 72.0,
+      "expected_subtractions": 72
+    }
+  },
+  "elapsed_seconds": 24.28158929700021
+}

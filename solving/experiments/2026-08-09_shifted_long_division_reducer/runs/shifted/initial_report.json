@@ -1,0 +1,128 @@
+{
+  "transition": {
+    "0": {
+      "examples": 2560,
+      "comparator_accuracy": 1.0,
+      "subtraction_exact": 1.0
+    },
+    "1": {
+      "examples": 2560,
+      "comparator_accuracy": 0.951171875,
+      "subtraction_exact": 0.6584201388888888
+    },
+    "2": {
+      "examples": 2560,
+      "comparator_accuracy": 0.91640625,
+      "subtraction_exact": 0.5256076388888888
+    },
+    "3": {
+      "examples": 2560,
+      "comparator_accuracy": 0.9234375,
+      "subtraction_exact": 0.3997395833333333
+    },
+    "4": {
+      "examples": 2560,
+      "comparator_accuracy": 0.909765625,
+      "subtraction_exact": 0.2660590277777778
+    },
+    "5": {
+      "examples": 2560,
+      "comparator_accuracy": 0.909765625,
+      "subtraction_exact": 0.2113715277777778
+    },
+    "6": {
+      "examples": 2560,
+      "comparator_accuracy": 0.915234375,
+      "subtraction_exact": 0.1566840277777778
+    },
+    "7": {
+      "examples": 2560,
+      "comparator_accuracy": 0.909375,
+      "subtraction_exact": 0.08116319444444445
+    },
+    "8": {
+      "examples": 2560,
+      "comparator_accuracy": 0.9078125,
+      "subtraction_exact": 0.07942708333333333
+    }
+  },
+  "autonomous": {
+    "0": {
+      "examples": 256,
+      "remainder_exact": 0.01171875,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 79.07421875,
+      "expected_subtractions": 0
+    },
+    "1": {
+      "examples": 256,
+      "remainder_exact": 0.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 79.6640625,
+      "expected_subtractions": 1
+    },
+    "9": {
+      "examples": 256,
+      "remainder_exact": 0.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 78.7265625,
+      "expected_subtractions": 9
+    },
+    "10": {
+      "examples": 256,
+      "remainder_exact": 0.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 79.77734375,
+      "expected_subtractions": 1
+    },
+    "99": {
+      "examples": 256,
+      "remainder_exact": 0.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 79.94140625,
+      "expected_subtractions": 18
+    },
+    "100": {
+      "examples": 256,
+      "remainder_exact": 0.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 80.078125,
+      "expected_subtractions": 1
+    },
+    "999": {
+      "examples": 256,
+      "remainder_exact": 0.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 80.08984375,
+      "expected_subtractions": 27
+    },
+    "1000": {
+      "examples": 256,
+      "remainder_exact": 0.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 80.05859375,
+      "expected_subtractions": 1
+    },
+    "9999": {
+      "examples": 256,
+      "remainder_exact": 0.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 79.875,
+      "expected_subtractions": 36
+    },
+    "999999": {
+      "examples": 256,
+      "remainder_exact": 0.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 75.6953125,
+      "expected_subtractions": 54
+    },
+    "99999999": {
+      "examples": 256,
+      "remainder_exact": 0.0,
+      "scheduled_comparator_calls": 81,
+      "mean_subtractions_selected": 78.5625,
+      "expected_subtractions": 72
+    }
+  }
+}

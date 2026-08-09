@@ -1,12 +1,25 @@
 # Status (living)
 
-Last updated: 2026-08-09. **Rule audit:** the local competition checkout is now
+Last updated: 2026-08-10. **Rule audit:** the local competition checkout is now
 the live upstream `e32c2f9`. It adds bounded evaluator-owned structured
 metrics plus multiple evaluator-owned backward passes/same-batch reuse, while
 explicitly banning participant-started derivative or nested-training calls.
 Hard scoring is unchanged: certified Max T → OOD-N Max T → first-uncertified
 rung accuracy → time. The source audit found no scoring or data-distribution
 change and no newly prohibited call in the archived candidates.
+
+**Sublinear learned reduction (2026-08-10):** a width-14 learned decimal
+comparator/subtractor was trained on aligned divisors `N*10^p`, then its solved
+subtractor was frozen while the comparator rehearsed uniform and
+long-division-boundary states. On 16 unseen four-digit semiprimes, subtraction
+is 100% exact at all nine shifts, comparator accuracy is 99.9609%--100%, and
+autonomous remainder exactness is at least 99.9023% for every tested quotient
+from 0 through 99,999,999 (1,024 examples per scale). This closes the O(q)
+research-mechanism gap, but it is **not submission-legal evidence**: arithmetic
+transitions were directly supervised and the fixed high-to-low shift schedule
+requires Rule-7 rejection. The live question is now a legal generic learned
+scheduler plus final-label credit assignment. Evidence and plot:
+[`experiments/2026-08-09_shifted_long_division_reducer/NOTE.md`](experiments/2026-08-09_shifted_long_division_reducer/NOTE.md).
 
 **Current Hard candidate (2026-08-08 evening):** compact canonical register
 SHA-1 `5b622f06680600f4b346e34b635b839dde18471c` is frozen for the owner's
