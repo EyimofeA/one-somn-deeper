@@ -1749,6 +1749,21 @@ RESULT:     refuted at seed 0 — the model fit all 1,600 public T=1 training
             so no additional seeds are authorized. Broader modulus exposure
             strengthened row memorization without identifying modular square.
 
+DATE:       2026-08-09
+CARD:       t1_factored_e5_interface_noise
+CHANGE:     Relative to the public-support seed-0 anchor, add only training-time
+            Gaussian noise with std 0.1 after the fourth square step and before
+            reduction. Data, parameters, optimizer, seed, final-label loss,
+            evaluation, and 180-second budget remain fixed.
+PREDICT:    If OOD failure is caused by a brittle continuous hidden code, noise
+            will retain >=95% train exact while lifting seen-N T=1 to >=5% and
+            OOD-N T=1 to >=2%. Kill if train exact is <95% or OOD-N remains
+            <=1%. Screen seed 0; run more seeds only if all promotion gates pass.
+RESULT:     refuted at seed 0 — noise retained 1,599/1,600 (99.94%) train exact
+            but reduced seen-N to 2/512 (0.39%) and OOD-N to 0/512. The OOD
+            kill threshold fired and both profiles are worse than the no-noise
+            anchor's 7/512 and 1/512, so no additional seeds are authorized.
+
 DATE:       2026-08-08
 CARD:       hard_exact_source_e5_replication
 CHANGE:     None. Re-run SHA-1 8c796bf39f3b0d2f90043b08430be26c23f0f180,

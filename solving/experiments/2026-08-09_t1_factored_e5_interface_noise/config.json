@@ -1,0 +1,18 @@
+{
+  "anchor": "2026-08-09_t1_factored_e5_support seed0",
+  "change": "training-only Gaussian noise at the square/reduce interface",
+  "interface_noise_std": 0.1,
+  "seconds": 180,
+  "seed": 0,
+  "device": "cuda",
+  "public_data_root": "data/generated/squaring_mod_new11_easy_bidirectional_variable_b1011_t123",
+  "promotion": {
+    "train_exact_min": 0.95,
+    "seen_n_t1_min": 0.05,
+    "ood_n_t1_min": 0.02
+  },
+  "kill": {
+    "train_exact_below": 0.95,
+    "ood_n_t1_at_or_below": 0.01
+  }
+}

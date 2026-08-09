@@ -2096,6 +2096,22 @@ composition, still locally and without promoting weights to a submission.
   before guarded termination. A separate original L40 pod
   `f9df27bd9eac40be95525d58448521e2` remained stuck in provisioning with no
   IP/SSH and was not terminated because no real backup could be verified.
+
+### 2026-08-09 — Interface noise does not repair T=1 credit assignment (Author: Codex)
+
+- **Question:** does training-time noise at the square/reduce boundary suppress
+  a brittle example-specific hidden code and favor a reusable square state?
+- **Control:** relative to the public-E5 factored seed-0 anchor, change only a
+  Gaussian perturbation with std 0.1 after square and before reduction. Data,
+  parameters, optimizer, seed, final-label loss, evaluation, and clock match.
+- **Result:** 16,677 updates retained **1,599/1,600 train exact**, but seen-N
+  T=1 fell to **2/512** and OOD-N T=1 to **0/512**, versus anchor 7/512 and
+  1/512. The registered kill threshold fired.
+- **Conclusion:** refuted. Smooth interface robustness is insufficient; do not
+  sweep noise strength. Any next credit intervention must be qualitatively
+  discrete or impose a cross-example constraint. Evidence:
+  `experiments/2026-08-09_t1_factored_e5_interface_noise/NOTE.md`.
+
 ### 2026-08-09 — Public-E5 support does not identify T=1 modular square (Author: Codex)
 
 - **Question:** was the generic factored tape's weak unseen-N result mainly a

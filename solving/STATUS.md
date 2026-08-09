@@ -42,6 +42,13 @@ support is not the missing ingredient; the next card must change legal credit
 assignment or enforce a robust square-to-reduce interface. See
 [`experiments/2026-08-09_t1_factored_e5_support/NOTE.md`](experiments/2026-08-09_t1_factored_e5_support/NOTE.md).
 
+**Interface-noise control (2026-08-09):** adding only training-time Gaussian
+noise at the factored tape's square/reduce boundary retained 1,599/1,600 train
+exact but worsened first-rung transfer to **2/512 seen-N** and **0/512 OOD-N**.
+The registered kill threshold fired. Do not sweep noise magnitude; simple
+smooth robustness does not repair final-label credit assignment. See
+[`experiments/2026-08-09_t1_factored_e5_interface_noise/NOTE.md`](experiments/2026-08-09_t1_factored_e5_interface_noise/NOTE.md).
+
 **Current Hard result (2026-08-08):** T=1-weighted exact-match/SAM job
 `9e7404cb-b0c9-480a-aa64-8d90cc853d67` completed at **0.02333%** overall:
 3/9,999 test, 2/10,002 OOD-T, and 2/10,002 OOD-N. No rung certified; both
