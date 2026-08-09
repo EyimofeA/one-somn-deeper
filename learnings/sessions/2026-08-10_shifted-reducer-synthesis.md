@@ -9,6 +9,9 @@ with at least 99.9023% exactness using 81 fixed opportunities rather than O(q)
 unit steps. The experiment directly supervised intermediate arithmetic and its
 fixed decimal-shift schedule is not Rule-7 safe.
 
+The 99.9023% minimum is 1,023/1,024 (95% Wilson interval
+99.4489%--99.9828%): it validates the mechanism, not algorithmic exactness.
+
 Evidence: [`../../solving/experiments/2026-08-09_shifted_long_division_reducer/NOTE.md`](../../solving/experiments/2026-08-09_shifted_long_division_reducer/NOTE.md).
 
 ## What changed in our model of the problem

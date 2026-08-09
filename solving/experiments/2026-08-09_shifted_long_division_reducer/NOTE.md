@@ -60,3 +60,11 @@ This solves the *directly supervised research primitive*, not T=1. The next
 question is whether a legal generic recurrent grid can discover the same
 shift/reuse behavior from final labels without an explicit long-division
 schedule.
+
+## Statistical caution
+
+The mixed model's minimum rollout result is 1,023/1,024. Its 95% Wilson
+interval is 99.4489%--99.9828%, so passing the 99.9% point-estimate gate does
+not establish algorithmic exactness. Likewise, 2,559/2,560 comparator accuracy
+has a 99.7791%--99.9931% interval. A larger adversarial boundary audit is
+required before calling even this directly supervised primitive exact.
