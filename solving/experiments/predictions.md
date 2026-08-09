@@ -1731,6 +1731,24 @@ RESULT:     refuted — all seeds fit train 100%, but median held-out-x is
             10.50% and unseen-N 16.36%, both worse than the generic factored
             tape. Pair topology does not repair final-label credit assignment.
 
+DATE:       2026-08-09
+CARD:       t1_factored_e5_support
+CHANGE:     Keep the refuted factored PhaseSquareReduce model, optimizer,
+            four square/four reduction steps, T=1 final-label loss, seed, and
+            180-second budget fixed. Replace only its 18 tiny two-digit
+            training moduli with the public Easy e5 T=1 training rows, then
+            evaluate the public seen-N and 12–13-bit OOD-N T=1 profiles.
+PREDICT:    Broader modulus support will reduce per-N shortcutting enough to
+            raise OOD-N T=1 exact from the prior 17.29% median to >=25%, while
+            seen-N reaches >=50%. Refutation: OOD-N <20%, seen-N <35%, or the
+            training rows do not reach 99% exact. Screen seed 0 first; run two
+            more seeds only if the OOD-N promotion threshold clears.
+RESULT:     refuted at seed 0 — the model fit all 1,600 public T=1 training
+            rows exactly in 18,019 updates, but reached only 7/512 (1.37%)
+            seen-N and 1/512 (0.20%) OOD-N exact. Both kill thresholds fired,
+            so no additional seeds are authorized. Broader modulus exposure
+            strengthened row memorization without identifying modular square.
+
 DATE:       2026-08-08
 CARD:       hard_exact_source_e5_replication
 CHANGE:     None. Re-run SHA-1 8c796bf39f3b0d2f90043b08430be26c23f0f180,

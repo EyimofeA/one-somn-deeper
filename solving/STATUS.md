@@ -1,6 +1,6 @@
 # Status (living)
 
-Last updated: 2026-08-08. **Rule audit:** the local competition checkout is now
+Last updated: 2026-08-09. **Rule audit:** the local competition checkout is now
 the live upstream `e32c2f9`. It adds bounded evaluator-owned structured
 metrics plus multiple evaluator-owned backward passes/same-batch reuse, while
 explicitly banning participant-started derivative or nested-training calls.
@@ -32,6 +32,15 @@ held-out-x. Every run fits train 100%. The blocker is upstream credit
 assignment/identifiability from modular final labels, not another choice of
 state topology, representation, or square-phase depth. Do not transfer either
 card to a competition submission.
+
+**Public-support control (2026-08-09):** replacing the generic factored tape's
+18 tiny training moduli with all 1,600 public Easy T=1 training rows makes the
+negative result substantially stronger. Seed 0 fit train exactly after 18,019
+updates but achieved only **7/512 seen-N** and **1/512 OOD-N** T=1 exact.
+Both preregistered kill thresholds fired, so no more seeds were run. Training
+support is not the missing ingredient; the next card must change legal credit
+assignment or enforce a robust square-to-reduce interface. See
+[`experiments/2026-08-09_t1_factored_e5_support/NOTE.md`](experiments/2026-08-09_t1_factored_e5_support/NOTE.md).
 
 **Current Hard result (2026-08-08):** T=1-weighted exact-match/SAM job
 `9e7404cb-b0c9-480a-aa64-8d90cc853d67` completed at **0.02333%** overall:

@@ -1,0 +1,17 @@
+{
+  "anchor": "diagnostics/train_t1_phase_square_reduce.py --arm factored",
+  "change": "training/evaluation support only: tiny custom moduli to public Easy e5 T=1 rows",
+  "seconds": 180,
+  "seed": 0,
+  "device": "cuda",
+  "public_data_root": "data/generated/squaring_mod_new11_easy_bidirectional_variable_b1011_t123",
+  "promotion": {
+    "train_exact_min": 0.99,
+    "seen_n_t1_min": 0.50,
+    "ood_n_t1_min": 0.25
+  },
+  "kill": {
+    "seen_n_t1_below": 0.35,
+    "ood_n_t1_below": 0.20
+  }
+}

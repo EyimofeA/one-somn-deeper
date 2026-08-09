@@ -2096,3 +2096,17 @@ composition, still locally and without promoting weights to a submission.
   before guarded termination. A separate original L40 pod
   `f9df27bd9eac40be95525d58448521e2` remained stuck in provisioning with no
   IP/SSH and was not terminated because no real backup could be verified.
+### 2026-08-09 — Public-E5 support does not identify T=1 modular square (Author: Codex)
+
+- **Question:** was the generic factored tape's weak unseen-N result mainly a
+  consequence of training on only 18 tiny two-digit moduli?
+- **Control:** keep its 443,594 parameters, four square/four reduction steps,
+  optimizer, seed, final-label-only loss, and 180-second clock fixed; replace
+  only training/evaluation support with public Easy e5 T=1 rows.
+- **Result:** 18,019 L40 updates fit all 1,600 training rows exactly, but
+  public seen-N T=1 was **7/512 (1.3672%)** and OOD-N T=1 was **1/512
+  (0.1953%)**. Both registered kill thresholds fired.
+- **Conclusion:** strongly refuted. More modulus diversity strengthens exact
+  memorization without identifying a reusable modular-square rule. Do not run
+  more seeds or another support-only expansion. Evidence is linked from
+  `experiments/2026-08-09_t1_factored_e5_support/NOTE.md`.
