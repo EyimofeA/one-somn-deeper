@@ -6,6 +6,8 @@ See [`RESEARCH_PROTOCOL.md`](RESEARCH_PROTOCOL.md) §5.
 
 Canonical mechanism lecture (not yet evidenced here): [`learnings/readings/one-layer-deeper-notes.md`](learnings/readings/one-layer-deeper-notes.md).
 
+Independent theorem-first model roundtable (model opinion plus primary-agent critique, not experimental evidence): [`review_packets/model_theory_2026-08-09/README.md`](review_packets/model_theory_2026-08-09/README.md).
+
 **Forward design thesis (read before the next architecture pass):** [`solving/DESIGN_NEXT.md`](solving/DESIGN_NEXT.md) — form-vs-content strip-away plan, the corrected composition-wall reading (structural cliff, not error-compounding), the cubing prediction, and the learned-reduction-cell next pass.
 
 ## Open (Path D plan)
