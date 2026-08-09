@@ -57,6 +57,14 @@ none certified a rung. Fixed N, fixed T=2, and ten-times-longer optimization
 each fail to uncover a transferable operator. See the result table and plot in
 [`experiments/2026-08-09_easy_medium_completion_suite/NOTE.md`](experiments/2026-08-09_easy_medium_completion_suite/NOTE.md).
 
+**Identity-initialized reducer (2026-08-09):** a learned reduction residual
+opened from 0.01 to **0.7592** while fitting all 1,600 public T=1 rows, but
+finished at exactly the deterministic anchor's **7/512 seen-N** and **1/512
+OOD-N**. This refutes random-reducer credit blockage as the primary cause.
+Stop smooth gate/initialization work; the next branch must make sublinear
+reduction computationally plausible. See
+[`experiments/2026-08-09_t1_factored_e5_identity_reducer/NOTE.md`](experiments/2026-08-09_t1_factored_e5_identity_reducer/NOTE.md).
+
 **Current Hard result (2026-08-08):** T=1-weighted exact-match/SAM job
 `9e7404cb-b0c9-480a-aa64-8d90cc853d67` completed at **0.02333%** overall:
 3/9,999 test, 2/10,002 OOD-T, and 2/10,002 OOD-N. No rung certified; both

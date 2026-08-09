@@ -2140,3 +2140,18 @@ composition, still locally and without promoting weights to a submission.
   10x longer clock is insufficient. The score degrades with modulus variation
   and size before deep recurrence becomes the central issue. Evidence and plot:
   `experiments/2026-08-09_easy_medium_completion_suite/NOTE.md`.
+
+### 2026-08-09 — Identity-initialized reducer reaches the same T=1 ceiling (Author: Codex)
+
+- **Question:** does a random reduction phase block useful final-label credit
+  from reaching the square phase?
+- **Control:** change only reduction to a one-scalar learned residual starting
+  at 0.01 identity deviation; public E5 T=1 data, model cells, optimizer,
+  seed, final-label loss, and 180-second clock match the deterministic anchor.
+- **Result:** the gate opened to **0.7592** and train reached **1,600/1,600**,
+  but seen-N was **7/512** and OOD-N **1/512**—exactly the anchor counts.
+- **Conclusion:** refuted. Credit can flow and reduction engages, yet the same
+  memorizing solution emerges. Stop initialization and smooth-gate work; the
+  next mechanism must make sublinear modular reduction computationally
+  plausible. Evidence and plot:
+  `experiments/2026-08-09_t1_factored_e5_identity_reducer/NOTE.md`.

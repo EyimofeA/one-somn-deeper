@@ -1812,6 +1812,21 @@ PREDICT:    This is the hardest public geometry for the card: mean exact will
             be <=0.1%, with no evidence of an eight-step reusable transition.
 RESULT:     confirmed — m4 scored 0.0778% mean with no certified rung.
 
+DATE:       2026-08-09
+CARD:       t1_factored_e5_identity_reducer
+CHANGE:     Relative to the deterministic public-support seed-0 anchor, replace
+            each reduction assignment by one learned scalar residual gate
+            initialized at 0.01. Everything else, including final-label-only
+            supervision and the 180-second clock, remains fixed.
+PREDICT:    If a random reducer blocks useful credit to the square phase, the
+            gate will grow above 0.05 while retaining >=95% train exact and
+            lifting seen-N T=1 to >=5% and OOD-N T=1 to >=2%. Kill if train is
+            <95% or OOD-N remains <=1%; add seeds only if all gates pass.
+RESULT:     refuted — the gate opened from 0.01 to 0.759 and train reached
+            1,600/1,600, but transfer was exactly the deterministic anchor:
+            7/512 seen-N and 1/512 OOD-N. The OOD kill threshold fired, so no
+            additional seeds are authorized.
+
 DATE:       2026-08-08
 CARD:       hard_exact_source_e5_replication
 CHANGE:     None. Re-run SHA-1 8c796bf39f3b0d2f90043b08430be26c23f0f180,
