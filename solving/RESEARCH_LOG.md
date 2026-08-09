@@ -2126,3 +2126,17 @@ composition, still locally and without promoting weights to a submission.
   memorization without identifying a reusable modular-square rule. Do not run
   more seeds or another support-only expansion. Evidence is linked from
   `experiments/2026-08-09_t1_factored_e5_support/NOTE.md`.
+
+### 2026-08-09 — Complete hosted Easy/Medium dataset ladder (Author: Codex)
+
+- **Control:** exact Fable T-cap/AdamW source SHA-1
+  `aa75819a878fab6c03c6a23d979f6234560f6e3d` across every public dataset.
+  Existing anchors were e1/e5/m1/m5; today filled e2/e3/e4/m2/m3/m4.
+- **New results:** e2 **1.2083%**, e3 **0.5000%**, e4 **0.2708%**, m2
+  **0.1500%**, m3 **0.2667%**, and m4 **0.0778%** mean exact. All jobs
+  succeeded and none certified a rung. m3 completed 19,424 updates without
+  exceeding Easy-scale chance accuracy.
+- **Conclusion:** fixed N is insufficient, fixed T=2 is insufficient, and a
+  10x longer clock is insufficient. The score degrades with modulus variation
+  and size before deep recurrence becomes the central issue. Evidence and plot:
+  `experiments/2026-08-09_easy_medium_completion_suite/NOTE.md`.

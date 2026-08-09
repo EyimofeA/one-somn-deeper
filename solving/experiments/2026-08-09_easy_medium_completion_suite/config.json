@@ -1,0 +1,20 @@
+{
+  "source": "solving/submissions/fable_tcap_adamw/submission.py",
+  "source_sha1": "aa75819a878fab6c03c6a23d979f6234560f6e3d",
+  "evaluator_commit": "e32c2f985f8ed4107c96d00271448777954ecc0c",
+  "anchor_jobs": {
+    "e1": "56335b5e-b460-4de2-a7d0-ed91fb9881fe",
+    "e5": "f8deb7a5-ae86-46d6-9637-f307b141488f",
+    "m1": "d71cad94-07ba-469f-8c7c-676e55d611a9",
+    "m5": "60510147-ed5b-4944-97b5-ddce0340b883"
+  },
+  "new_datasets": ["e2", "e3", "e4", "m2", "m3", "m4"],
+  "jobs": {
+    "e2": "53966f7d-9216-4f55-af85-0210b2718baa",
+    "e3": "02896dd3-c8ba-4e92-9ba3-47fcfcb29def",
+    "e4": "ba0e96f0-6028-4722-b114-f0240700cc3d",
+    "m2": "90255ac4-d43f-44de-a694-77d63c04df45",
+    "m3": "0749801d-b5a9-40ea-9c7d-ae3fb05204a2",
+    "m4": "29c24b00-a57c-43c7-b3b1-451ece84257d"
+  }
+}

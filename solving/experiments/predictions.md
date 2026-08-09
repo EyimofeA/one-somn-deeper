@@ -1764,6 +1764,54 @@ RESULT:     refuted at seed 0 — noise retained 1,599/1,600 (99.94%) train exac
             kill threshold fired and both profiles are worse than the no-noise
             anchor's 7/512 and 1/512, so no additional seeds are authorized.
 
+DATE:       2026-08-09
+CARD:       fable_tcap_completion_e2
+CHANGE:     Hold exact source SHA-1 aa75819a878fab6c03c6a23d979f6234560f6e3d
+            fixed and change only the hosted dataset from e1/e5 anchors to e2
+            (fixed N=899, T=1/2/4).
+PREDICT:    Fixed-N answer-space structure will preserve a nontrivial 3–9% mean,
+            but no T rung will certify. Refuted if mean is <3% or any rung certifies.
+RESULT:     refuted — e2 scored 1.21% mean (about 2.1% test / 0.3% OOD)
+            after 634 updates, with no certified rung. The e1 fixed-N score
+            does not transfer to a second modulus.
+
+DATE:       2026-08-09
+CARD:       fable_tcap_completion_e3
+CHANGE:     Same exact source; evaluate e3 (10–11-bit varying N, fixed T=2).
+PREDICT:    Removing mixed T will help modestly relative to e5: 1–3% mean exact.
+            Refuted if mean is <1% or >3%; no rung prediction because e3 has no T=1.
+RESULT:     refuted — e3 scored 0.50% mean with no certified rung. Fixing T=2
+            does not remove the varying-modulus generalization failure.
+
+DATE:       2026-08-09
+CARD:       fable_tcap_completion_e4
+CHANGE:     Same exact source; evaluate e4 (11–12-bit varying N, fixed T=2).
+PREDICT:    Larger moduli will reduce exactness below e3, with 0.3–1.5% mean.
+            Refuted outside that interval; no rung prediction because e4 has no T=1.
+RESULT:     refuted narrowly — e4 scored 0.27% mean with no certified rung,
+            below the predicted interval and below e3's 0.50%.
+
+DATE:       2026-08-09
+CARD:       fable_tcap_completion_m2
+CHANGE:     Same exact source; evaluate m2 (fixed N=38,021, T=4/8/16).
+PREDICT:    Like m1, long training will fit without a reusable transition;
+            mean exact will remain 0–0.2% and no rung will certify.
+RESULT:     confirmed — m2 scored 0.15% mean with no certified rung.
+
+DATE:       2026-08-09
+CARD:       fable_tcap_completion_m3
+CHANGE:     Same exact source; evaluate m3 (11/13/15-bit N, fixed T=2).
+PREDICT:    Variable-N exactness will be 0–0.3%, with larger-N buckets weakest.
+            Refuted if mean exceeds 0.3%.
+RESULT:     confirmed — m3 scored 0.27% mean with no certified rung.
+
+DATE:       2026-08-09
+CARD:       fable_tcap_completion_m4
+CHANGE:     Same exact source; evaluate m4 (14/18/22-bit N, fixed T=8).
+PREDICT:    This is the hardest public geometry for the card: mean exact will
+            be <=0.1%, with no evidence of an eight-step reusable transition.
+RESULT:     confirmed — m4 scored 0.0778% mean with no certified rung.
+
 DATE:       2026-08-08
 CARD:       hard_exact_source_e5_replication
 CHANGE:     None. Re-run SHA-1 8c796bf39f3b0d2f90043b08430be26c23f0f180,

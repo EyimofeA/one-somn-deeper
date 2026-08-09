@@ -1,0 +1,15 @@
+{
+  "source_sha1": "aa75819a878fab6c03c6a23d979f6234560f6e3d",
+  "datasets": {
+    "e1": {"job": "56335b5e-b460-4de2-a7d0-ed91fb9881fe", "mean_exact": 0.08500000089406967},
+    "e2": {"job": "53966f7d-9216-4f55-af85-0210b2718baa", "mean_exact": 0.012083333684131503, "steps": 634, "test_exact_rounded": 0.021, "ood_exact_rounded": 0.003},
+    "e3": {"job": "02896dd3-c8ba-4e92-9ba3-47fcfcb29def", "mean_exact": 0.004999999888241291, "steps": 637, "test_exact_rounded": 0.007, "ood_exact_rounded": 0.002},
+    "e4": {"job": "ba0e96f0-6028-4722-b114-f0240700cc3d", "mean_exact": 0.0027083333333333334, "steps": 1024, "test_exact_rounded": 0.004, "ood_exact_rounded": 0.002},
+    "e5": {"job": "f8deb7a5-ae86-46d6-9637-f307b141488f", "mean_exact": 0.013333333780368169},
+    "m1": {"job": "d71cad94-07ba-469f-8c7c-676e55d611a9", "mean_exact": 0.0003333333333333333},
+    "m2": {"job": "90255ac4-d43f-44de-a694-77d63c04df45", "mean_exact": 0.001499999999254942, "steps": 9828, "test_exact_rounded": 0.002, "ood_exact_rounded": 0.001},
+    "m3": {"job": "0749801d-b5a9-40ea-9c7d-ae3fb05204a2", "mean_exact": 0.002666666666666667, "steps": 19424, "test_exact_rounded": 0.003, "ood_exact_rounded": 0.002},
+    "m4": {"job": "29c24b00-a57c-43c7-b3b1-451ece84257d", "mean_exact": 0.0007777777777777778, "steps": 15744, "test_exact_rounded": 0.001, "ood_exact_rounded": 0.001},
+    "m5": {"job": "60510147-ed5b-4944-97b5-ddce0340b883", "mean_exact": 0.0016666666666666666}
+  }
+}

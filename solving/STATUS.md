@@ -49,6 +49,14 @@ The registered kill threshold fired. Do not sweep noise magnitude; simple
 smooth robustness does not repair final-label credit assignment. See
 [`experiments/2026-08-09_t1_factored_e5_interface_noise/NOTE.md`](experiments/2026-08-09_t1_factored_e5_interface_noise/NOTE.md).
 
+**Public Easy/Medium completion (2026-08-09):** exact Fable T-cap/AdamW SHA-1
+`aa75819a878fab6c03c6a23d979f6234560f6e3d` now has hosted results on all ten
+public datasets. Today's missing six scored e2 **1.2083%**, e3 **0.5000%**, e4
+**0.2708%**, m2 **0.1500%**, m3 **0.2667%**, and m4 **0.0778%** mean exact;
+none certified a rung. Fixed N, fixed T=2, and ten-times-longer optimization
+each fail to uncover a transferable operator. See the result table and plot in
+[`experiments/2026-08-09_easy_medium_completion_suite/NOTE.md`](experiments/2026-08-09_easy_medium_completion_suite/NOTE.md).
+
 **Current Hard result (2026-08-08):** T=1-weighted exact-match/SAM job
 `9e7404cb-b0c9-480a-aa64-8d90cc853d67` completed at **0.02333%** overall:
 3/9,999 test, 2/10,002 OOD-T, and 2/10,002 OOD-N. No rung certified; both
@@ -66,9 +74,9 @@ Do not spend a tier attempt on either result. The distinct Fable
 T-cap/AdamW control is the current Easy candidate: 0.67% test / 8.00% OOD
 (4.33% mean), with no certified T=1 rung. Hosted Easy e1
 `56335b5e-b460-4de2-a7d0-ed91fb9881fe` improved to **8.50% mean** (6% test,
-11% OOD) with no certified T. The same audited source is running as Medium m1
-`d71cad94-07ba-469f-8c7c-676e55d611a9`; no Hard run is started because its
-3,600-second training budget cannot finish before the deadline.
+11% OOD) with no certified T. The same audited source completed Medium m1 as
+`d71cad94-07ba-469f-8c7c-676e55d611a9` at **0.0333% mean exact** with no
+certified rung. The earlier "running" description was stale.
 
 **Hard deadline submission:** `80e46f83-aeff-40cb-90e4-d09a875814ae` is the
 legal final-label-only recurrent VDF candidate from
