@@ -16,6 +16,10 @@ environment sanity reproduction reached 100.00% unseen-N raw-square exact,
 regime. This is learned but O(q) repeated reduction, so it is mechanism evidence,
 not competition-scale or submission evidence. Card:
 [`experiments/2026-08-10_x2modn_sanity_seed0/NOTE.md`](experiments/2026-08-10_x2modn_sanity_seed0/NOTE.md).
+The matched direct 2.19M-parameter MLP control then fit every training row in
+all three seeds but reached only 3.79%--3.92% unseen-N exact; its unseen loss
+rose above 11.6. This closes plain fixed-width MLP memorization as the mechanism.
+Card: [`experiments/2026-08-10_x2modn_direct_mlp/NOTE.md`](experiments/2026-08-10_x2modn_direct_mlp/NOTE.md).
 
 **Active forced Hard (2026-08-10):** job
 `f79ebe42-b146-4cce-92e5-1e980c27d55e` is running exact SHA-1

@@ -2291,3 +2291,18 @@ composition, still locally and without promoting weights to a submission.
 - **Protocol exception:** the run began as an environment sanity check before
   its prediction was recorded. It is treated only as a reproduction and cannot
   support promotion.
+
+### 2026-08-10 — Direct MLP memorizes x2 mod N (Author: Codex)
+
+- **Card:** a 2,192,414-parameter three-hidden-layer GELU MLP received one-hot
+  width-three digits for `(x, N)` and final `x2 mod N` labels only. The frozen
+  split used 185 train, 39 validation, and 41 exhaustive unseen test semiprimes.
+- **Result:** all three seeds reached 100% exact over 11,840 training rows, but
+  only 4.45%--4.53% seen-N/unseen-x and 3.79%--3.92% unseen-N exact. Unseen-N
+  digit accuracy was 19.55%--19.82%, with cross-entropy 11.64--11.93.
+- **Interpretation:** the repeatability closes seed luck, while the divergence
+  between zero train error and rising held-out loss identifies memorization.
+  The above-uniform exact floor comes from output-frequency/leading-zero
+  structure, not a learned modular-squaring rule.
+- **Evidence:** `experiments/2026-08-10_x2modn_direct_mlp/NOTE.md` and its
+  ignored artifact directory under the active Prime backup root.

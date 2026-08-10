@@ -2204,3 +2204,20 @@ PREDICT:    Protocol violation: this prediction was recorded after launch. The
 RESULT:     reproduction passed, but is ineligible as a preregistered decision
             card. Unseen-N square was 100.00%, full T=1 was 95.79%, and T=8 was
             92.52%. The known O(q) scaling limitation remains.
+
+DATE:       2026-08-10
+CARD:       x2modn_direct_mlp
+CHANGE:     Replace the trace-supervised digit-serial arithmetic system with a
+            roughly parameter-matched plain GELU MLP trained only on final
+            width-three x2 mod N labels. Use 185 train semiprime N, 39
+            validation N, 41 exhaustive test N, and three seeds.
+PREDICT:    The MLP reaches >=99% train exact but remains below 10% on unseen x
+            for seen N and below 2% exact on unseen N in every seed. A reusable
+            function requires >=90% unseen-N exact in all three seeds; anything
+            lower is not realistically reliable program learning.
+RESULT:     mechanism confirmed, exact numerical floor refuted. All seeds fit
+            train 100%; seen-N/unseen-x was 4.45%--4.53% and unseen-N was
+            3.79%--3.92%, not <2%, because leading-zero/output-frequency
+            structure raises the naive exact floor. Unseen-N digit accuracy was
+            only 19.55%--19.82% and cross-entropy exceeded 11.6, so this is
+            stable memorization rather than modular-squaring generalization.
