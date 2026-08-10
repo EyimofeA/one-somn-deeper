@@ -2391,3 +2391,19 @@ composition, still locally and without promoting weights to a submission.
   ignored local artifacts contain the completed local log and downloaded
   hosted metrics. Prime backup verification matched four remote files and
   18,236 bytes before the hosted metric download.
+
+### 2026-08-10 — Final Prime L40 backup verified before termination (Author: Codex)
+
+- **Instance:** Prime pod `a6eb7c97e54d4174a9b265674758a383`, SSH alias
+  `oneL40` (`ubuntu@216.81.245.209`), NVIDIA L40 UUID
+  `GPU-0196f715-6100-ce0a-ba7f-a09c5eb90338`, billed at $0.86/hour.
+- **Preflight:** GPU utilization was 0% with 0 MiB allocated; no user training
+  or transfer process was active.
+- **Backup:** the complete remote research tree `/home/ubuntu/somn-taskb` was
+  copied to the ignored local artifact root
+  `diagnostics/artifacts/prime-a6eb7c97e54d4174a9b265674758a383/final-somn-taskb`.
+  Verification matched **906 files and 79,094,220 bytes** on both hosts. The
+  termination guard manifest is `final-somn-taskb/PRIME_BACKUP_VERIFIED.txt`.
+- **Termination:** the authenticated Prime CLI reported successful termination.
+  The provider then listed **0 compute pods**; the terminated record had no IP
+  or SSH endpoint, and the former SSH target timed out. Billing is stopped.

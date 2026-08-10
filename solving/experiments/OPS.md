@@ -53,10 +53,13 @@ Don't `cp` the k4_ut file directly without checking `_build_scheduler` first.
 
 Agent skill: `.cursor/skills/osmn-gpu-box/`. Kill does **not** stop cloud billing — terminate the instance in the provider UI.
 
-Current: Prime Intellect **L40** at `216.81.248.94` (rented 2026-08-03).
-SSH alias: **`oneL40`** → `ubuntu@216.81.248.94` (also in
-`solving/experiments/.gpu_box.json`). Upstream clone `~/one-layer-deeper`
-at **`8a3c78d`**, torch **2.12.1+cu130**, CUDA 13.0.
+Current: **no active Prime compute pod** (confirmed 2026-08-10 after the final
+Neural GPU experiments). The most recent box is recorded as terminated in
+`solving/experiments/.gpu_box.json`; `oneL40` is not a live endpoint.
+
+Historical 2026-08-03 box: Prime Intellect **L40** at `216.81.248.94`.
+Upstream clone `~/one-layer-deeper` was at **`8a3c78d`**, torch
+**2.12.1+cu130**, CUDA 13.0.
 **Ephemeral: IP/host below only valid while this instance is up.** Local
 `benchmark.runner` runs cost nothing — use this for everything in
 `learnings/concepts/17-recurrence-generalisation.md` (wd sweep, T-curve,
