@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640">
+<rect width="1200" height="640" fill="#FFFFFF"/>
+<style>text{font-family:Inter,Arial,sans-serif;fill:#172033}.mono{font-family:ui-monospace,SFMono-Regular,monospace}.axis{stroke:#536071;stroke-width:1}.grid{stroke:#E5E7EB;stroke-width:1}.small{font-size:12px}.label{font-size:14px}.panel{font-size:17px;font-weight:700}.title{font-size:25px;font-weight:750}</style>
+<text x="60" y="42" class="title">Direct x² mod N model generalization</text>
+<text x="60" y="66" class="label" fill="#536071">Three-digit semiprimes · 185 train N · 41 exhaustive unseen test N · final labels only</text>
+<text x="70" y="102" class="panel">A. Exact accuracy during training (seed 0)</text>
+<text x="680" y="102" class="panel">B. Held-out exactness across three seeds</text>
+<text x="680" y="123" class="small" fill="#536071">Zoomed 0–6% scale; horizontal marks are means</text>
+<line x1="70" y1="520.0" x2="600" y2="520.0" class="grid"/>
+<text x="58" y="524.0" text-anchor="end" class="small mono">0%</text>
+<line x1="70" y1="422.5" x2="600" y2="422.5" class="grid"/>
+<text x="58" y="426.5" text-anchor="end" class="small mono">25%</text>
+<line x1="70" y1="325.0" x2="600" y2="325.0" class="grid"/>
+<text x="58" y="329.0" text-anchor="end" class="small mono">50%</text>
+<line x1="70" y1="227.5" x2="600" y2="227.5" class="grid"/>
+<text x="58" y="231.5" text-anchor="end" class="small mono">75%</text>
+<line x1="70" y1="130.0" x2="600" y2="130.0" class="grid"/>
+<text x="58" y="134.0" text-anchor="end" class="small mono">100%</text>
+<line x1="70.0" y1="520" x2="70.0" y2="525" class="axis"/>
+<text x="70.0" y="542" text-anchor="middle" class="small mono">0k</text>
+<line x1="202.5" y1="520" x2="202.5" y2="525" class="axis"/>
+<text x="202.5" y="542" text-anchor="middle" class="small mono">3k</text>
+<line x1="335.0" y1="520" x2="335.0" y2="525" class="axis"/>
+<text x="335.0" y="542" text-anchor="middle" class="small mono">6k</text>
+<line x1="467.5" y1="520" x2="467.5" y2="525" class="axis"/>
+<text x="467.5" y="542" text-anchor="middle" class="small mono">9k</text>
+<line x1="600.0" y1="520" x2="600.0" y2="525" class="axis"/>
+<text x="600.0" y="542" text-anchor="middle" class="small mono">12k</text>
+<line x1="70" y1="130" x2="70" y2="520" class="axis"/>
+<line x1="70" y1="520" x2="600" y2="520" class="axis"/>
+<text x="335.0" y="567" text-anchor="middle" class="label">optimizer updates</text>
+<path d="M 70.0 518.9 L 92.1 500.7 L 114.2 483.3 L 136.2 422.1 L 158.3 245.0 L 180.4 135.4 L 202.5 130.0 L 224.6 130.0 L 246.7 130.0 L 268.8 130.0 L 290.8 130.0 L 312.9 130.0 L 335.0 130.0 L 357.1 130.0 L 379.2 130.0 L 401.2 130.0 L 423.3 130.0 L 445.4 130.0 L 467.5 130.0 L 489.6 130.0 L 511.7 130.0 L 533.8 130.0 L 555.8 130.0 L 577.9 130.0 L 600.0 130.0" fill="none" stroke="#2563EB" stroke-width="2.7"/>
+<path d="M 70.0 519.6 L 92.1 509.9 L 114.2 503.2 L 136.2 503.4 L 158.3 503.1 L 180.4 503.9 L 202.5 504.3 L 224.6 504.0 L 246.7 504.5 L 268.8 504.3 L 290.8 504.4 L 312.9 504.4 L 335.0 504.6 L 357.1 504.5 L 379.2 504.4 L 401.2 504.6 L 423.3 504.5 L 445.4 504.7 L 467.5 504.7 L 489.6 504.6 L 511.7 504.8 L 533.8 504.6 L 555.8 504.8 L 577.9 504.8 L 600.0 504.7" fill="none" stroke="#2563EB" stroke-width="2.7" stroke-dasharray="7 5"/>
+<path d="M 70.0 518.1 L 92.1 496.8 L 114.2 385.3 L 136.2 151.5 L 158.3 134.8 L 180.4 130.0 L 202.5 130.0 L 224.6 130.0 L 246.7 130.0 L 268.8 130.0 L 290.8 130.0 L 312.9 130.0 L 335.0 130.0 L 357.1 130.0 L 379.2 130.0 L 401.2 130.0 L 423.3 130.0 L 445.4 130.0 L 467.5 130.0 L 489.6 130.0 L 511.7 130.0 L 533.8 130.0 L 555.8 130.0 L 577.9 130.0 L 600.0 130.0" fill="none" stroke="#D97706" stroke-width="2.7"/>
+<path d="M 70.0 517.1 L 92.1 504.8 L 114.2 503.5 L 136.2 504.0 L 158.3 504.0 L 180.4 504.0 L 202.5 504.3 L 224.6 504.2 L 246.7 504.4 L 268.8 504.5 L 290.8 504.5 L 312.9 504.6 L 335.0 504.6 L 357.1 504.5 L 379.2 504.5 L 401.2 504.5 L 423.3 504.4 L 445.4 504.4 L 467.5 504.2 L 489.6 504.2 L 511.7 504.1 L 533.8 504.0 L 555.8 504.0 L 577.9 504.0 L 600.0 504.0" fill="none" stroke="#D97706" stroke-width="2.7" stroke-dasharray="7 5"/>
+<line x1="80" y1="575" x2="108" y2="575" stroke="#2563EB" stroke-width="3"/>
+<text x="116" y="580" class="label">MLP</text>
+<line x1="230" y1="575" x2="258" y2="575" stroke="#D97706" stroke-width="3"/>
+<text x="266" y="580" class="label">Transformer</text>
+<line x1="375" y1="575" x2="403" y2="575" stroke="#536071" stroke-width="3"/>
+<text x="411" y="580" class="label">train</text>
+<line x1="480" y1="575" x2="508" y2="575" stroke="#536071" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="516" y="580" class="label">unseen N</text>
+<line x1="680" y1="520.0" x2="1140" y2="520.0" class="grid"/>
+<text x="668" y="524.0" text-anchor="end" class="small mono">0%</text>
+<line x1="680" y1="395.0" x2="1140" y2="395.0" class="grid"/>
+<text x="668" y="399.0" text-anchor="end" class="small mono">2%</text>
+<line x1="680" y1="270.0" x2="1140" y2="270.0" class="grid"/>
+<text x="668" y="274.0" text-anchor="end" class="small mono">4%</text>
+<line x1="680" y1="145.0" x2="1140" y2="145.0" class="grid"/>
+<text x="668" y="149.0" text-anchor="end" class="small mono">6%</text>
+<line x1="680" y1="145" x2="680" y2="520" class="axis"/>
+<line x1="680" y1="520" x2="1140" y2="520" class="axis"/>
+<circle cx="731" cy="236.82334010840108" r="5" fill="#2563EB" stroke="#2563EB" stroke-width="2"/>
+<circle cx="740" cy="241.58705962059622" r="5" fill="#2563EB" stroke="#2563EB" stroke-width="2"/>
+<circle cx="749" cy="241.0577574525745" r="5" fill="#2563EB" stroke="#2563EB" stroke-width="2"/>
+<line x1="718" y1="239.82271906052392" x2="762" y2="239.82271906052392" stroke="#2563EB" stroke-width="3"/>
+<text x="740" y="228.82271906052392" text-anchor="middle" class="small mono" font-weight="700">4.48%</text>
+<text x="740" y="540" text-anchor="middle" class="small">MLP</text>
+<text x="740" y="557" text-anchor="middle" class="small" fill="#536071">seen N / new x</text>
+<circle cx="843" cy="278.22276210054196" r="5" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/>
+<circle cx="852" cy="275.0107456550178" r="5" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/>
+<circle cx="861" cy="283.18678751635207" r="5" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/>
+<line x1="830" y1="278.80676509063727" x2="874" y2="278.80676509063727" stroke="#2563EB" stroke-width="3"/>
+<text x="852" y="267.80676509063727" text-anchor="middle" class="small mono" font-weight="700">3.86%</text>
+<text x="852" y="540" text-anchor="middle" class="small">MLP</text>
+<text x="852" y="557" text-anchor="middle" class="small" fill="#536071">unseen N</text>
+<circle cx="955" cy="208.24102303523037" r="5" fill="#D97706" stroke="#D97706" stroke-width="2"/>
+<circle cx="964" cy="224.1200880758808" r="5" fill="#D97706" stroke="#D97706" stroke-width="2"/>
+<circle cx="973" cy="210.3582317073171" r="5" fill="#D97706" stroke="#D97706" stroke-width="2"/>
+<line x1="942" y1="214.23978093947608" x2="986" y2="214.23978093947608" stroke="#D97706" stroke-width="3"/>
+<text x="964" y="203.23978093947608" text-anchor="middle" class="small mono" font-weight="700">4.89%</text>
+<text x="964" y="540" text-anchor="middle" class="small">Transformer</text>
+<text x="964" y="557" text-anchor="middle" class="small" fill="#536071">seen N / new x</text>
+<circle cx="1067" cy="253.9866380115866" r="5" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/>
+<circle cx="1076" cy="266.54270229863573" r="5" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/>
+<circle cx="1085" cy="263.3306858531116" r="5" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/>
+<line x1="1054" y1="261.28667538777796" x2="1098" y2="261.28667538777796" stroke="#D97706" stroke-width="3"/>
+<text x="1076" y="250.28667538777796" text-anchor="middle" class="small mono" font-weight="700">4.14%</text>
+<text x="1076" y="540" text-anchor="middle" class="small">Transformer</text>
+<text x="1076" y="557" text-anchor="middle" class="small" fill="#536071">unseen N</text>
+<text x="60" y="624" class="small" fill="#6B7280">Source: frozen synthetic split; exact-match over 11,840 train rows and 21,404 exhaustive unseen-N test rows.</text>
+</svg>
