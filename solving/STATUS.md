@@ -8,6 +8,15 @@ Hard scoring is unchanged: certified Max T → OOD-N Max T → first-uncertified
 rung accuracy → time. The source audit found no scoring or data-distribution
 change and no newly prohibited call in the archived candidates.
 
+**Active x2 mod N GPU session (2026-08-10 11:42 UTC):** Prime pod
+`a6eb7c97e54d4174a9b265674758a383` is an identity-verified L40 at $0.86/hour,
+running research SHA `29feda0` against competition SHA `e32c2f9`. The first
+environment sanity reproduction reached 100.00% unseen-N raw-square exact,
+95.79% unseen-N full T=1 exact, and 92.52% T=8 on the complete two-digit
+regime. This is learned but O(q) repeated reduction, so it is mechanism evidence,
+not competition-scale or submission evidence. Card:
+[`experiments/2026-08-10_x2modn_sanity_seed0/NOTE.md`](experiments/2026-08-10_x2modn_sanity_seed0/NOTE.md).
+
 **Active forced Hard (2026-08-10):** job
 `f79ebe42-b146-4cce-92e5-1e980c27d55e` is running exact SHA-1
 `64639a3c3c51aa0ee6ab23f5cc286e2dc0c1a05a`. It adds one generic local

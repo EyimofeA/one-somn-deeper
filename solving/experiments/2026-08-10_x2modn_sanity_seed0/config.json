@@ -1,0 +1,13 @@
+{
+  "card": "x2modn_sanity_seed0",
+  "research_sha": "29feda043ded871ab7238ec9aae648b39e8382e4",
+  "competition_sha": "e32c2f985f8ed4107c96d00271448777954ecc0c",
+  "gpu": "NVIDIA L40",
+  "seed": 0,
+  "steps": 3000,
+  "width": 4,
+  "reducer_distribution": "vdf_square",
+  "train_moduli": 18,
+  "unseen_moduli": 8,
+  "command": "/home/ubuntu/one-layer-deeper/.venv/bin/python diagnostics/train_recurrent_vdf_square_reduce.py --out /home/ubuntu/somn-taskb/runs/2026-08-10_x2modn_sanity_seed0 --seed 0 --steps 3000 --reducer-distribution vdf_square --device cuda"
+}

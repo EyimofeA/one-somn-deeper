@@ -2192,3 +2192,15 @@ RESULT:     refuted. The card completed 1,864 updates and scored 0.5000% mean
             exact, with 3/512 seen-N and 1/512 OOD-N T=1. Removing absolute
             position slightly improved aggregate exactness over the parent but
             left unseen-N T=1 at chance; the OOD kill fired.
+
+DATE:       2026-08-10
+CARD:       x2modn_sanity_seed0
+CHANGE:     Reproduce the existing two-digit square-to-reduce diagnostic on the
+            newly provisioned L40 with VDF-square reducer trace support.
+PREDICT:    Protocol violation: this prediction was recorded after launch. The
+            intended sanity expectation was approximately 100% unseen-N square
+            exact and greater than 90% full T=1 exact; failure would invalidate
+            the environment or reproduction before new research.
+RESULT:     reproduction passed, but is ineligible as a preregistered decision
+            card. Unseen-N square was 100.00%, full T=1 was 95.79%, and T=8 was
+            92.52%. The known O(q) scaling limitation remains.

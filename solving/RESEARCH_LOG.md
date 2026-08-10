@@ -2271,3 +2271,23 @@ composition, still locally and without promoting weights to a submission.
   `2026-08-10T00:42:05Z`. Final checks showed **0 provider pods**, no IP/SSH
   endpoint, and SSH exit 255 (timeout). The hosted Hard job remains independent
   and was still running at termination time.
+
+### 2026-08-10 — Fresh L40 and x2 mod N sanity reproduction (Author: Codex)
+
+- **Instance:** Prime pod `a6eb7c97e54d4174a9b265674758a383`, $0.86/hour,
+  SSH alias `oneL40`, NVIDIA L40 UUID
+  `GPU-0196f715-6100-ce0a-ba7f-a09c5eb90338`; research/competition pins are
+  `29feda0`/`e32c2f9`.
+- **Result:** the existing width-four learned Square -> Comparator/Subtractor
+  diagnostic reproduced 100.00% raw-square and 95.79% full T=1 exact on eight
+  unseen two-digit moduli; T=8 was 92.52%.
+- **Boundary:** the reducer performs one learned subtraction per quotient unit,
+  so this is not a scalable or legal-forward competition solution. The next
+  registered run must target efficient learned reduction or the generic
+  multi-lane capability gate.
+- **Evidence:**
+  `experiments/2026-08-10_x2modn_sanity_seed0/NOTE.md`; ignored run artifacts
+  were copied back and verified by matching SHA-256 for all three files.
+- **Protocol exception:** the run began as an environment sanity check before
+  its prediction was recorded. It is treated only as a reproduction and cannot
+  support promotion.
