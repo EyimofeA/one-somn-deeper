@@ -1,0 +1,14 @@
+{
+  "card": "easy_multilane_neural_gpu",
+  "parent": "2026-08-10_direct_structured_tape_no_position",
+  "dataset": "e5",
+  "tier": "easy",
+  "state_dim": 64,
+  "lanes": 6,
+  "microsteps_per_macrostep": 4,
+  "train_loop_cap": 16,
+  "t1_only_fraction": 0.5,
+  "t1_late_weight": 4.0,
+  "batch_size": 512,
+  "eval_batch_size": 1024
+}

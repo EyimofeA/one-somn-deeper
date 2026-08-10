@@ -37,6 +37,14 @@ digits only 29.95%/21.80%. Carry modestly regularizes but does not become a
 causal internal algorithm. Stop duration and final-state auxiliary tuning;
 future work must expose carry during the recurrent computation. Card and plot:
 [`experiments/2026-08-10_multilane_neural_gpu_square_carry_50k/NOTE.md`](experiments/2026-08-10_multilane_neural_gpu_square_carry_50k/NOTE.md).
+The final-label-only legal transfer of the six-lane grid also failed. Local e5
+scored 0.6667% with T=1 at 1/512 seen-N and 2/512 OOD-N. Owner-requested hosted
+e5 job `ff081248-f600-40c6-a133-045783f76c68`, exact SHA-1
+`c436691686c76e406445484b64849ac06eac5cac`, scored **0.3333%** (0.5000%
+test, 0.2000% OOD) and certified no rung after only 532 updates. The mechanism
+fails both program discovery and hosted wall-clock efficiency; do not send it
+to Medium or Hard. Card:
+[`experiments/2026-08-10_easy_multilane_neural_gpu/NOTE.md`](experiments/2026-08-10_easy_multilane_neural_gpu/NOTE.md).
 
 **Active forced Hard (2026-08-10):** job
 `f79ebe42-b146-4cce-92e5-1e980c27d55e` is running exact SHA-1

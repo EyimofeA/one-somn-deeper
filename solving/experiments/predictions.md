@@ -2288,3 +2288,22 @@ RESULT:     refuted; both kill conditions fired. At 50,000 updates answer-only
             a 2.40-point advantage. Central digits changed only from
             29.10%/15.60% to 29.95%/21.80%. Carry is a modest regularizer here,
             not the delayed algorithmic transition seen in the old Transformer.
+
+DATE:       2026-08-10
+CARD:       easy_multilane_neural_gpu
+CHANGE:     Replace the legal translation-equivariant direct tape's single
+            state lane/update with six generic 64-wide scratch lanes and four
+            tied local GRU microsteps per requested recurrence step. Freeze its
+            parser, curriculum, final-label loss, optimizer, schedule, and batch.
+PREDICT:    On local Easy e5, improve over 0.5000% mean exact and reach >=5/512
+            on both T=1 profiles plus >0.75% mean for promotion. Kill at OOD-N
+            T=1 <=2/512 or mean <=0.5000%. A user-requested hosted e5 after a
+            local kill is forced evidence, not promotion.
+RESULT:     local promotion refuted. Mean exact improved to 0.6667%, but T=1
+            was only 1/512 seen-N and 2/512 OOD-N; the registered OOD kill
+            fired. For the owner-requested forced hosted e5, predict 0.3%--1.0%
+            mean, no certified rung, and <=4/512 on each T=1 profile.
+RESULT:     hosted prediction confirmed. Exact SHA-1 c436691686c76e406445484b64849ac06eac5cac
+            scored 0.3333% mean (0.5000% test, 0.2000% OOD), certified no rung,
+            and completed only 532 updates. Bounded hosted metrics omit exact
+            T=1 counts. Stop this source before Medium or Hard.

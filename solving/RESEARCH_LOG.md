@@ -2368,3 +2368,26 @@ composition, still locally and without promoting weights to a submission.
   `experiments/2026-08-10_multilane_neural_gpu_square_carry_aux/NOTE.md` and
   `experiments/2026-08-10_multilane_neural_gpu_square_carry_50k/NOTE.md`; the
   paired ignored Prime backup was verified at 11 files and 896,705 bytes.
+
+### 2026-08-10 — Legal multi-lane Neural GPU fails Easy e5 (Author: Codex)
+
+- **Card:** the legal translation-equivariant direct tape's single state lane
+  was replaced by six generic 64-wide scratch lanes and four tied local GRU
+  microsteps per requested recurrence step. Parser, T=1 curriculum, final-label
+  loss, AdamW, wall-clock schedule, and batch sizes were frozen. No carry
+  target, trace, solver, modulus operation, or arithmetic phase appears in the
+  source.
+- **Local e5:** 1,636 updates; 1.0000% test, 0.3333% OOD, **0.6667% mean**.
+  T=1 was 1/512 seen-N and 2/512 OOD-N, so the registered OOD kill fired.
+- **Hosted e5:** owner-requested forced job
+  `ff081248-f600-40c6-a133-045783f76c68`, exact source SHA-1
+  `c436691686c76e406445484b64849ac06eac5cac`, scored **0.3333% mean**
+  (0.5000% test, 0.2000% OOD) with no certified rung. It completed only 532
+  updates and ended at 8.0% batch exact/loss 1.565.
+- **Conclusion:** multi-lane scratch capacity alone does not produce legal
+  T=1 discovery, and the nested recurrence is launch/dispatch-bound under the
+  hosted wall clock. Stop before Medium or Hard.
+- **Evidence:** `experiments/2026-08-10_easy_multilane_neural_gpu/NOTE.md`;
+  ignored local artifacts contain the completed local log and downloaded
+  hosted metrics. Prime backup verification matched four remote files and
+  18,236 bytes before the hosted metric download.
