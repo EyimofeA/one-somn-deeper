@@ -75,7 +75,7 @@ class MultiLaneNeuralGPU(nn.Module):
         self.output_norm = nn.LayerNorm(hidden)
         self.head = nn.Linear(hidden, 10)
 
-    def forward(self, x_digits: torch.Tensor, n_digits: torch.Tensor) -> torch.Tensor:
+    def forward_features(self, x_digits: torch.Tensor, n_digits: torch.Tensor) -> torch.Tensor:
         batch, positions = x_digits.shape
         x = self.x_inject(self.digit(x_digits)).reshape(batch, positions, self.lanes, self.hidden)
         n = self.n_inject(self.digit(n_digits)).reshape(batch, positions, self.lanes, self.hidden)
@@ -86,7 +86,10 @@ class MultiLaneNeuralGPU(nn.Module):
         state = torch.zeros_like(immutable)
         for _ in range(self.microsteps):
             state = self.cell(state, immutable)
-        return self.head(self.output_norm(state[:, :, 0]))
+        return self.output_norm(state[:, :, 0])
+
+    def forward(self, x_digits: torch.Tensor, n_digits: torch.Tensor) -> torch.Tensor:
+        return self.head(self.forward_features(x_digits, n_digits))
 
 
 def tensors(rows, device):

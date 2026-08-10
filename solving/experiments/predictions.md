@@ -2254,3 +2254,37 @@ RESULT:     refuted; both kill conditions fired. Final train exact was 12.9125%
             and unseen-x exact was 4.0000%, with 81.9000%/75.6125% per-digit
             accuracy. The grid learned transferable digit correlations but no
             exact squaring procedure, and no grokking transition occurred.
+
+DATE:       2026-08-10
+CARD:       multilane_neural_gpu_square_carry_aux
+CHANGE:     Relative to the failed answer-only multi-lane Neural GPU, add only
+            a 130-parameter head and weight-1 MSE for normalized carry-in and
+            carry-out at each output column. Freeze the split, backbone, main
+            loss, optimizer, batch, 12,000 updates, and seed.
+PREDICT:    If carry credit assignment is the main blocker, unseen-x exact is
+            >=50% and both central digit positions are >=70%; >=70% exact is
+            strong confirmation. Kill below 20% exact or below 50% at either
+            central position. A pass requires a shuffled-carry control before
+            attributing the gain specifically to carry semantics.
+RESULT:     refuted at 12,000 updates. Unseen exact was 4.5500% versus the
+            answer-only parent's 4.0000%, and the two central positions were
+            28.00%/16.45% versus 29.05%/15.20%. Normalized unseen carry MSE was
+            0.02708, so terminal carry was decodable but not usefully consumed.
+
+DATE:       2026-08-10
+CARD:       multilane_neural_gpu_square_carry_50k
+CHANGE:     Extend both the answer-only and carry-supervised Neural GPU from
+            12,000 to 50,000 updates, preserving each script's seed, data,
+            architecture, loss, constant AdamW settings, batch, and 500-step
+            evaluation cadence. The within-budget comparison changes only
+            correct carry supervision and its 130-parameter head.
+PREDICT:    If the 12k null is the delayed-learning pattern seen in the old
+            Transformer, carry-supervised unseen exact reaches >=50% and beats
+            the matched answer-only run by >=20 points. Kill the carry route if
+            it remains <20% or leads by <10 points. If both rise similarly,
+            duration rather than carry semantics is the mechanism.
+RESULT:     refuted; both kill conditions fired. At 50,000 updates answer-only
+            reached 3.8500% unseen exact and carry-supervised reached 6.2500%,
+            a 2.40-point advantage. Central digits changed only from
+            29.10%/15.60% to 29.95%/21.80%. Carry is a modest regularizer here,
+            not the delayed algorithmic transition seen in the old Transformer.

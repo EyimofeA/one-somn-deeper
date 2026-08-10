@@ -2345,3 +2345,26 @@ composition, still locally and without promoting weights to a submission.
   `experiments/2026-08-10_multilane_neural_gpu_square/NOTE.md`; the ignored
   Prime backup was verified at six files and 391,886 bytes on each host,
   including source and config snapshots.
+
+### 2026-08-10 — Terminal carry supervision does not fix the Neural GPU (Author: Codex)
+
+- **Prior evidence:** the established Task A Transformer moved from 0.75%
+  answer-only exact to 71.4% with carry supervision and 80.1% with carry plus
+  diagonal supervision. Shuffled carry labels returned to approximately 1%,
+  and the seed-0 carry curve rose from 2.77% at 12k to 64.51% at 50k.
+- **12k intervention:** adding only a 130-parameter terminal carry head and
+  weight-1 normalized carry MSE to the six-lane Neural GPU produced 4.55%
+  unseen exact versus its 4.00% parent. Carry MSE was 0.02708, but middle-digit
+  accuracy remained 28.00%/16.45%; both registered kill gates fired.
+- **Matched 50k duration control:** answer-only finished at 53.50% train /
+  3.85% unseen exact; carry-supervised finished at 70.475% train / 6.25%
+  unseen exact. Middle digits changed from 29.10%/15.60% to 29.95%/21.80%.
+- **Conclusion:** carry semantics modestly regularize this grid but do not
+  reproduce the delayed algorithmic transition. A terminal state can report
+  carry without the recurrent process consuming it at the needed time. Stop
+  duration and terminal-head tuning; the next mechanism must make carry causal
+  inside the recurrent computation.
+- **Evidence:**
+  `experiments/2026-08-10_multilane_neural_gpu_square_carry_aux/NOTE.md` and
+  `experiments/2026-08-10_multilane_neural_gpu_square_carry_50k/NOTE.md`; the
+  paired ignored Prime backup was verified at 11 files and 896,705 bytes.

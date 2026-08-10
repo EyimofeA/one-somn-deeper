@@ -30,6 +30,13 @@ Its 75.6125% held-out digit accuracy shows shared correlations, but no exact
 algorithm or grokking transition. Both registered kill conditions fired; do
 not add reduction or tune this card. Card and curve:
 [`experiments/2026-08-10_multilane_neural_gpu_square/NOTE.md`](experiments/2026-08-10_multilane_neural_gpu_square/NOTE.md).
+The established carry-supervision fix does **not** transfer by attaching a
+terminal carry head to this grid. At 12k it scored 4.55%; a registered matched
+50k pair ended at 3.85% answer-only versus 6.25% carry-supervised, with middle
+digits only 29.95%/21.80%. Carry modestly regularizes but does not become a
+causal internal algorithm. Stop duration and final-state auxiliary tuning;
+future work must expose carry during the recurrent computation. Card and plot:
+[`experiments/2026-08-10_multilane_neural_gpu_square_carry_50k/NOTE.md`](experiments/2026-08-10_multilane_neural_gpu_square_carry_50k/NOTE.md).
 
 **Active forced Hard (2026-08-10):** job
 `f79ebe42-b146-4cce-92e5-1e980c27d55e` is running exact SHA-1
