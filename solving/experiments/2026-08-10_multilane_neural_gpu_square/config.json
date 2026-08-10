@@ -1,0 +1,17 @@
+{
+  "card": "multilane_neural_gpu_square",
+  "seed": 0,
+  "split_seed": 20260810,
+  "input_width": 4,
+  "tape_width": 8,
+  "train_values": 8000,
+  "test_values": 2000,
+  "hidden": 64,
+  "lanes": 6,
+  "microsteps": 16,
+  "steps": 12000,
+  "batch_size": 256,
+  "lr": 0.0003,
+  "weight_decay": 0.01,
+  "device": "cuda"
+}

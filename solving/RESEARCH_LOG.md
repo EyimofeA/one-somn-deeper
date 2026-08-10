@@ -2323,3 +2323,25 @@ composition, still locally and without promoting weights to a submission.
   outputs remain wrong.
 - **Evidence:** `experiments/2026-08-10_x2modn_direct_transformer/NOTE.md` and
   its ignored artifact directory under the active Prime backup root.
+
+### 2026-08-10 — Generic multi-lane Neural GPU fails raw squaring (Author: Codex)
+
+- **Card:** an 89,902-parameter local recurrent grid used eight LSD-first digit
+  positions, six 64-wide scratch lanes, learned left/self/right and same-position
+  lane mixing, and one tied GRU cell repeated for 16 microsteps. It trained only
+  from final raw-square digits on 8,000 x and evaluated 2,000 disjoint x.
+- **Result:** after 12,000 updates, train exact was **12.9125%** and unseen-x
+  exact was **4.0000%**. Per-digit accuracy reached 81.9000%/75.6125%.
+- **Interpretation:** the model learned transferable digit-level correlations,
+  but neither fit the training function nor discovered an exact squaring
+  algorithm. A frozen position audit found 100.00%/99.80%/96.10% accuracy on
+  the first three LSD-side digits and 96.95%/99.65% on the final two MSD-side
+  digits, but only 29.05%/15.20% in the central columns. This is not a
+  leading-zero shortcut: target-zero rates there were 12.35%/11.05%. The
+  failure is cross-term accumulation and carry credit assignment. No late
+  grokking transition occurred. Both preregistered kill conditions fired, so
+  reduction, depth, and optimizer follow-ups are banned for this card.
+- **Evidence:**
+  `experiments/2026-08-10_multilane_neural_gpu_square/NOTE.md`; the ignored
+  Prime backup was verified at six files and 391,886 bytes on each host,
+  including source and config snapshots.

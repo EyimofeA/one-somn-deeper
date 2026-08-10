@@ -24,6 +24,12 @@ The matched 1.79M-parameter four-layer Transformer also fit train 100% in three
 seeds and reached only 4.06%--4.26% unseen-N exact. Attention improves the MLP
 by less than half a point without changing the memorization mechanism. Card:
 [`experiments/2026-08-10_x2modn_direct_transformer/NOTE.md`](experiments/2026-08-10_x2modn_direct_transformer/NOTE.md).
+The generic 89,902-parameter six-lane Neural GPU then failed an easier raw-square
+gate: 12.9125% train exact and 4.0000% on 2,000 unseen x after 12,000 updates.
+Its 75.6125% held-out digit accuracy shows shared correlations, but no exact
+algorithm or grokking transition. Both registered kill conditions fired; do
+not add reduction or tune this card. Card and curve:
+[`experiments/2026-08-10_multilane_neural_gpu_square/NOTE.md`](experiments/2026-08-10_multilane_neural_gpu_square/NOTE.md).
 
 **Active forced Hard (2026-08-10):** job
 `f79ebe42-b146-4cce-92e5-1e980c27d55e` is running exact SHA-1

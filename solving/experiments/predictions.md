@@ -2238,3 +2238,19 @@ RESULT:     confirmed. All seeds fit train 100%, while unseen-N exact was only
             repeatable 0.17--0.47 point improvement over the MLP, but about 96%
             of unseen outputs remain wrong and held-out cross-entropy exceeds
             11.0. No seed shows partial algorithm learning.
+
+DATE:       2026-08-10
+CARD:       multilane_neural_gpu_square
+CHANGE:     Replace the explicit digit-serial Square cell with the generic
+            six-lane local grid forward: eight LSD-first positions, width 64,
+            learned left/self/right and lane mixing, and one tied GRU update for
+            16 microsteps. Train only on final raw-square labels for 8,000 x and
+            evaluate 2,000 disjoint x; no N/reduction signal enters this card.
+PREDICT:    If the generic grid can represent and discover decimal squaring,
+            seed 0 reaches >=90% unseen-x exact (strong >=99%) and >=90% train
+            exact after 12,000 updates. Kill below 50% unseen-x or 90% train;
+            do not add reduction, more depth, or optimizer tuning after a kill.
+RESULT:     refuted; both kill conditions fired. Final train exact was 12.9125%
+            and unseen-x exact was 4.0000%, with 81.9000%/75.6125% per-digit
+            accuracy. The grid learned transferable digit correlations but no
+            exact squaring procedure, and no grokking transition occurred.
