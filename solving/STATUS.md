@@ -27,7 +27,8 @@ residual/direct/no-position ports were all chance-scale, and a 300-second
 direct-tape control worsened to 2/512 + 0/512. Stop optimizer, shallow-local,
 and simple-tape micro-tuning. The next real gate is a generic multi-lane local
 machine: research-only trace capability first, then an unchanged legal shape
-trained from final labels only.
+trained from final labels only. Design and kill gates:
+[`experiments/2026-08-10_multilane_local_grid_design/NOTE.md`](experiments/2026-08-10_multilane_local_grid_design/NOTE.md).
 
 **Public-e5 support audit (2026-08-10):** the 4,800 training rows contain only
 27 distinct N, with median T=1 coverage of 41 x per N (3.09% of the residue
