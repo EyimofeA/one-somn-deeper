@@ -2052,7 +2052,11 @@ CHANGE:     Upload the exact strong-residual Easy-tested source SHA-1
 PREDICT:    No rung certifies. The chance-scale target is 0--4/768 on each
             private T=1 profile; either profile may be zero. A certified T=1
             rung would falsify the expectation and promote local mixing.
-RESULT:     pending.
+RESULT:     refuted. Hosted job f79ebe42-b146-4cce-92e5-1e980c27d55e scored
+            0.02333% mean exact (3/9,999 test, 1/10,002 OOD-T, 3/10,002
+            OOD-N), certified no rung, and produced 0/768 on both seen-N and
+            OOD-N T=1. It completed 148,084 updates with final train loss
+            2.2095. Generic local mixing did not transfer to hidden T=1.
 
 DATE:       2026-08-10
 CARD:       canonical_local_conv_scale_trajectory
@@ -2307,3 +2311,42 @@ RESULT:     hosted prediction confirmed. Exact SHA-1 c436691686c76e406445484b648
             scored 0.3333% mean (0.5000% test, 0.2000% OOD), certified no rung,
             and completed only 532 updates. Bounded hosted metrics omit exact
             T=1 counts. Stop this source before Medium or Hard.
+
+DATE:       2026-08-11
+CARD:       canonical_dynamic_slots_hosted_third
+CHANGE:     Resubmit exact SHA-1 5b622f06680600f4b346e34b635b839dde18471c
+            to hosted Easy e5 for a third exact-source noise observation. No
+            source, dataset, tier, optimizer, or architecture changes.
+PREDICT:    The third run retains nonzero seen-N and OOD-N T=1, while remaining
+            below 2% mean and certifying no rung. Refutation: either first-rung
+            profile is exactly zero. This measures chance-scale stability and
+            cannot promote the mechanism after its prior 0/768 + 0/768 Hard T=1.
+RESULT:     refuted on OOD-N stability. Hosted job
+            cfb0fc73-2fe7-4fda-9280-52e8c78ca126 scored 0.5000% mean after
+            1,569 updates, with 2/512 seen-N T=1 but 0/512 OOD-N T=1 and no
+            certified rung. The exact-source public dual-profile signal is not
+            reproducible enough to justify repeating its failed Hard source.
+
+DATE:       2026-08-11
+CARD:       fable_tcap_adamw_m5_hosted_repeat
+CHANGE:     Resubmit exact SHA-1 aa75819a878fab6c03c6a23d979f6234560f6e3d
+            to hosted Medium m5. No source, model, optimizer, batch, dataset, or
+            tier changes relative to its recorded exact-source m5 evaluation.
+PREDICT:    Mean exact remains in the chance-scale 0.05%--0.30% interval, no
+            rung certifies, and both T=1 profiles remain below 1%. Refutation is
+            mean >0.30% or either certified T=1 rung. This is a stability screen
+            for the strongest historically observed Hard family, not promotion.
+RESULT:     confirmed. Hosted job 233cbce0-ab80-4ef7-9769-724da9349e52
+            scored 0.1556% mean (13/9,000 test, 5/3,000 OOD), certified no rung,
+            and had 0/768 on both T=1 profiles after 13,672 updates. The family
+            is a stable chance-scale baseline, not a learned one-step operator.
+
+DATE:       2026-08-11
+CARD:       fable_tcap_adamw_forced_hard_refresh
+CHANGE:     Upload exact validated SHA-1 aa75819a878fab6c03c6a23d979f6234560f6e3d
+            to Hard h1 with no source change after its exact-source Easy e1 and
+            Medium m5 evidence. This is the owner's scheduled forced Hard pivot.
+PREDICT:    No rung certifies and both T=1 profiles are 0/768; mean exact falls
+            in 0.02%--0.08%. A nonzero first-rung profile would be interesting
+            but not mechanism validation; a certified T=1 rung would refute the
+            chance-baseline model and trigger full source/mechanism audit.

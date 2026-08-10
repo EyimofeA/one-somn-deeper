@@ -1,12 +1,23 @@
 # Status (living)
 
-Last updated: 2026-08-10. **Rule audit:** the local competition checkout is now
+Last updated: 2026-08-11. **Rule audit:** the local competition checkout is now
 the live upstream `e32c2f9`. It adds bounded evaluator-owned structured
 metrics plus multiple evaluator-owned backward passes/same-batch reuse, while
 explicitly banning participant-started derivative or nested-training calls.
 Hard scoring is unchanged: certified Max T → OOD-N Max T → first-uncertified
 rung accuracy → time. The source audit found no scoring or data-distribution
 change and no newly prohibited call in the archived candidates.
+
+**Active scheduled Hard (2026-08-11 00:45 WAT):** exact validated Fable
+T-cap/AdamW SHA-1 `aa75819a878fab6c03c6a23d979f6234560f6e3d` was accepted as
+job `05f53719-7717-4923-88d5-a3cafe373167`; zero Hard attempts remain for the
+UTC day. This is a forced best-historical-family submission, not promotion.
+Immediately before it, exact-source canonical Easy e5 job `cfb0fc73` lost its
+OOD-N T=1 signal (2/512 seen, 0/512 OOD-N; 0.5000% mean), while exact-source
+Fable Medium m5 job `233cbce0` reproduced 0.1556% mean but had 0/768 at T=1 on
+both profiles. Prediction: no rung, 0/768 on both hidden T=1 profiles, and
+0.02%--0.08% mean. Evidence:
+[`experiments/2026-08-11_submission_selection_refresh/NOTE.md`](experiments/2026-08-11_submission_selection_refresh/NOTE.md).
 
 **Retired x2 mod N GPU session (terminated 2026-08-10 14:11 UTC):** Prime pod
 `a6eb7c97e54d4174a9b265674758a383` was an identity-verified L40 at $0.86/hour,
@@ -48,14 +59,17 @@ fails both program discovery and hosted wall-clock efficiency; do not send it
 to Medium or Hard. Card:
 [`experiments/2026-08-10_easy_multilane_neural_gpu/NOTE.md`](experiments/2026-08-10_easy_multilane_neural_gpu/NOTE.md).
 
-**Active forced Hard (2026-08-10):** job
-`f79ebe42-b146-4cce-92e5-1e980c27d55e` is running exact SHA-1
+**Completed forced Hard (2026-08-10):** job
+`f79ebe42-b146-4cce-92e5-1e980c27d55e` ran exact SHA-1
 `64639a3c3c51aa0ee6ab23f5cc286e2dc0c1a05a`. It adds one generic local
 ConvGLU residual to the canonical register; no explicit shifted-reduction
 algorithm is included. Hosted Easy e5 was only **0.2917%**, with T=1
 **3/512 seen-N and 1/512 OOD-N**, so this is owner-requested and explicitly
 non-promoted. The exact-0.1 scale control was also refuted (0.4167%, 3/512 +
-0/512) and was not uploaded to Hard.
+0/512) and was not uploaded to Hard. The Hard run scored **0.02333%**
+(3/9,999 test, 1/10,002 OOD-T, 3/10,002 OOD-N), certified no rung, and had
+**0/768** on both T=1 profiles after 148,084 updates. Local ConvGLU mixing is
+closed as a Hard transfer.
 
 **GPU retired (2026-08-10 00:42 UTC):** Prime pod
 `0c1aba701be94af3bb8494f88e962a53` was backed up with exact helper verification

@@ -2407,3 +2407,20 @@ composition, still locally and without promoting weights to a submission.
 - **Termination:** the authenticated Prime CLI reported successful termination.
   The provider then listed **0 compute pods**; the terminated record had no IP
   or SSH endpoint, and the former SSH target timed out. Billing is stopped.
+
+### 2026-08-11 — Easy/Medium refresh selects forced Fable Hard attempt (Author: Codex)
+
+- **Easy replication:** exact canonical SHA-1 `5b622f0` job `cfb0fc73` scored
+  0.5000% mean with 2/512 seen-N T=1 and 0/512 OOD-N T=1. Its prior public
+  dual-profile signal is not stable.
+- **Medium replication:** exact Fable T-cap/AdamW SHA-1 `aa75819` job
+  `233cbce0` scored 0.1556% mean (13/9,000 test, 5/3,000 OOD), with 0/768 on
+  both T=1 profiles and no certified rung after 13,672 updates.
+- **Hard execution:** after syntax, size, source-hash, validator, parameter
+  ownership, model-state, and forbidden-pattern checks, exact SHA-1
+  `aa75819a878fab6c03c6a23d979f6234560f6e3d` was accepted as Hard job
+  `05f53719-7717-4923-88d5-a3cafe373167` at 00:45 WAT. Selection is based on
+  the family's best historical hosted score, not T=1 promotion.
+- **Evidence:**
+  `experiments/2026-08-11_submission_selection_refresh/NOTE.md` and the
+  preregistration/result entries in `experiments/predictions.md`.
