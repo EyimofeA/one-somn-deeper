@@ -8,9 +8,11 @@ Hard scoring is unchanged: certified Max T → OOD-N Max T → first-uncertified
 rung accuracy → time. The source audit found no scoring or data-distribution
 change and no newly prohibited call in the archived candidates.
 
-**Active x2 mod N GPU session (2026-08-10 11:42 UTC):** Prime pod
-`a6eb7c97e54d4174a9b265674758a383` is an identity-verified L40 at $0.86/hour,
-running research SHA `29feda0` against competition SHA `e32c2f9`. The first
+**Retired x2 mod N GPU session (terminated 2026-08-10 14:11 UTC):** Prime pod
+`a6eb7c97e54d4174a9b265674758a383` was an identity-verified L40 at $0.86/hour,
+running research SHA `29feda0` against competition SHA `e32c2f9`. Its final
+backup matched 906 files and 79,094,220 bytes; Prime then reported zero active
+compute pods. The first
 environment sanity reproduction reached 100.00% unseen-N raw-square exact,
 95.79% unseen-N full T=1 exact, and 92.52% T=8 on the complete two-digit
 regime. This is learned but O(q) repeated reduction, so it is mechanism evidence,
