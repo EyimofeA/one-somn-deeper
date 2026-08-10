@@ -2253,3 +2253,21 @@ composition, still locally and without promoting weights to a submission.
   followed by extrapolation to 71 new maps. A legal solution must make a shared
   digit-level program substantially easier than hashing modulus identity.
   Evidence: `experiments/2026-08-10_e5_support_audit/NOTE.md`.
+
+### 2026-08-10 — Prime L40 final backup and retirement (Author: Codex)
+
+- **Instance:** Prime pod `0c1aba701be94af3bb8494f88e962a53`, SSH alias
+  `oneL40`, NVIDIA L40 UUID `GPU-0196f715-6100-ce0a-ba7f-a09c5eb90338`.
+- **Pre-termination state:** provider reported ACTIVE; GPU was idle at 0% with
+  zero MiB allocated and no training or transfer process.
+- **Verified backup:** `oneL40:/home/ubuntu/somn-taskb` was copied to ignored
+  local path `diagnostics/artifacts/prime-0c1aba701be94af3bb8494f88e962a53`.
+  The lifecycle helper verified **71 files and 4,897,911 bytes** on each host at
+  `2026-08-10T00:39:37Z` and wrote `PRIME_BACKUP_VERIFIED.txt`.
+- **Authorization:** owner explicitly requested remote cleanup and GPU
+  termination after the verified backup. `/home/ubuntu/somn-taskb` and
+  `/home/ubuntu/one-layer-deeper` were removed only after confirming no Python,
+  rsync, or scp process remained. Prime then reported successful termination at
+  `2026-08-10T00:42:05Z`. Final checks showed **0 provider pods**, no IP/SSH
+  endpoint, and SSH exit 255 (timeout). The hosted Hard job remains independent
+  and was still running at termination time.

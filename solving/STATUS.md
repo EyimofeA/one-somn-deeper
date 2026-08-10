@@ -17,6 +17,12 @@ algorithm is included. Hosted Easy e5 was only **0.2917%**, with T=1
 non-promoted. The exact-0.1 scale control was also refuted (0.4167%, 3/512 +
 0/512) and was not uploaded to Hard.
 
+**GPU retired (2026-08-10 00:42 UTC):** Prime pod
+`0c1aba701be94af3bb8494f88e962a53` was backed up with exact helper verification
+(71 files, 4,897,911 bytes), its two remote project/artifact directories were
+removed, and provider termination succeeded. Prime now reports zero pods and
+SSH is unreachable. The hosted Hard evaluator is separate and remains running.
+
 **Post-submit T=1 sprint (2026-08-10):** seven preregistered local public-e5
 controls all failed unseen-N promotion. Scale telemetry proves the learned
 local branch is actively amplified (0.10→1.77) rather than ignored. Smooth
