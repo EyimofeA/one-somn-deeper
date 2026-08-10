@@ -25,10 +25,11 @@ function.
 The 2,192,414-parameter MLP memorized all 11,840 training rows in every seed.
 Unseen-N cross-entropy nevertheless reached 11.64--11.93, and exactness varied
 by only 0.13 percentage points across seeds. The preregistered `<2%` numerical
-prediction was refuted because leading-zero/output-frequency structure provides
-an above-uniform exact baseline. The functional conclusion is confirmed:
-roughly 96% of unseen-N outputs remain wrong, so the MLP did not learn modular
-squaring.
+prediction was refuted. A post-run audit shows the result is not explained by
+trivial constants: identity `y=x` reaches 0.77%, constant zero 0.19%, and an
+optimistic test-label digit-mode vector 0.23% exact. The MLP learns some
+transferable correlations, but roughly 96% of unseen-N outputs remain wrong;
+it did not learn modular squaring.
 
 Evidence: ignored artifacts under
 `diagnostics/artifacts/prime-a6eb7c97e54d4174a9b265674758a383/runs/2026-08-10_x2modn_direct_mlp/`.

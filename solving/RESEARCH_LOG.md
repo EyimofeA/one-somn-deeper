@@ -2302,8 +2302,10 @@ composition, still locally and without promoting weights to a submission.
   digit accuracy was 19.55%--19.82%, with cross-entropy 11.64--11.93.
 - **Interpretation:** the repeatability closes seed luck, while the divergence
   between zero train error and rising held-out loss identifies memorization.
-  The above-uniform exact floor comes from output-frequency/leading-zero
-  structure, not a learned modular-squaring rule.
+  A post-run audit puts identity at 0.77%, constant zero at 0.19%, and an
+  optimistic test-label digit-mode vector at 0.23%, so the model does learn
+  partial transferable correlations. Those correlations are far from a
+  modular-squaring rule: about 96% of unseen-N outputs remain wrong.
 - **Evidence:** `experiments/2026-08-10_x2modn_direct_mlp/NOTE.md` and its
   ignored artifact directory under the active Prime backup root.
 

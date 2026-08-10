@@ -2217,10 +2217,11 @@ PREDICT:    The MLP reaches >=99% train exact but remains below 10% on unseen x
             lower is not realistically reliable program learning.
 RESULT:     mechanism confirmed, exact numerical floor refuted. All seeds fit
             train 100%; seen-N/unseen-x was 4.45%--4.53% and unseen-N was
-            3.79%--3.92%, not <2%, because leading-zero/output-frequency
-            structure raises the naive exact floor. Unseen-N digit accuracy was
-            only 19.55%--19.82% and cross-entropy exceeded 11.6, so this is
-            stable memorization rather than modular-squaring generalization.
+            3.79%--3.92%, not <2%. A post-run audit puts identity at 0.77%,
+            constant zero at 0.19%, and a test-label digit-mode vector at 0.23%,
+            so the MLP learns partial correlations beyond trivial frequency.
+            With only 19.55%--19.82% digit accuracy and loss above 11.6, it is
+            still memorization rather than modular-squaring discovery.
 
 DATE:       2026-08-10
 CARD:       x2modn_direct_transformer

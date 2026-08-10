@@ -51,6 +51,8 @@
 <text x="668" y="149.0" text-anchor="end" class="small mono">6%</text>
 <line x1="680" y1="145" x2="680" y2="520" class="axis"/>
 <line x1="680" y1="520" x2="1140" y2="520" class="axis"/>
+<line x1="680" y1="472.1125" x2="1140" y2="472.1125" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="3 4"/>
+<text x="1138" y="466.1125" text-anchor="end" class="small" fill="#536071">identity baseline 0.77%</text>
 <circle cx="731" cy="236.82334010840108" r="5" fill="#2563EB" stroke="#2563EB" stroke-width="2"/>
 <circle cx="740" cy="241.58705962059622" r="5" fill="#2563EB" stroke="#2563EB" stroke-width="2"/>
 <circle cx="749" cy="241.0577574525745" r="5" fill="#2563EB" stroke="#2563EB" stroke-width="2"/>

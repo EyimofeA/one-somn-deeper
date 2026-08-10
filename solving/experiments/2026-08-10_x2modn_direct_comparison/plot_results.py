@@ -76,6 +76,9 @@ def main():
         y = right_top + right_height * (1 - value / 6)
         svg += [f'<line x1="{right}" y1="{y}" x2="{right+right_width}" y2="{y}" class="grid"/>', f'<text x="{right-12}" y="{y+4}" text-anchor="end" class="small mono">{value}%</text>']
     svg += [f'<line x1="{right}" y1="{right_top}" x2="{right}" y2="{right_top+right_height}" class="axis"/>', f'<line x1="{right}" y1="{right_top+right_height}" x2="{right+right_width}" y2="{right_top+right_height}" class="axis"/>']
+    identity = 0.7662
+    identity_y = right_top + right_height * (1 - identity / 6)
+    svg += [f'<line x1="{right}" y1="{identity_y}" x2="{right+right_width}" y2="{identity_y}" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="3 4"/>', f'<text x="{right+right_width-2}" y="{identity_y-6}" text-anchor="end" class="small" fill="#536071">identity baseline 0.77%</text>']
 
     categories = []
     for label in ("MLP", "Transformer"):

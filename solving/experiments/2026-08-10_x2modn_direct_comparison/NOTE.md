@@ -15,6 +15,11 @@ exactness reaches 100%. Optimization is working, but it reliably selects a
 memorizing function. Generic attention adds a small statistical advantage and
 does not change that selection.
 
+The 4% level is meaningful partial correlation, not a constant-output artifact:
+on the same exhaustive unseen-N rows, identity `y=x` is 0.77%, constant zero is
+0.19%, and an optimistic test-label digit-mode vector is 0.23% exact. It is
+still nowhere near a usable algorithm because about 96% of outputs are wrong.
+
 For this task, the present evidence ranks learnability controls as:
 
 1. **Supervision and identifiability:** intermediate arithmetic traces changed
