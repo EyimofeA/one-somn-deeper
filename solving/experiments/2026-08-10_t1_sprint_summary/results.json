@@ -1,0 +1,16 @@
+{
+  "manifest": "squaring-mod-easy-e5",
+  "seed": 74,
+  "runs": [
+    {"card": "canonical_local_conv", "seconds": 60, "updates": 1695, "mean_exact": 0.0066666667, "t1_seen_correct": 5, "t1_ood_n_correct": 1},
+    {"card": "canonical_local_conv_scale_trajectory", "seconds": 60, "updates": 1600, "mean_exact": 0.0083333332, "t1_seen_correct": 5, "t1_ood_n_correct": 2},
+    {"card": "canonical_worst_digit_loss", "seconds": 60, "updates": 1760, "mean_exact": 0.0058333334, "t1_seen_correct": 8, "t1_ood_n_correct": 1},
+    {"card": "canonical_full_t1_curriculum", "seconds": 60, "updates": 1612, "mean_exact": 0.0016666667, "t1_seen_correct": 4, "t1_ood_n_correct": 0},
+    {"card": "canonical_modulus_length_group_dro", "seconds": 60, "updates": 1685, "mean_exact": 0.0074999999, "t1_seen_correct": 2, "t1_ood_n_correct": 1},
+    {"card": "canonical_local_conv_k4", "seconds": 60, "updates": 1491, "mean_exact": 0.0037499999, "t1_seen_correct": 3, "t1_ood_n_correct": 2},
+    {"card": "canonical_structured_tape_residual", "seconds": 60, "updates": 1362, "mean_exact": 0.0079166666, "t1_seen_correct": 3, "t1_ood_n_correct": 2},
+    {"card": "direct_structured_tape", "seconds": 60, "updates": 1953, "mean_exact": 0.0041666667, "t1_seen_correct": 2, "t1_ood_n_correct": 1},
+    {"card": "direct_structured_tape_300s", "seconds": 300, "updates": 9640, "mean_exact": 0.0020833334, "t1_seen_correct": 2, "t1_ood_n_correct": 0},
+    {"card": "direct_structured_tape_no_position", "seconds": 60, "updates": 1864, "mean_exact": 0.005, "t1_seen_correct": 3, "t1_ood_n_correct": 1}
+  ]
+}

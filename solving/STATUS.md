@@ -17,6 +17,25 @@ algorithm is included. Hosted Easy e5 was only **0.2917%**, with T=1
 non-promoted. The exact-0.1 scale control was also refuted (0.4167%, 3/512 +
 0/512) and was not uploaded to Hard.
 
+**Post-submit T=1 sprint (2026-08-10):** seven preregistered local public-e5
+controls all failed unseen-N promotion. Scale telemetry proves the learned
+local branch is actively amplified (0.10→1.77) rather than ignored. Smooth
+worst-digit loss reached 8/512 seen but 1/512 OOD-N; full-time T=1 training
+drove train loss to 0.0516 but produced 4/512 + 0/512; modulus-length group DRO
+gave 2/512 + 1/512; four local microsteps gave 3/512 + 2/512. Structured tape
+residual/direct/no-position ports were all chance-scale, and a 300-second
+direct-tape control worsened to 2/512 + 0/512. Stop optimizer, shallow-local,
+and simple-tape micro-tuning. The next real gate is a generic multi-lane local
+machine: research-only trace capability first, then an unchanged legal shape
+trained from final labels only.
+
+**Public-e5 support audit (2026-08-10):** the 4,800 training rows contain only
+27 distinct N, with median T=1 coverage of 41 x per N (3.09% of the residue
+domain). The unseen-N T=1 profile uses 71 disjoint larger N, and neither depth
+profile overlaps a training `(N,x)` pair. This makes modulus-identity shortcuts
+far cheaper than program discovery. Details:
+[`experiments/2026-08-10_e5_support_audit/NOTE.md`](experiments/2026-08-10_e5_support_audit/NOTE.md).
+
 **Sublinear learned reduction (2026-08-10):** a width-14 learned decimal
 comparator/subtractor was trained on aligned divisors `N*10^p`, then its solved
 subtractor was frozen while the comparator rehearsed uniform and

@@ -2195,3 +2195,61 @@ composition, still locally and without promoting weights to a submission.
   SHA-1 `64639a3c3c51aa0ee6ab23f5cc286e2dc0c1a05a` was uploaded unchanged as
   Hard job `f79ebe42-b146-4cce-92e5-1e980c27d55e`. It is a non-promoted
   mechanistic bet; prediction is no rung.
+
+### 2026-08-10 — Locality branch is recruited, not starved (Author: Codex)
+
+- **Question:** did the true-0.1 local ConvGLU fail because its residual stayed
+  too weak to affect the canonical transition?
+- **Diagnostic:** exact public-e5 source plus read-only scalar/gradient and
+  Conv/GLU norm telemetry every 100 steps; no hosted submission.
+- **Result:** the scalar rose from 0.10297 after step 1 to **1.77103** at step
+  1,600; GLU norm grew 9.119→44.360 with nonzero gradients. Yet T=1 stayed at
+  **5/512 seen-N, 2/512 OOD-N**.
+- **Conclusion:** final-label optimization actively recruits the local branch,
+  but the branch becomes a training-support shortcut rather than a reusable
+  arithmetic operator. Four tied local microsteps were also refuted at 3/512 +
+  2/512 and 0.3750% mean. Evidence:
+  `experiments/2026-08-10_canonical_local_conv_scale_trajectory/NOTE.md` and
+  `experiments/2026-08-10_canonical_local_conv_k4/NOTE.md`.
+
+### 2026-08-10 — Loss allocation does not solve unseen-N T=1 (Author: Codex)
+
+- **Worst digit:** tau-0.5 smooth maximum over final-token CE reached the
+  registered seen boundary at **8/512**, but only **1/512 OOD-N**.
+- **Full T=1 minute:** train loss fell to **0.0516** while held-out loss exceeded
+  8.5; T=1 was **4/512 seen, 0/512 OOD-N**.
+- **Modulus-length group DRO:** tau-0.25 smooth maximum over decimal-N-length
+  groups produced **2/512 + 1/512**.
+- **Conclusion:** decisive-digit emphasis, more T=1 gradient, and coarse
+  modulus-scale balancing all intensify or preserve shortcut fitting. The
+  blocker is not optimizer allocation. Evidence is in the corresponding
+  `2026-08-10_canonical_*` experiment cards.
+
+### 2026-08-10 — Structured LSD tape does not transfer to public e5 (Author: Codex)
+
+- **Thin residual:** the positive small-N structured-tape topology was inserted
+  before the canonical attention step without changing its discrete recurrent
+  state. It underfit at 1,362 updates/train loss 1.8876 and reached **3/512 +
+  2/512** T=1.
+- **Direct port:** a 263,473-parameter continuous LSD tape with shared neighbor
+  mix, same-position N conditioning, and shared GRU completed 1,953 updates but
+  reached only **2/512 + 1/512**. A matched 300-second run completed 9,640
+  updates and worsened to **2/512 + 0/512**, with held-out loss 7.394/9.253.
+- **No absolute position:** enforcing translation equivariance changed the
+  60-second result only to **3/512 + 1/512**.
+- **Conclusion:** the narrow 17% small-N topology signal does not survive the
+  sparse public-e5 support. More time increases specialization. Stop simple
+  tape/locality variants; the next capability test needs multiple scratch lanes
+  and generic O(width) local microsteps, first with research-only traces.
+
+### 2026-08-10 — Public e5 has only 27 training moduli (Author: Codex)
+
+- **Audit:** 4,800 train rows contain 27 N total (527--1,891), repeated 97--431
+  times; T=1 contributes 1,600 rows but a median of only 41 unique x per N
+  (3.09% of its residue domain).
+- **Profiles:** seen-N and unseen-N T=1 pairs have zero `(N,x)` overlap with any
+  train row. Unseen-N contains 71 disjoint, larger N (2,173--7,747).
+- **Interpretation:** the effective task is 27 sparse modulus-specific maps
+  followed by extrapolation to 71 new maps. A legal solution must make a shared
+  digit-level program substantially easier than hashing modulus identity.
+  Evidence: `experiments/2026-08-10_e5_support_audit/NOTE.md`.

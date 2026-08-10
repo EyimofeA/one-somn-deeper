@@ -2053,3 +2053,142 @@ PREDICT:    No rung certifies. The chance-scale target is 0--4/768 on each
             private T=1 profile; either profile may be zero. A certified T=1
             rung would falsify the expectation and promote local mixing.
 RESULT:     pending.
+
+DATE:       2026-08-10
+CARD:       canonical_local_conv_scale_trajectory
+CHANGE:     Add read-only logging every 100 optimizer steps to the exact local
+            true-0.1 control: residual scalar value/gradient and local Conv/GLU
+            weight norms. Training computation and seed are unchanged.
+PREDICT:    If locality is merely underused, the scalar stays in [0.05,0.20]
+            with vanishing gradients. If the branch actively conflicts with
+            canonical learning, scale or local norms grow with nontrivial
+            gradients while held-out T=1 remains chance-scale. Stop after one
+            public-e5 60-second local mirror; no hosted submission.
+RESULT:     locality-underuse refuted. The scalar grew from 0.10297 after the
+            first step to 1.77103 at step 1600, and the GLU norm grew from
+            9.119 to 44.360 with nonzero gradients. Yet local public e5 T=1
+            remained chance-scale at 5/512 seen-N and 2/512 OOD-N (0.8333%
+            mean exact). Final-label training actively recruits the branch,
+            but does not turn it into a transferable local arithmetic rule.
+
+DATE:       2026-08-10
+CARD:       canonical_worst_digit_loss
+CHANGE:     On the exact unmodified canonical architecture, replace only the
+            per-example mean token CE with a tau=0.5 smooth maximum over valid
+            output-digit CE. Keep data, curriculum, T=1 weighting, optimizer,
+            recurrence, architecture, and seed unchanged.
+PREDICT:    If mean CE hides a small number of decisive carry/reduction digit
+            errors, local public e5 reaches >=8/512 seen-N and >=5/512 OOD-N
+            T=1. Refute and stop after one local run if either gate fails. No
+            hosted or Hard submission is permitted from this card.
+RESULT:     refuted by OOD-N. Local e5 reached the seen-N boundary exactly at
+            8/512 T=1 but only 1/512 OOD-N; mean exact was 0.5833%. Emphasizing
+            the hardest output digit sharpened seen-modulus fit without
+            producing a modulus-general reduction rule.
+
+DATE:       2026-08-10
+CARD:       canonical_full_t1_curriculum
+CHANGE:     On the exact canonical architecture and ordinary mean CE, change
+            only T1_ONLY_FRACTION from 0.50 to 1.00. Every optimizer update is
+            then selected from T=1 rows and executes exactly one transition.
+PREDICT:    If the late mixed-depth phase overwrites the one-step rule, local
+            public e5 improves over the canonical 5/512 seen-N and 2/512 OOD-N
+            anchor, clearing >=8/512 and >=5/512. Refute if either gate fails;
+            one local run only, with no hosted submission.
+RESULT:     refuted. Training loss reached 0.0516, while held-out mean exact
+            collapsed to 0.1667% and evaluation loss exceeded 8.5. T=1 was
+            4/512 seen-N and 0/512 OOD-N. More one-step gradient intensifies
+            memorization rather than identifying the reusable transition.
+
+DATE:       2026-08-10
+CARD:       canonical_modulus_length_group_dro
+CHANGE:     On the exact canonical architecture and 50% T=1 curriculum, group
+            ordinary final-label row CE by the observed decimal length of N
+            and use a tau=0.25 smooth maximum over present groups. Keep all
+            forward computation, labels, optimizer, seed, and recurrence fixed.
+PREDICT:    If common/easy modulus scales dominate gradient, unseen-N T=1
+            rises to >=8/512 while seen-N also remains >=8/512. Kill immediately
+            if OOD-N <=1/512 or either profile is worse than the full-T1 control.
+            One local run only; no hosted submission.
+RESULT:     refuted at the immediate kill: local e5 T=1 was 2/512 seen-N and
+            1/512 OOD-N (0.7500% mean exact). Equalizing final-label pressure
+            over observed modulus lengths did not induce a general rule.
+
+DATE:       2026-08-10
+CARD:       canonical_local_conv_k4
+CHANGE:     Relative to the exact strong local-Conv card, reuse its same
+            translation-shared ConvGLU residual four times instead of once
+            inside each modular transition. Parameters, data, loss, schedule,
+            state routing, and recurrence are fixed.
+PREDICT:    If the k=1 local block fails because carry/reduction information can
+            move only one adjacent slot, four tied microsteps clear >=8/512
+            seen-N and >=5/512 OOD-N T=1. Refute if either gate fails or the
+            lower updates erase any local-profile gain. One local run only.
+RESULT:     refuted. Four tied microsteps completed 1,491 updates and produced
+            only 3/512 seen-N plus 2/512 OOD-N T=1 (0.3750% mean exact).
+            Additional local propagation distance did not recover a reusable
+            rule and reduced throughput versus the k=1 card.
+
+DATE:       2026-08-10
+CARD:       canonical_structured_tape_residual
+CHANGE:     Add one generic LSD-aligned learned tape residual before the exact
+            canonical global step: project mutable/N slots to width 128, mix
+            left/self/right state, update each slot with one shared GRU paired
+            to same-position N, then project back. Keep the canonical discrete
+            recurrent state, output head, loss, curriculum, optimizer, and data.
+PREDICT:    If explicit state/N alignment plus a gated serial workspace is the
+            missing inductive bias, local public e5 reaches >=10/512 on both
+            T=1 profiles and >1% mean exact. Kill if either profile is zero or
+            both remain below 8/512. One local run; hosted promotion requires
+            a fresh decision.
+RESULT:     gate refuted with an optimization confound. The card completed
+            1,362 updates, ended at train loss 1.8876, and produced 3/512
+            seen-N plus 2/512 OOD-N T=1 (0.7917% mean exact). The retained
+            canonical attention plus tape slowed and underfit; this does not
+            cleanly falsify the direct structured topology.
+
+DATE:       2026-08-10
+CARD:       direct_structured_tape
+CHANGE:     Replace the canonical attention+STE transition with the exact
+            research topology: continuous LSD-aligned slot state initialized
+            from paired x/N digits, one shared left/self/right mixer, one shared
+            per-slot GRU conditioned on same-position N, and a shared decoder.
+            Keep prompt parser, final-label CE, T curriculum, optimizer, and data.
+PREDICT:    If the positive small-N result transfers when its topology is not
+            bottlenecked by canonical attention, local public e5 reaches >1%
+            mean and >=10/512 on both T=1 profiles. Kill if OOD-N <=2/512 or
+            train loss remains above 1.0. One local run, no hosted submission.
+RESULT:     60-second gate refuted. The 263,473-parameter tape completed 1,953
+            updates, ended at train loss 1.0198, and produced only 2/512 seen-N
+            plus 1/512 OOD-N T=1 (0.4167% mean exact). Both OOD and underfit
+            kills fired, leaving optimization versus topology unresolved.
+
+DATE:       2026-08-10
+CARD:       direct_structured_tape_300s
+CHANGE:     Run the exact failed direct-tape source and public e5 data for 300
+            local seconds instead of 60; evaluator, seed, optimizer, schedule,
+            architecture, and all other manifest fields are fixed.
+PREDICT:    If 60 seconds was the limiting factor, final train loss falls below
+            0.2 and both T=1 profiles reach >=10/512. If train loss falls below
+            0.2 while OOD-N remains <=2/512, classify the topology as another
+            memorizer. Stop after this one local diagnostic.
+RESULT:     refuted without reaching either predicted branch. After 9,640
+            updates, final train loss plateaued at 0.8536 rather than <0.2;
+            held-out losses exploded to 7.394/9.253 and T=1 was 2/512 seen-N
+            plus 0/512 OOD-N. More optimization increases specialization but
+            does not uncover the reusable rule.
+
+DATE:       2026-08-10
+CARD:       direct_structured_tape_no_position
+CHANGE:     Relative to the exact 60-second direct tape, remove only learned
+            absolute place embeddings from input and decoder. LSD ordering,
+            zero boundaries, shared neighbor mixer/GRU, width, loss, optimizer,
+            curriculum, data, and 60-second budget remain fixed.
+PREDICT:    If absolute position lets the tape hash the 27 training moduli,
+            translation equivariance improves T=1 to >=5/512 on both profiles
+            and >0.75% mean exact despite weaker train fit. Kill if OOD-N stays
+            <=2/512 or mean exact does not improve over 0.4167%.
+RESULT:     refuted. The card completed 1,864 updates and scored 0.5000% mean
+            exact, with 3/512 seen-N and 1/512 OOD-N T=1. Removing absolute
+            position slightly improved aggregate exactness over the parent but
+            left unseen-N T=1 at chance; the OOD kill fired.
