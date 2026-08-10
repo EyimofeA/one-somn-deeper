@@ -2306,3 +2306,18 @@ composition, still locally and without promoting weights to a submission.
   structure, not a learned modular-squaring rule.
 - **Evidence:** `experiments/2026-08-10_x2modn_direct_mlp/NOTE.md` and its
   ignored artifact directory under the active Prime backup root.
+
+### 2026-08-10 — Direct Transformer also memorizes x2 mod N (Author: Codex)
+
+- **Card:** a 1,786,570-parameter standard four-layer/eight-head pre-norm
+  encoder replaced only the roughly matched MLP. Data, final-label loss, AdamW,
+  update count, batch size, dropout, split, and three seeds were frozen.
+- **Result:** all seeds reached 100% train exact, 4.73%--4.99%
+  seen-N/unseen-x, and 4.06%--4.26% unseen-N exact. Unseen-N digit accuracy was
+  19.62%--19.66%, with cross-entropy 11.03--11.36.
+- **Interpretation:** generic attention provides a stable but sub-half-point
+  statistical gain over the MLP. It does not change the selected function:
+  both architectures memorize all examples while roughly 96% of unseen-N
+  outputs remain wrong.
+- **Evidence:** `experiments/2026-08-10_x2modn_direct_transformer/NOTE.md` and
+  its ignored artifact directory under the active Prime backup root.

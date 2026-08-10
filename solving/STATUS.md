@@ -20,6 +20,10 @@ The matched direct 2.19M-parameter MLP control then fit every training row in
 all three seeds but reached only 3.79%--3.92% unseen-N exact; its unseen loss
 rose above 11.6. This closes plain fixed-width MLP memorization as the mechanism.
 Card: [`experiments/2026-08-10_x2modn_direct_mlp/NOTE.md`](experiments/2026-08-10_x2modn_direct_mlp/NOTE.md).
+The matched 1.79M-parameter four-layer Transformer also fit train 100% in three
+seeds and reached only 4.06%--4.26% unseen-N exact. Attention improves the MLP
+by less than half a point without changing the memorization mechanism. Card:
+[`experiments/2026-08-10_x2modn_direct_transformer/NOTE.md`](experiments/2026-08-10_x2modn_direct_transformer/NOTE.md).
 
 **Active forced Hard (2026-08-10):** job
 `f79ebe42-b146-4cce-92e5-1e980c27d55e` is running exact SHA-1

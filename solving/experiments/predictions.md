@@ -2221,3 +2221,19 @@ RESULT:     mechanism confirmed, exact numerical floor refuted. All seeds fit
             structure raises the naive exact floor. Unseen-N digit accuracy was
             only 19.55%--19.82% and cross-entropy exceeded 11.6, so this is
             stable memorization rather than modular-squaring generalization.
+
+DATE:       2026-08-10
+CARD:       x2modn_direct_transformer
+CHANGE:     Replace only the direct 2.19M-parameter MLP with a roughly matched
+            standard four-layer, eight-head, pre-norm Transformer encoder with
+            learned output-query tokens. Freeze data, splits, final-label loss,
+            AdamW, batch size, update count, dropout, and three seeds.
+PREDICT:    Attention slightly improves shared digit interactions but all seeds
+            remain below 10% unseen-N exact. A reusable function requires >=90%
+            unseen-N exact in all seeds; >=50% in any seed would instead be
+            evidence of partial algorithm learning worth a scaling follow-up.
+RESULT:     confirmed. All seeds fit train 100%, while unseen-N exact was only
+            4.06%--4.26% and unseen-N digit accuracy 19.62%--19.66%. This is a
+            repeatable 0.17--0.47 point improvement over the MLP, but about 96%
+            of unseen outputs remain wrong and held-out cross-entropy exceeds
+            11.0. No seed shows partial algorithm learning.
