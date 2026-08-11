@@ -2420,7 +2420,9 @@ composition, still locally and without promoting weights to a submission.
   ownership, model-state, and forbidden-pattern checks, exact SHA-1
   `aa75819a878fab6c03c6a23d979f6234560f6e3d` was accepted as Hard job
   `05f53719-7717-4923-88d5-a3cafe373167` at 00:45 WAT. Selection is based on
-  the family's best historical hosted score, not T=1 promotion.
+  the family's best historical hosted score, not T=1 promotion. It completed
+  at 0.0300%, no rung, 0/768 on both T=1 profiles, 45,376 updates, and final
+  train loss 2.16981. The preregistered chance-baseline prediction was confirmed.
 - **Evidence:**
   `experiments/2026-08-11_submission_selection_refresh/NOTE.md` and the
   preregistration/result entries in `experiments/predictions.md`.

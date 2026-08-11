@@ -2350,3 +2350,7 @@ PREDICT:    No rung certifies and both T=1 profiles are 0/768; mean exact falls
             in 0.02%--0.08%. A nonzero first-rung profile would be interesting
             but not mechanism validation; a certified T=1 rung would refute the
             chance-baseline model and trigger full source/mechanism audit.
+RESULT:     confirmed. Hard job 05f53719-7717-4923-88d5-a3cafe373167 scored
+            0.0300%, certified no rung, and produced 0/768 on both T=1 profiles.
+            It completed 45,376 updates with final train loss 2.16981. The exact
+            source remains a chance-scale statistical learner, not an operator.

@@ -8,15 +8,15 @@ Hard scoring is unchanged: certified Max T → OOD-N Max T → first-uncertified
 rung accuracy → time. The source audit found no scoring or data-distribution
 change and no newly prohibited call in the archived candidates.
 
-**Active scheduled Hard (2026-08-11 00:45 WAT):** exact validated Fable
-T-cap/AdamW SHA-1 `aa75819a878fab6c03c6a23d979f6234560f6e3d` was accepted as
-job `05f53719-7717-4923-88d5-a3cafe373167`; zero Hard attempts remain for the
-UTC day. This is a forced best-historical-family submission, not promotion.
+**Completed scheduled Hard (2026-08-11):** exact validated Fable T-cap/AdamW
+SHA-1 `aa75819a878fab6c03c6a23d979f6234560f6e3d` completed as job
+`05f53719-7717-4923-88d5-a3cafe373167` at **0.0300%**, with no certified rung
+and **0/768** on both T=1 profiles. It ran 45,376 updates and ended at train
+loss 2.16981. This confirms the preregistered chance-baseline prediction.
 Immediately before it, exact-source canonical Easy e5 job `cfb0fc73` lost its
 OOD-N T=1 signal (2/512 seen, 0/512 OOD-N; 0.5000% mean), while exact-source
 Fable Medium m5 job `233cbce0` reproduced 0.1556% mean but had 0/768 at T=1 on
-both profiles. Prediction: no rung, 0/768 on both hidden T=1 profiles, and
-0.02%--0.08% mean. Evidence:
+both profiles. Evidence and loss plot:
 [`experiments/2026-08-11_submission_selection_refresh/NOTE.md`](experiments/2026-08-11_submission_selection_refresh/NOTE.md).
 
 **Retired x2 mod N GPU session (terminated 2026-08-10 14:11 UTC):** Prime pod
