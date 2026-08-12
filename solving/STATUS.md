@@ -1,5 +1,12 @@
 # Status (living)
 
+**Owner learning mode (2026-08-12):** after the already-submitted Hard job is
+recorded, pause new GPU rental, model sweeps, and competition submissions until
+the owner completes the relevant mastery gates in
+[`../learnings/researcher-track/README.md`](../learnings/researcher-track/README.md).
+CPU learning exercises and read-only artifact audits remain in scope. The owner
+may explicitly override this pause by naming the new evidence or deadline.
+
 **Queued causal-message Hard (2026-08-12):** owner-requested exploratory job
 `580f78bc-de32-4495-a1ca-c34726331d3a` uploads new SHA-1
 `2b1d03547e064639cc914c9cbe6f529c8aec24a2`. It changes the runnable gated

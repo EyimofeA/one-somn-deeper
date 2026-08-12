@@ -2,13 +2,14 @@
 
 ## Start here
 
-1. [`../solving/STATUS.md`](../solving/STATUS.md)
-2. [`../RESEARCH_PROTOCOL.md`](../RESEARCH_PROTOCOL.md)
-3. [`readings/one-layer-deeper-notes.md`](readings/one-layer-deeper-notes.md) — full mechanism lecture
-4. [`readings/neural-arithmetic-models.md`](readings/neural-arithmetic-models.md) — NAC/NALU, NAU/NMU, Neural GPU, and the proposed arithmetic cell
-5. [`concepts/18-lipschitz-quantize-progressive.md`](concepts/18-lipschitz-quantize-progressive.md)
-6. [`concepts/17-recurrence-generalisation.md`](concepts/17-recurrence-generalisation.md)
-7. [`sessions/2026-07-21.md`](sessions/2026-07-21.md)
+1. [`researcher-track/README.md`](researcher-track/README.md) — owner mastery path and learning-mode rule
+2. [`../solving/STATUS.md`](../solving/STATUS.md)
+3. [`../RESEARCH_PROTOCOL.md`](../RESEARCH_PROTOCOL.md)
+4. [`readings/one-layer-deeper-notes.md`](readings/one-layer-deeper-notes.md) — full mechanism lecture
+5. [`readings/neural-arithmetic-models.md`](readings/neural-arithmetic-models.md) — NAC/NALU, NAU/NMU, Neural GPU, and the proposed arithmetic cell
+6. [`concepts/18-lipschitz-quantize-progressive.md`](concepts/18-lipschitz-quantize-progressive.md)
+7. [`concepts/17-recurrence-generalisation.md`](concepts/17-recurrence-generalisation.md)
+8. [`sessions/2026-07-21.md`](sessions/2026-07-21.md)
 
 ## Core concepts
 
