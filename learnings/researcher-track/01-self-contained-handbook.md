@@ -15,23 +15,23 @@ If these decisions are delegated, faster code produces faster confusion.
 
 ## 2. The mathematics
 
-For the public modular-squaring task, start with
+For the public modular-squaring task, start with:
 
-\[
-s_0=x\bmod N,
-\qquad
-s_{t+1}=s_t^2\bmod N.
-\]
+```text
+s₀ = x mod N
+sₜ₊₁ = sₜ² mod N
+```
 
-The requested public answer is (s_T=x^{2^T}\bmod N). Congruence explains why
+The requested public answer is `s at step T = x raised to 2^T, modulo N`.
+Congruence explains why
 we may reduce after every step:
 
-\[
-a\equiv b\pmod N\Rightarrow a^2\equiv b^2\pmod N.
-\]
+```text
+a ≡ b (mod N)  implies  a² ≡ b² (mod N)
+```
 
-Example: (N=77,x=38). Since (38^2=1444=18(77)+58), (s_1=58).
-Then (58^2=3364=43(77)+53), so (s_2=53).
+Example: `N = 77`, `x = 38`. Since `38² = 1444 = 18×77 + 58`,
+we get `s₁ = 58`. Then `58² = 3364 = 43×77 + 53`, so `s₂ = 53`.
 
 Do not silently assume the hidden Hard task is repeated squaring. The public
 rules warn that aspects of the recurrence may change. A Hard-relevant model
@@ -39,18 +39,18 @@ therefore needs a generic learned executor, not a handwritten squaring solver.
 
 ### What one decimal step requires
 
-Writing (x=\sum_i a_i10^i), raw square column (k) contains
+Writing a decimal number as `x = Σᵢ aᵢ10ⁱ`, raw square column `k` contains:
 
-\[
-u_k=c_k+\sum_{i+j=k}a_i a_j.
-\]
+```text
+uₖ = cₖ + Σ(i+j=k) aᵢaⱼ
+```
 
-The emitted digit and next carry are (d_k=u_k\bmod10) and
-(c_{k+1}=\lfloor u_k/10\rfloor). Reduction then needs comparison, quotient
+The emitted digit is `dₖ = uₖ mod 10`. The next carry is the integer part of
+`uₖ / 10`. Reduction then needs comparison, quotient
 selection, subtraction, borrow propagation, and canonicalization into
-([0,N)). Middle columns are hardest because they combine the most products.
+the interval `[0, N)`. Middle columns are hardest because they combine the most products.
 
-The target reveals only the remainder (r) in (x^2=qN+r). It hides the raw
+The target reveals only the remainder `r` in `x² = qN + r`. It hides the raw
 square, quotient, carries, comparisons, and subtraction path. That missing
 supervision is the core identifiability problem.
 
@@ -58,7 +58,7 @@ supervision is the core identifiability problem.
 
 - **Training exactness:** can the model fit observed rows?
 - **Held-out x, seen N:** can it predict new inputs for a modulus it knows?
-- **Unseen N:** can it transfer a shared procedure to a new function (f_N)?
+- **Unseen N:** can it transfer a shared procedure to a new function `f_N`?
 - **Longer width:** can it apply the procedure beyond trained sequence length?
 - **Larger T:** can its one-step state transition roll out without drift?
 - **Hosted Hard:** can it learn the hidden task inside the evaluator budget?
@@ -71,7 +71,7 @@ modulus-specific shortcuts cheap. Evidence:
 
 Exact sequence accuracy is also harsher than digit accuracy. If four digits
 were independently 90% correct, whole-answer accuracy would be only
-(0.9^4=65.61\%\). Arithmetic errors are correlated, but the example explains
+`0.9⁴ = 65.61%`. Arithmetic errors are correlated, but the example explains
 why “good token accuracy” is not enough.
 
 ## 4. What common model families can and cannot do
@@ -149,11 +149,11 @@ discard it at the final interface.
 
 ### Token cross-entropy
 
-The basic legal loss is
+The basic legal loss is:
 
-\[
-L=-\sum_{j\in\text{answer}}\log p(y_j).
-\]
+```text
+L = -Σ(answer positions j) log p(correct token yⱼ)
+```
 
 It is differentiable and stable but rewards individual digits, not exact
 answers or algorithmic state.
@@ -377,4 +377,3 @@ At session start, write: what shipped, the current bottleneck, and at most three
 actions. At session close, mark each done or give the exact blocker. If reading
 or planning has replaced a chosen deliverable, name that explicitly. If a run
 cannot change tomorrow's decision, do not run it.
-

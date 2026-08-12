@@ -30,7 +30,7 @@ critique your answer after you write it.
 
 ### Exercises
 
-1. By hand, compute (s_0\ldots s_4) for `(N=77, x=38)` and another case of
+1. By hand, compute `s₀, s₁, s₂, s₃, s₄` for `(N=77, x=38)` and another case of
    your choice. Prove reduction after each square preserves the final result.
 2. For one four-digit x, make a table of product pairs `(i,j)`, destination
    column `i+j`, raw column sum, emitted digit, and carry.
@@ -39,7 +39,7 @@ critique your answer after you write it.
 4. Tokenize three example prompts and answers. Identify which logits are scored.
 5. Explain held-out x, unseen N, longer width, larger T, and hidden Hard as five
    different generalization questions.
-6. Calculate whole-answer accuracy (p^d) for three values of p and d. Explain
+6. Calculate whole-answer accuracy `p^d` for three values of `p` and `d`. Explain
    why independence is only an illustration.
 
 ### Oral test
@@ -437,4 +437,3 @@ The learning plan also needs:
 
 These are not administrative extras. They determine whether a model result is
 real, reproducible, legal, and decision-useful.
-
