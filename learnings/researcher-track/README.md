@@ -14,6 +14,10 @@ and directing a mediocre coding agent toward trustworthy results.
 3. [`03-mastery-practicum.md`](03-mastery-practicum.md): exercises, agent
    management, experiment operations, tests, and promotion gates.
 
+Focused prerequisite: [`../readings/neural-gpu-self-study.md`](../readings/neural-gpu-self-study.md)
+teaches the Neural GPU architecture, implementation, CPU labs, project failures,
+and audit method in depth.
+
 ## Learning-mode rule
 
 Until the owner completes the Foundation Gate in the practicum, the project is
@@ -28,4 +32,3 @@ in learning mode:
 
 The owner can explicitly override this rule, but an override should name the
 new evidence or deadline that justifies it.
-

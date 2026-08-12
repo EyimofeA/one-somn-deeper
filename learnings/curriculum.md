@@ -7,9 +7,10 @@
 3. [`../RESEARCH_PROTOCOL.md`](../RESEARCH_PROTOCOL.md)
 4. [`readings/one-layer-deeper-notes.md`](readings/one-layer-deeper-notes.md) — full mechanism lecture
 5. [`readings/neural-arithmetic-models.md`](readings/neural-arithmetic-models.md) — NAC/NALU, NAU/NMU, Neural GPU, and the proposed arithmetic cell
-6. [`concepts/18-lipschitz-quantize-progressive.md`](concepts/18-lipschitz-quantize-progressive.md)
-7. [`concepts/17-recurrence-generalisation.md`](concepts/17-recurrence-generalisation.md)
-8. [`sessions/2026-07-21.md`](sessions/2026-07-21.md)
+6. [`readings/neural-gpu-self-study.md`](readings/neural-gpu-self-study.md) — dedicated Neural GPU course, code, labs, and audit tests
+7. [`concepts/18-lipschitz-quantize-progressive.md`](concepts/18-lipschitz-quantize-progressive.md)
+8. [`concepts/17-recurrence-generalisation.md`](concepts/17-recurrence-generalisation.md)
+9. [`sessions/2026-07-21.md`](sessions/2026-07-21.md)
 
 ## Core concepts
 

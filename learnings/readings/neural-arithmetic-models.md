@@ -16,11 +16,12 @@ supervision.
 ## NAC and NALU
 
 The [Neural Arithmetic Logic Unit](https://arxiv.org/abs/1808.00508) begins with
-a Neural Accumulator (NAC). Its effective matrix is
+a Neural Accumulator (NAC). Its effective matrix can be written safely as:
 
-\[
-W=\tanh(\hat W)\odot\sigma(\hat M),\qquad y=Wx.
-\]
+```text
+W = tanh(W_hat) × sigmoid(M_hat)
+y = W × x
+```
 
 This encourages weights near `-1`, `0`, or `1`, making addition and subtraction
 more natural than an unconstrained dense layer. NALU combines an additive NAC
@@ -46,9 +47,9 @@ non-negative multiplication.
 These units are best viewed as **small inductive-bias components**. In our task,
 a generic bilinear interaction is probably safer:
 
-\[
-\Delta h_i=U[(Vh_i)\odot(Wc_i)].
-\]
+```text
+change_in_h[i] = U × ((V × h[i]) elementwise-multiplied by (W × context[i]))
+```
 
 It cheaply represents second-order interactions such as digit cross-products
 without hard-coding decimal multiplication. It must be compared with a
@@ -64,6 +65,10 @@ exact, with middle-digit collapse; a terminal carry target improved 3.85% to
 [`2026-08-10_multilane_neural_gpu_square/NOTE.md`](../../solving/experiments/2026-08-10_multilane_neural_gpu_square/NOTE.md)
 and
 [`2026-08-10_multilane_neural_gpu_square_carry_50k/NOTE.md`](../../solving/experiments/2026-08-10_multilane_neural_gpu_square_carry_50k/NOTE.md).
+
+For a complete architecture walkthrough, PyTorch skeleton, CPU labs, failure
+analysis, audit checklist, and project-specific roadmap, continue with
+[`neural-gpu-self-study.md`](neural-gpu-self-study.md).
 
 [Universal Transformers](https://arxiv.org/abs/1807.03819) similarly reuse a
 block over computational depth, but global attention alone did not make our
@@ -107,4 +112,3 @@ with terminal-only messages. Only then train final-label `x² mod N`.
 Mastery means being able to explain why a unit that extrapolates multiplication
 can still fail modular squaring: it may form products but lack column routing,
 carry state, reduction, exact canonicalization, or legal final-label credit.
-
