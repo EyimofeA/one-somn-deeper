@@ -2354,3 +2354,6 @@ RESULT:     confirmed. Hard job 05f53719-7717-4923-88d5-a3cafe373167 scored
             0.0300%, certified no rung, and produced 0/768 on both T=1 profiles.
             It completed 45,376 updates with final train loss 2.16981. The exact
             source remains a chance-scale statistical learner, not an operator.
+CARD:       2026-08-12_causal_message_hard
+CHANGE:     Replace the gated tape's generic local convolution residual with explicit learned left/right messages consumed by the next recurrent update.
+PREDICT:    No certified Hard rung and 0--1/768 exact T=1 hits per profile; nonzero would motivate controlled reproduction, while 0/768 on both refutes direct transfer.

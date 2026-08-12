@@ -1,5 +1,13 @@
 # Status (living)
 
+**Queued causal-message Hard (2026-08-12):** owner-requested exploratory job
+`580f78bc-de32-4495-a1ca-c34726331d3a` uploads new SHA-1
+`2b1d03547e064639cc914c9cbe6f529c8aec24a2`. It changes the runnable gated
+arithmetic tape's generic local convolution into explicit learned left/right
+messages consumed by the next recurrent update. This implements the attached
+research verdict's Rank-1 mechanism, but bypasses its diagnostic promotion gate;
+the preregistered expectation is no certified rung. Metrics are pending.
+
 Last updated: 2026-08-11. **Rule audit:** the local competition checkout is now
 the live upstream `e32c2f9`. It adds bounded evaluator-owned structured
 metrics plus multiple evaluator-owned backward passes/same-batch reuse, while

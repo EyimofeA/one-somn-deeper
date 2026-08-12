@@ -2426,3 +2426,4 @@ composition, still locally and without promoting weights to a submission.
 - **Evidence:**
   `experiments/2026-08-11_submission_selection_refresh/NOTE.md` and the
   preregistration/result entries in `experiments/predictions.md`.
+- **2026-08-12 CMC Hard queued:** owner-requested exploratory submission `580f78bc-de32-4495-a1ca-c34726331d3a`, exact new SHA-1 `2b1d03547e064639cc914c9cbe6f529c8aec24a2`. One change from the gated arithmetic tape: explicit directional messages are consumed by future recurrent content updates. Prediction: no certified rung; metrics pending.
