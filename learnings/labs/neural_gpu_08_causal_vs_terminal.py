@@ -25,7 +25,9 @@ def digit_and_carry(column_total: torch.Tensor):
 
 
 def gradient_to_message(mode: str) -> float:
-    message = torch.tensor(6.0, requires_grad=True)
+    # Use an incorrect candidate message so a connected path has nonzero loss
+    # and therefore a visible corrective gradient toward the true value 6.
+    message = torch.tensor(5.0, requires_grad=True)
     # Give the loss some valid differentiable path in both arms. The question is
     # whether it additionally has a path to `message`.
     base_tens = torch.tensor(48.0, requires_grad=True)
