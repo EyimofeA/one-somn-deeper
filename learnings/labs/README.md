@@ -83,3 +83,12 @@ python learnings/labs/neural_gpu_09_learning_messages_from_final_loss.py
 This trains an unlabeled message writer using only a later answer target. It
 shows why causal consumption creates a credit path without explicitly
 supervising the message as carry.
+
+Run Lesson 10:
+
+```bash
+python learnings/labs/neural_gpu_10_shortcuts_and_identifiability.py
+```
+
+This adds a second shortcut path. Several seeds reach perfect final loss while
+learning different—and usually unintended—internal message decompositions.
