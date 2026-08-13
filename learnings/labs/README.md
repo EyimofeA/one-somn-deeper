@@ -64,3 +64,12 @@ python learnings/labs/neural_gpu_07_decodable_is_not_used.py
 This constructs a perfectly decodable carry lane that is disconnected from the
 answer, then erases it to demonstrate the difference between representation and
 causal use.
+
+Run Lesson 8:
+
+```bash
+python learnings/labs/neural_gpu_08_causal_vs_terminal.py
+```
+
+This compares terminal-only and causally consumed message paths using the tens
+column of `38²`, including the gradient path back to the message.
