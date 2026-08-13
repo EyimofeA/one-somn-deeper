@@ -92,3 +92,12 @@ python learnings/labs/neural_gpu_10_shortcuts_and_identifiability.py
 
 This adds a second shortcut path. Several seeds reach perfect final loss while
 learning different—and usually unintended—internal message decompositions.
+
+Run Lesson 11:
+
+```bash
+python learnings/labs/neural_gpu_11_regularization_is_not_semantics.py
+```
+
+This gives the shortcut path greater leverage and shows that weight decay
+prefers small parameters, not integer weights or intended message semantics.
