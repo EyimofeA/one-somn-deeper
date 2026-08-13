@@ -45,3 +45,12 @@ python learnings/labs/neural_gpu_05_rule_vs_compute_depth.py
 
 This holds the learned local rule fixed while independently changing tape
 length and the number of recurrent executions.
+
+Run Lesson 6:
+
+```bash
+python learnings/labs/neural_gpu_06_vanishing_and_exploding.py
+```
+
+This shows how a tiny per-step contraction or expansion compounds in both the
+forward state and the backward gradient.
