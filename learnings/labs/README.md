@@ -36,3 +36,12 @@ python learnings/labs/neural_gpu_04_length_extrapolation.py
 
 This trains only on length-eight tapes, then directly measures transfer to
 lengths 16, 64, and 256.
+
+Run Lesson 5:
+
+```bash
+python learnings/labs/neural_gpu_05_rule_vs_compute_depth.py
+```
+
+This holds the learned local rule fixed while independently changing tape
+length and the number of recurrent executions.
