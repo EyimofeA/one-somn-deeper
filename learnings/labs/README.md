@@ -111,3 +111,12 @@ python learnings/labs/neural_gpu_12_shortcut_fails_ood.py
 This creates a feature that perfectly predicts training labels but reverses on
 OOD data, then compares a two-path model with one forced through the invariant
 algorithm feature.
+
+Run Lesson 13:
+
+```bash
+python learnings/labs/neural_gpu_13_product_formation.py
+```
+
+This decomposes a two-digit square into product columns and compares an affine
+digit mixer with a model containing a generic bilinear interaction.
