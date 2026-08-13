@@ -73,3 +73,13 @@ python learnings/labs/neural_gpu_08_causal_vs_terminal.py
 
 This compares terminal-only and causally consumed message paths using the tens
 column of `38²`, including the gradient path back to the message.
+
+Run Lesson 9:
+
+```bash
+python learnings/labs/neural_gpu_09_learning_messages_from_final_loss.py
+```
+
+This trains an unlabeled message writer using only a later answer target. It
+shows why causal consumption creates a credit path without explicitly
+supervising the message as carry.
