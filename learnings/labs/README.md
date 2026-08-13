@@ -3,7 +3,7 @@
 Run Lesson 1 on CPU:
 
 ```bash
-source diagnostics/.venv/bin/activate
+source .venv-learning/bin/activate
 python learnings/labs/neural_gpu_01_state_and_cell.py
 ```
 

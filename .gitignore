@@ -4,6 +4,7 @@ competition/
 **/__pycache__/
 *.pyc
 .venv/
+.venv-learning/
 
 # Generated / regeneratable
 data/generated/
