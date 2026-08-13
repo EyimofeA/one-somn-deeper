@@ -101,3 +101,13 @@ python learnings/labs/neural_gpu_11_regularization_is_not_semantics.py
 
 This gives the shortcut path greater leverage and shows that weight decay
 prefers small parameters, not integer weights or intended message semantics.
+
+Run Lesson 12:
+
+```bash
+python learnings/labs/neural_gpu_12_shortcut_fails_ood.py
+```
+
+This creates a feature that perfectly predicts training labels but reverses on
+OOD data, then compares a two-path model with one forced through the invariant
+algorithm feature.
