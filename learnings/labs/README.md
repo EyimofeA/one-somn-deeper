@@ -54,3 +54,13 @@ python learnings/labs/neural_gpu_06_vanishing_and_exploding.py
 
 This shows how a tiny per-step contraction or expansion compounds in both the
 forward state and the backward gradient.
+
+Run Lesson 7:
+
+```bash
+python learnings/labs/neural_gpu_07_decodable_is_not_used.py
+```
+
+This constructs a perfectly decodable carry lane that is disconnected from the
+answer, then erases it to demonstrate the difference between representation and
+causal use.
