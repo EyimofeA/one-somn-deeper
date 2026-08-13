@@ -27,3 +27,12 @@ python learnings/labs/neural_gpu_03_learn_the_transition.py
 
 This trains a three-weight local convolution on fresh random tapes and shows
 whether optimization discovers the reusable shift-right rule.
+
+Run Lesson 4:
+
+```bash
+python learnings/labs/neural_gpu_04_length_extrapolation.py
+```
+
+This trains only on length-eight tapes, then directly measures transfer to
+lengths 16, 64, and 256.
