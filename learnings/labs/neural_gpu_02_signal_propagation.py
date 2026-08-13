@@ -30,7 +30,7 @@ def main() -> None:
     torch.set_default_device("cpu")
 
     state = torch.zeros(1, 8, 1)
-    state[0, 1, 0] = 1.0
+    state[0, 4, 0] = 1.0
     transition = ShiftRight()
 
     print("One signal starts at position 1.")
