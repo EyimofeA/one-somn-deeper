@@ -1,5 +1,14 @@
 # Status (living)
 
+**Decimal attached Neural GPU control (2026-08-14):** changing only the
+promoted shared-cell architecture's representation from binary to decimal
+produced 99.82% train / 26.92% peak held-out exact (98.15% / 25.27% final).
+The held-out ones digit reached 98.80%, but the tens digit reached only 33.80%
+and three-carry examples 13.81%. Decimal therefore fits the training pairs but
+does not induce the reusable cross-product/carry computation found more often
+in binary. Card:
+[`experiments/2026-08-14_attached_neural_gpu_decimal_multiplication/NOTE.md`](experiments/2026-08-14_attached_neural_gpu_decimal_multiplication/NOTE.md).
+
 **Attached Neural GPU multiplication adaptation (2026-08-14):** adapting the
 user-supplied 128-channel binary squarer to place two seven-bit operands in
 separate rows of a width-14 active workspace produced the strongest generic
