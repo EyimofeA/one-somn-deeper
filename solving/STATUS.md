@@ -1,5 +1,15 @@
 # Status (living)
 
+**Reduction-only depth diagnostic (2026-08-14):** supplying the correct
+`x squared` digits let an eight-update local recurrent tape reach 100% training
+exact in 8.75 seconds, but only 11.34% held-out-x and 18.69% unseen-N exact.
+The same checkpoint fell to 17.99%/16.36% unseen-N at 16/32 updates, refuting
+insufficient evaluation depth for this model and localizing the failure to
+stable final-label reduction-rule generalization. The Prime L40 pod
+`0e64a3962e874632adeb435a3b192ef4` remains active at the owner's request; its
+completed run is verified locally. Card:
+[`experiments/2026-08-14_reduction_only_depth_sweep/NOTE.md`](experiments/2026-08-14_reduction_only_depth_sweep/NOTE.md).
+
 **Owner learning mode (2026-08-12):** after the already-submitted Hard job is
 recorded, pause new GPU rental, model sweeps, and competition submissions until
 the owner completes the relevant mastery gates in

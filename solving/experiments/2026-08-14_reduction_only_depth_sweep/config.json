@@ -1,0 +1,17 @@
+{
+  "seed": 0,
+  "training_seconds_cap": 300,
+  "training_recurrent_steps": 8,
+  "evaluation_recurrent_steps": [1, 2, 4, 8, 16, 32],
+  "batch_size": 512,
+  "optimizer": "AdamW",
+  "learning_rate": 0.002,
+  "betas": [0.9, 0.95],
+  "weight_decay": 0.05,
+  "early_stop": {
+    "metric": "full_train_exact",
+    "threshold": 0.999,
+    "patience_checks": 3,
+    "check_every_updates": 200
+  }
+}
