@@ -120,3 +120,13 @@ python learnings/labs/neural_gpu_13_product_formation.py
 
 This decomposes a two-digit square into product columns and compares an affine
 digit mixer with a model containing a generic bilinear interaction.
+
+Run Lesson 14:
+
+```bash
+python learnings/labs/neural_gpu_14_accumulation_vs_carry.py
+```
+
+This constructs two different broken squares: one misses cross-product
+accumulation while carrying correctly; the other forms products correctly but
+does not propagate carry.
