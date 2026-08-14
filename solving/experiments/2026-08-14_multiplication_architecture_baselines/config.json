@@ -1,0 +1,13 @@
+{
+  "operand_range": [0, 99],
+  "split": "same 80/20 unordered-pair groups as Transformer factorial",
+  "seed": 0,
+  "updates": 4000,
+  "batch_size": 256,
+  "optimizer": "AdamW",
+  "learning_rate": 0.001,
+  "weight_decay": 0.01,
+  "serial_gru_parameters": 34762,
+  "neural_gpu_parameters": 47562,
+  "neural_gpu_recurrent_steps": 8
+}

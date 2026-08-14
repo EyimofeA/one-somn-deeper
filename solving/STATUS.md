@@ -1,5 +1,14 @@
 # Status (living)
 
+**Fixed-width multiplication recurrent baselines (2026-08-14):** on the exact
+Transformer `0..99` split, the digit-serial VDF-style GRU reached only 28.12%
+train / 7.18% test exact. A minimal one-lane eight-update ConvGRU Neural GPU
+improved to 37.92% / 17.55%, confirming the value of cross-position exchange,
+but remained below the MSD-natural Transformer's 31.66% test. Both recurrent
+models fail in middle digits and multi-carry cases; generic local recurrence is
+not sufficient to organize partial products. Card:
+[`experiments/2026-08-14_multiplication_architecture_baselines/NOTE.md`](experiments/2026-08-14_multiplication_architecture_baselines/NOTE.md).
+
 **Fixed-width Transformer multiplication factorial (2026-08-14):** under a
 commutativity-safe 80/20 split of all `0..99 x 0..99` pairs, four matched
 MSD/LSD x padded/natural arms all failed the 90% exact gate. MSD-natural led at
