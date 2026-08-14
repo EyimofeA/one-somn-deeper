@@ -1,0 +1,15 @@
+{
+  "operand_bits": 7,
+  "output_bits": 14,
+  "channels": 128,
+  "grid_height": 4,
+  "kernel_size": 3,
+  "recurrent_steps": 14,
+  "updates": 20000,
+  "batch_size": 256,
+  "optimizer": "AdamW",
+  "learning_rate": 0.0003,
+  "weight_decay": 0.00001,
+  "parameters": 443393,
+  "seed": 0
+}

@@ -1,5 +1,15 @@
 # Status (living)
 
+**Attached Neural GPU multiplication adaptation (2026-08-14):** adapting the
+user-supplied 128-channel binary squarer to place two seven-bit operands in
+separate rows of a width-14 active workspace produced the strongest generic
+multiplication result: 100% train / 64.86% held-out exact on the shared `0..99`
+split, versus 31.66% for the Transformer. Four-digit products reached 50.61%
+and three-carry cases 50.90%; the weakest bits remain central overlapping
+partial-product positions. This promotes the topology for controlled follow-up,
+but is fixed-width interpolation, one seed, and not solved multiplication.
+Card: [`experiments/2026-08-14_attached_neural_gpu_multiplication/NOTE.md`](experiments/2026-08-14_attached_neural_gpu_multiplication/NOTE.md).
+
 **Paper Neural GPU reproduction screens (2026-08-14):** the actual
 arXiv:1511.08228 width-4, 24-map, two-layer 3x3 CGRU architecture with hard
 gates, recurrent dropout, and six-copy sharing relaxation reached only 13.25%
