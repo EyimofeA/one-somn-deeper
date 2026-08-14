@@ -45,3 +45,25 @@ examples despite receiving the correct product.
 
 Raw report, checkpoint, source snapshot, and logs are backed up at
 `diagnostics/artifacts/prime-0e64a3962e874632adeb435a3b192ef4/reduction_only_depth_sweep_seed0/`.
+
+## One-minute grokking control
+
+A fresh matched seed-0 run removed early stopping and trained for exactly 60
+seconds (5,162 updates). Generalization was measured every 400 updates but was
+never used to stop or modify training.
+
+| Time | Train exact | Held-out x exact | Unseen N exact |
+|---:|---:|---:|---:|
+| 5.11 s | 100.00% | 11.76% | 16.82% |
+| 14.44 s | 100.00% | 12.18% | 18.93% |
+| 28.35 s | 100.00% | 12.18% | **19.16%** |
+| 46.91 s | 100.00% | 11.34% | 16.82% |
+| final | 100.00% | 10.92% | 17.76% |
+
+There is no grokking transition on this horizon. Accuracy fluctuates around the
+same low plateau after interpolation, and the final checkpoint is worse than
+the peak. This rules out a rapid delayed-generalization event, not grokking at
+substantially longer horizons or under different regularization.
+
+The second verified backup is
+`diagnostics/artifacts/prime-0e64a3962e874632adeb435a3b192ef4/reduction_only_grokking_60s_seed0/`.

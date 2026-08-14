@@ -1,0 +1,13 @@
+{
+  "seed": 0,
+  "training_seconds": 60,
+  "training_recurrent_steps": 8,
+  "evaluation_recurrent_steps": [8],
+  "batch_size": 512,
+  "optimizer": "AdamW",
+  "learning_rate": 0.002,
+  "betas": [0.9, 0.95],
+  "weight_decay": 0.05,
+  "generalization_probe_every_updates": 400,
+  "early_stopping": false
+}

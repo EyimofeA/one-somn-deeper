@@ -123,6 +123,7 @@ def main() -> None:
     parser.add_argument("--check-every", type=int, default=200)
     parser.add_argument("--early-stop-patience", type=int, default=3)
     parser.add_argument("--early-stop-exact", type=float, default=0.999)
+    parser.add_argument("--probe-generalization", action="store_true")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
 
@@ -159,6 +160,13 @@ def main() -> None:
                 "last_batch_exact": float((logits.argmax(-1) == y).all(dim=-1).float().mean()),
                 "full_train_exact": train_metrics["exact"],
             }
+            if args.probe_generalization:
+                record["held_out_x_exact"] = evaluate(
+                    model, held_out_x, args.train_steps, device
+                )["exact"]
+                record["unseen_N_exact"] = evaluate(
+                    model, unseen_n, args.train_steps, device
+                )["exact"]
             curve.append(record)
             print(json.dumps({"type": "progress", **record}), flush=True)
             converged_checks = converged_checks + 1 if train_metrics["exact"] >= args.early_stop_exact else 0

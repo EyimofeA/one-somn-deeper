@@ -9,6 +9,9 @@ stable final-label reduction-rule generalization. The Prime L40 pod
 `0e64a3962e874632adeb435a3b192ef4` remains active at the owner's request; its
 completed run is verified locally. Card:
 [`experiments/2026-08-14_reduction_only_depth_sweep/NOTE.md`](experiments/2026-08-14_reduction_only_depth_sweep/NOTE.md).
+The matched 60-second grokking control also stayed on the same plateau: unseen-N
+peaked at 19.16% and finished at 17.76% after training interpolation occurred
+by 5.11 seconds. This refutes a rapid delayed-generalization transition.
 
 **Owner learning mode (2026-08-12):** after the already-submitted Hard job is
 recorded, pause new GPU rental, model sweeps, and competition submissions until
