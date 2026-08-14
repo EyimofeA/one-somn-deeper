@@ -53,7 +53,7 @@ Don't `cp` the k4_ut file directly without checking `_build_scheduler` first.
 
 Agent skill: `.cursor/skills/osmn-gpu-box/`. Kill does **not** stop cloud billing — terminate the instance in the provider UI.
 
-Current: **no active Prime compute pod** (confirmed 2026-08-10 after the final
+Current: **no active Prime compute pod** (confirmed 2026-08-14 after the final
 Neural GPU experiments). The most recent box is recorded as terminated in
 `solving/experiments/.gpu_box.json`; `oneL40` is not a live endpoint.
 
@@ -131,7 +131,8 @@ CUDA_VISIBLE_DEVICES=0 python -m benchmark.runner \
   --submission-file submissions/<card>.py
 ```
 
-Manifests available: `h100_easy_e1..e5`, `h100_medium_m1..m5`, `smoke_cpu`
+Manifests available after upstream `4ceff95`: `h100_easy_e1..e10`,
+`h100_medium_m1..m10`, and `smoke_cpu`
 (no dataset needed, use for a fast end-to-end check). Hard is
 hosted-submission only — not runnable locally.
 

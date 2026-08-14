@@ -1,5 +1,12 @@
 # Status (living)
 
+**Upstream practice-rung expansion (2026-08-15):** competition checkout was
+fast-forwarded from `e32c2f9` to `4ceff95`. Upstream added Easy E6--E10 and
+Medium M6--M10 plus their dataset generators; release/tier tests pass (13 tests,
+77 subtests). E6--E10 add fixed-N intermediate curricula, while M6--M10 add
+fixed 12-bit-scale moduli with supervised T=1/2/4 and OOD T=8. The public tier
+now exposes E1--E10 and M1--M10.
+
 **Decimal attached Neural GPU control (2026-08-14):** changing only the
 promoted shared-cell architecture's representation from binary to decimal
 produced 99.82% train / 26.92% peak held-out exact (98.15% / 25.27% final).
@@ -53,7 +60,8 @@ exact in 8.75 seconds, but only 11.34% held-out-x and 18.69% unseen-N exact.
 The same checkpoint fell to 17.99%/16.36% unseen-N at 16/32 updates, refuting
 insufficient evaluation depth for this model and localizing the failure to
 stable final-label reduction-rule generalization. The Prime L40 pod
-`0e64a3962e874632adeb435a3b192ef4` remains active at the owner's request; its
+`0e64a3962e874632adeb435a3b192ef4` was backed up, remotely wiped, and
+terminated on 2026-08-14; its
 completed run is verified locally. Card:
 [`experiments/2026-08-14_reduction_only_depth_sweep/NOTE.md`](experiments/2026-08-14_reduction_only_depth_sweep/NOTE.md).
 The matched 60-second grokking control also stayed on the same plateau: unseen-N
