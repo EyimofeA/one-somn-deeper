@@ -1,0 +1,12 @@
+{
+  "operand_range": [0, 99],
+  "split": "80/20 unordered-pair groups",
+  "seed": 0,
+  "arms": ["lsd_natural", "lsd_padded", "msd_natural", "msd_padded"],
+  "updates_per_arm": 4000,
+  "batch_size": 256,
+  "parameters": 169998,
+  "optimizer": "AdamW",
+  "learning_rate": 0.001,
+  "weight_decay": 0.01
+}

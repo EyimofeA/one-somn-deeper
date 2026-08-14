@@ -1,5 +1,14 @@
 # Status (living)
 
+**Fixed-width Transformer multiplication factorial (2026-08-14):** under a
+commutativity-safe 80/20 split of all `0..99 x 0..99` pairs, four matched
+MSD/LSD x padded/natural arms all failed the 90% exact gate. MSD-natural led at
+31.66% held-out exact (85.30% train), versus 26.92% for LSD-natural; padding
+improved length accuracy to 99.85--100% but reduced numerical exactness.
+MSD-natural fell from 85.44% at zero carry columns to 4.48% at three, localizing
+the failure to cross-product/carry composition rather than formatting. Card:
+[`experiments/2026-08-14_transformer_2x2_factorial/NOTE.md`](experiments/2026-08-14_transformer_2x2_factorial/NOTE.md).
+
 **Reduction-only depth diagnostic (2026-08-14):** supplying the correct
 `x squared` digits let an eight-update local recurrent tape reach 100% training
 exact in 8.75 seconds, but only 11.34% held-out-x and 18.69% unseen-N exact.
