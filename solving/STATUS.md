@@ -1,5 +1,15 @@
 # Status (living)
 
+**Paper Neural GPU reproduction screens (2026-08-14):** the actual
+arXiv:1511.08228 width-4, 24-map, two-layer 3x3 CGRU architecture with hard
+gates, recurrent dropout, and six-copy sharing relaxation reached only 13.25%
+train / 8.23% test exact on decimal `0..99` multiplication. Switching the same
+numeric split to the paper's padded binary format lowered token loss but reached
+only 7.99% / 7.68% exact. This refutes short one-seed architecture transfer,
+not the published result, which used variable-length curriculum, gradient
+noise, a 729-run grid, and rare successful seeds. Card:
+[`experiments/2026-08-14_paper_neural_gpu_multiplication/NOTE.md`](experiments/2026-08-14_paper_neural_gpu_multiplication/NOTE.md).
+
 **Fixed-width multiplication recurrent baselines (2026-08-14):** on the exact
 Transformer `0..99` split, the digit-serial VDF-style GRU reached only 28.12%
 train / 7.18% test exact. A minimal one-lane eight-update ConvGRU Neural GPU
