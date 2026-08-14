@@ -130,3 +130,12 @@ python learnings/labs/neural_gpu_14_accumulation_vs_carry.py
 This constructs two different broken squares: one misses cross-product
 accumulation while carrying correctly; the other forms products correctly but
 does not propagate carry.
+
+Run Lesson 15:
+
+```bash
+python learnings/labs/neural_gpu_15_modular_reduction.py
+```
+
+This holds a square fixed while changing `N`, exposes quotient-boundary changes,
+and compares correct linear-time repeated subtraction with a shifted schedule.
