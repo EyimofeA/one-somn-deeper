@@ -2411,3 +2411,69 @@ CARD:       attached_neural_gpu_decimal_multiplication
 CHANGE:     Change only the promoted attached Neural GPU's representation from seven binary input bits/fourteen binary outputs to two LSD-first decimal input digits/four LSD-first decimal outputs. Preserve its 128 channels, four workspace rows, single shared 3x3 ConvGRU, fourteen recurrent updates, split, optimizer, seed, and 20k budget.
 PREDICT:    Decimal learns the fixed 0..99 training pairs but generalizes worse than binary's 64.86% because each output position is a ten-way class and a decimal multiplication column must represent larger partial products and carries. Above 64.86% would refute the representation advantage; below the prior decimal Transformer at 31.66% would show the binary encoding is essential here.
 RESULT:     confirmed. Decimal reached 99.82% train / 26.92% peak test at 19k (98.15% / 25.27% final), below both the binary Neural GPU's 64.86% and decimal Transformer's 31.66%. Held-out LSD accuracy was 98.80%, but the tens column was only 33.80%, localizing failure to cross-products and carry composition rather than symbol decoding.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_multiplication_baseline_recalibration
+CHANGE:     Re-run the promoted 128-channel binary shared-cell model unchanged while deterministically splitting its former held-out set into 1,003-row validation and 1,003-row audit halves for honest ablation selection.
+PREDICT:    Validation-selected audit exact remains near the prior 65% full-test peak; a large deviation would show seed/run instability and weaken every small ablation conclusion.
+RESULT:     confirmed stability. The validation-selected step-10k checkpoint reached 64.81% validation and 63.31% untouched-audit exact, with 50.77% three-carry and 49.92% four-digit exact. This is close enough to the prior 64.86% result to serve as the tournament control.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_diagonal_transport
+CHANGE:     Partition recurrent channels into learned left-moving, stationary, and right-moving groups before the otherwise unchanged shared ConvGRU update.
+PREDICT:    Directional transport improves validation and audit exact by at least three points and specifically improves bits 5--7 and three-carry examples; failure on those buckets refutes transport as the primary residual bottleneck.
+RESULT:     refuted. Audit exact fell to 58.72% and three-carry exact to 43.88%. Learned channel transport alone does not resolve the remaining partial-product/carry organization problem. Revert.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_recurrent_dropout
+CHANGE:     Apply a 9% channel-wise variational mask to candidate state, fixed across all fourteen recurrent updates; preserve everything else.
+PREDICT:    Dropout reduces train fit slightly but improves held-out exact by at least two points if the baseline relies on brittle channel conventions; lower audit exact refutes this mask placement.
+RESULT:     refuted. Audit exact fell to 59.72% and three-carry exact to 44.39%. This recurrent mask placement removes useful computational state more than it regularizes brittle conventions. Revert.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_hard_nonlinearities
+CHANGE:     Replace smooth sigmoid/tanh inside the shared cell with hard sigmoid/hard tanh and add a 1e-3 saturation penalty; preserve all other settings.
+PREDICT:    Quasi-discrete state improves exactness and extra-step stability, but success requires training interpolation; below 90% train exact refutes this coefficient/activation pair.
+RESULT:     refuted. The selected checkpoint reached only 52.54% audit exact and training later destabilized. Hard activations plus this saturation coefficient do not create a more reliable discrete algorithm. Revert.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_gradient_noise
+CHANGE:     Add zero-mean Gaussian gradient noise with standard deviation 0.03/(1+step)^0.55 before clipping; preserve the baseline architecture and AdamW.
+PREDICT:    Noise may escape the 65% shortcut basin and improve audit exact by at least two points; no gain on this seed leaves the technique unclear rather than globally refuted because its literature claim is success probability across seeds.
+RESULT:     no gain on this seed. Audit exact fell to 52.14% and three-carry exact to 39.29%. Revert this schedule, while leaving multi-seed gradient-noise claims unresolved.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_wide_192
+CHANGE:     Increase only recurrent/embedding channels from 128 to 192.
+PREDICT:    Added workspace capacity improves central-bit and carry accuracy above baseline, but below a two-point audit gain does not justify its roughly quadratic convolution cost.
+RESULT:     promotion gate refuted. Validation rose to 67.00%, but untouched audit reached only 63.91%, a 0.60-point gain, while wall time rose from 184.69s to 348.53s. Revert for the current task.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_sharing_relaxation
+CHANGE:     Replace the one cell with six cyclic cell copies and linearly increase a parameter-agreement penalty through step 15k.
+PREDICT:    Relaxation accelerates fit but may not generalize on fixed width; keep only if audit exact exceeds baseline while validation and audit agree within five points.
+RESULT:     refuted. The six-copy model reached 46.86% audit exact despite 2.66M parameters, substantially below the shared-cell baseline. Revert.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_muon
+CHANGE:     Replace AdamW on matrix/convolution weights with PyTorch Muon while retaining AdamW for vector parameters.
+PREDICT:    Muon accelerates optimization but has uncertain final generalization; keep only for at least a two-point audit improvement without destabilizing train exact.
+RESULT:     confirmed with a schedule caveat. The selected step-3k checkpoint reached 82.05% validation and 80.96% audit exact, including 77.30% three-carry exact, but constant LR later collapsed. Keep Muon and repair its schedule.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_sparse_past_memory
+CHANGE:     Every recurrent step after step four receives a learned gated residual from the state four updates earlier.
+PREDICT:    Sparse access preserves early operand/partial-product state and improves middle bits; regression indicates stale-state interference rather than missing memory.
+RESULT:     refuted. Audit exact fell to 42.17% and three-carry exact to 26.02%, consistent with stale-state interference. Revert.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_learned_microprogram
+CHANGE:     Replace one tied transition with four cyclic learned transition cells, with no agreement penalty.
+PREDICT:    Phase specialization fits train fastest and may improve fixed-width exactness, but likely sacrifices reusable algorithm bias; keep for this diagnostic only if audit exact clearly exceeds baseline.
+RESULT:     refuted. Four cyclic cells reached only 49.75% audit exact despite 1.77M parameters. Phase specialization did not beat the tied transition. Revert.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_muon_warmdown
+CHANGE:     Preserve the winning Muon/AdamW split but decay only Muon's LR from 0.02 after step 1k to 0.002 by step 5k, then hold it; train for the full 10k budget.
+PREDICT:    Warmdown preserves Muon's above-80% early solution and avoids the constant-LR collapse, finishing above 80% validation and audit; below the constant-Muon selected checkpoint leaves checkpoint selection preferable.
+RESULT:     confirmed. The selected step-4k checkpoint reached 83.85% validation and 83.65% untouched-audit exact, including 78.83% three-carry and 77.76% four-digit exact. The full-budget endpoint remained near 83.55%, eliminating constant-Muon collapse. Keep as tournament winner.

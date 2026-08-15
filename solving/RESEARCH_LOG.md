@@ -2408,6 +2408,54 @@ composition, still locally and without promoting weights to a submission.
   The provider then listed **0 compute pods**; the terminated record had no IP
   or SSH endpoint, and the former SSH target timed out. Billing is stopped.
 
+### 2026-08-15 — Muon warmdown wins the fixed two-digit Neural GPU tournament (Author: Codex)
+
+- **Question:** can nine targeted changes materially improve the promoted
+  shared-cell Neural GPU before paying the cost of larger multiplication data?
+- **Frozen task:** every unordered numeric pair from `0..99`, represented as
+  two seven-bit LSD-first operands and a fourteen-bit product. The original
+  2,006-row held-out set was deterministically divided into 1,003 validation
+  rows for checkpoint selection and 1,003 untouched audit rows. Every arm used
+  5.12M sampled training examples; no competition data was generated.
+- **Control:** 128 channels, four workspace rows, one shared 3x3 ConvGRU cell,
+  fourteen updates, AdamW, BCE. It reached 64.81% validation / 63.31% audit
+  exact in 184.69 seconds.
+
+| Change | Audit exact | Three-carry | Four-digit | Seconds | Decision |
+|---|---:|---:|---:|---:|---|
+| Muon + warmdown | **83.65%** | **78.83%** | **77.76%** | 189.21 | keep |
+| Constant-LR Muon, selected at 3k | 80.96% | 77.30% | 75.34% | 187.17 | schedule only |
+| 192 channels | 63.91% | 52.81% | 49.92% | 348.53 | revert |
+| Baseline | 63.31% | 50.77% | 49.92% | 184.69 | control |
+| Recurrent dropout | 59.72% | 44.39% | 44.33% | 194.76 | revert |
+| Diagonal transport | 58.72% | 43.88% | 45.54% | 209.04 | revert |
+| Hard nonlinearities | 52.54% | 36.73% | 35.85% | 241.04 | revert |
+| Gradient noise | 52.14% | 39.29% | 37.22% | 186.18 | revert schedule |
+| Four-cell microprogram | 49.75% | 35.46% | 34.04% | 186.60 | revert |
+| Six-cell sharing relaxation | 46.86% | 28.32% | 29.50% | 220.87 | revert |
+| Sparse four-step memory | 42.17% | 26.02% | 26.93% | 236.01 | revert |
+
+- **Mechanism:** Muon normalizes the update geometry of the large convolution
+  matrices, so their many channels learn coordinated transformations instead
+  of a few directions dominating. Constant LR found an above-80% solution
+  quickly but later destroyed it. Decaying Muon's LR from 0.02 after step 1k
+  to 0.002 at step 5k preserved the solution through step 10k. AdamW continued
+  to train biases and other vector parameters.
+- **Interpretation:** the 20.34-point audit improvement is much larger than
+  split noise and appears in carry-heavy/product-length buckets, so two-digit
+  multiplication was decisive for optimizer selection. It remains fixed-width
+  interpolation: it does not prove multiplication as an algorithm, length
+  extrapolation, squaring, modular reduction, or competition T=1. The next
+  justified expense is one matched three-digit/unseen-length comparison of
+  baseline versus Muon warmdown—not another sweep of these rejected cards.
+- **Artifacts:** figure
+  `figures/neural_gpu_ablation_2026-08-15.png`; runnable harnesses
+  `../diagnostics/train_neural_gpu_multiplication_variant.py` and
+  `../diagnostics/plot_neural_gpu_ablation.py`. The complete Prime source,
+  logs, reports, and checkpoints were copied and verified at 48 files and
+  36,471,574 bytes under ignored
+  `diagnostics/artifacts/prime-343285f532464d9f988ff4db33ff4838/neural-gpu-ablation/`.
+
 ### 2026-08-11 — Easy/Medium refresh selects forced Fable Hard attempt (Author: Codex)
 
 - **Easy replication:** exact canonical SHA-1 `5b622f0` job `cfb0fc73` scored

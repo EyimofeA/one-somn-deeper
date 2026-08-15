@@ -1,5 +1,20 @@
 # Status (living)
 
+**Neural GPU multiplication ablation winner (2026-08-15):** on the frozen
+binary `0..99 x 0..99` unordered-pair split, replacing AdamW on convolution
+weights with Muon and warming its learning rate down from 0.02 to 0.002 raised
+untouched-audit exact accuracy from **63.31% to 83.65%**. Three-carry accuracy
+rose from 50.77% to 78.83%, and the full 10k endpoint remained stable near
+83.55%. Nine one-change architecture/optimization cards were screened; none
+of diagonal transport, recurrent dropout, hard nonlinearities, gradient noise,
+192 channels, sharing relaxation, sparse past memory, or four-phase
+microprogram cells beat the baseline on untouched audit. Two-digit
+multiplication is therefore sufficient to distinguish large optimization
+effects, but it does not establish length or algorithmic generalization. Next
+gate: test only the Muon-warmdown winner on a three-digit/unseen-length split.
+Evidence and plot are in [`RESEARCH_LOG.md`](RESEARCH_LOG.md) and
+[`figures/neural_gpu_ablation_2026-08-15.png`](figures/neural_gpu_ablation_2026-08-15.png).
+
 **Upstream practice-rung expansion (2026-08-15):** competition checkout was
 fast-forwarded from `e32c2f9` to `4ceff95`. Upstream added Easy E6--E10 and
 Medium M6--M10 plus their dataset generators; release/tier tests pass (13 tests,
