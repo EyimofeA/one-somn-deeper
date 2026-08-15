@@ -2609,3 +2609,378 @@ RESULT:     confirmed — fixed-N E1/E2/E6--E10 scored 16.25%--41.13%, while
             varying-N E3/E4/E5 scored only 0.54%--0.62%. E7 versus same-N E8
             differed materially (39.15% versus 26.12%), proving curriculum or
             split sensitivity even when modulus is held constant.
+### 2026-08-15 — Learned decimal-to-binary interface
+
+```
+CARD:       learned_decimal_binary_encoder_11bit
+CHANGE:     train a learned four-decimal-token Transformer encoder to predict
+            the audited squarer's eleven little-endian input bits on the same
+            deterministic 1600/224/224 disjoint-value split
+PREDICT:    direct bit supervision should reach at least 99% validation exact
+            within 5,000 updates; below 95% with near-perfect train exact means
+            this generic fixed-width interface memorizes values and should not
+            be composed with the frozen squarer, while 100% validation permits
+            opening the audit once and proceeding to soft-versus-hard transfer
+```
+RESULT:     refuted — 100% train exact but only 16.96% validation and 17.86%
+            audit exact; the generic encoder memorized decimal values.
+### 2026-08-15 — Exact-square binary Neural GPU reducer
+
+```
+CARD:       exact_square_binary_neural_gpu_reducer
+CHANGE:     give a 44-update 128-channel tied ConvGRU the exact 22-bit x squared
+            plus an immutable padded 11-bit N context at every update, with only
+            the final 11-bit remainder supervised
+PREDICT:    binary representation and protected N should improve over the prior
+            generic binary T=1 tape, but final-label reduction will remain the
+            bottleneck; promote to pretrained-square composition only if seen-N
+            validation exceeds 95% and unseen-N exceeds 80%, while train fit
+            with unseen-N below 20% is a memorization refutation
+```
+RESULT:     refuted at the registered promotion gate — at 3,000 updates it
+            reached only 5.38% train-probe, 4.52% seen-N validation, and 4.92%
+            unseen-N exact; generic whole-square recurrence did not organize
+            reduction.
+### 2026-08-15 — Trace-supervised binary prefix reducer
+
+```
+CARD:       trace_supervised_binary_prefix_reducer
+CHANGE:     replace whole-square generic reduction with one tied learned
+            bit-serial transition over current remainder, immutable N, and the
+            next MSB-first square bit; directly supervise transition targets
+PREDICT:    the smaller conditional transition should exceed 99% one-step exact
+            on seen and unseen N, but 22-step rollout will expose compounding
+            errors; promote to final-label training only if both rollout
+            profiles exceed 95%, and reject the transition architecture if
+            unseen-N one-step exact remains below 90%
+```
+RESULT:     confirmed — validation-selected one-step exact was 99.60% seen and
+            99.385% unseen N; 22-step rollout reached 96.46% seen and 95.49%
+            unseen N on 10,000 fresh examples each.
+### 2026-08-15 — Final-label fine-tuning of binary prefix reducer
+
+```
+CARD:       final_label_binary_prefix_reducer_trace_init
+CHANGE:     initialize the successful tied prefix transition from its
+            trace-supervised checkpoint, roll it through all 22 square bits
+            with straight-through binary states, and train using only final
+            remainder bits
+PREDICT:    low-rate final-label fine-tuning should retain above 90% seen and
+            unseen-N rollout exact if the trace-learned transition is a stable
+            causal solution; collapse below 50% means final-label gradients
+            destroy the local algorithm and pretraining alone is insufficient
+```
+RESULT:     refuted — one final-label update cut rollout to 71.2%/66.35%, then
+            unrestricted fine-tuning collapsed to chance by step 250.
+### 2026-08-15 — Frozen binary squarer plus frozen prefix reducer
+
+```
+CARD:       frozen_binary_square_prefix_reduce_composition
+CHANGE:     compose the validation-selected 99.55% 11-bit squarer with the
+            validation-selected trace-supervised prefix reducer, discretizing
+            all 22 square bits before reduction and training no parameters
+PREDICT:    composed exact should approximate the product of component success
+            rates, around 94% on both seen and unseen N; a gap greater than five
+            points below the reducer-with-true-square control indicates that
+            the squarer's rare bit errors are adversarial for reduction
+```
+RESULT:     confirmed — squarer exact was 99.97% on both profiles; true-square
+            reducer exact was 96.78% seen and 94.97% unseen N; composed exact
+            was 96.75% and 94.94%, showing negligible interface loss.
+### 2026-08-15 — Random final-label binary prefix reducer control
+
+```
+CARD:       final_label_binary_prefix_reducer_random_init
+CHANGE:     use the identical 22-step straight-through prefix architecture and
+            final-remainder-only loss, but initialize the transition randomly
+            instead of from trace-supervised weights
+PREDICT:    it will remain below 10% seen and unseen-N exact after 1,500 updates
+            because the terminal loss does not identify locally correct prefix
+            states; exceeding 50% would show the architecture alone supplies
+            enough bias for legal final-label discovery
+```
+RESULT:     confirmed failure — random final-label training ended at 0.20%
+            seen and 0.20% unseen-N exact after 1,500 updates.
+### 2026-08-15 — Soft-state final-label prefix reducer
+
+```
+CARD:       final_label_binary_prefix_reducer_soft_state
+CHANGE:     from random initialization, keep recurrent remainder bits as sigmoid
+            probabilities during training instead of straight-through hard bits;
+            retain identical architecture, data, optimizer, final-only loss,
+            and hard-state evaluation
+PREDICT:    smoother gradients may lower terminal loss faster than the 0.658
+            STE control, but train/eval state mismatch will likely keep hard
+            rollout below 10%; above 50% on both profiles would justify adding
+            progressive sharpening rather than abandoning final-label discovery
+```
+RESULT:     confirmed failure — soft-state training ended at 0.05% seen and
+            0.12% unseen-N exact; smoother recurrence did not repair credit
+            assignment.
+
+### 2026-08-15 — Legal binary square-prefix-reduce E5 submission
+
+```
+CARD:       legal_binary_square_prefix_reduce_e5
+CHANGE:     exact decimal-to-binary representation preprocessing feeding a
+            random learned Neural GPU squarer, random tied MSB-first prefix
+            reducer, and learned decimal decoder; train only on final labels
+PREDICT:    E5 T=1 will remain below 10% because our controlled random-init
+            prefix experiments showed terminal supervision does not discover
+            the reducer transition, but a valid hosted run distinguishes an
+            implementation failure from the known credit-assignment failure
+```
+
+### 2026-08-15 — Exact final-binary supervision on competition E5
+
+```
+CARD:       e5_exact_final_binary_loss
+CHANGE:     replace the learned decimal decoder and decimal token CE with exact
+            binary output conversion plus BCE on the 11 final remainder bits
+PREDICT:    train exact and T=1 evaluation will exceed the 3.1%/sub-1% hosted
+            control if decoder entanglement mattered, but remain below 20% if
+            intermediate reducer credit assignment is still dominant
+```
+RESULT:     refuted — 357 updates ended at 0% seen, OOD, and every T-profile;
+            final binary BCE remained 0.676, so removing decoder entanglement
+            did not repair terminal credit assignment in the Easy budget.
+
+### 2026-08-15 — Direct square supervision on competition E5
+
+```
+CARD:       e5_exact_final_binary_plus_square_aux
+CHANGE:     add BCE supervision on the first macrostep's 22 square bits to the
+            otherwise identical exact-final-binary competition-shaped model
+PREDICT:    square-bit exact will rise sharply; if modular exact remains below
+            20%, the reducer rather than squarer is the decisive bottleneck
+```
+RESULT:     refuted at the 60-second gate — direct square supervision reached
+            only about 0% whole-square exact and 65–68% square-bit accuracy by
+            316 updates, while modular exact remained 0%; the combined model
+            is too slow to learn even its squarer within the Easy budget.
+
+### 2026-08-15 — Fit-matched square-supervised combined model
+
+```
+CARD:       e5_square_aux_15min_fit_diagnostic
+CHANGE:     extend only the training budget from 60 to 900 seconds for the
+            square-supervised competition-shaped model
+PREDICT:    square-bit and whole-square accuracy will improve materially before
+            final modular exact; square exact above 90% with modular exact below
+            10% selects reduction, while square exact below 50% selects the
+            combined model's squaring/throughput path first
+```
+RESULT:     partially confirmed — after 5,477 updates the directly supervised
+            squarer reached roughly 93–96% bit accuracy and intermittently 50%
+            whole-square exact on training minibatches, while final remainder
+            bits stayed near chance and every seen/OOD T rung remained 0%; fix
+            reduction first, but restore the proven Muon squarer recipe rather
+            than treating this AdamW joint-training result as squaring solved.
+
+### 2026-08-15 — Muon square-supervised E5 fit run
+
+```
+CARD:       e5_square_aux_muon_30min
+CHANGE:     replace AdamW on matrix parameters with the successful flattened
+            Muon recipe; retain identical E5 data, model, losses, and seed
+PREDICT:    directly supervised whole-square exact will exceed the AdamW run's
+            50% minibatch peak and approach 100%; if final modular exact remains
+            near zero after square exact exceeds 95%, reduction is isolated
+```
+RESULT:     invalidated at 2,000 updates — Muon was mistakenly applied to the
+            Transformer reducer as well as the Neural GPU squarer; stopped
+            before using the result for a component decision.
+
+### 2026-08-15 — E5 square-only Muon saturation
+
+```
+CARD:       e5_square_only_muon_saturation
+CHANGE:     train only the Neural GPU squarer with direct square-bit loss and
+            flattened Muon, using x values drawn from the exact E5 train split
+PREDICT:    whole-square minibatch exact will reach at least 99% by 10,000
+            updates, reproducing the dedicated held-out-x squarer result on the
+            competition distribution; failure below 90% refutes transfer
+```
+RESULT:     invalidated at 4,500 updates — the wall-clock schedule held Muon at
+            0.02 and the early square solution collapsed; replaced with the
+            audited 1,000-to-5,000 step warmdown before judging transfer.
+
+### 2026-08-15 — E5 square-only audited Muon warmdown
+
+```
+CARD:       e5_square_only_muon_step_warmdown
+CHANGE:     replace the invalid wall-clock decay with the audited schedule:
+            0.02 through step 1,000, cosine to 0.002 at 5,000, then clamp
+PREDICT:    square exact will recover during warmdown and exceed 99% by 10,000
+            updates on E5 x values; sustained failure below 90% would show the
+            E5 x distribution differs materially from the prior square split
+```
+RESULT:     refuted under unmatched sample count — 10,000 x 32 examples reached
+            68.05% train, 72.41% E5 test, and 76.41% OOD exact dropout-free;
+            this was 16x fewer samples than the audited batch-512 squarer.
+
+### 2026-08-15 — E5 compute-matched square-only Muon
+
+```
+CARD:       e5_square_only_muon_batch512_10k
+CHANGE:     increase only square-only batch size from 32 to the audited 512,
+            retaining 10,000 steps, E5 data, topology, dropout, and warmdown
+PREDICT:    dropout-free exact will exceed 99% on E5 train and test x values;
+            failure below 95% would refute transfer of the prior squarer result
+            to the exact E5 x distribution
+```
+RESULT:     refuted because topology was not actually matched — dropout-free
+            exact reached 82.78% train, 83.16% E5 test, and 87.66% OOD; audit
+            found role vectors contaminating padded workspace cells unlike the
+            proven squarer.
+
+### 2026-08-15 — Exact proven squarer topology on E5
+
+```
+CARD:       e5_exact_proven_squarer_batch512_10k
+CHANGE:     replace global row-role contamination with the proven topology's
+            two operand-row markers and exactly zero unused workspace cells
+PREDICT:    with identical batch-512 Muon warmdown, dropout-free E5 test exact
+            will exceed 99%; failure below 95% means another reproduction
+            mismatch remains
+```
+RESULT:     improved but below gate — dropout-free exact reached 90.63% train,
+            90.67% E5 test, and 92.64% OOD; continue the validation-selected
+            checkpoint at the post-warmdown Muon rate.
+
+### 2026-08-15 — E5 supervised squarer low-rate continuation
+
+```
+CARD:       e5_squarer_muon_low_lr_continuation
+CHANGE:     continue the 10,000-step checkpoint with Muon fixed at its clamped
+            0.002 rate; retain exact E5 sampling, batch 512, dropout, and loss
+PREDICT:    dropout-free train/test exact will exceed 99% after 10,000 more
+            updates; a plateau below 95% indicates sampling/architecture rather
+            than insufficient optimization time
+```
+RESULT:     refuted — after 20,000 total updates exact plateaued at 91.01%
+            train, 91.19% E5 test, and 92.64% OOD; added time at low Muon rate
+            did not close the gap.
+
+### 2026-08-15 — E5 squarer no-dropout exactness continuation
+
+```
+CARD:       e5_squarer_disable_dropout_continuation
+CHANGE:     disable 9% recurrent dropout only during continuation from the
+            20,000-step checkpoint; retain E5 samples and low Muon rate
+PREDICT:    training exact will exceed 99% and test exact improve above 95% if
+            dropout is the ceiling; no movement means the remaining mismatch
+            is data coverage or seed-specific optimization
+```
+### 2026-08-15 — Long E5 final-only emergence run
+
+```
+CARD:       e5_final_only_hidden_square_emergence_30min
+CHANGE:     remove all square supervision from a random exact-topology combined
+            model; retain only final 11-bit remainder BCE and report square
+            metrics without including them in the loss
+PREDICT:    hidden square exact and modular exact will remain below 10% after
+            30 minutes because the final modular target does not identify the
+            unreduced square; exceeding 50% square exact would show emergent
+            factorization despite reducer credit assignment
+```
+### 2026-08-15 — Supervised versus final-only representation audit
+
+```
+CARD:       e5_square_representation_checkpoint_audit
+CHANGE:     capture full-model checkpoints at matched updates and compare
+            supervised-square versus final-only hidden states without changing
+            either training objective
+PREDICT:    supervised checkpoints will progressively linearly decode square
+            bits and multiplication intermediates; final-only checkpoints will
+            retain x but show no causal or linearly decodable literal square,
+            localizing failure before the explicit square/reducer interface
+```
+RESULT:     confirmed with a stronger two-sided failure — at step 10,000 the
+            supervised hidden probe decoded square at 89.51% exact while the
+            final-only probe reached only 13.60%, despite 99.87% exact x
+            decoding. Causally patching perfect square bits into the final-only
+            reducer yielded 0/400 correct T=1 examples at every checkpoint;
+            both the square transformation and reducer transition fail under
+            terminal-only training.
+### 2026-08-15 — Exact-square final-only reducer isolation
+
+```
+CARD:       exact_square_prefix_reducer_e1_vs_e5
+CHANGE:     bypass the squarer with exact square bits and train the unchanged
+            prefix reducer from random initialization using only final T=1
+            remainder labels; compare fixed-N E1 against varying-N E5
+PREDICT:    E1 will learn a nontrivial fixed-modulus shortcut while E5 remains
+            near zero; if E5 also learns, the prior failure was upstream square
+            noise, while failure on both isolates the prefix reducer objective
+```
+### 2026-08-15 — Squarer trained through exact differentiable modulo
+
+```
+CARD:       exact_mod_oracle_square_identifiability_e1_e5
+CHANGE:     remove the learned reducer and train the exact Neural GPU squarer
+            only through an exact differentiable residue-distribution layer
+            and final T=1 modular labels; compare fixed-N E1 and varying-N E5
+PREDICT:    E1 can reach modular accuracy without literal square accuracy due
+            to residue-class ambiguity; varying-N E5 should constrain the
+            latent integer more strongly and produce more square information if
+            reducer failure was masking an otherwise learnable squarer
+```
+RESULT:     reducer masking was rejected. E1 memorized sampled training
+            residues (100% modular exact) but ended at 2% held-out modular and
+            0% held-out square exact. E5 ended at 44.31% sampled-train modular,
+            5.00% held-out modular, and 3.75% held-out square exact. At E5 step
+            5,000, the final hidden state still decoded x at 82.25% exact but
+            decoded x^2 at only 5.44% exact. Perfect modulo therefore does not
+            rescue final-label-only learning of the squaring transition.
+
+### 2026-08-15 — Exact-modulo squarer identifiability ablations
+
+```
+CARD:       exact_mod_pretrained_control
+CHANGE:     initialize the same N-blind binary squarer from the audited direct
+            square checkpoint and evaluate it through exact modulo
+PREDICT:    held-out modular exact will track direct square exact near 99%,
+            proving the interface and oracle evaluation are not the blocker
+
+CARD:       exact_mod_pretrained_finetune
+CHANGE:     continue the perfect pretrained squarer using final modular labels
+            through exact modulo, with no square supervision
+PREDICT:    square accuracy will remain near 100% if the correct circuit is a
+            stable basin; collapse would show the modular objective conflicts
+            with rather than merely fails to discover literal squaring
+
+CARD:       exact_mod_informative_curriculum
+CHANGE:     sample only x^2 < N rows for the first 1,000 updates, then restore
+            the full E5 distribution
+PREDICT:    square exact will rise early but decay or plateau after the switch
+            because only 4.1% of E5 T=1 rows provide this identifying signal
+
+CARD:       exact_mod_paired_multin
+CHANGE:     construct every batch from same-x pairs with distinct N
+PREDICT:    held-out square/modular exact will exceed the random-batch baseline
+            if simultaneous multi-modulus constraints improve credit assignment
+
+CARD:       exact_mod_stochastic_consistency
+CHANGE:     add agreement between two dropout views of the N-blind squarer
+PREDICT:    it may preserve x features but will not materially identify x^2,
+            because consistency removes noise without choosing the right function
+
+CARD:       exact_mod_digitized_bottleneck
+CHANGE:     anneal Bernoulli temperature and penalize non-binary probabilities
+PREDICT:    direct square exact may improve if diffuse bit distributions caused
+            the failure; otherwise it will harden an incorrect residue shortcut
+```
+RESULT:     pretrained control confirmed at 100% square/modular exact on all
+            400 held-out E5 T=1 rows. Final-only fine-tuning drifted to 76.5%
+            at step 3,000 and recovered to 94.5% under LR cooldown, so the
+            correct basin is reachable but not intrinsically preserved.
+RESULT:     informative curriculum confirmed a material but incomplete gain:
+            28.25% held-out square and 28.50% modular exact versus baseline
+            3.75%/5.00%; the 65-row privileged phase changes the basin.
+RESULT:     paired multi-N refuted at 0% square / 0.5% modular; oversampling
+            repeated-x rows and simultaneous congruences did not identify x^2.
+RESULT:     stochastic consistency refuted at 0% square / 1.0% modular; it made
+            the shortcut stable rather than selecting multiplication.
+RESULT:     digitization refuted at 0% square / 0.5% modular; sharpening bit
+            probabilities hardened the wrong latent function.

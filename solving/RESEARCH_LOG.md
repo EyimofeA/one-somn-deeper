@@ -2635,3 +2635,54 @@ composition, still locally and without promoting weights to a submission.
   69,042,639 bytes locally/remotely. After verification the remote tree was
   removed and Prime pod `343285f532464d9f988ff4db33ff4838` was terminated;
   provider status has no IP/SSH endpoint and the former SSH address times out.
+
+## 2026-08-15 — Exact-modulo squarer isolation (diagnostic only)
+
+- **Question:** Was the learned reducer preventing a final-label-only Neural
+  GPU squarer from learning `x^2`?
+- **Setup:** replaced the reducer with an exact differentiable distribution
+  over residues and trained only against the final T=1 remainder. This is an
+  oracle diagnostic and is not submission-legal. Compared fixed-N E1 with
+  varying-N E5 at seed 74 for 5,000 updates.
+- **Result:** E1 reached 100% sampled-train modular exact but only 2% held-out
+  modular and 0% held-out square exact. E5 reached 44.31% sampled-train modular,
+  5.00% held-out modular, and 3.75% held-out square exact. The E5 final hidden
+  state retained x (82.25% exact linear probe) but not square (5.44%).
+- **Conclusion:** reducer failure is real but not sufficient to explain the
+  end-to-end collapse. Final modular supervision does not identify or optimize
+  the squaring circuit, even through a perfect differentiable modulo layer.
+  The next registered experiment should impose an explicit square bottleneck
+  or staged square pretraining before learning reduction.
+- **Artifacts:** plot at `diagnostics/figures/exact_mod_oracle_squarer_isolation_2026-08-15.png`;
+  verified ignored backup at
+  `diagnostics/artifacts/prime-cf9a299a179e43a885b635453f007c5e/exact-mod-oracle-2026-08-15/`.
+
+## 2026-08-15 — Exact-modulo squarer identifiability matrix
+
+- **Frozen control:** the audited learned squarer scored 100% literal-square
+  and 100% exact-modulo accuracy on all 400 held-out E5 T=1 rows. The bit
+  ordering, N-blind square architecture, and square/modulo interface are valid.
+- **Pretrained final-only continuation:** held-out square/modular exact fell
+  from 100% to 76.5% at step 3,000, then recovered to 94.5% under LR cooldown.
+  The correct square is a reachable but optimizer-sensitive representative of
+  the modular objective; final labels do not uniquely preserve it.
+- **Privileged informative curriculum:** training for 1,000 updates on the 65
+  E5 rows satisfying `x^2 < N`, then 4,000 updates on all rows, reached 28.25%
+  held-out square and 28.50% modular exact versus the matched random baseline's
+  3.75%/5.00%. This is diagnostic evidence for an identifiability/curriculum
+  mechanism, not a legal submission method because it computes the condition.
+- **Negative arms:** same-x paired multi-N batches reached 0% square / 0.5%
+  modular; two-dropout-view consistency reached 0%/1.0%; temperature annealing
+  plus probability saturation reached 0%/0.5%. Pairing changed support,
+  consistency stabilized shortcuts, and digitization hardened the wrong code.
+- **Probes:** at the endpoint, the curriculum hidden state decoded x exactly
+  at 100% and square at 19.17%; paired/consistency/digitized arms retained x at
+  94.30/89.77/92.49% but square at only 6.35/5.44/5.70%. This separates missing
+  input information from failure to organize multiplication.
+- **Conclusion:** the dominant bottleneck is objective identifiability plus
+  optimizer trajectory, not capacity or representation compatibility. A legal
+  submission needs a data-available proxy for the identifying curriculum and
+  an anchor that prevents the square phase drifting once recruited.
+- **Evidence:** `diagnostics/figures/exact_mod_squarer_ablation_matrix_2026-08-15.png`;
+  verified ignored backup at
+  `diagnostics/artifacts/prime-cf9a299a179e43a885b635453f007c5e/exact-mod-ablation-2026-08-15/`.
