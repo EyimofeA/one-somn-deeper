@@ -10,6 +10,13 @@ the preceding hosted N-visible card scored E10 8.92%, E5 0.50%, and M6 0.87%
 with no certified rung. The upload is an owner-requested exploratory Hard run,
 not a gate-qualified promotion.
 
+**GPU retirement (2026-08-16):** Prime pod
+`cf9a299a179e43a885b635453f007c5e` was copied and byte-verified before
+termination. Research matched 125 files / 147,644,368 bytes; diagnostic scripts
+matched 7 / 31,866; submission sources matched 6 / 108,314. Provider status now
+has no IP/SSH endpoint and the former SSH address times out. Local ignored
+backup: `diagnostics/artifacts/prime-cf9a299a179e43a885b635453f007c5e/full-retirement-2026-08-16/`.
+
 **T-profile measurement repair and varying-N diagnosis (2026-08-15):** hosted
 Easy metrics cannot be retrospectively decomposed by T. New local monitor
 [`../diagnostics/monitor_competition_by_t.py`](../diagnostics/monitor_competition_by_t.py)

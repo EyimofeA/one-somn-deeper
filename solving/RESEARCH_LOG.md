@@ -2709,3 +2709,9 @@ composition, still locally and without promoting weights to a submission.
 - **Independent reviews:** Pi Kimi K3 and Pi Opus 5 converge on square/reducer
   identifiability and terminal credit assignment. Their combined program is
   recorded in `solving/NEXT_STEPS_2026-08-16.md`.
+- **GPU retirement:** after confirming 0 MiB allocated and no experiment
+  process, `/home/ubuntu/old-research`, `scripts_local`, and submission sources
+  were copied with exact file/byte matches (125/147,644,368;
+  7/31,866; 6/108,314). Prime pod
+  `cf9a299a179e43a885b635453f007c5e` was then terminated. Provider status has
+  no IP/SSH endpoint and the prior endpoint times out.
