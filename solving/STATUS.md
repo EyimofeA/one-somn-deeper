@@ -1,5 +1,17 @@
 # Status (living)
 
+**T-profile measurement repair and varying-N diagnosis (2026-08-15):** hosted
+Easy metrics cannot be retrospectively decomposed by T. New local monitor
+[`../diagnostics/monitor_competition_by_t.py`](../diagnostics/monitor_competition_by_t.py)
+uses the submission's actual token loss, checkpoints peaks, and evaluates both
+`depth_t_*` and `depth_ood_n_t_*` profiles at T=1/2/4/8/16/32/64. Architecture
+audit corrects an earlier shorthand: the hosted candidate reused the direct
+squarer's topology, not its weights or binary representation, and its generic
+reducer was not the supervised comparator/subtractor. Leading varying-N cause
+is mutable/forgettable N plus an N-visible square phase, which permits fixed-N
+entanglement. Ranked diagnosis:
+[`experiments/2026-08-15_neural_gpu_square_reduce_transfer/VARYING_N_DIAGNOSIS.md`](experiments/2026-08-15_neural_gpu_square_reduce_transfer/VARYING_N_DIAGNOSIS.md).
+
 **GPU retirement (2026-08-15):** Prime L40S pod
 `343285f532464d9f988ff4db33ff4838` was fully backed up and byte-verified (107
 files / 69,042,639 bytes), remotely wiped, and provider-terminated. Prime now
