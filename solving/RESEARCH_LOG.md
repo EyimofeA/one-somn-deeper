@@ -2408,6 +2408,62 @@ composition, still locally and without promoting weights to a submission.
   The provider then listed **0 compute pods**; the terminated record had no IP
   or SSH endpoint, and the former SSH target timed out. Billing is stopped.
 
+### 2026-08-15 — Muon plus dropout reaches 98.21%; no grokking (Author: Codex)
+
+- **Protocol correction:** every card was first compared at 5.12M sampled
+  examples. Underfit cards then continued to the first observed >=98% train
+  checkpoint or the 15.36M cap. Checkpoints were selected on the 1,003-row
+  validation split; the 1,003-row audit was opened afterward. `torch.compile`
+  reduced winner end-to-end 10k time from 189.2s to 121.7s including compile.
+- **Grokking:** Muon warmdown interpolated by 3.1M examples and stayed
+  99.9--100% train through 10.24M. Validation stayed 82--84%, rising only
+  0.60 points after the fixed boundary rather than the preregistered 5 points.
+  Dropout's post-fit rise was gradual/noisy and below five points. Neither is
+  evidence of grokking.
+
+| Fit-matched rank | Peak examples | Train | Validation | Audit | Central bits 5--8 | Three-carry | Four-digit | Total wall |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Muon warmdown + dropout | 9.728M | 100.00% | **97.01%** | **98.21%** | **99.31%** | **97.45%** | **97.43%** | 225.5s |
+| Muon warmdown | 9.728M | 99.94% | **84.15%** | **83.75%** | **94.12%** | **78.57%** | **77.46%** | 225.8s |
+| Dropout | 14.848M | 100.00% | 76.37% | 74.18% | 90.35% | 66.33% | 62.78% | 341.2s |
+| 192 channels | 3.584M | 100.00% | 67.00% | 63.91% | 86.74% | 52.81% | 49.92% | 348.5s |
+| Baseline | 5.120M | 98.61% | 64.81% | 63.31% | 86.37% | 50.77% | 49.92% | 184.7s |
+| Gradient noise | 13.312M | 100.00% | 58.42% | 55.63% | 83.23% | 40.05% | 39.49% | 305.3s |
+| Hard nonlinearities | 3.072M | 100.00% | 55.13% | 52.54% | 81.66% | 36.73% | 35.85% | 241.0s |
+| Sharing relaxation | <=5.120M | 100.00% | 50.15% | 48.55% | 80.41% | 31.89% | 31.47% | 220.9s |
+| Microprogram | 5.120M | 98.34% | 53.84% | 47.16% | 79.66% | 31.38% | 31.32% | 186.6s |
+| Sparse memory | 5.120M | 98.29% | 46.06% | 42.17% | 79.06% | 26.02% | 26.93% | 236.0s |
+
+- **Constant Muon:** it peaked at 95.78% train / 77.47% validation, never
+  reached the fit gate, then collapsed to 0.73%/1.00% by 15.36M examples.
+  Warmdown is necessary for stability, not just favorable checkpointing.
+- **Unlocked combination:** after all isolated cards completed, adding the
+  retained 9% recurrent dropout to Muon warmdown reached 100% train / 96.81%
+  validation at the fixed 5.12M boundary. Validation-only selection at 9.728M
+  produced 97.01% validation / 98.21% audit. The effects compose strongly:
+  Muon removes dropout's slow-fit cost, dropout improves Muon's solution basin,
+  and warmdown prevents Muon collapse. Its post-interpolation rise was gradual
+  (95.31% to 97.01%), so it is not grokking.
+- **Mechanism audit:** decoding after every update shows a narrow computation
+  peak. Final-winner audit exact is 5.08%/49.15%/98.21% at 10/12/14 updates,
+  then 59.92%/6.78%/2.79% at 16/20/28. Zeroing row 0 or operand row 1 throughout
+  recurrence reduces exact to 0%. Early row-0 activation patching transfers
+  88.3% of counterfactual targets; other rows transfer 0%. These causal
+  interventions support distributed operand-to-output transport, but not an
+  explicit carry register. Linear probes find pairwise-product information
+  most accessible at steps 2--4; late continuous carry/sum probes are unstable
+  across the numeric split and are inconclusive correlational evidence.
+- **Squaring control:** on all 100 `a=a` inputs the final winner scores 100/100
+  versus 100/100 matched nonsquares, but this mixes trained and held-out pairs. Only
+  six square pairs occur in untouched audit (5/6 correct). This rules out an
+  obvious square-specific collapse, not unseen-value or length-generalized
+  squaring.
+- **Evidence:** ignored verified Prime backup
+  `diagnostics/artifacts/prime-343285f532464d9f988ff4db33ff4838/neural-gpu-ablation-v2/`
+  contains 83 files / 54,559,094 bytes, including reports, logs, checkpoints,
+  and `diagnostics/{baseline,muon_decay,muon_dropout}_mechanism.json`. Figure:
+  `figures/neural_gpu_fit_grokking_2026-08-15.png`.
+
 ### 2026-08-15 — Muon warmdown wins the fixed two-digit Neural GPU tournament (Author: Codex)
 
 - **Question:** can nine targeted changes materially improve the promoted

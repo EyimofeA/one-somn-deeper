@@ -1,19 +1,22 @@
 # Status (living)
 
-**Neural GPU multiplication ablation winner (2026-08-15):** on the frozen
-binary `0..99 x 0..99` unordered-pair split, replacing AdamW on convolution
-weights with Muon and warming its learning rate down from 0.02 to 0.002 raised
-untouched-audit exact accuracy from **63.31% to 83.65%**. Three-carry accuracy
-rose from 50.77% to 78.83%, and the full 10k endpoint remained stable near
-83.55%. Nine one-change architecture/optimization cards were screened; none
-of diagonal transport, recurrent dropout, hard nonlinearities, gradient noise,
-192 channels, sharing relaxation, sparse past memory, or four-phase
-microprogram cells beat the baseline on untouched audit. Two-digit
-multiplication is therefore sufficient to distinguish large optimization
-effects, but it does not establish length or algorithmic generalization. Next
-gate: test only the Muon-warmdown winner on a three-digit/unseen-length split.
+**Neural GPU multiplication fit-match and mechanism audit (2026-08-15):** on the frozen
+binary `0..99 x 0..99` unordered-pair split, combining Muon warmdown with the
+isolated 9% recurrent-dropout winner raised untouched-audit exact from
+**63.31% to 98.21%**, with 97.45% three-carry and 97.43% four-digit exact.
+No rapid grokking occurred: after train interpolation, validation improved
+gradually from 95.31% to 97.01%, without a delayed jump. Compute matching corrected
+one earlier conclusion: 9% recurrent dropout is a fixed-budget efficiency
+regression (59.72% audit at 5.12M) but improves to 74.18% audit after 14.85M
+examples and exact train fit. Gradient noise remains worse after fit matching.
+The winner is sharply timed: audit exact is 98.21% at 14 inference updates but
+59.92% at 16 and 2.79% at 28, so it is not a convergent recurrent algorithm.
+Two-digit multiplication distinguishes optimizer/regularizer effects but does
+not establish length or algorithmic generalization. Next gate: test the
+Muon-warmdown-plus-dropout winner on direct three-digit/unseen-length
+multiplication, then squaring.
 Evidence and plot are in [`RESEARCH_LOG.md`](RESEARCH_LOG.md) and
-[`figures/neural_gpu_ablation_2026-08-15.png`](figures/neural_gpu_ablation_2026-08-15.png).
+[`figures/neural_gpu_fit_grokking_2026-08-15.png`](figures/neural_gpu_fit_grokking_2026-08-15.png).
 
 **Upstream practice-rung expansion (2026-08-15):** competition checkout was
 fast-forwarded from `e32c2f9` to `4ceff95`. Upstream added Easy E6--E10 and

@@ -6,6 +6,7 @@ import copy
 import json
 import math
 import random
+import time
 from collections import defaultdict
 from pathlib import Path
 
@@ -192,10 +193,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--variant", choices=["baseline", "diagonal", "dropout", "hard",
                         "gradient_noise", "wide", "sharing_relaxation", "muon",
-                        "sparse_memory", "microprogram", "muon_decay"], required=True)
+                        "sparse_memory", "microprogram", "muon_decay", "muon_dropout"], required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--steps", type=int, default=10_000)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--eval-every", type=int, default=1000)
+    parser.add_argument("--compile", action="store_true")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     random.seed(args.seed)
@@ -209,16 +212,19 @@ def main():
     train, validation, audit = rows(train_examples), rows(validation_examples), rows(audit_examples)
     channels = 192 if args.variant == "wide" else 128
     model = Model(args.variant, channels).to(args.device)
-    optimizer_variant = "muon" if args.variant == "muon_decay" else args.variant
+    if args.compile:
+        model = torch.compile(model)
+    optimizer_variant = "muon" if args.variant in ("muon_decay", "muon_dropout") else args.variant
     optimizers = make_optimizers(model, optimizer_variant)
     generator = torch.Generator(device="cpu").manual_seed(args.seed + 1)
     curve, best_validation, best_state, best_step = [], -1.0, None, 0
+    started = time.perf_counter()
     for step in range(1, args.steps + 1):
         indices = torch.randint(len(train), (512,), generator=generator).tolist()
         left, right, target = tensors([train[index] for index in indices], args.device)
         model.train()
         with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
-            logits, saturation = model(left, right, dropout=0.09 if args.variant == "dropout" else 0.0)
+            logits, saturation = model(left, right, dropout=0.09 if args.variant in ("dropout", "muon_dropout") else 0.0)
             loss = F.binary_cross_entropy_with_logits(logits, target)
         if args.variant == "hard":
             loss = loss + 1e-3 * saturation
@@ -235,13 +241,17 @@ def main():
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1)
         for optimizer in optimizers:
             optimizer.step()
-        if args.variant == "muon_decay":
+        if args.variant in ("muon_decay", "muon_dropout"):
             progress = min(1.0, max(0.0, (step - 1000) / 4000))
             muon_lr = 0.002 + 0.018 * 0.5 * (1 + math.cos(progress * math.pi))
             optimizers[0].param_groups[0]["lr"] = muon_lr
-        if step == 1 or step % 1000 == 0:
+        if step == 1 or step % args.eval_every == 0:
+            train_metrics = evaluate(model, train, args.device)
             validation_metrics = evaluate(model, validation, args.device)
-            record = {"step": step, "loss": float(loss.detach()),
+            record = {"step": step, "examples": step * 512,
+                      "elapsed_seconds": time.perf_counter() - started,
+                      "loss": float(loss.detach()),
+                      "train_exact": train_metrics["exact"],
                       "validation_exact": validation_metrics["exact"]}
             curve.append(record)
             if record["validation_exact"] > best_validation:
@@ -249,8 +259,8 @@ def main():
                 best_state = copy.deepcopy(model.state_dict())
             print(json.dumps({"type": "progress", **record}), flush=True)
     final = {"train": evaluate(model, train, args.device),
-             "validation": evaluate(model, validation, args.device),
-             "audit": evaluate(model, audit, args.device)}
+             "validation": evaluate(model, validation, args.device)}
+    final_state = copy.deepcopy(model.state_dict())
     model.load_state_dict(best_state)
     selected = {"train": evaluate(model, train, args.device),
                 "validation": evaluate(model, validation, args.device),
@@ -258,10 +268,12 @@ def main():
     report = {"variant": args.variant, "seed": args.seed, "steps": args.steps,
               "parameters": sum(parameter.numel() for parameter in model.parameters()),
               "split": {"train": len(train), "validation": len(validation), "audit": len(audit)},
-              "best_step": best_step, "curve": curve, "selected": selected, "final": final}
+              "best_step": best_step, "curve": curve, "selected": selected, "final": final,
+              "elapsed_seconds": time.perf_counter() - started}
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "eval_report.json").write_text(json.dumps(report, indent=2) + "\n")
     torch.save(best_state, args.out / "model_best.pt")
+    torch.save(final_state, args.out / "model_final.pt")
     (args.out / "source.py").write_text(Path(__file__).read_text())
     print(json.dumps(report), flush=True)
 

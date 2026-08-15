@@ -2477,3 +2477,33 @@ CARD:       neural_gpu_muon_warmdown
 CHANGE:     Preserve the winning Muon/AdamW split but decay only Muon's LR from 0.02 after step 1k to 0.002 by step 5k, then hold it; train for the full 10k budget.
 PREDICT:    Warmdown preserves Muon's above-80% early solution and avoids the constant-LR collapse, finishing above 80% validation and audit; below the constant-Muon selected checkpoint leaves checkpoint selection preferable.
 RESULT:     confirmed. The selected step-4k checkpoint reached 83.85% validation and 83.65% untouched-audit exact, including 78.83% three-carry and 77.76% four-digit exact. The full-budget endpoint remained near 83.55%, eliminating constant-Muon collapse. Keep as tournament winner.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_muon_warmdown_post_interpolation
+CHANGE:     Continue the isolated Muon-warmdown winner for an additional 5.12M sampled examples after its fixed-compute 5.12M-example endpoint, preserving architecture, data order, optimizer split, and the held 0.002 Muon learning rate.
+PREDICT:    Train exact remains at least 98% throughout. Validation remains on its approximately 84% plateau rather than showing a delayed rise of at least five points; this would refute rapid grokking over the preregistered post-interpolation window without ruling out much longer horizons. Any delayed validation rise counts only after train remains near 100%, and audit is opened once after validation-based selection.
+RESULT:     refuted rapid grokking. Train stayed 99.9--100% after 3.1M examples, while validation fluctuated around 82--84% and rose only from 83.55% at 5.12M to a validation-selected 84.15% at 9.728M. The once-opened audit was 83.75%. This is a stable interpolation plateau, not a delayed generalization transition.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_dropout_fit_matched
+CHANGE:     Extend the isolated 9% recurrent-dropout arm from 5.12M to at most 15.36M sampled examples, preserving its fixed variational channel mask and every other setting; compare at the first observed checkpoint with at least 98% train exact.
+PREDICT:    Extra compute closes much of the fixed-budget underfit, but validation remains below the unchanged baseline's 64.81%; reaching at least 98% train with validation below baseline refutes this dropout placement as inductive bias rather than merely learning efficiency.
+RESULT:     refuted the prediction and retained as a compute-expensive regularizer. At the first observed fit-matched checkpoint (8.192M examples), train was 99.84% and validation 72.08%; validation later peaked at 76.37% at 14.848M, with once-opened audit 74.18%, three-carry 66.33%, and four-digit 62.78%. It improves generalization over baseline when fit matched, but remains below Muon warmdown and shows no preregistered five-point delayed jump after interpolation.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_gradient_noise_fit_matched
+CHANGE:     Extend the isolated 0.03/(1+step)^0.55 gradient-noise arm from 5.12M to at most 15.36M sampled examples, preserving its seed and every other setting; compare at the first observed checkpoint with at least 98% train exact.
+PREDICT:    Decayed noise eventually permits interpolation but does not exceed baseline validation; if it remains underfit at 15.36M, the schedule is an efficiency failure on this seed while the across-seed literature hypothesis remains unresolved.
+RESULT:     confirmed for this seed. The first 100% train checkpoint at 8.192M examples had 56.83% validation; validation peaked at 58.42% at 13.312M with audit 55.63%, three-carry 40.05%, and four-digit 39.49%. No delayed rise occurred. Revert this schedule; do not generalize the single-seed result to all gradient-noise schedules.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_constant_muon_fit_matched
+CHANGE:     Extend constant-LR Muon alone to the 15.36M-example cap under the matched compiled harness, preserving its 0.02 learning rate and all other settings.
+PREDICT:    Constant Muon repeatedly approaches interpolation early but cannot remain at 98% train and its validation collapses after the early peak; failure to produce any stable fit-matched checkpoint confirms learning-rate warmdown, rather than checkpoint luck, is necessary.
+RESULT:     confirmed. Constant Muon peaked at 95.78% train / 77.47% validation at 1.536M examples, never reached the 98% fit gate, and collapsed to 0.73% train / 1.00% validation by the 15.36M cap. Its validation-selected checkpoint audited at 77.97%, but it is not a stable interpolating solution. Warmdown is necessary.
+
+DATE:       2026-08-15
+CARD:       neural_gpu_muon_warmdown_plus_dropout
+CHANGE:     Add only the isolated 9% recurrent candidate-state dropout mask to the Muon-warmdown winner after all isolated cards completed; preserve data, architecture, seed, schedule, and evaluation protocol.
+PREDICT:    Muon removes dropout's fixed-budget underfit while dropout raises validation beyond the 84.15% Muon-only plateau. Retain only if validation and once-opened audit both exceed Muon-only and carry-heavy metrics do not regress; otherwise the isolated benefits do not compose. A delayed rise counts as grokking only after train remains at least 98%.
+RESULT:     strongly confirmed composition, but not grokking. At the 5.12M fixed boundary it reached 100% train / 96.81% validation. Validation-selected step 19k reached 100% train / 97.01% validation / 98.21% audit, with 97.45% three-carry and 97.43% four-digit exact. After interpolation at 2.048M, validation rose gradually by only 1.70 points rather than showing a delayed jump. Retain as final winner.
