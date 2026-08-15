@@ -2693,10 +2693,16 @@ composition, still locally and without promoting weights to a submission.
   E10 8.92% (`ebd63c8e-394f-4e22-a7d2-cc327b392f61`), varying-N E5 0.50%
   (`8a00cadd-9a80-429c-b315-3832a6a8106b`), and M6 0.87%
   (`22df216c-be01-49a6-8347-5dfe0fd20ee9`). None certified a rung.
-- **Throughput:** E10 completed 355 updates and E5 825. The sparse anchor plus
-  full square/reducer forward is far below the 10k--14k update scale of the
-  supervised squarer. The follow-up removes its per-forward synchronization
-  and skips the reducer during the Easy-only anchor phase.
+- **E10 implementation confound:** E10 uses fixed `N=403`, so neither sufficient
+  no-wrap condition (`N>=512` or `N>=1024`) selected any row. Nevertheless the
+  first 20% curriculum branch returned the empty anchor loss, which was exactly
+  zero and supplied no gradient. The run therefore discarded 20% of its budget;
+  it is not a clean test of the square anchor.
+- **Throughput:** E10 completed 355 updates versus 931 for the best frozen-source
+  E10 run (a second frozen-source run completed 421), and E5 completed 825. The
+  auxiliary target packing, extra square readout, and per-forward device sync
+  reduced useful training throughput. The follow-up removes the synchronization
+  and skips the reducer during a nonempty Easy-only anchor phase.
 - **M6 mechanism:** train exact improved through the first half, then loss
   jumped at step ~4,900 exactly when T=1-only training ended. At step 5,100
   train exact briefly reached 43.8%, then decayed to 10.9% at step 8,182. The

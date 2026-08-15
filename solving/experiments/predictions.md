@@ -2998,10 +2998,11 @@ PREDICT:    fixed-N E10 should remain within 10 points of the 41.13% anchor;
             anchor recruits transferable squaring, but may remain below 10%
             because the learned reducer still receives terminal supervision
 ```
-RESULT:     refuted at hosted scale — E10 scored 8.92% and varying-N E5 0.50%.
-            The E5 run completed only 825 updates, while the supervised squarer
-            required roughly 10k; the anchor did not transfer through the full
-            square+reduce forward within the Easy budget.
+RESULT:     invalid for E10 and negative for E5 — E10 scored 8.92%, but N=403
+            made the no-wrap mask empty and the first 20% branch returned zero
+            loss, so that run discarded one fifth of its training budget. E5
+            scored 0.50% after only 825 updates, far below the roughly 10k
+            updates required by the supervised squarer.
 
 ```
 CARD:       legal_nowrap_square_only_throughput

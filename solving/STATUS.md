@@ -7,8 +7,10 @@ the square phase genuinely N-blind, injects immutable N only before reduction,
 uses recurrent dropout and Muon, skips sparse no-wrap auxiliary work on
 Medium/Hard, and retains a T=1-first curriculum. Promotion evidence is weak:
 the preceding hosted N-visible card scored E10 8.92%, E5 0.50%, and M6 0.87%
-with no certified rung. The upload is an owner-requested exploratory Hard run,
-not a gate-qualified promotion.
+with no certified rung. E10 was implementation-confounded: its no-wrap mask was
+empty at N=403, so the first 20% curriculum returned zero loss and no gradient.
+The upload is an owner-requested exploratory Hard run, not a gate-qualified
+promotion.
 
 **GPU retirement (2026-08-16):** Prime pod
 `cf9a299a179e43a885b635453f007c5e` was copied and byte-verified before
