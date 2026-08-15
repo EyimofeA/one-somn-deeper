@@ -1,5 +1,26 @@
 # Status (living)
 
+**Neural GPU square/reduce competition transfer (2026-08-15):** a legal
+897,457-parameter two-phase candidate preserves the 128-channel tied ConvGRU,
+9% recurrent dropout, and flattened-convolution Muon recipe, with separate
+learned square and reduction cells and N re-injection between phases. Frozen
+source scored **33.09% E6** and **39.15% E7**, the first large hosted signal
+from this architecture family. The unchanged M6 scale test scored only
+**0.33%**, but its curve reveals optimizer collapse rather than a clean
+capacity verdict: train exact peaked at 28.1% near step 2,100, decayed toward
+zero by 6,000, and loss exploded above 20 after 12,000 steps. Owner-authorized
+Hard H1 job `37cedcd2-a172-4fb3-b289-24260777c83b` is queued with exact SHA-1
+`ff3381c9be98884f0409a3a63fa467cf6be47ab9`; preregistered expectation is no
+certified rung. The next controlled research matrix is H14: frozen pretrained,
+trainable pretrained, random square plus matched reducer, and fully entangled.
+
+**Audited 11-bit squarer reproduction (2026-08-15):** the direct squarer was
+reproduced with periodic best-checkpoint saving. Validation-only selection at
+step 10,000 produced **100.00% train / 99.55% validation / 99.55% untouched
+audit** (223/224 audit values). The verified checkpoint now makes H14 arms A/B
+runnable. This is fixed-width unseen-x evidence, not unseen-length or modular
+squaring evidence.
+
 **Direct 11-bit squaring screen (2026-08-15):** changing only the data from
 arbitrary multiplication to disjoint-value `x,x -> x^2` let the retained
 128-channel Muon-warmdown-plus-dropout Neural GPU reach **100% train / 99.11%

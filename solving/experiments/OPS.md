@@ -55,8 +55,8 @@ Agent skill: `.cursor/skills/osmn-gpu-box/`. Kill does **not** stop cloud billin
 
 Current: Prime pod `343285f532464d9f988ff4db33ff4838` is an active idle L40S
 at `ubuntu@64.247.206.9`, $0.82/hour (verified 2026-08-15). Research root:
-`/home/ubuntu/ngpu`. Its latest complete backup is verified at 99 files and
-65,401,736 bytes; see `solving/experiments/.gpu_box.json`. Keep it active until
+`/home/ubuntu/ngpu`. Its latest complete backup is verified at 106 files and
+69,002,419 bytes; see `solving/experiments/.gpu_box.json`. Keep it active until
 the owner requests termination.
 
 Historical 2026-08-03 box: Prime Intellect **L40** at `216.81.248.94`.

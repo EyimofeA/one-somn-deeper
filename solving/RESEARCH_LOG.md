@@ -2590,3 +2590,31 @@ composition, still locally and without promoting weights to a submission.
   best-checkpoint saves before another long run.
 - **Evidence:** ignored verified backup path
   `diagnostics/artifacts/prime-343285f532464d9f988ff4db33ff4838/neural-gpu-ablation-v2/runs_v3/square_11bit_muon_dropout/train.log`.
+
+### 2026-08-15 — Neural GPU square/reduce gets large Easy signal, collapses on Medium (Author: Codex)
+
+- **Architecture:** legal final-label-only 897,457-parameter model with separate
+  128-channel tied-ConvGRU square/reduce phases, 2W updates per phase, immutable
+  N re-injection, 9% recurrent dropout, and flattened-convolution Muon plus
+  AdamW scalars. No arithmetic oracle, trace target, or coded division schedule.
+- **Hosted results:** E6 job `6b5ef912-e92f-42a2-8675-cf47937bc50b` scored
+  33.09% mean (37.8% test / 28.3% OOD; 690 updates). Unchanged E7 job
+  `fb58a13a-7a2d-4694-b76a-5618710c81ae` scored 39.15% (37.1% / 41.2%; 737
+  updates). Unchanged M6 job `006cfcc8-c40e-4083-8e6d-0874f758ef16` scored
+  0.33% (0.3% / 0.4%; 15,573 updates).
+- **Failure localization:** M6 is not a clean scale/capacity falsification.
+  Training exact rose to 28.1% at step 2,100, then degraded to approximately
+  zero by step 6,000; loss later exploded from about 2 to above 20. Easy ends
+  after roughly 700 updates, before this instability. The wall-clock Muon
+  schedule therefore does not reproduce the standalone step-1,000--5,000
+  warmdown and is the immediate Medium failure mode.
+- **Hard:** owner explicitly requested escalation despite M6. Exact source SHA-1
+  `ff3381c9be98884f0409a3a63fa467cf6be47ab9` was accepted as H1 job
+  `37cedcd2-a172-4fb3-b289-24260777c83b`; daily Hard quota is exhausted.
+- **Direct-square reproduction:** periodic checkpointing repaired the earlier
+  artifact loss. Validation selected step 10,000 with 100% train / 99.55%
+  validation / **99.55% untouched audit** (223/224). Verified backup:
+  `diagnostics/artifacts/prime-343285f532464d9f988ff4db33ff4838/neural-gpu-ablation-v2/runs_v3/square_11bit_muon_dropout_repro/`.
+- **Next registered matrix:** H14 arms A frozen pretrained square + learned
+  reducer, B trainable pretrained + reducer, C random square + reducer, and D
+  fully entangled end-to-end, with matched splits/reducer/optimizer/compute.

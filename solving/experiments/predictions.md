@@ -2539,3 +2539,56 @@ RESULT:     unclear but strongly transferable. At 25.6M examples the model reach
   99.11% as untouched audit accuracy. The result clears the validation gate and
   refutes an immediate width requirement for fixed-width 11-bit squaring, but
   it does not establish length generalization or a stable recurrent algorithm.
+### 2026-08-15 — Legal Neural GPU square/reduce composition on Easy E6
+
+```
+CARD:       neural_gpu_square_reduce_e6
+CHANGE:     replace the failed six-lane four-microstep local grid with two
+            explicit learned phases: the successful 128-channel tied ConvGRU
+            topology runs 2W updates for squaring, N is re-injected, and a
+            separate identically shaped learned cell runs 2W reduction updates;
+            retain Muon warmdown and 9% recurrent dropout
+PREDICT:    fixed-N E6 may identify a useful composite transition and exceed
+            the old chance-scale legal grid, but direct raw-square success will
+            not transfer automatically from final labels. Promote to more Easy
+            datasets only if mean exact exceeds 5% and T=1 is nonzero on both
+            seen-N and OOD profiles; a chance-scale result falsifies this legal
+            composition recipe.
+```
+
+RESULT:     confirmed — repaired E6 reached 33.09% mean exact (37.8% test,
+            28.3% OOD) after 690 updates; the hosted Easy metrics did not
+            expose exact T=1 profile counts.
+
+### 2026-08-15 — Frozen square/reduce candidate across E7--E10
+
+```
+
+RESULT:     interrupted by owner after E7 to escalate; unchanged E7 scored
+            39.15%, confirming the E6 signal on a second fixed modulus.
+
+### 2026-08-15 — Frozen square/reduce escalation to Medium M6 and Hard H1
+
+```
+CARD:       neural_gpu_square_reduce_m6_then_h1
+CHANGE:     compute tier/dataset only; use the exact frozen E6/E7 source on M6,
+            then one owner-authorized Hard H1 regardless of Medium score
+PREDICT:    M6 should exceed historical chance scale but fall below Easy
+            because N grows from 8--9 bits to 11 bits while the phase budget is
+            unchanged. Hard likely certifies no rung because final-label phase
+            identifiability and hidden scale remain unsolved; any nonzero T=1
+            profile would nevertheless be meaningful transfer evidence.
+```
+
+RESULT:     mixed — M6 scored 0.33%, but the run is optimizer-confounded:
+            train exact peaked at 28.1% near step 2,100 before decaying to 0%
+            and loss exploding above 20. Owner-authorized exact-source Hard H1
+            job 37cedcd2-a172-4fb3-b289-24260777c83b is queued.
+CARD:       neural_gpu_square_reduce_easy_fixed_n_sweep
+CHANGE:     dataset only; freeze the exact E6 source and evaluate it unchanged
+            on fixed-N E7, E8, E9, and E10
+PREDICT:    mean exact should remain materially above 5% on every fixed-N rung,
+            with variation caused by modulus-specific cycle/support geometry;
+            collapse on E8 despite sharing N=287 with E7 would implicate split
+            or curriculum sensitivity rather than arithmetic capacity.
+```

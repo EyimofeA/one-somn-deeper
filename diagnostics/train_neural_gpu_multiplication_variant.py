@@ -248,6 +248,7 @@ def main():
                         help="Use a fixed train prefix for progress only; zero evaluates all train rows.")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
+    args.out.mkdir(parents=True, exist_ok=True)
     random.seed(args.seed)
     torch.manual_seed(args.seed)
     torch.backends.cudnn.benchmark = True
@@ -316,6 +317,7 @@ def main():
             if record["validation_exact"] > best_validation:
                 best_validation, best_step = record["validation_exact"], step
                 best_state = copy.deepcopy(model.state_dict())
+                torch.save(best_state, args.out / "model_best.pt")
             print(json.dumps({"type": "progress", **record}), flush=True)
     final = {"train": evaluate(model, train, args.device, args.input_bits),
              "validation": evaluate(model, validation, args.device, args.input_bits)}
@@ -330,7 +332,6 @@ def main():
               "split": {"train": len(train), "validation": len(validation), "audit": len(audit)},
               "best_step": best_step, "curve": curve, "selected": selected, "final": final,
               "elapsed_seconds": time.perf_counter() - started}
-    args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "eval_report.json").write_text(json.dumps(report, indent=2) + "\n")
     torch.save(best_state, args.out / "model_best.pt")
     torch.save(final_state, args.out / "model_final.pt")
