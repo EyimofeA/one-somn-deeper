@@ -53,11 +53,12 @@ Don't `cp` the k4_ut file directly without checking `_build_scheduler` first.
 
 Agent skill: `.cursor/skills/osmn-gpu-box/`. Kill does **not** stop cloud billing — terminate the instance in the provider UI.
 
-Current: Prime pod `343285f532464d9f988ff4db33ff4838` is an active idle L40S
-at `ubuntu@64.247.206.9`, $0.82/hour (verified 2026-08-15). Research root:
-`/home/ubuntu/ngpu`. Its latest complete backup is verified at 106 files and
-69,002,419 bytes; see `solving/experiments/.gpu_box.json`. Keep it active until
-the owner requests termination.
+Retired 2026-08-15: Prime pod `343285f532464d9f988ff4db33ff4838`
+(L40S, formerly `ubuntu@64.247.206.9`, $0.82/hour) was copied and verified at
+107 files / 69,042,639 bytes under
+`diagnostics/artifacts/prime-343285f532464d9f988ff4db33ff4838/full-retirement-2026-08-15/`.
+`/home/ubuntu/ngpu` was removed only after verification; provider termination
+succeeded, status has no IP/SSH endpoint, and the old SSH endpoint times out.
 
 Historical 2026-08-03 box: Prime Intellect **L40** at `216.81.248.94`.
 Upstream clone `~/one-layer-deeper` was at **`8a3c78d`**, torch

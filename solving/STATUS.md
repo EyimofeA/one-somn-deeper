@@ -1,6 +1,16 @@
 # Status (living)
 
-**Neural GPU square/reduce competition transfer (2026-08-15):** a legal
+**GPU retirement (2026-08-15):** Prime L40S pod
+`343285f532464d9f988ff4db33ff4838` was fully backed up and byte-verified (107
+files / 69,042,639 bytes), remotely wiped, and provider-terminated. Prime now
+reports no IP or SSH endpoint and the old endpoint times out.
+
+**Neural GPU square/reduce competition transfer (2026-08-15):** the frozen
+full Easy sweep cleanly separates fixed from varying moduli. Fixed-N
+E1/E2/E6/E7/E8/E9/E10 scored **40.67/16.25/33.09/39.15/26.12/28.44/41.13%**;
+varying-N E3/E4/E5 scored only **0.62/0.59/0.54%**. E10 is the current best.
+Same-N E7 versus E8 differs by 13 points, so curriculum/split support also
+matters. A legal
 897,457-parameter two-phase candidate preserves the 128-channel tied ConvGRU,
 9% recurrent dropout, and flattened-convolution Muon recipe, with separate
 learned square and reduction cells and N re-injection between phases. Frozen
@@ -10,8 +20,8 @@ from this architecture family. The unchanged M6 scale test scored only
 capacity verdict: train exact peaked at 28.1% near step 2,100, decayed toward
 zero by 6,000, and loss exploded above 20 after 12,000 steps. Owner-authorized
 Hard H1 job `37cedcd2-a172-4fb3-b289-24260777c83b` is queued with exact SHA-1
-`ff3381c9be98884f0409a3a63fa467cf6be47ab9`; preregistered expectation is no
-certified rung. The next controlled research matrix is H14: frozen pretrained,
+`ff3381c9be98884f0409a3a63fa467cf6be47ab9`, but failed before scoring with
+`EVALUATION_FAILED`. The next controlled research matrix is H14: frozen pretrained,
 trainable pretrained, random square plus matched reducer, and fully entangled.
 
 **Audited 11-bit squarer reproduction (2026-08-15):** the direct squarer was

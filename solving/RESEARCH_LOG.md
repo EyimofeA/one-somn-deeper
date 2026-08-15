@@ -2618,3 +2618,20 @@ composition, still locally and without promoting weights to a submission.
 - **Next registered matrix:** H14 arms A frozen pretrained square + learned
   reducer, B trainable pretrained + reducer, C random square + reducer, and D
   fully entangled end-to-end, with matched splits/reducer/optimizer/compute.
+- **Full Easy sweep:** exact frozen source produced E1 40.67%, E2 16.25%, E3
+  0.62%, E4 0.59%, E5 0.54%, E6 33.09%, E7 39.15%, E8 26.12%, E9 28.44%,
+  and E10 **41.13%**. All seven fixed-N datasets are nontrivial; all three
+  varying-N datasets are chance-scale. E7/E8 share N=287 yet differ by 13.03
+  points, isolating additional curriculum/split sensitivity.
+- **Muon diagnosis:** the submission's wall-clock cosine is not the standalone
+  winner's schedule. The winner used Muon 0.02 through step 1,000, cosine to
+  0.002 by step 5,000, then clamped; scalar AdamW remained 0.0003. Replace the
+  wall-clock schedule with those exact update-count boundaries. This directly
+  predicts retention of M6's early 28.1% train solution instead of collapse.
+- **Hard correction:** H1 job `37cedcd2-a172-4fb3-b289-24260777c83b` failed
+  before producing metrics (`EVALUATION_FAILED`); it has no score and supplies
+  no Hard generalization evidence.
+- **Retirement:** complete `/home/ubuntu/ngpu` backup matched 107 files and
+  69,042,639 bytes locally/remotely. After verification the remote tree was
+  removed and Prime pod `343285f532464d9f988ff4db33ff4838` was terminated;
+  provider status has no IP/SSH endpoint and the former SSH address times out.

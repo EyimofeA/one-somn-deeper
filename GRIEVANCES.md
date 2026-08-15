@@ -35,3 +35,11 @@ actionable request when one exists.
   whether the exact source/dataset pair has already been scored and require
   an explicit “submit this source now” authorization when the request is only
   to select or recommend a candidate.
+### 2026-08-15 — Prime termination helper drops its confirmed flag
+
+`prime_l40.sh kill ... --yes` validates the local confirmation token but invokes
+`prime pods terminate POD_ID` without forwarding `--yes`. In a noninteractive
+session this aborts after the backup has already been verified. The safe
+workaround was to inspect CLI help and run authenticated
+`prime pods terminate POD_ID --yes --plain`; no pod was terminated before the
+verified manifest existed.

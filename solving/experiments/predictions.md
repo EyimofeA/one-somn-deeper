@@ -2592,3 +2592,20 @@ PREDICT:    mean exact should remain materially above 5% on every fixed-N rung,
             collapse on E8 despite sharing N=287 with E7 would implicate split
             or curriculum sensitivity rather than arithmetic capacity.
 ```
+### 2026-08-15 — Frozen full Easy E1--E10 sweep
+
+```
+CARD:       neural_gpu_square_reduce_full_easy_sweep
+CHANGE:     dataset only; exact frozen SHA-1
+            ff3381c9be98884f0409a3a63fa467cf6be47ab9 on E1--E10
+PREDICT:    fixed-small-N E1/E2/E6--E10 should show the strongest signal;
+            varying-N E3--E5 should fall sharply because the reducer cannot
+            memorize one modulus. E8 should differ from E7 despite shared
+            N=287 only if curriculum/split support materially changes learning.
+            No source or optimizer changes are allowed during the sweep.
+```
+
+RESULT:     confirmed — fixed-N E1/E2/E6--E10 scored 16.25%--41.13%, while
+            varying-N E3/E4/E5 scored only 0.54%--0.62%. E7 versus same-N E8
+            differed materially (39.15% versus 26.12%), proving curriculum or
+            split sensitivity even when modulus is held constant.
