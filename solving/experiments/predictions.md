@@ -2519,3 +2519,23 @@ CARD:       neural_gpu_muon_dropout_11bit_multiplication
 CHANGE:     Scale only operand width from seven to eleven binary bits: use 22 output positions and 22 tied recurrent updates with the retained 128-channel Muon-warmdown-plus-dropout architecture. Train on 200,000 deterministic unique unordered pairs; select on 10,000 disjoint pairs and open a separate 10,000-pair audit once. No competition data is generated.
 PREDICT:    The winner learns substantial 11-bit multiplication but does not reproduce 98.21% because longer partial-product/carry paths and a 25x larger numeric domain raise algorithmic pressure. Success requires at least 95% monitored-train and 75% validation exact by 25.6M examples; failure to reach train fit is capacity/optimization-inconclusive, while train fit with low validation refutes fixed-width algorithmic scaling.
 RESULT:     unclear but strongly transferable. At 25.6M examples the model reached 77.08% full-train / 75.53% validation / 75.46% once-opened audit exact and 97.99% audit bit accuracy. It cleared the validation threshold but not the 95% train-fit requirement, so it demonstrates unseen-pair 11-bit signal without resolving capacity versus optimization or post-fit algorithmic generalization. Audit exact declines from 91.81% for 18-bit products to 53.84% for 22-bit products and from 90.51% at ten active-carry columns to 31.03% at twenty.
+### 2026-08-15 — Direct 11-bit squaring on the retained Neural GPU
+
+- **Change:** Replace arbitrary `a,b` multiplication pairs with disjoint-value
+  `x,x -> x^2` examples. Keep the 128-channel Muon-warmdown + 9% recurrent-
+  dropout model, 22-bit tape, 22 tied updates, optimizer, and seed unchanged.
+- **Prediction:** Squaring should substantially exceed the 75.46% multiplication
+  audit because commutativity removes operand-order variation and the model only
+  needs diagonal partial products. Success is >=95% untouched-x exact; <90% with
+  training near 100% indicates poor rule generalization, while low train and
+  audit together indicates remaining optimization/capacity limits.
+- **Selection rule:** Select checkpoints on the 224-value validation split only;
+  open the disjoint 224-value audit once after selection.
+- **Result:** The unchanged 128-channel model reached 100% train exact by
+  2,000 steps and peaked at **99.11% validation exact** at step 14,000
+  (7.168M examples). The owner stopped the run at step 20,000 because the
+  learnability question was already answered. The original harness saved only
+  on normal completion, so no checkpoint or audit metric exists; do not report
+  99.11% as untouched audit accuracy. The result clears the validation gate and
+  refutes an immediate width requirement for fixed-width 11-bit squaring, but
+  it does not establish length generalization or a stable recurrent algorithm.

@@ -2565,3 +2565,28 @@ composition, still locally and without promoting weights to a submission.
   `experiments/2026-08-11_submission_selection_refresh/NOTE.md` and the
   preregistration/result entries in `experiments/predictions.md`.
 - **2026-08-12 CMC Hard queued:** owner-requested exploratory submission `580f78bc-de32-4495-a1ca-c34726331d3a`, exact new SHA-1 `2b1d03547e064639cc914c9cbe6f529c8aec24a2`. One change from the gated arithmetic tape: explicit directional messages are consumed by future recurrent content updates. Prediction: no certified rung; metrics pending.
+### 2026-08-15 — Direct 11-bit squaring clears the validation gate (Author: Codex)
+
+- **Question:** Is the 128-channel Neural GPU under-capacity for 11-bit raw
+  squaring, or is arbitrary two-operand multiplication the harder source of the
+  prior 75.46% audit ceiling?
+- **Setup:** Keep the 443,393-parameter Muon-warmdown + 9% recurrent-dropout
+  model, 22-bit tape, 22 tied recurrent updates, optimizer, and seed. Replace
+  arbitrary pairs with all 2,048 eleven-bit values split deterministically into
+  1,600 train, 224 validation, and 224 untouched audit values; feed `x` into
+  both operand rows and supervise the 22 bits of `x^2`.
+- **Result:** Train exact reached 100% by step 2,000. Validation rose from
+  94.64% at 2,000 to 97.77% at 4,000, 98.66% at 10,000, and a **99.11% peak at
+  step 14,000 / 7.168M examples**. It was 98.21% at step 20,000 when the owner
+  stopped the scientifically decisive run.
+- **Interpretation:** The same width that remained underfit on arbitrary 11-bit
+  multiplication can learn fixed-width 11-bit squaring across disjoint `x`.
+  This refutes the claim that more width is already necessary for this scale.
+  It does not show unseen-length generalization, stable convergence under extra
+  recurrent updates, modular reduction, or competition-scale 22-bit inputs.
+- **Limitation:** The interrupted harness had no periodic checkpoint saving;
+  consequently the untouched audit was never opened and there is no retained
+  model checkpoint. Only train/validation curve evidence is valid. Add atomic
+  best-checkpoint saves before another long run.
+- **Evidence:** ignored verified backup path
+  `diagnostics/artifacts/prime-343285f532464d9f988ff4db33ff4838/neural-gpu-ablation-v2/runs_v3/square_11bit_muon_dropout/train.log`.

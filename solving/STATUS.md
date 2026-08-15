@@ -1,5 +1,17 @@
 # Status (living)
 
+**Direct 11-bit squaring screen (2026-08-15):** changing only the data from
+arbitrary multiplication to disjoint-value `x,x -> x^2` let the retained
+128-channel Muon-warmdown-plus-dropout Neural GPU reach **100% train / 99.11%
+peak validation exact** at 14,000 steps (7.168M examples). This is fixed-width
+11-bit input / 22-bit output generalization across unseen `x`, and it strongly
+outperforms the same model's 75.53% validation on arbitrary 11-bit
+multiplication. The owner stopped the run at 20,000 steps; because the harness
+saved only on normal completion, the untouched 224-value audit was not opened
+and no checkpoint exists. Therefore squaring is highly promising at this width,
+not proved algorithmic or length-generalized. Interrupted log is preserved in
+the ignored verified Prime backup.
+
 **Eleven-bit multiplication scaling (2026-08-15):** fixed directional channel
 transport regressed the seven-bit Muon-warmdown-plus-dropout winner despite a
 15.36M-example ceiling: 94.12% validation / 93.92% audit versus 97.01% /

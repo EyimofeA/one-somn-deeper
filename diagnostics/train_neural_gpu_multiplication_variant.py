@@ -44,6 +44,18 @@ def sampled_pair_split(input_bits, train_size, validation_size, audit_size, seed
             pairs[train_size + validation_size:])
 
 
+def square_value_split(input_bits, train_size, validation_size, audit_size, seed):
+    """Deterministic disjoint-x split for direct fixed-width squaring."""
+    limit, needed = 1 << input_bits, train_size + validation_size + audit_size
+    if needed > limit:
+        raise ValueError(f"square split requests {needed} values but only {limit} exist")
+    values = list(range(limit))
+    random.Random(seed + 50_000).shuffle(values)
+    pairs = [(value, value) for value in values[:needed]]
+    return (pairs[:train_size], pairs[train_size:train_size + validation_size],
+            pairs[train_size + validation_size:])
+
+
 def binary_carry_count(a, b, width):
     left, right, carry, active = bits(a, width), bits(b, width), 0, 0
     for column in range(2 * width - 1):
@@ -228,6 +240,7 @@ def main():
     parser.add_argument("--eval-every", type=int, default=1000)
     parser.add_argument("--compile", action="store_true")
     parser.add_argument("--input-bits", type=int, default=7)
+    parser.add_argument("--task", choices=["multiply", "square"], default="multiply")
     parser.add_argument("--train-size", type=int, default=200_000)
     parser.add_argument("--validation-size", type=int, default=10_000)
     parser.add_argument("--audit-size", type=int, default=10_000)
@@ -239,7 +252,10 @@ def main():
     torch.manual_seed(args.seed)
     torch.backends.cudnn.benchmark = True
     torch.backends.cuda.matmul.allow_tf32 = True
-    if args.input_bits == 7:
+    if args.task == "square":
+        train_examples, validation_examples, audit_examples = square_value_split(
+            args.input_bits, args.train_size, args.validation_size, args.audit_size, args.seed)
+    elif args.input_bits == 7:
         train_examples, test_examples = split_examples(args.seed)
         test_rng = random.Random(args.seed + 20_000)
         test_rng.shuffle(test_examples)
@@ -308,7 +324,7 @@ def main():
     selected = {"train": evaluate(model, train, args.device, args.input_bits),
                 "validation": evaluate(model, validation, args.device, args.input_bits),
                 "audit": evaluate(model, audit, args.device, args.input_bits)}
-    report = {"variant": args.variant, "seed": args.seed, "steps": args.steps,
+    report = {"task": args.task, "variant": args.variant, "seed": args.seed, "steps": args.steps,
               "input_bits": args.input_bits, "recurrent_updates": 2 * args.input_bits,
               "parameters": sum(parameter.numel() for parameter in model.parameters()),
               "split": {"train": len(train), "validation": len(validation), "audit": len(audit)},
