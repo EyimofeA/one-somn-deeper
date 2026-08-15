@@ -25,9 +25,33 @@ def bits(value, width):
     return [(value >> position) & 1 for position in range(width)]
 
 
-def rows(examples):
-    return [(bits(a, BITS), bits(b, BITS), bits(a * b, OUTPUT_BITS), a, b)
+def rows(examples, input_bits=BITS):
+    return [(bits(a, input_bits), bits(b, input_bits), bits(a * b, 2 * input_bits), a, b)
             for a, b in examples]
+
+
+def sampled_pair_split(input_bits, train_size, validation_size, audit_size, seed):
+    """Deterministic non-competition unordered-pair sample without overlap."""
+    rng = random.Random(seed + 40_000)
+    limit, needed = 1 << input_bits, train_size + validation_size + audit_size
+    pairs = set()
+    while len(pairs) < needed:
+        a, b = rng.randrange(limit), rng.randrange(limit)
+        pairs.add((min(a, b), max(a, b)))
+    pairs = list(pairs)
+    rng.shuffle(pairs)
+    return (pairs[:train_size], pairs[train_size:train_size + validation_size],
+            pairs[train_size + validation_size:])
+
+
+def binary_carry_count(a, b, width):
+    left, right, carry, active = bits(a, width), bits(b, width), 0, 0
+    for column in range(2 * width - 1):
+        total = carry + sum(left[i] * right[column - i] for i in range(width)
+                            if 0 <= column - i < width)
+        carry = total // 2
+        active += int(carry > 0)
+    return active
 
 
 def hard_sigmoid(value):
@@ -68,14 +92,14 @@ class Cell(nn.Module):
 
 
 class Model(nn.Module):
-    def __init__(self, variant, channels):
+    def __init__(self, variant, channels, steps=14):
         super().__init__()
-        self.variant, self.channels = variant, channels
+        self.variant, self.channels, self.steps = variant, channels, steps
         self.embedding = nn.Embedding(2, channels)
         self.left_marker = nn.Parameter(torch.randn(channels) * 0.02)
         self.right_marker = nn.Parameter(torch.randn(channels) * 0.02)
         copies = 6 if variant == "sharing_relaxation" else 4 if variant == "microprogram" else 1
-        self.cells = nn.ModuleList([Cell(channels, variant == "diagonal", variant == "hard")
+        self.cells = nn.ModuleList([Cell(channels, variant in ("diagonal", "muon_dropout_diagonal"), variant == "hard")
                                     for _ in range(copies)])
         self.readout = nn.Conv1d(channels, 1, 1)
         self.memory_gate = nn.Conv2d(channels * 2, channels, 1) if variant == "sparse_memory" else None
@@ -90,7 +114,7 @@ class Model(nn.Module):
             keep = 1.0 - dropout
             mask = torch.empty(batch, self.channels, 1, 1, device=left.device).bernoulli_(keep) / keep
         history, saturation = [], hidden.new_zeros(())
-        for step in range(14):
+        for step in range(self.steps):
             if self.memory_gate is not None and step >= 4:
                 past = history[-4]
                 gate = torch.sigmoid(self.memory_gate(torch.cat((hidden, past), dim=1)))
@@ -98,7 +122,7 @@ class Model(nn.Module):
             history.append(hidden)
             hidden, penalty = self.cells[step % len(self.cells)](hidden, mask)
             saturation = saturation + penalty
-        return self.readout(hidden[:, :, 0]).squeeze(1), saturation / 14
+        return self.readout(hidden[:, :, 0]).squeeze(1), saturation / self.steps
 
     def sharing_cost(self):
         if self.variant != "sharing_relaxation":
@@ -125,10 +149,11 @@ def buckets(counts):
 
 
 @torch.no_grad()
-def evaluate(model, data, device):
+def evaluate(model, data, device, input_bits=BITS):
     model.eval()
     exact = bit_correct = bit_total = 0
-    positions = [0] * OUTPUT_BITS
+    output_bits = 2 * input_bits
+    positions = [0] * output_bits
     carry = defaultdict(lambda: [0, 0])
     lengths = defaultdict(lambda: [0, 0])
     for start in range(0, len(data), 512):
@@ -141,11 +166,13 @@ def evaluate(model, data, device):
         exact += int(rows_exact.sum())
         bit_correct += int(matches.sum())
         bit_total += matches.numel()
-        for position in range(OUTPUT_BITS):
+        for position in range(output_bits):
             positions[position] += int(matches[:, position].sum())
         for item, correct in zip(chunk, rows_exact.tolist()):
             a, b = item[3], item[4]
-            for table, key in ((carry, carry_count(a, b)), (lengths, len(str(a * b)))):
+            carry_key = carry_count(a, b) if input_bits == 7 else binary_carry_count(a, b, input_bits)
+            length_key = len(str(a * b)) if input_bits == 7 else (a * b).bit_length()
+            for table, key in ((carry, carry_key), (lengths, length_key)):
                 table[key][0] += int(correct)
                 table[key][1] += 1
     total = len(data)
@@ -193,28 +220,43 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--variant", choices=["baseline", "diagonal", "dropout", "hard",
                         "gradient_noise", "wide", "sharing_relaxation", "muon",
-                        "sparse_memory", "microprogram", "muon_decay", "muon_dropout"], required=True)
+                        "sparse_memory", "microprogram", "muon_decay", "muon_dropout",
+                        "muon_dropout_diagonal"], required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--steps", type=int, default=10_000)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--eval-every", type=int, default=1000)
     parser.add_argument("--compile", action="store_true")
+    parser.add_argument("--input-bits", type=int, default=7)
+    parser.add_argument("--train-size", type=int, default=200_000)
+    parser.add_argument("--validation-size", type=int, default=10_000)
+    parser.add_argument("--audit-size", type=int, default=10_000)
+    parser.add_argument("--train-eval-size", type=int, default=0,
+                        help="Use a fixed train prefix for progress only; zero evaluates all train rows.")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     random.seed(args.seed)
     torch.manual_seed(args.seed)
     torch.backends.cudnn.benchmark = True
     torch.backends.cuda.matmul.allow_tf32 = True
-    train_examples, test_examples = split_examples(args.seed)
-    test_rng = random.Random(args.seed + 20_000)
-    test_rng.shuffle(test_examples)
-    validation_examples, audit_examples = test_examples[:1003], test_examples[1003:]
-    train, validation, audit = rows(train_examples), rows(validation_examples), rows(audit_examples)
+    if args.input_bits == 7:
+        train_examples, test_examples = split_examples(args.seed)
+        test_rng = random.Random(args.seed + 20_000)
+        test_rng.shuffle(test_examples)
+        validation_examples, audit_examples = test_examples[:1003], test_examples[1003:]
+    else:
+        train_examples, validation_examples, audit_examples = sampled_pair_split(
+            args.input_bits, args.train_size, args.validation_size, args.audit_size, args.seed)
+    train = rows(train_examples, args.input_bits)
+    validation = rows(validation_examples, args.input_bits)
+    audit = rows(audit_examples, args.input_bits)
+    train_monitor = train[:args.train_eval_size] if args.train_eval_size else train
     channels = 192 if args.variant == "wide" else 128
-    model = Model(args.variant, channels).to(args.device)
+    model = Model(args.variant, channels, steps=2 * args.input_bits).to(args.device)
     if args.compile:
         model = torch.compile(model)
-    optimizer_variant = "muon" if args.variant in ("muon_decay", "muon_dropout") else args.variant
+    optimizer_variant = "muon" if args.variant in ("muon_decay", "muon_dropout",
+                                                      "muon_dropout_diagonal") else args.variant
     optimizers = make_optimizers(model, optimizer_variant)
     generator = torch.Generator(device="cpu").manual_seed(args.seed + 1)
     curve, best_validation, best_state, best_step = [], -1.0, None, 0
@@ -224,7 +266,8 @@ def main():
         left, right, target = tensors([train[index] for index in indices], args.device)
         model.train()
         with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
-            logits, saturation = model(left, right, dropout=0.09 if args.variant in ("dropout", "muon_dropout") else 0.0)
+            logits, saturation = model(left, right, dropout=0.09 if args.variant in
+                                       ("dropout", "muon_dropout", "muon_dropout_diagonal") else 0.0)
             loss = F.binary_cross_entropy_with_logits(logits, target)
         if args.variant == "hard":
             loss = loss + 1e-3 * saturation
@@ -241,13 +284,13 @@ def main():
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1)
         for optimizer in optimizers:
             optimizer.step()
-        if args.variant in ("muon_decay", "muon_dropout"):
+        if args.variant in ("muon_decay", "muon_dropout", "muon_dropout_diagonal"):
             progress = min(1.0, max(0.0, (step - 1000) / 4000))
             muon_lr = 0.002 + 0.018 * 0.5 * (1 + math.cos(progress * math.pi))
             optimizers[0].param_groups[0]["lr"] = muon_lr
         if step == 1 or step % args.eval_every == 0:
-            train_metrics = evaluate(model, train, args.device)
-            validation_metrics = evaluate(model, validation, args.device)
+            train_metrics = evaluate(model, train_monitor, args.device, args.input_bits)
+            validation_metrics = evaluate(model, validation, args.device, args.input_bits)
             record = {"step": step, "examples": step * 512,
                       "elapsed_seconds": time.perf_counter() - started,
                       "loss": float(loss.detach()),
@@ -258,14 +301,15 @@ def main():
                 best_validation, best_step = record["validation_exact"], step
                 best_state = copy.deepcopy(model.state_dict())
             print(json.dumps({"type": "progress", **record}), flush=True)
-    final = {"train": evaluate(model, train, args.device),
-             "validation": evaluate(model, validation, args.device)}
+    final = {"train": evaluate(model, train, args.device, args.input_bits),
+             "validation": evaluate(model, validation, args.device, args.input_bits)}
     final_state = copy.deepcopy(model.state_dict())
     model.load_state_dict(best_state)
-    selected = {"train": evaluate(model, train, args.device),
-                "validation": evaluate(model, validation, args.device),
-                "audit": evaluate(model, audit, args.device)}
+    selected = {"train": evaluate(model, train, args.device, args.input_bits),
+                "validation": evaluate(model, validation, args.device, args.input_bits),
+                "audit": evaluate(model, audit, args.device, args.input_bits)}
     report = {"variant": args.variant, "seed": args.seed, "steps": args.steps,
+              "input_bits": args.input_bits, "recurrent_updates": 2 * args.input_bits,
               "parameters": sum(parameter.numel() for parameter in model.parameters()),
               "split": {"train": len(train), "validation": len(validation), "audit": len(audit)},
               "best_step": best_step, "curve": curve, "selected": selected, "final": final,

@@ -2408,6 +2408,40 @@ composition, still locally and without promoting weights to a submission.
   The provider then listed **0 compute pods**; the terminated record had no IP
   or SSH endpoint, and the former SSH target timed out. Billing is stopped.
 
+### 2026-08-15 — Eleven-bit multiplication reaches 75.46% unseen-pair audit (Author: Codex)
+
+- **Diagonal gate:** adding fixed left/stay/right channel transport to the
+  seven-bit Muon-warmdown-plus-dropout winner reached 100% train by 2.048M
+  examples but only 94.12% validation at 11.776M and 93.92% audit. Three-carry
+  was 91.58% and four-digit 90.92%. The 15.36M-example run remained below the
+  non-diagonal 97.01%/98.21% result, so diagonal was excluded from scaling.
+- **Eleven-bit setup:** only operand width changed. The retained 443,393-parameter
+  cell received two 11-bit operands, produced 22 product bits, and ran for 22
+  tied updates. A deterministic non-competition generator sampled 200,000
+  unique unordered training pairs, 10,000 validation pairs, and 10,000 audit
+  pairs without overlap. Validation selected checkpoints; audit opened once.
+- **Result:** after 50,000 optimizer steps / 25.6M sampled examples, the final
+  and best checkpoint reached **77.08% full-train / 75.53% validation / 75.46%
+  audit exact**, with 97.99% audit bit accuracy. Total wall time including
+  compilation and full diagnostics was 1,515.9 seconds.
+- **Failure shape:** audit exact is 91.81% at 18-bit products, 85.41% at 19,
+  74.43% at 20, 63.90% at 21, and 53.84% at 22. By binary active-carry-column
+  count, it falls from 90.51% at ten to 31.03% at twenty. Central output bits
+  10--13 average 91.25%; the outside bits are nearly exact.
+- **Interpretation:** the 1.62-point train--audit gap is evidence of transferable
+  pair generalization, not lookup memorization. Because train never approached
+  the registered 95% fit gate, this run cannot distinguish insufficient
+  capacity from an 11-bit-misaligned optimizer schedule and cannot test
+  post-interpolation grokking. The rising final curve justifies an optimization
+  repair before architectural expansion; it does not justify claiming solved
+  multiplication or unseen-length generalization.
+- **Evidence:** verified ignored backup
+  `diagnostics/artifacts/prime-343285f532464d9f988ff4db33ff4838/neural-gpu-ablation-v2/`
+  contains 99 files / 65,401,736 bytes. Reports:
+  `runs_v3/muon_dropout_diagonal/eval_report.json` and
+  `runs_v4/muon_dropout_11bit/eval_report.json`. Figure:
+  `figures/neural_gpu_11bit_2026-08-15.png`.
+
 ### 2026-08-15 — Muon plus dropout reaches 98.21%; no grokking (Author: Codex)
 
 - **Protocol correction:** every card was first compared at 5.12M sampled

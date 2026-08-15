@@ -1,5 +1,18 @@
 # Status (living)
 
+**Eleven-bit multiplication scaling (2026-08-15):** fixed directional channel
+transport regressed the seven-bit Muon-warmdown-plus-dropout winner despite a
+15.36M-example ceiling: 94.12% validation / 93.92% audit versus 97.01% /
+98.21%, so diagonal transport was excluded. Scaling the unchanged winner to
+11-bit operands, 22 output bits, and 22 tied updates on 200,000 deterministic
+unique training pairs reached **77.08% full train / 75.53% validation / 75.46%
+untouched audit** after 25.6M sampled examples. Train and audit remain close,
+showing transferable unseen-pair multiplication, but the model did not
+interpolate; this is capacity/optimization-inconclusive, not grokking or
+length-generalized multiplication. Exactness declines from 91.81% for 18-bit
+products to 53.84% for 22-bit products. Figure:
+[`figures/neural_gpu_11bit_2026-08-15.png`](figures/neural_gpu_11bit_2026-08-15.png).
+
 **Neural GPU multiplication fit-match and mechanism audit (2026-08-15):** on the frozen
 binary `0..99 x 0..99` unordered-pair split, combining Muon warmdown with the
 isolated 9% recurrent-dropout winner raised untouched-audit exact from
