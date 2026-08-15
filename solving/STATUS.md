@@ -1,5 +1,15 @@
 # Status (living)
 
+**Active Hard experiment (2026-08-16):** hosted H1 submission
+`43d215f5-1d4a-47c7-9cc0-5a547d1a3736` is running with exact uploaded SHA-1
+`68a7b4c1bb27596945a47312e9af64c85ded2021`. The 897,457-parameter card makes
+the square phase genuinely N-blind, injects immutable N only before reduction,
+uses recurrent dropout and Muon, skips sparse no-wrap auxiliary work on
+Medium/Hard, and retains a T=1-first curriculum. Promotion evidence is weak:
+the preceding hosted N-visible card scored E10 8.92%, E5 0.50%, and M6 0.87%
+with no certified rung. The upload is an owner-requested exploratory Hard run,
+not a gate-qualified promotion.
+
 **T-profile measurement repair and varying-N diagnosis (2026-08-15):** hosted
 Easy metrics cannot be retrospectively decomposed by T. New local monitor
 [`../diagnostics/monitor_competition_by_t.py`](../diagnostics/monitor_competition_by_t.py)

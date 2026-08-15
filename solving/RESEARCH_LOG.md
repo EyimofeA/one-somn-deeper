@@ -2686,3 +2686,26 @@ composition, still locally and without promoting weights to a submission.
 - **Evidence:** `diagnostics/figures/exact_mod_squarer_ablation_matrix_2026-08-15.png`;
   verified ignored backup at
   `diagnostics/artifacts/prime-cf9a299a179e43a885b635453f007c5e/exact-mod-ablation-2026-08-15/`.
+
+## 2026-08-16 — Legal no-wrap anchor and N-blind Hard upload
+
+- **Hosted gates:** N-visible square/reduce plus the legal no-wrap anchor scored
+  E10 8.92% (`ebd63c8e-394f-4e22-a7d2-cc327b392f61`), varying-N E5 0.50%
+  (`8a00cadd-9a80-429c-b315-3832a6a8106b`), and M6 0.87%
+  (`22df216c-be01-49a6-8347-5dfe0fd20ee9`). None certified a rung.
+- **Throughput:** E10 completed 355 updates and E5 825. The sparse anchor plus
+  full square/reducer forward is far below the 10k--14k update scale of the
+  supervised squarer. The follow-up removes its per-forward synchronization
+  and skips the reducer during the Easy-only anchor phase.
+- **M6 mechanism:** train exact improved through the first half, then loss
+  jumped at step ~4,900 exactly when T=1-only training ended. At step 5,100
+  train exact briefly reached 43.8%, then decayed to 10.9% at step 8,182. The
+  abrupt recurrence transition, not only Muon, is a demonstrated instability.
+- **Hard artifact:** the square phase was corrected to be strictly N-blind and
+  immutable N is inserted only at the learned reduction interface. Exact SHA-1
+  `68a7b4c1bb27596945a47312e9af64c85ded2021` was accepted as H1 submission
+  `43d215f5-1d4a-47c7-9cc0-5a547d1a3736` before 00:00 UTC. The run is
+  exploratory because E5 failed the promotion gate.
+- **Independent reviews:** Pi Kimi K3 and Pi Opus 5 converge on square/reducer
+  identifiability and terminal credit assignment. Their combined program is
+  recorded in `solving/NEXT_STEPS_2026-08-16.md`.

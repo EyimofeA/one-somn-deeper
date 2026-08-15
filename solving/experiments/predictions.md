@@ -2984,3 +2984,41 @@ RESULT:     stochastic consistency refuted at 0% square / 1.0% modular; it made
             the shortcut stable rather than selecting multiplication.
 RESULT:     digitization refuted at 0% square / 0.5% modular; sharpening bit
             probabilities hardened the wrong latent function.
+
+### 2026-08-15 — Legal no-wrap square-anchor curriculum
+
+```
+CARD:       legal_nowrap_anchor_square_reduce
+CHANGE:     on T=1 rows whose input bit lengths guarantee no modular wrap,
+            use the evaluator-provided final bits to supervise the N-blind
+            squarer directly for the first 20% of wall time, then train the
+            complete learned reducer while retaining a 0.5 square anchor
+PREDICT:    fixed-N E10 should remain within 10 points of the 41.13% anchor;
+            varying-N E5 should exceed its 0.54% hosted baseline if the legal
+            anchor recruits transferable squaring, but may remain below 10%
+            because the learned reducer still receives terminal supervision
+```
+RESULT:     refuted at hosted scale — E10 scored 8.92% and varying-N E5 0.50%.
+            The E5 run completed only 825 updates, while the supervised squarer
+            required roughly 10k; the anchor did not transfer through the full
+            square+reduce forward within the Easy budget.
+
+```
+CARD:       legal_nowrap_square_only_throughput
+CHANGE:     during the first 20% no-wrap curriculum, skip the unused learned
+            reduction phase and train only one square macrostep; retain the
+            identical full model, anchor, and loss for the remaining 80%
+PREDICT:    E5 should process materially more than 825 updates and exceed 0.50%
+            if curriculum throughput was binding; staying at chance despite a
+            large update gain refutes compute as the main Easy bottleneck
+```
+
+```
+CARD:       legal_nblind_square_nowrap_throughput
+CHANGE:     remove N from the square phase entirely, preserving immutable N
+            injection immediately before the learned reducer; combine with the
+            already registered square-only no-wrap throughput curriculum
+PREDICT:    varying-N E5 should exceed 0.50% if N-specific co-adaptation was
+            suppressing the shared square function; fixed-N may regress because
+            the previous 8.92% signal could exploit N-visible shortcuts
+```

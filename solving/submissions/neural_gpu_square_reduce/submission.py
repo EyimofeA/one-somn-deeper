@@ -36,6 +36,8 @@ WARMUP_FRACTION = 0.05
 FINAL_LR_FRACTION = 0.01
 T1_ONLY_FRACTION = 0.50
 T1_LATE_WEIGHT = 4.0
+SQUARE_CURRICULUM_FRACTION = 0.20
+SQUARE_ANCHOR_WEIGHT = 0.50
 
 _training_started = 0.0
 _training_total_seconds = 1.0
@@ -100,6 +102,14 @@ def _parse_prompt(
     return n_tokens, x_tokens, t_value.clamp(min=1, max=MAX_LOOPS)
 
 
+def _token_value(tokens: Tensor) -> Tensor:
+    """Decode the LSD-first decimal representation used at the model boundary."""
+    powers = torch.ones(tokens.shape[1], dtype=torch.long, device=tokens.device)
+    for position in range(1, tokens.shape[1]):
+        powers[position] = powers[position - 1] * 10
+    return ((tokens - DIGIT_OFFSET).clamp(min=0, max=9) * powers).sum(1)
+
+
 class LocalGridCell(nn.Module):
     def __init__(self) -> None:
         super().__init__()
@@ -161,21 +171,27 @@ class Model(nn.Module):
             state = cell(state, mask)
         return state
 
-    def _macrostep(self, digit_state: Tensor, n_features: Tensor) -> Tensor:
+    def _macrostep(
+        self, digit_state: Tensor, n_features: Tensor, square_only: bool = False
+    ) -> tuple[Tensor, Tensor]:
         batch, positions, _ = digit_state.shape
         x_features = digit_state @ self.token_embedding.weight
         state = x_features.new_zeros(batch, STATE_DIM, LANES, positions)
         state[:, :, 0] = self.x_inject(x_features).transpose(1, 2)
-        state[:, :, 1] = self.n_inject(n_features).transpose(1, 2)
         state = state + self.row_roles.T[None, :, :, None]
         state[:, :, :, 0] = state[:, :, :, 0] + self.boundaries[0][None, :, None]
         state[:, :, :, -1] = state[:, :, :, -1] + self.boundaries[1][None, :, None]
         state = self._phase(state, self.square_cell)
+        square_logits = self.head(state[:, :, 0]).transpose(1, 2)
+        if square_only:
+            return square_logits, square_logits
         # Re-inject immutable N at the square/reduction interface. The reducer
         # remains a generic learned local cell; no arithmetic action is coded.
-        state[:, :, 1] = state[:, :, 1] + self.n_inject(n_features).transpose(1, 2)
+        state[:, :, 1] = self.n_inject(n_features).transpose(1, 2) + self.row_roles[1][None, :, None]
+        state[:, :, 1, 0] = state[:, :, 1, 0] + self.boundaries[0][None]
+        state[:, :, 1, -1] = state[:, :, 1, -1] + self.boundaries[1][None]
         state = self._phase(state, self.reduce_cell)
-        return self.head(state[:, :, 0]).transpose(1, 2)
+        return self.head(state[:, :, 0]).transpose(1, 2), square_logits
 
     def forward(
         self, input_ids: Tensor, attention_mask: Tensor | None = None
@@ -183,10 +199,18 @@ class Model(nn.Module):
         del attention_mask
         batch, length = input_ids.shape
         n_tokens, x_tokens, t_value = _parse_prompt(input_ids, self.num_digits)
-        batch_has_t1 = bool((t_value == 1).any().item())
+        n_value, x_value = _token_value(n_tokens), _token_value(x_tokens)
+        no_wrap = (
+            ((x_value < 16) & (n_value >= 512))
+            | ((x_value < 32) & (n_value >= 1024))
+        ) & (t_value == 1)
+        square_curriculum = (
+            self.training
+            and _training_total_seconds <= 120.0
+            and _training_progress() < SQUARE_CURRICULUM_FRACTION
+        )
         in_t1_phase = (
             self.training
-            and batch_has_t1
             and _training_progress() < T1_ONLY_FRACTION
         )
         if in_t1_phase:
@@ -205,8 +229,14 @@ class Model(nn.Module):
             dtype=n_features.dtype,
             device=input_ids.device,
         )
-        for step_index in range(int(effective_t.max().item())):
-            proposed_logits = self._macrostep(digit_state, n_features)
+        first_square_logits = output_logits
+        loop_count = 1 if in_t1_phase else int(effective_t.max().item())
+        for step_index in range(loop_count):
+            proposed_logits, square_logits = self._macrostep(
+                digit_state, n_features, square_only=square_curriculum
+            )
+            if step_index == 0:
+                first_square_logits = square_logits
             proposed_state = self._quantize(proposed_logits)
             active = (step_index < effective_t)[:, None, None]
             digit_state = torch.where(active, proposed_state, digit_state)
@@ -216,7 +246,12 @@ class Model(nn.Module):
             max=self.num_digits - 1
         )
         logits = output_logits[:, output_places, :]
-        self.auxiliary = {"t_value": t_value}
+        self.auxiliary = {
+            "t_value": t_value,
+            "n_value": n_value,
+            "x_value": x_value,
+            "first_square_logits": first_square_logits,
+        }
         return logits, self.auxiliary
 
 
@@ -233,10 +268,58 @@ def token_training_loss(batch: TokenLossBatch) -> Tensor:
     if not isinstance(auxiliary, dict) or "t_value" not in auxiliary:
         return row_ce.mean()
     is_t1 = (auxiliary["t_value"] == 1).to(row_ce.dtype)
+
+    # Sparse no-wrap anchors are useful only on the small-N Easy curriculum.
+    # Medium and Hard skip this entire auxiliary graph and train the N-blind
+    # square/reduce composition directly.
+    if _training_total_seconds > 120.0:
+        if _training_progress() < T1_ONLY_FRACTION and bool((is_t1 > 0).any().item()):
+            return (row_ce * is_t1).sum() / is_t1.sum().clamp_min(1.0)
+        weights = 1.0 + (T1_LATE_WEIGHT - 1.0) * is_t1
+        return (row_ce * weights).sum() / weights.sum().clamp_min(1.0)
+
+    # Pack evaluator-provided output labels into the model's LSD-first digit
+    # workspace. No answer or arithmetic trace is generated here.
+    valid_labels = batch.valid_mask
+    reverse_place = torch.flip(
+        torch.flip(valid_labels.long(), dims=[-1]).cumsum(-1), dims=[-1]
+    ) - 1
+    square_logits = auxiliary["first_square_logits"]
+    square_target = torch.full(
+        square_logits.shape[:2],
+        DIGIT_OFFSET,
+        dtype=torch.long,
+        device=square_logits.device,
+    )
+    for position in range(batch.labels.shape[1]):
+        selected = valid_labels[:, position]
+        slot = reverse_place[:, position].clamp(min=0, max=square_target.shape[1] - 1)
+        previous = square_target.gather(1, slot[:, None]).squeeze(1)
+        token = torch.where(selected, batch.labels[:, position], previous)
+        square_target.scatter_(1, slot[:, None], token[:, None])
+    square_row = F.cross_entropy(
+        square_logits.transpose(1, 2), square_target, reduction="none"
+    ).mean(1)
+
+    # Bit-length-safe no-wrap curriculum: these sufficient input conditions
+    # guarantee the provided T=1 final label is also the square-phase label.
+    x_value, n_value = auxiliary["x_value"], auxiliary["n_value"]
+    no_wrap = (
+        ((x_value < 16) & (n_value >= 512))
+        | ((x_value < 32) & (n_value >= 1024))
+    ).to(row_ce.dtype) * is_t1
+    if (
+        _training_progress() < SQUARE_CURRICULUM_FRACTION
+    ):
+        return (square_row * no_wrap).sum() / no_wrap.sum().clamp_min(1.0)
     if _training_progress() < T1_ONLY_FRACTION and bool((is_t1 > 0).any().item()):
-        return (row_ce * is_t1).sum() / is_t1.sum().clamp_min(1.0)
+        base = (row_ce * is_t1).sum() / is_t1.sum().clamp_min(1.0)
+        anchor = (square_row * no_wrap).sum() / no_wrap.sum().clamp_min(1.0)
+        return base + SQUARE_ANCHOR_WEIGHT * anchor
     weights = 1.0 + (T1_LATE_WEIGHT - 1.0) * is_t1
-    return (row_ce * weights).sum() / weights.sum().clamp_min(1.0)
+    base = (row_ce * weights).sum() / weights.sum().clamp_min(1.0)
+    anchor = (square_row * no_wrap).sum() / no_wrap.sum().clamp_min(1.0)
+    return base + SQUARE_ANCHOR_WEIGHT * anchor
 
 
 class WallClockSchedule:
@@ -261,6 +344,20 @@ class WallClockSchedule:
             )
         for group, base_lr in zip(self.optimizer.param_groups, self.base_lrs):
             group["lr"] = base_lr * factor
+
+
+class MuonWarmdown:
+    """Update-count schedule that retained the standalone Neural GPU solution."""
+    def __init__(self, optimizer: CombinedOptimizer) -> None:
+        self.optimizer = optimizer
+        self.steps = 0
+
+    def step(self) -> None:
+        self.steps += 1
+        progress = min(1.0, max(0.0, (self.steps - 1000) / 4000))
+        self.optimizer.param_groups[0]["lr"] = 0.002 + 0.018 * 0.5 * (
+            1.0 + math.cos(math.pi * progress)
+        )
 
 
 def build_model(spec: ModelSpec) -> Model:
@@ -345,8 +442,13 @@ def build_optimizer(model: nn.Module, spec: OptimizerSpec) -> OptimizerBundle:
         capturable=spec.device_type == "cuda",
     )
     optimizer = CombinedOptimizer([muon, adamw])
+    schedule = (
+        WallClockSchedule(optimizer, spec.training_time_seconds)
+        if spec.training_time_seconds <= 120
+        else MuonWarmdown(optimizer)
+    )
     return OptimizerBundle(
-        optimizer, WallClockSchedule(optimizer, spec.training_time_seconds)
+        optimizer, schedule
     )
 
 
