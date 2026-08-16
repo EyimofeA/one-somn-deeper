@@ -1,5 +1,16 @@
 # Status (living)
 
+**Full fused varying-N AdamW control (2026-08-16):** changing only the
+optimizer from Muon warmdown to constant AdamW `3e-4` raised matched
+train/unseen-x-seen-N/seen-x-unseen-N/joint-unseen exact from
+2.41/2.04/2.06/1.74% to **8.75/7.60/6.94/7.92%**. The collapse disappeared,
+the final step was best, and the card cleared its 5% material-signal gate but
+missed the 10% strong-lead gate. Train and validation track closely, so this is
+stable full-transition underfitting rather than fixed-N memorization. Figure:
+[`figures/binary_workstate_fused_varying_n_adamw_2026-08-16.png`](figures/binary_workstate_fused_varying_n_adamw_2026-08-16.png).
+Artifacts are byte-verified locally; Prime L40 pod
+`7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour and idle.
+
 **Full fused fixed-N diagnostic (2026-08-16):** with only x bits, fixed
 `N=403`, and final residue labels, the 128-channel AdamW work-state machine
 reached 95.39% train exact by step 1,000 and **100% by step 1,250**, but

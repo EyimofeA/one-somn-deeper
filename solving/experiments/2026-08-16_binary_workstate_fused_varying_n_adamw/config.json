@@ -1,0 +1,22 @@
+{
+  "anchor": "2026-08-16_binary_workstate_matched/fused_x",
+  "one_change": "Muon warmdown plus scalar AdamW to constant AdamW over all parameters",
+  "mode": "fused_x",
+  "fixed_modulus": null,
+  "seed": 74,
+  "operand_bits": 11,
+  "workspace_bits": 22,
+  "train_moduli": 90,
+  "unseen_moduli": 30,
+  "channels": 128,
+  "updates": 44,
+  "dropout": 0.09,
+  "optimizer": "AdamW",
+  "learning_rate": 0.0003,
+  "lr_schedule": "constant",
+  "batch_size": 512,
+  "steps": 10000,
+  "eval_every": 500,
+  "compile": true,
+  "supervision": "final residue bits only"
+}

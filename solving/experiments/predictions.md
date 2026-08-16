@@ -3144,3 +3144,23 @@ RESULT:     memorization branch confirmed — train exact reached 95.39% at
             step 1; its untouched audit was 1/61 (1.64%), also chance-scale.
             Fixed N removes the optimization failure but permits a lookup
             solution rather than recruiting modular squaring.
+
+### 2026-08-16 — Full fused varying-N with AdamW
+
+```
+CARD:       binary_workstate_fused_varying_n_adamw
+CHANGE:     in the matched fused x,N arm, replace Muon warmdown plus scalar
+            AdamW with constant AdamW 3e-4 over all parameters; retain the
+            seed-74 x/N splits, width 128, 44 updates, 9% dropout, and 5.12M
+            example budget
+PREDICT:    the post-step-1,000 collapse should disappear and validation exact
+            should exceed the Muon arm's 2.04%; above 5% is material fused
+            signal and above 10% is a strong lead. Stable train below 5% or
+            joint-unseen below 2% refutes optimizer collapse as the main fused
+            bottleneck.
+```
+RESULT:     confirmed — AdamW eliminated the Muon collapse and raised
+            train/validation/seen-x-unseen-N/joint-unseen exact from
+            2.41/2.04/2.06/1.74% to 8.75/7.60/6.94/7.92%. It cleared the 5%
+            material-signal gate but missed 10%; stable low train fit leaves
+            full-transition underfitting as the dominant bottleneck.

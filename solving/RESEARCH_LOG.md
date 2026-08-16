@@ -2830,3 +2830,26 @@ composition, still locally and without promoting weights to a submission.
   experiment note
   `solving/experiments/2026-08-16_binary_workstate_fused_fixed_n403/NOTE.md`;
   figure `solving/figures/binary_workstate_fused_fixed_n403_2026-08-16.png`.
+
+## 2026-08-16 — AdamW recovers stable full fused varying-N signal
+
+- **Controlled change:** in the matched fused x,N processor, replace Muon
+  warmdown plus scalar AdamW with constant AdamW `3e-4` over all parameters.
+  Seed-74 x/N splits, width 128, 44 tied updates, 9% dropout, final residue BCE,
+  and the 5.12M-example budget are unchanged.
+- **Result:** train/unseen-x-seen-N/seen-x-unseen-N/joint-unseen exact improved
+  from 2.41/2.04/2.06/1.74% under Muon to 8.75/7.60/6.94/7.92% under AdamW.
+  The final step was validation-best and the earlier optimizer collapse did not
+  recur.
+- **Mechanism:** AdamW clears the preregistered 5% fused-signal gate and
+  transfers similarly to unseen x and unseen N. Optimizer collapse was a large
+  secondary bottleneck. The 10% strong-lead gate failed, and only 8.75% of
+  train was fitted, so stable full-transition underfitting remains dominant.
+- **Controlled decomposition:** with the same AdamW processor and budget,
+  exact-square input reaches 14.56% validation versus 7.60% from x input. This
+  measures the remaining fused multiplication/reduction credit-assignment gap.
+- **Evidence:** verified ignored backup at
+  `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/binary-workstate-fused-varying-n-adamw-2026-08-16/`;
+  experiment note
+  `solving/experiments/2026-08-16_binary_workstate_fused_varying_n_adamw/NOTE.md`;
+  figure `solving/figures/binary_workstate_fused_varying_n_adamw_2026-08-16.png`.
