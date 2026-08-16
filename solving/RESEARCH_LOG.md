@@ -2721,3 +2721,19 @@ composition, still locally and without promoting weights to a submission.
   7/31,866; 6/108,314). Prime pod
   `cf9a299a179e43a885b635453f007c5e` was then terminated. Provider status has
   no IP/SSH endpoint and the prior endpoint times out.
+
+## 2026-08-16 — N-blind decimal square/reduce Hard result
+
+- **Result:** H1 submission `43d215f5-1d4a-47c7-9cc0-5a547d1a3736` succeeded
+  operationally but scored **0.05%**, with no certified seen-N or OOD-N T.
+- **T=1:** seen-N 0/768 and OOD-N 0/768. Other isolated rung hits were chance
+  scale: three seen-profile examples and one OOD-N example across all rungs.
+- **Training:** 47,467 completed updates in 3,600.3 seconds; final train loss
+  2.26188 and final sampled train exact 0%. Exact uploaded source SHA-1:
+  `68a7b4c1bb27596945a47312e9af64c85ded2021`.
+- **Interpretation:** the randomly initialized decimal digit composition did
+  not learn `T=1`; it did not transfer the successful directly supervised
+  binary squarer's representation or weights. This result rejects promotion of
+  this card, not binary fused transition learning.
+- **Evidence:** `diagnostics/43d215f5-1d4a-47c7-9cc0-5a547d1a3736-metrics.jsonl`
+  and the hosted structured status response checked on 2026-08-16.

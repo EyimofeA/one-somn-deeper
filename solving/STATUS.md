@@ -1,16 +1,19 @@
 # Status (living)
 
-**Active Hard experiment (2026-08-16):** hosted H1 submission
-`43d215f5-1d4a-47c7-9cc0-5a547d1a3736` is running with exact uploaded SHA-1
-`68a7b4c1bb27596945a47312e9af64c85ded2021`. The 897,457-parameter card makes
+**Completed Hard experiment (2026-08-16):** hosted H1 submission
+`43d215f5-1d4a-47c7-9cc0-5a547d1a3736` completed at **0.05%**, with no
+certified seen-N or OOD-N rung and exactly **0/768** on both T=1 profiles.
+It completed 47,467 updates with final train loss 2.26188. Exact uploaded SHA-1
+was `68a7b4c1bb27596945a47312e9af64c85ded2021`. The 897,457-parameter card makes
 the square phase genuinely N-blind, injects immutable N only before reduction,
 uses recurrent dropout and Muon, skips sparse no-wrap auxiliary work on
 Medium/Hard, and retains a T=1-first curriculum. Promotion evidence is weak:
 the preceding hosted N-visible card scored E10 8.92%, E5 0.50%, and M6 0.87%
 with no certified rung. E10 was implementation-confounded: its no-wrap mask was
 empty at N=403, so the first 20% curriculum returned zero loss and no gradient.
-The upload is an owner-requested exploratory Hard run, not a gate-qualified
-promotion.
+The failed exploratory upload confirms that this randomly initialized decimal
+composition did not learn the one-step transition; it was not a clean transfer
+of the successful directly supervised binary squarer.
 
 **GPU retirement (2026-08-16):** Prime pod
 `cf9a299a179e43a885b635453f007c5e` was copied and byte-verified before
