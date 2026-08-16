@@ -169,7 +169,13 @@ class ConvMuon(Optimizer):
                 parameter.add_(update.reshape_as(parameter), alpha=-group["lr"] * ratio)
 
 
-def make_optimizers(model: nn.Module) -> list[Optimizer]:
+def make_optimizers(model: nn.Module, optimizer_name: str) -> list[Optimizer]:
+    if optimizer_name == "adamw":
+        return [
+            torch.optim.AdamW(
+                model.parameters(), lr=3e-4, betas=(0.9, 0.95), weight_decay=1e-5
+            )
+        ]
     matrix = [parameter for parameter in model.parameters() if parameter.ndim >= 2]
     scalar = [parameter for parameter in model.parameters() if parameter.ndim < 2]
     return [
@@ -217,6 +223,7 @@ def main() -> None:
     parser.add_argument("--dropout", type=float, default=0.09)
     parser.add_argument("--seed", type=int, default=74)
     parser.add_argument("--compile", action="store_true")
+    parser.add_argument("--optimizer", choices=("muon", "adamw"), default="muon")
     args = parser.parse_args()
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
@@ -237,7 +244,7 @@ def main() -> None:
 
     raw_model = BinaryWorkState(args.channels, args.updates, args.dropout).to(device)
     model = torch.compile(raw_model) if args.compile else raw_model
-    optimizers = make_optimizers(model)
+    optimizers = make_optimizers(model, args.optimizer)
     generator = torch.Generator(device="cpu").manual_seed(args.seed + 5)
     best_validation = -1.0
     best_step = 0
@@ -259,10 +266,11 @@ def main() -> None:
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         for optimizer in optimizers:
             optimizer.step()
-        progress = min(1.0, max(0.0, (step - 1000) / 4000))
-        optimizers[0].param_groups[0]["lr"] = 0.002 + 0.018 * 0.5 * (
-            1.0 + math.cos(math.pi * progress)
-        )
+        if args.optimizer == "muon":
+            progress = min(1.0, max(0.0, (step - 1000) / 4000))
+            optimizers[0].param_groups[0]["lr"] = 0.002 + 0.018 * 0.5 * (
+                1.0 + math.cos(math.pi * progress)
+            )
 
         if step == 1 or step % args.eval_every == 0:
             train_probe = evaluate(model, train[:5000], args.mode, device)
@@ -288,6 +296,7 @@ def main() -> None:
     model.load_state_dict(best_state)
     report = {
         "mode": args.mode,
+        "optimizer": args.optimizer,
         "seed": args.seed,
         "parameters": sum(parameter.numel() for parameter in model.parameters()),
         "channels": args.channels,

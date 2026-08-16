@@ -12,6 +12,14 @@ reduction. Figure:
 Prime L40 pod `7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour;
 the completed matched artifacts are byte-verified locally.
 
+**Stable optimizer control (2026-08-16):** changing only exact-square
+reduction from Muon warmdown to AdamW eliminated the step-1,500 collapse and
+improved train/unseen-x/seen-N/seen-x-unseen-N/joint-unseen exact from
+4.04/5.92/3.56/6.80% to **11.86/14.56/10.84/15.00%**. The curve was still
+rising at 5.12M examples, but the preregistered 25% unseen-N gate failed.
+Optimizer instability was real but does not explain the full reduction failure.
+Figure: [`figures/binary_workstate_adamw_2026-08-16.png`](figures/binary_workstate_adamw_2026-08-16.png).
+
 **Completed Hard experiment (2026-08-16):** hosted H1 submission
 `43d215f5-1d4a-47c7-9cc0-5a547d1a3736` completed at **0.05%**, with no
 certified seen-N or OOD-N rung and exactly **0/768** on both T=1 profiles.

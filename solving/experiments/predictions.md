@@ -3057,3 +3057,19 @@ RESULT:     refuted — validation-selected fused exact reached only 2.04% on
             unseen-x/unseen-N audit. Exact-square input improved the same
             processor but did not solve it, and both arms collapsed during the
             same Muon phase.
+
+### 2026-08-16 — Exact-square reduction with AdamW
+
+```
+CARD:       binary_workstate_exact_square_adamw
+CHANGE:     replace flattened-convolution Muon plus scalar AdamW with one
+            AdamW optimizer over all parameters; everything else is identical
+PREDICT:    the step-1,500 collapse should disappear and validation should stay
+            above 5.92%; exceeding 25% unseen-N exact would identify optimizer
+            instability as the dominant prior failure, while stable low fit
+            would falsify Muon collapse as the main bottleneck
+```
+RESULT:     partially confirmed — AdamW eliminated collapse and improved exact
+            to 14.56% unseen-x/seen-N, 10.84% seen-x/unseen-N, and 15.00%
+            joint unseen. It missed the 25% gate and fit only 11.86% of train,
+            so Muon instability was important but not the dominant bottleneck.

@@ -2758,3 +2758,19 @@ composition, still locally and without promoting weights to a submission.
 - **Evidence:** verified ignored backup at
   `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/binary-workstate-matched-2026-08-16/`;
   figure `solving/figures/binary_workstate_matched_2026-08-16.png`.
+
+## 2026-08-16 — AdamW stabilizes but does not solve binary reduction
+
+- **One change:** replace Muon-plus-scalar-AdamW with AdamW over every parameter
+  in the exact-square arm; all data, model, seed, dropout, updates, and compute
+  remained matched.
+- **Result:** validation-selected step 10,000 reached 11.86% train, 14.56%
+  unseen-x/seen-N, 10.84% seen-x/unseen-N, and 15.00% joint unseen exact,
+  versus Muon's 4.04/5.92/3.56/6.80%.
+- **Mechanism:** the Muon collapse disappeared and AdamW was still improving at
+  the budget boundary. Because train remained only 11.86% and the 25% unseen-N
+  gate failed, optimizer instability is a material secondary bottleneck;
+  stable underfitting leaves processor bias/objective difficulty unresolved.
+- **Evidence:** verified ignored backup at
+  `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/binary-workstate-adamw-2026-08-16/`;
+  figure `solving/figures/binary_workstate_adamw_2026-08-16.png`.
