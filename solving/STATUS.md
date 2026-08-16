@@ -1,5 +1,17 @@
 # Status (living)
 
+**Full fused fixed-N diagnostic (2026-08-16):** with only x bits, fixed
+`N=403`, and final residue labels, the 128-channel AdamW work-state machine
+reached 95.39% train exact by step 1,000 and **100% by step 1,250**, but
+held-out-x validation never exceeded **1/60 (1.67%)** and ended at 0/60 after
+10,000 steps. Validation selected the chance-level step-1 checkpoint; its
+untouched audit was 1/61 (1.64%). Removing modulus variation makes fitting
+easy but exposes a pure lookup shortcut, not modular-squaring function
+learning. Figure:
+[`figures/binary_workstate_fused_fixed_n403_2026-08-16.png`](figures/binary_workstate_fused_fixed_n403_2026-08-16.png).
+Artifacts are byte-verified locally; Prime L40 pod
+`7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour and idle.
+
 **Capacity and AdamW schedule diagnostic (2026-08-16):** increasing the
 exact-square reduction processor from 128 to 192 channels improved matched-
 example train/validation/seen-x-unseen-N/joint-unseen exact from

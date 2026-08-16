@@ -41,6 +41,16 @@ def split_values(seed: int) -> tuple[list[int], list[int]]:
     return values[:1600], values[1600:]
 
 
+def split_fixed_values(
+    modulus: int, seed: int
+) -> tuple[list[int], list[int], list[int]]:
+    values = list(range(modulus))
+    random.Random(seed + 50_000).shuffle(values)
+    train_end = int(0.70 * len(values))
+    validation_end = int(0.85 * len(values))
+    return values[:train_end], values[train_end:validation_end], values[validation_end:]
+
+
 def split_moduli(seed: int) -> tuple[list[int], list[int]]:
     primes = [value for value in range(11, 256) if is_prime(value)]
     values = sorted(
@@ -66,6 +76,10 @@ def make_rows(
         x = rng.choice(valid_by_modulus[n])
         rows.append((n, x, (x * x) % n))
     return rows
+
+
+def make_fixed_rows(modulus: int, values: list[int]) -> list[tuple[int, int, int]]:
+    return [(modulus, x, (x * x) % modulus) for x in values]
 
 
 def bit_tensor(values: torch.Tensor, width: int) -> torch.Tensor:
@@ -234,6 +248,7 @@ def main() -> None:
     )
     parser.add_argument("--warmup-steps", type=int, default=500)
     parser.add_argument("--final-learning-rate", type=float, default=1e-4)
+    parser.add_argument("--fixed-modulus", type=int)
     args = parser.parse_args()
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
@@ -245,12 +260,34 @@ def main() -> None:
     torch.backends.cuda.matmul.allow_tf32 = True
     device = torch.device("cuda")
 
-    train_x, heldout_x = split_values(args.seed)
-    train_n, unseen_n = split_moduli(args.seed)
-    train = make_rows(train_n, train_x, 100_000, args.seed + 1)
-    validation = make_rows(train_n, heldout_x, 5_000, args.seed + 2)
-    seen_x_unseen_n = make_rows(unseen_n, train_x, 5_000, args.seed + 3)
-    unseen_x_unseen_n = make_rows(unseen_n, heldout_x, 5_000, args.seed + 4)
+    if args.fixed_modulus is None:
+        train_x, heldout_x = split_values(args.seed)
+        train_n, unseen_n = split_moduli(args.seed)
+        train = make_rows(train_n, train_x, 100_000, args.seed + 1)
+        validation = make_rows(train_n, heldout_x, 5_000, args.seed + 2)
+        evaluation_sets = {
+            "train": train,
+            "validation_unseen_x_seen_n": validation,
+            "audit_seen_x_unseen_n": make_rows(
+                unseen_n, train_x, 5_000, args.seed + 3
+            ),
+            "audit_unseen_x_unseen_n": make_rows(
+                unseen_n, heldout_x, 5_000, args.seed + 4
+            ),
+        }
+    else:
+        if not 2 <= args.fixed_modulus < (1 << OPERAND_BITS):
+            raise ValueError("fixed modulus must fit in OPERAND_BITS")
+        train_x, validation_x, audit_x = split_fixed_values(
+            args.fixed_modulus, args.seed
+        )
+        train = make_fixed_rows(args.fixed_modulus, train_x)
+        validation = make_fixed_rows(args.fixed_modulus, validation_x)
+        evaluation_sets = {
+            "train": train,
+            "validation_unseen_x_same_n": validation,
+            "audit_unseen_x_same_n": make_fixed_rows(args.fixed_modulus, audit_x),
+        }
 
     raw_model = BinaryWorkState(args.channels, args.updates, args.dropout).to(device)
     model = torch.compile(raw_model) if args.compile else raw_model
@@ -318,6 +355,7 @@ def main() -> None:
     model.load_state_dict(best_state)
     report = {
         "mode": args.mode,
+        "fixed_modulus": args.fixed_modulus,
         "optimizer": args.optimizer,
         "learning_rate": args.learning_rate,
         "lr_schedule": args.lr_schedule,
@@ -330,17 +368,10 @@ def main() -> None:
         "examples": args.steps * args.batch_size,
         "best_step": best_step,
         "elapsed_seconds": time.perf_counter() - started,
-        "split": {
-            "train": len(train),
-            "validation_unseen_x_seen_n": len(validation),
-            "audit_seen_x_unseen_n": len(seen_x_unseen_n),
-            "audit_unseen_x_unseen_n": len(unseen_x_unseen_n),
-        },
+        "split": {name: len(rows) for name, rows in evaluation_sets.items()},
         "selected": {
-            "train": evaluate(model, train, args.mode, device),
-            "validation_unseen_x_seen_n": evaluate(model, validation, args.mode, device),
-            "audit_seen_x_unseen_n": evaluate(model, seen_x_unseen_n, args.mode, device),
-            "audit_unseen_x_unseen_n": evaluate(model, unseen_x_unseen_n, args.mode, device),
+            name: evaluate(model, rows, args.mode, device)
+            for name, rows in evaluation_sets.items()
         },
         "curve": curve,
     }

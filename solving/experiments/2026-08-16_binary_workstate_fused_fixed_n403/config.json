@@ -1,0 +1,18 @@
+{
+  "question": "Can the full fused binary machine learn x squared mod N when N is fixed?",
+  "mode": "fused_x",
+  "fixed_modulus": 403,
+  "seed": 74,
+  "split": "deterministic 70/15/15 over all x in [0, 402]",
+  "channels": 128,
+  "updates": 44,
+  "dropout": 0.09,
+  "optimizer": "AdamW",
+  "learning_rate": 0.0003,
+  "lr_schedule": "constant",
+  "batch_size": 512,
+  "steps": 10000,
+  "eval_every": 250,
+  "compile": true,
+  "supervision": "final residue bits only"
+}

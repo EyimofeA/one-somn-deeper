@@ -3121,3 +3121,26 @@ RESULT:     refuted — train/validation/seen-x-unseen-N/joint-unseen exact was
             11.24/13.40/9.92/13.94%. It beat cosine late, but not constant
             AdamW 3e-4. Schedule shape is not the immediate limiting factor at
             this budget.
+
+### 2026-08-16 — Full fused T=1 at fixed N=403
+
+```
+CARD:       binary_workstate_fused_fixed_n403
+CHANGE:     give the full binary work-state processor x bits rather than exact
+            square bits and hold N fixed at 403; use a deterministic 70/15/15
+            split of all x in [0, 402], width 128, 44 updates, 9% dropout, and
+            constant AdamW 3e-4 for 10,000 steps
+PREDICT:    train exact should exceed 95% because the finite fixed-N mapping is
+            learnable or memorizable; held-out-x validation above 25% is
+            material function-learning evidence and above 80% is a strong
+            fixed-N T=1 pass. Train above 95% with audit below 25% diagnoses
+            memorization; train below 80% diagnoses fused optimization or
+            capacity failure even after modulus variation is removed.
+```
+RESULT:     memorization branch confirmed — train exact reached 95.39% at
+            step 1,000 and 100% at step 1,250, then stayed perfect through
+            step 10,000. Held-out-x validation never exceeded 1/60 (1.67%),
+            already attained at step 1, and ended at 0/60. Validation selected
+            step 1; its untouched audit was 1/61 (1.64%), also chance-scale.
+            Fixed N removes the optimization failure but permits a lookup
+            solution rather than recruiting modular squaring.

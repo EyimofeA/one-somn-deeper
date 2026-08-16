@@ -2802,3 +2802,31 @@ composition, still locally and without promoting weights to a submission.
   experiment note
   `solving/experiments/2026-08-16_binary_workstate_capacity_schedules/NOTE.md`;
   figure `solving/figures/binary_workstate_capacity_schedules_2026-08-16.png`.
+
+## 2026-08-16 — Full fused machine memorizes one modulus without generalizing
+
+- **Question:** can the legal final-label-only fused work-state machine learn
+  `x squared mod N` after holding `N=403` fixed?
+- **Setup:** deterministic 282/60/61 train/validation/audit split of all legal
+  x values; 128 channels, 44 tied updates, 9% dropout, constant AdamW `3e-4`,
+  and 5.12M sampled examples. The model sees x and N bits, never square or
+  reduction intermediates.
+- **Optimization:** train exact rose to 95.39% at step 1,000 and 100% at step
+  1,250. It remained perfect through step 10,000 while last-minibatch BCE fell
+  to `1.39e-4`.
+- **Generalization:** held-out-x validation never exceeded 1/60 (1.67%), which
+  was already achieved at step 1, and finished at 0/60. Strict validation
+  selection therefore kept step 1; its untouched audit was 1/61 (1.64%). The
+  audit describes that chance checkpoint, while the training curve describes
+  the final memorizing state.
+- **Conclusion:** fixed N removes the fused optimization failure but not the
+  identifiability failure. This architecture cheaply stores 282 mappings and
+  receives no pressure to implement reusable multiplication or reduction.
+  Longer training on the same split is low-value; the next full-machine design
+  must constrain the lookup shortcut, such as requiring one x representation
+  to satisfy several moduli.
+- **Evidence:** verified ignored backup at
+  `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/binary-workstate-fused-fixed-n403-2026-08-16/`;
+  experiment note
+  `solving/experiments/2026-08-16_binary_workstate_fused_fixed_n403/NOTE.md`;
+  figure `solving/figures/binary_workstate_fused_fixed_n403_2026-08-16.png`.
