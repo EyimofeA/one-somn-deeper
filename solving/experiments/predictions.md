@@ -3185,3 +3185,103 @@ RESULT:     unclear — the 20k run improved validation from the prior 7.60% to
             (9.16%) both narrowly missed 10%, and the rerun's first 10k differed
             materially from the anchor despite the same seed, making small
             endpoint gains trajectory-sensitive rather than a clean scaling law.
+
+### 2026-08-16 — Full fused varying-N width 256
+
+```
+CARD:       binary_workstate_fused_varying_n_width256
+CHANGE:     increase only hidden channels from 128 to 256, approximately
+            quadrupling recurrent convolution parameters; retain constant
+            AdamW 3e-4, seed-74 splits, 44 updates, 9% dropout, and the 10,000
+            step / 5.12M-example budget
+PREDICT:    train exact should exceed 12% and validation plus joint-unseen
+            should exceed 10% if raw representational capacity is the dominant
+            10k-step bottleneck. Validation below 9.6% or train below 10%
+            refutes a large capacity increase as an efficient immediate fix.
+```
+RESULT:     confirmed — width 256 raised selected train/validation/
+            seen-x-unseen-N/joint-unseen exact to 15.38/13.74/11.22/13.56%,
+            clearing every preregistered capacity gate versus width 128's
+            8.75/7.60/6.94/7.92%. It reached the narrow 20k validation region
+            by 6k-7.5k steps but took 2,171.5 seconds total, so capacity improves
+            step efficiency much more than wall-clock efficiency.
+
+### 2026-08-16 — Tuned flattened-Muon LR screen
+
+```
+CARD:       binary_workstate_fused_muon_lr001
+CHANGE:     at width 128, replace constant AdamW with flattened-convolution
+            Muon at lr 0.001, momentum 0.95, weight decay 0.1, and 250-step
+            warmup; screen for 3,000 steps using validation only
+PREDICT:    stable official-default scaling should avoid the old lr-0.02
+            collapse but may trail AdamW's 2.98% validation at step 3,000;
+            above 3.5% is a promotion signal
+```
+RESULT:     refuted — the best checkpoint was step 1,500 at 0.15% train and
+            0.50% validation exact; the final step was 0.50% train and 0.24%
+            validation. The run was stable but drastically underpowered versus
+            AdamW, so lr 0.001 is rejected without opening either audit set.
+
+```
+CARD:       binary_workstate_fused_muon_lr003
+CHANGE:     change only tuned Muon peak lr from 0.001 to 0.003
+PREDICT:    faster matrix learning should exceed 4.0% validation at step 3,000
+            without collapse; below the 0.001 arm refutes the higher scale
+```
+RESULT:     confirmed — the step-3,000 checkpoint reached 4.68% train and
+            4.50% validation exact, versus AdamW's matched 2.46%/2.98% and the
+            lr-0.001 arm's best 0.15%/0.50%. This is a material per-step gain;
+            audit sets remain unopened until the screen winner is promoted.
+
+```
+CARD:       binary_workstate_fused_muon_lr006
+CHANGE:     change only tuned Muon peak lr from 0.003 to 0.006
+PREDICT:    this approximates RMS-matched scaling and should lead the screen
+            above 5% if Muon's preconditioning fits the recurrent convolutions;
+            a sharp train/validation drop diagnoses overshoot
+```
+RESULT:     confirmed — the step-3,000 checkpoint reached 6.16% train and
+            6.24% validation exact, leading lr 0.003 by 1.74 validation points
+            and AdamW by 3.26 points. Training remained stable, so lr 0.006 is
+            promoted to the full budget; audit sets remained unopened.
+
+### 2026-08-16 — Tuned Muon full-budget promotion
+
+```
+CARD:       binary_workstate_fused_tuned_muon_full
+CHANGE:     extend the winning width-128 Muon lr-0.006 configuration from
+            3,000 to 10,000 steps and open the two audit sets once at the
+            validation-selected checkpoint; all other settings remain fixed
+PREDICT:    selected validation should exceed AdamW's 7.60% by at least 2
+            points and both unseen-N audits should exceed the AdamW anchors
+            (6.94% and 7.92%). Validation above 12% would show that Muon's
+            early step-efficiency gain persists rather than merely arriving
+            sooner at the same plateau.
+```
+RESULT:     confirmed — the validation-best final checkpoint reached
+            16.84/18.14/14.60/18.40% train/validation/seen-x-unseen-N/
+            joint-unseen exact in 681.0 seconds. It clears every gate and
+            improves all splits over AdamW by 8--11 points. A sharp step-6,000
+            dip recovered, so constant lr 0.006 is effective but noisy.
+
+### 2026-08-16 — Width 256 plus tuned Muon factorial combination
+
+```
+CARD:       binary_workstate_fused_width256_tuned_muon
+CHANGE:     combine exactly the two independently successful factors: hidden
+            width 256 and flattened-convolution Muon lr 0.006, momentum 0.95,
+            weight decay 0.1, 250-step warmup; retain the same data, seed,
+            44 tied updates, dropout, batch, final-label loss, and 10k budget
+PREDICT:    if capacity and optimizer preconditioning are complementary,
+            selected train and validation exact should both exceed 22%, with
+            both unseen-N audits above 18%. Validation below the better
+            isolated arm's 18.14% would show a harmful interaction; exceeding
+            27% would demonstrate a super-additive practical combination.
+```
+RESULT:     confirmed — the validation-best final checkpoint reached
+            22.09/22.84/18.38/22.50% train/validation/seen-x-unseen-N/
+            joint-unseen exact. It clears all complementarity gates, including
+            the first unseen-N gate by 0.38 points, but misses the 27%
+            super-additivity threshold. Runtime was 2,055.9 seconds, so the
+            combination wins per step and endpoint while width-128 Muon remains
+            the wall-clock-efficiency winner.

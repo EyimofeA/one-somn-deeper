@@ -2879,3 +2879,38 @@ composition, still locally and without promoting weights to a submission.
   experiment note
   `solving/experiments/2026-08-16_binary_workstate_fused_varying_n_adamw_20k/NOTE.md`;
   figure `solving/figures/binary_workstate_fused_varying_n_adamw_20k_2026-08-16.png`.
+
+## 2026-08-16 — Capacity and tuned Muon independently accelerate fused learning
+
+- **Capacity card:** increasing only full fused hidden width from 128 to 256
+  raised selected train/validation/seen-x-unseen-N/joint-unseen exact from
+  8.75/7.60/6.94/7.92% to 15.38/13.74/11.22/13.56% at 10,000 steps. Parameters
+  rose from 443,777 to 1,772,289 and elapsed time from 677.8 to 2,171.5 seconds.
+  Capacity therefore improves learning per step, but not proportionally per
+  wall-clock second.
+- **Optimizer screen:** at width 128 and 3,000 steps, flattened-convolution
+  Muon at learning rates 0.001/0.003/0.006 reached 0.50/4.50/6.24% best
+  validation exact, versus 2.98% for matched AdamW. The winning recipe uses
+  momentum 0.95, weight decay 0.1, and a 250-step warmup; scalar parameters
+  remain on AdamW 3e-4.
+- **Full Muon result:** promoting lr 0.006 to 10,000 steps reached
+  16.84/18.14/14.60/18.40% train/validation/seen-x-unseen-N/joint-unseen exact
+  in 681.0 seconds. It beats AdamW on every split at matched wall time and even
+  beats width-256 AdamW validation. A transient validation drop from 12.46% to
+  6.20% at step 6,000 recovered to a final-step best, so the scale is effective
+  but produces noisy recurrent updates.
+- **Factorial combination:** width 256 plus the exact tuned-Muon recipe reached
+  22.09/22.84/18.38/22.50% train/validation/seen-x-unseen-N/joint-unseen exact
+  in 2,055.9 seconds. It clears the preregistered >22% train/validation and
+  >18% audit gates, confirming complementarity, but misses the 27%
+  super-additivity threshold. Width-128 Muon remains the wall-clock winner.
+- **Decision:** both isolated factors and their exact combination pass. Keep
+  width-256 Muon as the step-budget/endpoint model and width-128 Muon as the
+  throughput model. Test a late LR decay next as its own card; do not silently
+  fold it into this factorial result.
+- **Evidence:** notes under
+  `solving/experiments/2026-08-16_binary_workstate_fused_{varying_n_width256,tuned_muon_screen,tuned_muon_full}/`;
+  verified ignored backups under
+  `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/`;
+  figures `solving/figures/binary_workstate_fused_width256_2026-08-16.png` and
+  `solving/figures/binary_workstate_fused_capacity_optimizer_2026-08-16.png`.

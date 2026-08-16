@@ -1,5 +1,21 @@
 # Status (living)
 
+**Full fused capacity and optimizer factorial (2026-08-16):** both isolated
+changes and their exact combination pass. Width 128→256 at fixed AdamW raises
+selected train/validation/seen-x-unseen-N/joint-unseen exact from
+8.75/7.60/6.94/7.92% to 15.38/13.74/11.22/13.56%, but costs 2,171.5 seconds.
+At width 128, tuned flattened-convolution Muon (`lr=0.006`, momentum 0.95,
+weight decay 0.1, 250-step warmup) reaches 16.84/18.14/14.60/18.40% in only
+681.0 seconds. Combining width 256 and tuned Muon reaches the branch-best
+**22.09/22.84/18.38/22.50%** in 2,055.9 seconds. Capacity and optimizer are
+complementary per step, but not super-additive, and narrow Muon remains the
+wall-clock-efficiency winner. This is materially better fused learning, not a
+solved transition: more than three quarters of exact cases still fail. All
+artifacts are byte-verified; active Prime L40 pod
+`7072f85e48094888bcf3893db897ea54` remains intentionally running at
+$0.86/hour. Figure:
+[`figures/binary_workstate_fused_capacity_optimizer_2026-08-16.png`](figures/binary_workstate_fused_capacity_optimizer_2026-08-16.png).
+
 **Full fused AdamW 20k compute extension (2026-08-16):** doubling the varying-N
 budget from 5.12M to 10.24M examples improved selected
 train/unseen-x-seen-N/seen-x-unseen-N/joint-unseen exact from

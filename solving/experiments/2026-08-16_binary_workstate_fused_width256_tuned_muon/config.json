@@ -1,0 +1,22 @@
+{
+  "factor_a": "2026-08-16_binary_workstate_fused_varying_n_width256",
+  "factor_b": "2026-08-16_binary_workstate_fused_tuned_muon_full",
+  "mode": "fused_x",
+  "seed": 74,
+  "channels": 256,
+  "updates": 44,
+  "dropout": 0.09,
+  "optimizer": "flattened convolution Muon",
+  "muon_learning_rate": 0.006,
+  "momentum": 0.95,
+  "weight_decay": 0.1,
+  "warmup_steps": 250,
+  "scalar_optimizer": "AdamW lr 0.0003 betas 0.9,0.95 weight_decay 0.00001",
+  "batch_size": 512,
+  "steps": 10000,
+  "examples": 5120000,
+  "eval_every": 500,
+  "compile": true,
+  "selection": "highest validation exact; audits opened once at selected checkpoint",
+  "supervision": "final residue bits only"
+}

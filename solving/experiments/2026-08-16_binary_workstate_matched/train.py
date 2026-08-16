@@ -158,8 +158,16 @@ class BinaryWorkState(nn.Module):
 
 
 class ConvMuon(Optimizer):
-    def __init__(self, params, lr: float = 0.02, momentum: float = 0.95) -> None:
-        super().__init__(params, dict(lr=lr, momentum=momentum, weight_decay=1e-5))
+    def __init__(
+        self,
+        params,
+        lr: float = 0.02,
+        momentum: float = 0.95,
+        weight_decay: float = 1e-5,
+    ) -> None:
+        super().__init__(
+            params, dict(lr=lr, momentum=momentum, weight_decay=weight_decay)
+        )
 
     @torch.no_grad()
     def step(self, closure=None):
@@ -184,7 +192,11 @@ class ConvMuon(Optimizer):
 
 
 def make_optimizers(
-    model: nn.Module, optimizer_name: str, learning_rate: float
+    model: nn.Module,
+    optimizer_name: str,
+    learning_rate: float,
+    muon_learning_rate: float,
+    muon_weight_decay: float,
 ) -> list[Optimizer]:
     if optimizer_name == "adamw":
         return [
@@ -195,7 +207,11 @@ def make_optimizers(
     matrix = [parameter for parameter in model.parameters() if parameter.ndim >= 2]
     scalar = [parameter for parameter in model.parameters() if parameter.ndim < 2]
     return [
-        ConvMuon(matrix),
+        ConvMuon(
+            matrix,
+            lr=muon_learning_rate if optimizer_name == "tuned_muon" else 0.02,
+            weight_decay=muon_weight_decay if optimizer_name == "tuned_muon" else 1e-5,
+        ),
         torch.optim.AdamW(scalar, lr=3e-4, betas=(0.9, 0.95), weight_decay=1e-5),
     ]
 
@@ -239,7 +255,9 @@ def main() -> None:
     parser.add_argument("--dropout", type=float, default=0.09)
     parser.add_argument("--seed", type=int, default=74)
     parser.add_argument("--compile", action="store_true")
-    parser.add_argument("--optimizer", choices=("muon", "adamw"), default="muon")
+    parser.add_argument(
+        "--optimizer", choices=("muon", "tuned_muon", "adamw"), default="muon"
+    )
     parser.add_argument("--learning-rate", type=float, default=3e-4)
     parser.add_argument(
         "--lr-schedule",
@@ -249,6 +267,10 @@ def main() -> None:
     parser.add_argument("--warmup-steps", type=int, default=500)
     parser.add_argument("--final-learning-rate", type=float, default=1e-4)
     parser.add_argument("--fixed-modulus", type=int)
+    parser.add_argument("--muon-learning-rate", type=float, default=1e-3)
+    parser.add_argument("--muon-weight-decay", type=float, default=0.1)
+    parser.add_argument("--muon-warmup-steps", type=int, default=250)
+    parser.add_argument("--validation-only", action="store_true")
     args = parser.parse_args()
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
@@ -275,6 +297,11 @@ def main() -> None:
                 unseen_n, heldout_x, 5_000, args.seed + 4
             ),
         }
+        if args.validation_only:
+            evaluation_sets = {
+                "train": train,
+                "validation_unseen_x_seen_n": validation,
+            }
     else:
         if not 2 <= args.fixed_modulus < (1 << OPERAND_BITS):
             raise ValueError("fixed modulus must fit in OPERAND_BITS")
@@ -291,7 +318,13 @@ def main() -> None:
 
     raw_model = BinaryWorkState(args.channels, args.updates, args.dropout).to(device)
     model = torch.compile(raw_model) if args.compile else raw_model
-    optimizers = make_optimizers(model, args.optimizer, args.learning_rate)
+    optimizers = make_optimizers(
+        model,
+        args.optimizer,
+        args.learning_rate,
+        args.muon_learning_rate,
+        args.muon_weight_decay,
+    )
     generator = torch.Generator(device="cpu").manual_seed(args.seed + 5)
     best_validation = -1.0
     best_step = 0
@@ -300,6 +333,10 @@ def main() -> None:
     started = time.perf_counter()
 
     for step in range(1, args.steps + 1):
+        if args.optimizer == "tuned_muon":
+            optimizers[0].param_groups[0]["lr"] = args.muon_learning_rate * min(
+                1.0, step / args.muon_warmup_steps
+            )
         if args.optimizer == "adamw" and args.lr_schedule != "constant":
             if step <= args.warmup_steps:
                 learning_rate = args.learning_rate * step / args.warmup_steps
@@ -359,6 +396,9 @@ def main() -> None:
         "optimizer": args.optimizer,
         "learning_rate": args.learning_rate,
         "lr_schedule": args.lr_schedule,
+        "muon_learning_rate": args.muon_learning_rate,
+        "muon_weight_decay": args.muon_weight_decay,
+        "muon_warmup_steps": args.muon_warmup_steps,
         "seed": args.seed,
         "parameters": sum(parameter.numel() for parameter in model.parameters()),
         "channels": args.channels,
