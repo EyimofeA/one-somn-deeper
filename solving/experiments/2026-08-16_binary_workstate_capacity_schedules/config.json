@@ -1,0 +1,18 @@
+{
+  "anchor": "2026-08-16_binary_workstate_adamw",
+  "shared": {
+    "mode": "exact_square",
+    "seed": 74,
+    "updates": 44,
+    "dropout": 0.09,
+    "batch_size": 512,
+    "steps": 10000,
+    "compile": true,
+    "optimizer": "AdamW"
+  },
+  "cards": {
+    "width192": {"channels": 192, "learning_rate": 0.0003, "schedule": "constant"},
+    "warmup_cosine": {"channels": 128, "learning_rate": 0.001, "warmup_steps": 500, "schedule": "warmup_cosine", "final_learning_rate": 0.0001},
+    "warmup_inverse_sqrt": {"channels": 128, "learning_rate": 0.001, "warmup_steps": 500, "schedule": "warmup_inverse_sqrt"}
+  }
+}

@@ -169,11 +169,13 @@ class ConvMuon(Optimizer):
                 parameter.add_(update.reshape_as(parameter), alpha=-group["lr"] * ratio)
 
 
-def make_optimizers(model: nn.Module, optimizer_name: str) -> list[Optimizer]:
+def make_optimizers(
+    model: nn.Module, optimizer_name: str, learning_rate: float
+) -> list[Optimizer]:
     if optimizer_name == "adamw":
         return [
             torch.optim.AdamW(
-                model.parameters(), lr=3e-4, betas=(0.9, 0.95), weight_decay=1e-5
+                model.parameters(), lr=learning_rate, betas=(0.9, 0.95), weight_decay=1e-5
             )
         ]
     matrix = [parameter for parameter in model.parameters() if parameter.ndim >= 2]
@@ -224,6 +226,14 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=74)
     parser.add_argument("--compile", action="store_true")
     parser.add_argument("--optimizer", choices=("muon", "adamw"), default="muon")
+    parser.add_argument("--learning-rate", type=float, default=3e-4)
+    parser.add_argument(
+        "--lr-schedule",
+        choices=("constant", "warmup_cosine", "warmup_inverse_sqrt"),
+        default="constant",
+    )
+    parser.add_argument("--warmup-steps", type=int, default=500)
+    parser.add_argument("--final-learning-rate", type=float, default=1e-4)
     args = parser.parse_args()
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
@@ -244,7 +254,7 @@ def main() -> None:
 
     raw_model = BinaryWorkState(args.channels, args.updates, args.dropout).to(device)
     model = torch.compile(raw_model) if args.compile else raw_model
-    optimizers = make_optimizers(model, args.optimizer)
+    optimizers = make_optimizers(model, args.optimizer, args.learning_rate)
     generator = torch.Generator(device="cpu").manual_seed(args.seed + 5)
     best_validation = -1.0
     best_step = 0
@@ -253,6 +263,17 @@ def main() -> None:
     started = time.perf_counter()
 
     for step in range(1, args.steps + 1):
+        if args.optimizer == "adamw" and args.lr_schedule != "constant":
+            if step <= args.warmup_steps:
+                learning_rate = args.learning_rate * step / args.warmup_steps
+            elif args.lr_schedule == "warmup_cosine":
+                progress = (step - args.warmup_steps) / (args.steps - args.warmup_steps)
+                learning_rate = args.final_learning_rate + (
+                    args.learning_rate - args.final_learning_rate
+                ) * 0.5 * (1.0 + math.cos(math.pi * progress))
+            else:
+                learning_rate = args.learning_rate * math.sqrt(args.warmup_steps / step)
+            optimizers[0].param_groups[0]["lr"] = learning_rate
         indices = torch.randint(len(train), (args.batch_size,), generator=generator).tolist()
         sample = [train[index] for index in indices]
         source, modulus, target = tensor_batch(sample, args.mode, device)
@@ -282,6 +303,7 @@ def main() -> None:
                 "examples": step * args.batch_size,
                 "seconds": time.perf_counter() - started,
                 "loss": float(loss.detach()),
+                "learning_rate": optimizers[0].param_groups[0]["lr"],
                 "train_exact": train_probe["exact"],
                 "validation_exact": validation_metrics["exact"],
             }
@@ -297,6 +319,8 @@ def main() -> None:
     report = {
         "mode": args.mode,
         "optimizer": args.optimizer,
+        "learning_rate": args.learning_rate,
+        "lr_schedule": args.lr_schedule,
         "seed": args.seed,
         "parameters": sum(parameter.numel() for parameter in model.parameters()),
         "channels": args.channels,

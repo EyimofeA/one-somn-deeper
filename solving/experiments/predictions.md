@@ -3073,3 +3073,51 @@ RESULT:     partially confirmed — AdamW eliminated collapse and improved exact
             to 14.56% unseen-x/seen-N, 10.84% seen-x/unseen-N, and 15.00%
             joint unseen. It missed the 25% gate and fit only 11.86% of train,
             so Muon instability was important but not the dominant bottleneck.
+
+### 2026-08-16 — Binary reduction width 192
+
+```
+CARD:       binary_workstate_adamw_width192
+CHANGE:     increase channels from 128 to 192; retain constant AdamW 3e-4 and
+            every other matched exact-square reduction setting
+PREDICT:    examples/second will fall by roughly 40-60%, but 10k-step exact
+            should exceed 14.56% validation and 15.00% joint unseen if capacity
+            limits the stable 128-channel curve; no accuracy gain refutes width
+            as the immediate bottleneck
+```
+RESULT:     partially confirmed — width 192 improved train/validation/
+            seen-x-unseen-N/joint-unseen exact to 15.06/18.10/14.40/18.30%,
+            versus 11.86/14.56/10.84/15.00% at width 128. It took 1,591.7
+            seconds versus 680.1 seconds (2.34x slower), and briefly collapsed
+            at step 8,500 before recovering. Width improves the 10k-step
+            endpoint, but not wall-clock learning speed or the 25% gate.
+
+### 2026-08-16 — Binary reduction AdamW warmup-cosine
+
+```
+CARD:       binary_workstate_adamw_warmup_cosine
+CHANGE:     at 128 channels, replace constant AdamW 3e-4 with 500-step warmup
+            to 1e-3 followed by cosine decay to 1e-4 at step 10k
+PREDICT:    faster early fit without Muon's collapse should exceed 14.56%
+            validation at matched steps; a late decline or lower final score
+            refutes this aggressive schedule
+```
+RESULT:     refuted — train/validation/seen-x-unseen-N/joint-unseen exact was
+            9.86/11.96/8.30/12.20%. The schedule learned faster during its
+            500-step warmup, but failed to compound that lead and finished
+            below constant AdamW 3e-4 on every exact metric.
+
+### 2026-08-16 — Binary reduction AdamW warmup-inverse-sqrt
+
+```
+CARD:       binary_workstate_adamw_inverse_sqrt
+CHANGE:     at 128 channels, use 500-step warmup to AdamW 1e-3 followed by
+            inverse-square-root decay, ending near 2.24e-4 at step 10k
+PREDICT:    sustained learning should beat warmup-cosine late and exceed the
+            14.56% constant-LR anchor; instability or no improvement falsifies
+            schedule shape as the next limiting factor
+```
+RESULT:     refuted — train/validation/seen-x-unseen-N/joint-unseen exact was
+            11.24/13.40/9.92/13.94%. It beat cosine late, but not constant
+            AdamW 3e-4. Schedule shape is not the immediate limiting factor at
+            this budget.

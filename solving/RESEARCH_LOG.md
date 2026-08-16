@@ -2774,3 +2774,31 @@ composition, still locally and without promoting weights to a submission.
 - **Evidence:** verified ignored backup at
   `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/binary-workstate-adamw-2026-08-16/`;
   figure `solving/figures/binary_workstate_adamw_2026-08-16.png`.
+
+## 2026-08-16 — Width helps per example, not per minute; LR decay regresses
+
+- **Capacity change:** increasing only the exact-square reduction processor
+  from 128 channels / 443,777 parameters to 192 channels / 997,441 parameters
+  improved train/validation/seen-x-unseen-N/joint-unseen exact from
+  11.86/14.56/10.84/15.00% to 15.06/18.10/14.40/18.30% at 10,000 steps.
+- **Speed:** the wider run took 1,591.7 seconds versus 680.1 seconds for the
+  anchor. It was about 2.34 times slower including compilation and trailed the
+  anchor at matched wall time. Width is a capacity lead, not a throughput or
+  competition-time learning-speed lead.
+- **Instability:** width 192 validation exact fell from 17.00% at step 8,000
+  to 4.60% at step 8,500 and recovered to 17.70% at step 9,000. The final
+  checkpoint was best, but wider AdamW is not perfectly stable.
+- **Schedules:** at width 128, warmup to `1e-3` followed by cosine decay to
+  `1e-4` finished at 11.96/8.30/12.20% validation/seen-x-unseen-N/joint-unseen
+  exact. Warmup plus inverse-square-root decay finished at 13.40/9.92/13.94%.
+  Both trail constant AdamW `3e-4`; inverse square root is less harmful than
+  cosine.
+- **Conclusion:** constant AdamW `3e-4` is the best tested 128-channel schedule.
+  Width produces a modest per-example improvement, but no arm approaches train
+  interpolation or the 25% unseen-N gate. Generic learned reduction remains
+  the dominant unresolved computation.
+- **Evidence:** verified ignored backup at
+  `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/binary-workstate-capacity-schedules-2026-08-16/`;
+  experiment note
+  `solving/experiments/2026-08-16_binary_workstate_capacity_schedules/NOTE.md`;
+  figure `solving/figures/binary_workstate_capacity_schedules_2026-08-16.png`.

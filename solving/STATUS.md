@@ -1,5 +1,18 @@
 # Status (living)
 
+**Capacity and AdamW schedule diagnostic (2026-08-16):** increasing the
+exact-square reduction processor from 128 to 192 channels improved matched-
+example train/validation/seen-x-unseen-N/joint-unseen exact from
+11.86/14.56/10.84/15.00% to **15.06/18.10/14.40/18.30%**, but runtime rose
+from 680.1 to 1,591.7 seconds. Width therefore helps capacity but reduces
+wall-clock learning speed. At width 128, 500-step warmup to `1e-3` plus cosine
+or inverse-square-root decay reached only 11.96% and 13.40% validation exact;
+constant AdamW `3e-4` remains the best tested schedule. All arms miss the 25%
+unseen-N diagnostic gate. Figure:
+[`figures/binary_workstate_capacity_schedules_2026-08-16.png`](figures/binary_workstate_capacity_schedules_2026-08-16.png).
+The new artifacts are byte-verified locally. Prime L40 pod
+`7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour and idle.
+
 **Matched binary reduction/fused diagnostic (2026-08-16):** one shared
 443,777-parameter binary ConvGRU processor failed both preregistered gates at
 5.12M examples. With exact square bits it reached 5.92% unseen-x/seen-N, 3.56%
