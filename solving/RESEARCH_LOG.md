@@ -2967,3 +2967,19 @@ composition, still locally and without promoting weights to a submission.
   backups `binary-prefix-residue-h13-2026-08-17/` and
   `binary-prefix-residue-h13-state-probe-2026-08-17/` under the active pod's
   artifact directory.
+
+## 2026-08-17 — Best completed throughput candidate submitted to Hard
+
+- **Selection:** among today's completed varying-`N` E5 arms, width 128 with
+  11 tied updates and batch 256 led at 0.5417% mean exact (7/1,200 test and
+  3/600 OOD), 1,474 updates, and final train loss 0.43902. Batch 128 later
+  scored only 0.2083%, so it was rejected.
+- **Submission:** explicit owner authorization spent the daily Hard attempt on
+  new SHA-1 `b1773edcc356201737972e31adb49d6d8c62b856`, accepted as job
+  `a1132421-ef3b-4261-b145-13c68ef34f8c`. This source had not previously been
+  submitted to Hard.
+- **Caveat:** E5 has no certified T=1 rung for this model. The upload is the
+  best deadline candidate, not evidence that the transition is solved.
+- **Evidence:**
+  `solving/submissions/hard_2026-08-17_best_fused/` and hosted selection job
+  `1cfa42ed-a7fb-4850-a8f1-3750c750846e`.

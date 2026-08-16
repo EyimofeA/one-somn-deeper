@@ -1,5 +1,15 @@
 # Status (living)
 
+**Hard deadline submission (2026-08-17):** owner-authorized job
+`a1132421-ef3b-4261-b145-13c68ef34f8c` is queued from exact new SHA-1
+`b1773edcc356201737972e31adb49d6d8c62b856`. It is today's strongest completed
+varying-`N` hosted candidate: width 128, 11 updates, batch 256, tuned Muon, and
+final-label fused binary state. Its E5 selection job
+`1cfa42ed-a7fb-4850-a8f1-3750c750846e` scored **0.5417%** (7/1,200 test,
+3/600 OOD, 1,474 updates); the later batch-128 arm scored 0.2083%. This is a
+deadline selection, not T=1 certification. Card:
+[`submissions/hard_2026-08-17_best_fused/CARD.md`](submissions/hard_2026-08-17_best_fused/CARD.md).
+
 **H13 scheduled-input result and prefix localization (2026-08-17):** changing
 only the all-at-once `x` tape to one MSB-to-LSB prompt bit per four updates
 regressed selected train/validation/seen-`x` unseen-`N`/joint-unseen exact to
