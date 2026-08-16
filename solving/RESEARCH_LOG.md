@@ -2938,3 +2938,32 @@ composition, still locally and without promoting weights to a submission.
   `solving/figures/fused_width256_square_probe_2026-08-17.png`; byte-count
   verified ignored backup under
   `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/fused-width256-square-probe-2026-08-17/`.
+
+## 2026-08-17 — H13 serial input fails globally but localizes the wrap frontier
+
+- **One architecture change:** replace H13's all-at-once `x` tape with one
+  MSB-to-LSB prompt bit per four recurrent updates. Width 256, one tied 3x3
+  ConvGRU, 44 updates, tuned Muon, dropout, split, seed, batch, and final-only
+  residue BCE remain matched to the branch-best fused reference.
+- **Full result:** selected step 8,000 reached
+  16.88/6.14/4.76/5.58% train/validation/seen-`x` unseen-`N`/joint-unseen,
+  versus 22.09/22.84/18.38/22.50% for the all-at-once reference. Train reached
+  20.50% at step 10,000 while validation fell to 5.74%. The <15% kill fires.
+- **Frozen state probe:** privileged linear diagnostics, never used to update
+  or select H13, recover prefix residue at 99.38/85.50% seen/unseen `N` after
+  six bits, 70.32/44.38% after seven, 33.28/23.06% after eight, and 6.32/6.06%
+  after eleven. Prefix value stays exact through seven and reaches 99.92/97.02%
+  after eight.
+- **Mechanism:** the scheduled state retains input information but loses a
+  modulus-dependent residue as wrapping and depth grow. Near-perfect short
+  probes may exploit the small finite prefix support, so they are a localization
+  signal, not proof of an algorithm.
+- **Decision:** reject naked H13. Its contiguous short-prefix band licenses one
+  prompt-visible significant-bit curriculum using only rows' provided final
+  labels; do not widen or retune first.
+- **Evidence:**
+  `solving/experiments/2026-08-17_binary_prefix_residue_h13/` and
+  `solving/figures/binary_prefix_residue_h13_2026-08-17.png`; verified ignored
+  backups `binary-prefix-residue-h13-2026-08-17/` and
+  `binary-prefix-residue-h13-state-probe-2026-08-17/` under the active pod's
+  artifact directory.

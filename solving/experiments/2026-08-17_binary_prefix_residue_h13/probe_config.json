@@ -1,0 +1,20 @@
+{
+  "card": "binary_prefix_residue_h13_state_probe",
+  "checkpoint": "H13 validation-selected step 8000",
+  "processor_frozen": true,
+  "features": "work and scratch lanes after every scheduled x bit",
+  "feature_dim": 5632,
+  "train_rows": 20000,
+  "validation_rows": 5000,
+  "joint_unseen_audit_rows": 5000,
+  "heads": [
+    "independent global linear prefix-residue readout at each step",
+    "independent global linear prefix-value control at each step"
+  ],
+  "probe_optimizer": "AdamW",
+  "probe_learning_rate": 0.003,
+  "probe_steps": 2000,
+  "batch_size": 512,
+  "selection": "each head and prefix independently by validation exact then bit accuracy",
+  "competition_eligible": false
+}

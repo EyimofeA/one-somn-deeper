@@ -1,0 +1,22 @@
+{
+  "card": "binary_prefix_residue_h13_length_curriculum",
+  "change": "consume only significant x bits and progressively admit longer provided examples",
+  "unchanged": "width 256, tied 3x3 ConvGRU, four micro-updates per bit, dropout 0.09, tuned Muon 0.006, batch 512, seed 74, final residue BCE only",
+  "curriculum": [
+    [1, 500, 4],
+    [501, 1000, 5],
+    [1001, 1500, 6],
+    [1501, 2500, 7],
+    [2501, 3500, 8],
+    [3501, 4500, 9],
+    [4501, 5500, 10],
+    [5501, 10000, 11]
+  ],
+  "labels": "ordinary final x squared mod N labels for sampled rows only",
+  "intermediate_supervision": false,
+  "checkpoint_selection": "full unseen-x seen-N validation exact",
+  "promotion_gate": "exceed 22.84% validation and both 18.38%/22.50% unseen-N baselines",
+  "strong_gate": "validation above 25%",
+  "kill_gate": "validation below 10%",
+  "competition_transfer": "bucket evaluator-provided rows by prompt-visible x bit length; compute no auxiliary labels"
+}

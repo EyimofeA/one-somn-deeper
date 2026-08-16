@@ -3324,6 +3324,54 @@ PREDICT:    if all-at-once credit assignment is the main architectural
             post-selection diagnostics only and must not affect checkpointing.
 ```
 
+RESULT:     refuted — validation selected step 8,000 at 16.88/6.14/4.76/5.58%
+            train/validation/seen-x unseen-N/joint-unseen exact, versus the
+            all-at-once reference's 22.09/22.84/18.38/22.50%. By step 10,000
+            train reached 20.50% while validation fell to 5.74%, so serializing
+            x did not prevent shortcut fitting. The shared final readout was no
+            better than an always-zero predictor after the first prefix and did
+            not trace a stable prefix residue. The <15% kill fires.
+
+### 2026-08-17 — Frozen H13 per-prefix state probe
+
+```
+CARD:       binary_prefix_residue_h13_state_probe
+CHANGE:     freeze H13's validation-selected checkpoint and train independent
+            global linear readouts from its work+scratch lanes after each input
+            bit to the corresponding prefix residue; include a prefix-value
+            control, with no processor or final residue-head updates
+PREDICT:    final-prefix residue exact will remain below 15% and no steps 3--10
+            will expose residue above 50%, while prefix value will exceed 75%
+            on most steps. A final residue above 25% or a contiguous >50%
+            intermediate band would instead license a readout/curriculum repair.
+```
+
+RESULT:     mixed and curriculum-licensing — final-prefix residue remained at
+            6.32% validation and 6.06% joint unseen, confirming that the full
+            transition is absent. However residue was linearly exact through
+            five bits, reached 99.38/85.50% at six bits and 70.32/44.38% at
+            seven bits on validation/joint unseen. Prefix value remained
+            100% through seven bits and 97.02% joint unseen at eight bits. The
+            predicted lack of a contiguous >50% band is refuted; the cliff
+            localizes to first wrapping/longer depth and licenses length
+            curriculum rather than another width or optimizer card.
+
+### 2026-08-17 — H13 significant-bit length curriculum
+
+```
+CARD:       binary_prefix_residue_h13_length_curriculum
+CHANGE:     keep H13's width, cell, dropout, optimizer, seed, and final-only
+            BCE; consume only prompt-visible significant x bits and admit
+            provided training rows by maximum x bit length 4,5,...,11, leaving
+            the final 4,500 steps on the full distribution
+PREDICT:    because frozen H13 states expose residue at 99.38/85.50% through
+            six bits, direct final-label training on real short rows should
+            preserve that basin while moving the wrap frontier. Promotion
+            requires >22.84% validation and both unseen-N audits above their
+            18.38/22.50% baselines; >25% validation is strong. Below 10%
+            validation refutes this curriculum schedule.
+```
+
 ### 2026-08-17 — Width-256 fused binary work-state hosted E5
 
 CARD:       binary_workstate_fused_width256_tuned_muon_e5
@@ -3334,3 +3382,20 @@ PREDICT:    The model will validate and exceed the prior varying-N E5 result of
             0.54%, because exact binary representation and the locally improved
             optimizer/capacity pair produce nontrivial unseen-N T=1 learning;
             less than 1% or an evaluation failure falsifies promotion.
+### 2026-08-17 — Width-128 fused hosted-throughput control
+
+CARD:       binary_workstate_fused_width128_tuned_muon_e5
+CHANGE:     Reduce only hidden channels from 256 to 128 in the corrected fused
+            binary work-state E5 submission.
+PREDICT:    Easy completed updates increase by at least 2.5x over 169 and final
+            train exact becomes nonzero; fewer than 423 updates or zero final
+            train exact refutes width as the primary hosted bottleneck.
+### 2026-08-17 — Eleven-update fused hosted-throughput control
+
+CARD:       binary_workstate_fused_width128_updates11_e5
+CHANGE:     Reduce only tied recurrent updates from 44 to 11 in the width-128
+            fused E5 model.
+PREDICT:    Easy completes at least 1,200 updates and obtains nonzero final
+            train exact plus mean evaluation above the width-128 card's 0.08%;
+            failure of either condition means saved steps do not compensate
+            for lost transport depth.

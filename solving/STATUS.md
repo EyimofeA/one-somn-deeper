@@ -1,5 +1,16 @@
 # Status (living)
 
+**H13 scheduled-input result and prefix localization (2026-08-17):** changing
+only the all-at-once `x` tape to one MSB-to-LSB prompt bit per four updates
+regressed selected train/validation/seen-`x` unseen-`N`/joint-unseen exact to
+**16.88/6.14/4.76/5.58%**, so the <15% validation kill fires. A frozen global
+state probe nevertheless recovers prefix residue at 99.38/85.50% seen/unseen
+`N` after six bits, then 70.32/44.38% after seven and 33.28/23.06% after eight;
+prefix value remains nearly exact longer. The failure frontier aligns with
+wrapping and growing sequence depth. A final-label-only significant-bit length
+curriculum is now active; it uses only provided row labels. Figure:
+[`figures/binary_prefix_residue_h13_2026-08-17.png`](figures/binary_prefix_residue_h13_2026-08-17.png).
+
 **Frozen square representation probe (2026-08-17):** the preregistered kill
 fires on the branch-best fused width-256 tuned-Muon checkpoint. Independently
 selected linear readouts from the frozen final work tape recover the literal
