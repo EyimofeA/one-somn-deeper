@@ -3023,3 +3023,37 @@ PREDICT:    varying-N E5 should exceed 0.50% if N-specific co-adaptation was
             suppressing the shared square function; fixed-N may regress because
             the previous 8.92% signal could exploit N-visible shortcuts
 ```
+
+### 2026-08-16 — Matched binary processor: exact-square reduction arm
+
+```
+CARD:       binary_workstate_exact_square_reduction
+CHANGE:     initialize the shared binary work-state processor from exact x^2
+            bits plus immutable N bits; use only final residue-bit labels
+PREDICT:    seen-N validation should exceed 80% and unseen-N exact should
+            exceed the prior 18.69% reduction diagnostic if immutable binary
+            context and the Muon/dropout processor can learn generic reduction;
+            unseen-N below 25% falsifies reduction capacity as currently built
+```
+RESULT:     refuted — validation-selected exact was 5.92% on unseen-x/seen-N,
+            3.56% on seen-x/unseen-N, and 6.80% on unseen-x/unseen-N; even
+            train exact was only 4.04%, so this processor/optimizer did not fit
+            exact-square reduction at the matched 5.12M-example budget.
+
+### 2026-08-16 — Matched binary processor: fused x,N arm
+
+```
+CARD:       binary_workstate_fused_t1
+CHANGE:     replace only the exact-square source bits with x bits, keeping the
+            split, processor, optimizer, update count, budget, and final
+            residue labels identical
+PREDICT:    fused unseen-N exact will trail reduction-only early; exceeding 5%
+            is material evidence of joint transition learning, while chance
+            performance alongside a successful reducer localizes the failure
+            to multiplication/reduction credit assignment
+```
+RESULT:     refuted — validation-selected fused exact reached only 2.04% on
+            unseen-x/seen-N, 2.06% on seen-x/unseen-N, and 1.74% on the joint
+            unseen-x/unseen-N audit. Exact-square input improved the same
+            processor but did not solve it, and both arms collapsed during the
+            same Muon phase.

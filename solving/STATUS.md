@@ -1,5 +1,17 @@
 # Status (living)
 
+**Matched binary reduction/fused diagnostic (2026-08-16):** one shared
+443,777-parameter binary ConvGRU processor failed both preregistered gates at
+5.12M examples. With exact square bits it reached 5.92% unseen-x/seen-N, 3.56%
+seen-x/unseen-N, and 6.80% joint unseen exact. Replacing only the source with x
+bits reached 2.04/2.06/1.74%. Neither arm fit training, and both peaked by step
+1,500 before collapsing during the same Muon phase. Exact square information
+helps, but the current processor/optimizer is independently inadequate for
+reduction. Figure:
+[`figures/binary_workstate_matched_2026-08-16.png`](figures/binary_workstate_matched_2026-08-16.png).
+Prime L40 pod `7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour;
+the completed matched artifacts are byte-verified locally.
+
 **Completed Hard experiment (2026-08-16):** hosted H1 submission
 `43d215f5-1d4a-47c7-9cc0-5a547d1a3736` completed at **0.05%**, with no
 certified seen-N or OOD-N rung and exactly **0/768** on both T=1 profiles.

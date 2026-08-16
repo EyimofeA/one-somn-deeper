@@ -1,0 +1,21 @@
+{
+  "seed": 74,
+  "operand_bits": 11,
+  "workspace_bits": 22,
+  "channels": 128,
+  "lanes": 4,
+  "updates": 44,
+  "dropout": 0.09,
+  "compile": true,
+  "batch_size": 512,
+  "steps": 10000,
+  "eval_every": 500,
+  "train_moduli": 90,
+  "unseen_moduli": 30,
+  "train_rows": 100000,
+  "validation_rows": 5000,
+  "unseen_n_rows": 5000,
+  "selection": "validation exact only",
+  "audit_policy": "unseen-N is diagnostic and never selects checkpoints",
+  "arms": ["exact_square", "fused_x"]
+}

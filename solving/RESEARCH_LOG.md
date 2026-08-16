@@ -2737,3 +2737,24 @@ composition, still locally and without promoting weights to a submission.
   this card, not binary fused transition learning.
 - **Evidence:** `diagnostics/43d215f5-1d4a-47c7-9cc0-5a547d1a3736-metrics.jsonl`
   and the hosted structured status response checked on 2026-08-16.
+
+## 2026-08-16 — Matched binary work-state reduction versus fused T=1
+
+- **Controlled change:** the same 443,777-parameter, 128-channel, 44-update
+  binary ConvGRU received either exact square bits or x bits. Dataset split,
+  immutable N/source context, dropout, Muon warmdown, final residue BCE, seed,
+  and 5.12M-example budget were identical.
+- **Exact-square arm:** validation-selected step 1,500 reached 4.04% train,
+  5.92% unseen-x/seen-N, 3.56% seen-x/unseen-N, and 6.80% joint unseen exact.
+- **Fused arm:** validation-selected step 1,000 reached 2.41% train, 2.04%
+  unseen-x/seen-N, 2.06% seen-x/unseen-N, and 1.74% joint unseen exact.
+- **Mechanism:** exact square information materially helps, but the privileged
+  arm still did not fit reduction. Both arms collapsed in the same optimizer
+  phase after early signal. The evidence localizes a reduction-side
+  processor/optimization failure in addition to fused credit assignment.
+- **Throughput:** `torch.compile` raised the 44-update smoke from about 3,423
+  to 5,425 examples/second after compilation. Full runs took 798 and 682
+  seconds including evaluation.
+- **Evidence:** verified ignored backup at
+  `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/binary-workstate-matched-2026-08-16/`;
+  figure `solving/figures/binary_workstate_matched_2026-08-16.png`.
