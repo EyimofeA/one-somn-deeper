@@ -3285,3 +3285,52 @@ RESULT:     confirmed — the validation-best final checkpoint reached
             super-additivity threshold. Runtime was 2,055.9 seconds, so the
             combination wins per step and endpoint while width-128 Muon remains
             the wall-clock-efficiency winner.
+
+### 2026-08-17 — Frozen square representation probe
+
+```
+CARD:       fused_width256_tuned_muon_square_probe
+CHANGE:     freeze the validation-selected width-256 tuned-Muon fused
+            checkpoint and train only linear readouts from its final work tape
+            to literal 22-bit x squared; include a shared local readout and an
+            11-bit x-decoding control, with no processor or residue-head update
+PREDICT:    global whole-square exact will remain below 25% while x exact
+            exceeds 75%, showing that the 22.84% residue improvement does not
+            require a linearly explicit square. Square exact above 80% refutes
+            this diagnosis and localizes the remaining failure to reduction;
+            25--80% is evidence of a partial square representation, not a gate.
+```
+RESULT:     confirmed — independently selected global-square exact was 3.10%
+            on unseen-x/seen-N validation and 3.02% on the joint-unseen audit,
+            while the x control reached 84.82% and 78.50%. The local shared
+            square readout reached only 1.22% and 0.84%. The final work tape
+            preserves x but does not expose a linearly explicit literal square;
+            this fires the preregistered kill for further fused width/optimizer
+            tuning as the main line. This is correlational and does not exclude
+            a nonlinear or transient square code.
+
+### 2026-08-17 — H13 bit-serial prefix-of-x residue state
+
+```
+CARD:       binary_prefix_residue_h13
+CHANGE:     keep width 256, one tied 3x3 ConvGRU, 44 total updates, dropout,
+            tuned Muon, data, seed, batch, and final-only residue BCE from the
+            branch-best fused card; replace the all-at-once x tape with an
+            MSB-to-LSB schedule of one prompt-visible x bit per four updates
+PREDICT:    if all-at-once credit assignment is the main architectural
+            bottleneck, selected unseen-x/seen-N exact will exceed 25% and both
+            unseen-N audits will exceed 20%. Validation below 15% refutes this
+            specific bit schedule; 15--25% is inconclusive. Prefix readouts are
+            post-selection diagnostics only and must not affect checkpointing.
+```
+
+### 2026-08-17 — Width-256 fused binary work-state hosted E5
+
+CARD:       binary_workstate_fused_width256_tuned_muon_e5
+CHANGE:     Translate the locally strongest width-256, 44-update fused binary
+            work-state model with tuned Muon into the evaluator interface and
+            run it on varying-N E5.
+PREDICT:    The model will validate and exceed the prior varying-N E5 result of
+            0.54%, because exact binary representation and the locally improved
+            optimizer/capacity pair produce nontrivial unseen-N T=1 learning;
+            less than 1% or an evaluation failure falsifies promotion.

@@ -1,0 +1,28 @@
+{
+  "card": "binary_prefix_residue_h13",
+  "change": "replace all-at-once x tape with an MSB-to-LSB input-bit schedule",
+  "unchanged_reference": {
+    "channels": 256,
+    "total_recurrent_updates": 44,
+    "cell": "one tied 3x3 ConvGRU",
+    "dropout": 0.09,
+    "optimizer": "flattened Conv Muon plus scalar AdamW",
+    "muon_learning_rate": 0.006,
+    "muon_momentum": 0.95,
+    "muon_weight_decay": 0.1,
+    "muon_warmup_steps": 250,
+    "training_rows": 100000,
+    "batch_size": 512,
+    "steps": 10000,
+    "seed": 74
+  },
+  "input_schedule": "11 x bits from MSB to LSB, one bit per 4 recurrent updates",
+  "visible_inputs": "scheduled x bit, immutable N bits, fixed microstep phase",
+  "training_target": "final x squared mod N bits only",
+  "intermediate_supervision": false,
+  "checkpoint_selection": "unseen-x seen-N final exact match",
+  "audits": "opened once after validation selection",
+  "promotion_gate": "validation above 25% and both unseen-N audits above 20%",
+  "kill_gate": "validation below 15%",
+  "competition_eligible": "pending narrow legality review of scheduled prompt bits"
+}

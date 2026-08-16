@@ -2914,3 +2914,27 @@ composition, still locally and without promoting weights to a submission.
   `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/`;
   figures `solving/figures/binary_workstate_fused_width256_2026-08-16.png` and
   `solving/figures/binary_workstate_fused_capacity_optimizer_2026-08-16.png`.
+
+## 2026-08-17 — Fused residue progress does not expose a literal square
+
+- **Question:** does the branch-best width-256 tuned-Muon fused checkpoint
+  construct a linearly recoverable 22-bit `x` squared in its final work tape?
+- **Method:** freeze the processor and train independent local/global square
+  readouts plus an `x` control. Select each head only on unseen-`x`, seen-`N`
+  validation, then open the unseen-`N` audits once.
+- **Result:** global square exact was 4.09/3.10/3.40/3.02% on
+  train/validation/seen-`x` unseen-`N`/joint unseen. The local square head was
+  0.75/1.22/0.58/0.84%. The `x` control reached
+  91.10/84.82/81.70/78.50%.
+- **Decision:** the <25% square kill fires. Retire width, optimizer, and compute
+  tuning of the same all-at-once fused cell as the main line; test H13's
+  prompt-bit schedule next. The probe is correlational and does not rule out a
+  nonlinear square code or a square present only at earlier recurrent steps.
+- **Correction:** the first implementation restored all heads at the global
+  square head's best step. It was invalidated and rerun with per-head selection
+  before any conclusion was recorded.
+- **Evidence:**
+  `solving/experiments/2026-08-17_fused_width256_square_probe/` and
+  `solving/figures/fused_width256_square_probe_2026-08-17.png`; byte-count
+  verified ignored backup under
+  `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/fused-width256-square-probe-2026-08-17/`.

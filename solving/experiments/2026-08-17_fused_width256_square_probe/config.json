@@ -1,0 +1,29 @@
+{
+  "checkpoint_card": "2026-08-16_binary_workstate_fused_width256_tuned_muon",
+  "checkpoint_selection": "validation-best step 10000",
+  "checkpoint_metrics": {
+    "train_exact": 0.22088,
+    "validation_unseen_x_seen_n_exact": 0.2284,
+    "audit_seen_x_unseen_n_exact": 0.1838,
+    "audit_unseen_x_unseen_n_exact": 0.225
+  },
+  "processor_frozen": true,
+  "features": "final lane-2 work tape, 256 channels x 22 positions",
+  "probes": [
+    "shared local 1x1 readout to 22 square bits",
+    "global linear readout to 22 square bits",
+    "global linear readout to 11 source-x bits"
+  ],
+  "seed": 74,
+  "train_rows": 100000,
+  "validation_rows": 5000,
+  "audit_rows_each": 5000,
+  "probe_optimizer": "AdamW",
+  "probe_learning_rate": 0.003,
+  "probe_steps": 2500,
+  "probe_batch_size": 4096,
+  "eval_every": 250,
+  "selection": "each head independently by its own validation exact, then bit accuracy",
+  "audits": "opened once after probe selection",
+  "competition_eligible": false
+}

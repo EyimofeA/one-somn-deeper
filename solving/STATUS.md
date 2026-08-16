@@ -1,5 +1,18 @@
 # Status (living)
 
+**Frozen square representation probe (2026-08-17):** the preregistered kill
+fires on the branch-best fused width-256 tuned-Muon checkpoint. Independently
+selected linear readouts from the frozen final work tape recover the literal
+22-bit square at only **3.10%** unseen-`x`/seen-`N` exact and **3.02%** joint
+unseen exact, while the source-`x` control reaches **84.82%** and **78.50%**.
+The state is readable and retains `x`, but does not expose a linear literal
+square. This is correlational, not proof against nonlinear or transient square
+codes. Further fused width/optimizer tuning is retired as the main line; H13's
+MSB-to-LSB prompt-bit schedule is the active architecture card. Figure:
+[`figures/fused_width256_square_probe_2026-08-17.png`](figures/fused_width256_square_probe_2026-08-17.png).
+Prime L40 pod `7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour;
+probe artifacts are locally verified.
+
 **Full fused capacity and optimizer factorial (2026-08-16):** both isolated
 changes and their exact combination pass. Width 128→256 at fixed AdamW raises
 selected train/validation/seen-x-unseen-N/joint-unseen exact from
