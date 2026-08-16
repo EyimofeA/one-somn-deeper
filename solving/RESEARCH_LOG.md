@@ -2853,3 +2853,29 @@ composition, still locally and without promoting weights to a submission.
   experiment note
   `solving/experiments/2026-08-16_binary_workstate_fused_varying_n_adamw/NOTE.md`;
   figure `solving/figures/binary_workstate_fused_varying_n_adamw_2026-08-16.png`.
+
+## 2026-08-16 — Doubling fused AdamW compute gives a modest noisy gain
+
+- **One change:** extend the fused varying-N AdamW budget from 10k to 20k
+  steps, or 5.12M to 10.24M sampled examples. Architecture, split, seed,
+  optimizer, dropout, and final-label objective remain fixed.
+- **Result:** selected train/unseen-x-seen-N/seen-x-unseen-N/joint-unseen exact
+  reached 13.88/9.62/10.62/9.16%, versus 8.75/7.60/6.94/7.92% in the 10k
+  anchor. The validation gain of 2.02 points clears the preregistered 1.5-point
+  practical boundary, but validation and joint unseen miss the 10% gate.
+- **Trajectory:** the final step was best, with no delayed jump. Validation
+  rose noisily from 5.56% at this rerun's step 10k to 7.72% at 15k and 9.62%
+  at 20k. This is gradual optimization, not grokking.
+- **Reproducibility:** compiled BF16 execution was not bitwise deterministic;
+  this same-seed rerun scored 5.56% at step 10k versus the independent anchor's
+  7.60%, despite similar train exactness. Small score differences require
+  replication or a larger effect before causal attribution.
+- **Conclusion:** compute remains useful but inefficient. Doubling the budget
+  did not close the exact-square validation gap (14.56%) or solve train fit.
+  Retain 20k as the compute reference and change architecture or Muon tuning
+  before another automatic budget doubling.
+- **Evidence:** verified ignored backup at
+  `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/binary-workstate-fused-varying-n-adamw-20k-2026-08-16/`;
+  experiment note
+  `solving/experiments/2026-08-16_binary_workstate_fused_varying_n_adamw_20k/NOTE.md`;
+  figure `solving/figures/binary_workstate_fused_varying_n_adamw_20k_2026-08-16.png`.

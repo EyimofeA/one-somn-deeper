@@ -1,5 +1,18 @@
 # Status (living)
 
+**Full fused AdamW 20k compute extension (2026-08-16):** doubling the varying-N
+budget from 5.12M to 10.24M examples improved selected
+train/unseen-x-seen-N/seen-x-unseen-N/joint-unseen exact from
+8.75/7.60/6.94/7.92% to **13.88/9.62/10.62/9.16%**. Validation gained 2.02
+points and cleared the +1.5-point practical-gain boundary, but validation and
+joint unseen narrowly missed 10%. Same-seed compiled BF16 reruns diverged by
+about two validation points at step 10k, so small endpoint differences are
+trajectory-sensitive. Extra compute helps gradually; it did not produce
+grokking or close the 14.56% exact-square validation gap. Figure:
+[`figures/binary_workstate_fused_varying_n_adamw_20k_2026-08-16.png`](figures/binary_workstate_fused_varying_n_adamw_20k_2026-08-16.png).
+Artifacts are byte-verified locally; Prime L40 pod
+`7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour and idle.
+
 **Full fused varying-N AdamW control (2026-08-16):** changing only the
 optimizer from Muon warmdown to constant AdamW `3e-4` raised matched
 train/unseen-x-seen-N/seen-x-unseen-N/joint-unseen exact from

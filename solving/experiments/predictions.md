@@ -3164,3 +3164,24 @@ RESULT:     confirmed — AdamW eliminated the Muon collapse and raised
             2.41/2.04/2.06/1.74% to 8.75/7.60/6.94/7.92%. It cleared the 5%
             material-signal gate but missed 10%; stable low train fit leaves
             full-transition underfitting as the dominant bottleneck.
+
+### 2026-08-16 — Full fused varying-N AdamW at 20k steps
+
+```
+CARD:       binary_workstate_fused_varying_n_adamw_20k
+CHANGE:     extend only the matched fused AdamW budget from 10,000 to 20,000
+            steps (5.12M to 10.24M examples); restart deterministically and
+            retain all architecture, split, optimizer, seed, and evaluation
+            settings
+PREDICT:    validation and joint-unseen exact should exceed 10% if ordinary
+            optimization budget is still material. Validation above 12% is
+            strong compute-limited evidence; below 9.1% (less than +1.5 points
+            over 7.60%) indicates practical saturation and argues for an
+            architectural rather than longer-training change.
+```
+RESULT:     unclear — the 20k run improved validation from the prior 7.60% to
+            9.62% (+2.02 points) and unseen-N audit to 10.62%, so it cleared
+            the +1.5-point practical-gain boundary. Validation and joint-unseen
+            (9.16%) both narrowly missed 10%, and the rerun's first 10k differed
+            materially from the anchor despite the same seed, making small
+            endpoint gains trajectory-sensitive rather than a clean scaling law.
