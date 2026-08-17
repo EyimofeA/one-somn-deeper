@@ -3015,8 +3015,9 @@ composition, still locally and without promoting weights to a submission.
   `/home/ubuntu/one-layer-deeper`, project/package/compiler caches, installed
   `uv` tooling, and shell history. A subsequent SSH inventory confirmed the
   project and those paths no longer exist.
-- **Provider state:** pod `7072f85e48094888bcf3893db897ea54` remains
-  **ACTIVE** and reachable; it was not terminated. The hosted Hard evaluator
+- **Provider state:** after the verified wipe, the owner explicitly requested
+  termination. Prime accepted the termination, now reports no IP or SSH
+  endpoint, and the former SSH address times out. The hosted Hard evaluator
   does not depend on the pod.
 - **Backup:** ignored local tree
   `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/full-wipe-2026-08-17/`,

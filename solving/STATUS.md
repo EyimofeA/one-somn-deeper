@@ -10,10 +10,11 @@ final-label fused binary state. Its E5 selection job
 deadline selection, not T=1 certification. Card:
 [`submissions/hard_2026-08-17_best_fused/CARD.md`](submissions/hard_2026-08-17_best_fused/CARD.md).
 
-**Active GPU remotely wiped after verification (2026-08-17):** Prime L40 pod
-`7072f85e48094888bcf3893db897ea54` remains provider-**ACTIVE**, but the remote
+**Prime GPU retired after verified backup and wipe (2026-08-17):** Prime L40
+pod `7072f85e48094888bcf3893db897ea54` is terminated. Prime reports no IP or
+SSH endpoint and the former address times out. Before termination, the remote
 project, virtual environment, datasets, experiment artifacts, package/compiler
-caches, installed `uv` tooling, and shell history were removed. Before the
+caches, installed `uv` tooling, and shell history were removed. Before that
 wipe, `runs` matched **111 files / 72,855,441 bytes**, `data` matched
 **370 / 192,937,967**, and custom source matched **95 / 627,491** with a
 zero-change rsync dry run. Ignored local backup:
@@ -43,8 +44,7 @@ square. This is correlational, not proof against nonlinear or transient square
 codes. Further fused width/optimizer tuning is retired as the main line; H13's
 MSB-to-LSB prompt-bit schedule is the active architecture card. Figure:
 [`figures/fused_width256_square_probe_2026-08-17.png`](figures/fused_width256_square_probe_2026-08-17.png).
-Prime L40 pod `7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour;
-probe artifacts are locally verified.
+Probe artifacts are locally verified; the pod was later terminated.
 
 **Full fused capacity and optimizer factorial (2026-08-16):** both isolated
 changes and their exact combination pass. Width 128→256 at fixed AdamW raises
@@ -57,9 +57,7 @@ weight decay 0.1, 250-step warmup) reaches 16.84/18.14/14.60/18.40% in only
 complementary per step, but not super-additive, and narrow Muon remains the
 wall-clock-efficiency winner. This is materially better fused learning, not a
 solved transition: more than three quarters of exact cases still fail. All
-artifacts are byte-verified; active Prime L40 pod
-`7072f85e48094888bcf3893db897ea54` remains intentionally running at
-$0.86/hour. Figure:
+artifacts are byte-verified; the pod was later terminated. Figure:
 [`figures/binary_workstate_fused_capacity_optimizer_2026-08-16.png`](figures/binary_workstate_fused_capacity_optimizer_2026-08-16.png).
 
 **Full fused AdamW 20k compute extension (2026-08-16):** doubling the varying-N
@@ -72,8 +70,7 @@ about two validation points at step 10k, so small endpoint differences are
 trajectory-sensitive. Extra compute helps gradually; it did not produce
 grokking or close the 14.56% exact-square validation gap. Figure:
 [`figures/binary_workstate_fused_varying_n_adamw_20k_2026-08-16.png`](figures/binary_workstate_fused_varying_n_adamw_20k_2026-08-16.png).
-Artifacts are byte-verified locally; Prime L40 pod
-`7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour and idle.
+Artifacts are byte-verified locally; the pod was later terminated.
 
 **Full fused varying-N AdamW control (2026-08-16):** changing only the
 optimizer from Muon warmdown to constant AdamW `3e-4` raised matched
@@ -83,8 +80,7 @@ the final step was best, and the card cleared its 5% material-signal gate but
 missed the 10% strong-lead gate. Train and validation track closely, so this is
 stable full-transition underfitting rather than fixed-N memorization. Figure:
 [`figures/binary_workstate_fused_varying_n_adamw_2026-08-16.png`](figures/binary_workstate_fused_varying_n_adamw_2026-08-16.png).
-Artifacts are byte-verified locally; Prime L40 pod
-`7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour and idle.
+Artifacts are byte-verified locally; the pod was later terminated.
 
 **Full fused fixed-N diagnostic (2026-08-16):** with only x bits, fixed
 `N=403`, and final residue labels, the 128-channel AdamW work-state machine
@@ -95,8 +91,7 @@ untouched audit was 1/61 (1.64%). Removing modulus variation makes fitting
 easy but exposes a pure lookup shortcut, not modular-squaring function
 learning. Figure:
 [`figures/binary_workstate_fused_fixed_n403_2026-08-16.png`](figures/binary_workstate_fused_fixed_n403_2026-08-16.png).
-Artifacts are byte-verified locally; Prime L40 pod
-`7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour and idle.
+Artifacts are byte-verified locally; the pod was later terminated.
 
 **Capacity and AdamW schedule diagnostic (2026-08-16):** increasing the
 exact-square reduction processor from 128 to 192 channels improved matched-
@@ -108,8 +103,7 @@ or inverse-square-root decay reached only 11.96% and 13.40% validation exact;
 constant AdamW `3e-4` remains the best tested schedule. All arms miss the 25%
 unseen-N diagnostic gate. Figure:
 [`figures/binary_workstate_capacity_schedules_2026-08-16.png`](figures/binary_workstate_capacity_schedules_2026-08-16.png).
-The new artifacts are byte-verified locally. Prime L40 pod
-`7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour and idle.
+The new artifacts are byte-verified locally; the pod was later terminated.
 
 **Matched binary reduction/fused diagnostic (2026-08-16):** one shared
 443,777-parameter binary ConvGRU processor failed both preregistered gates at
@@ -120,8 +114,8 @@ bits reached 2.04/2.06/1.74%. Neither arm fit training, and both peaked by step
 helps, but the current processor/optimizer is independently inadequate for
 reduction. Figure:
 [`figures/binary_workstate_matched_2026-08-16.png`](figures/binary_workstate_matched_2026-08-16.png).
-Prime L40 pod `7072f85e48094888bcf3893db897ea54` remains active at $0.86/hour;
-the completed matched artifacts are byte-verified locally.
+The completed matched artifacts are byte-verified locally; the pod was later
+terminated.
 
 **Stable optimizer control (2026-08-16):** changing only exact-square
 reduction from Muon warmdown to AdamW eliminated the step-1,500 collapse and
