@@ -3370,6 +3370,10 @@ PREDICT:    because frozen H13 states expose residue at 99.38/85.50% through
             requires >22.84% validation and both unseen-N audits above their
             18.38/22.50% baselines; >25% validation is strong. Below 10%
             validation refutes this curriculum schedule.
+RESULT:     Refuted. Validation selected step 9,000 at 22.56/5.84/3.82/4.32%
+            train/validation/seen-x-unseen-N/joint-unseen exact. Full-length
+            11-bit exact was 1.64/0.47/0.28/0.09%. The curriculum restored
+            training fit but did not move the wrap/generalization frontier.
 ```
 
 ### 2026-08-17 — Width-256 fused binary work-state hosted E5

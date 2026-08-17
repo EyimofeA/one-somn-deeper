@@ -10,7 +10,7 @@ final-label fused binary state. Its E5 selection job
 deadline selection, not T=1 certification. Card:
 [`submissions/hard_2026-08-17_best_fused/CARD.md`](submissions/hard_2026-08-17_best_fused/CARD.md).
 
-**H13 scheduled-input result and prefix localization (2026-08-17):** changing
+**H13 scheduled-input and length-curriculum result (2026-08-17):** changing
 only the all-at-once `x` tape to one MSB-to-LSB prompt bit per four updates
 regressed selected train/validation/seen-`x` unseen-`N`/joint-unseen exact to
 **16.88/6.14/4.76/5.58%**, so the <15% validation kill fires. A frozen global
@@ -18,7 +18,9 @@ state probe nevertheless recovers prefix residue at 99.38/85.50% seen/unseen
 `N` after six bits, then 70.32/44.38% after seven and 33.28/23.06% after eight;
 prefix value remains nearly exact longer. The failure frontier aligns with
 wrapping and growing sequence depth. A final-label-only significant-bit length
-curriculum is now active; it uses only provided row labels. Figure:
+curriculum also failed at **22.56/5.84/3.82/4.32%**: it restored train fit but
+made unseen-`N` transfer worse, and 11-bit joint-unseen exact was 0.09%. Reject
+both H13 schedules. Figure:
 [`figures/binary_prefix_residue_h13_2026-08-17.png`](figures/binary_prefix_residue_h13_2026-08-17.png).
 
 **Frozen square representation probe (2026-08-17):** the preregistered kill

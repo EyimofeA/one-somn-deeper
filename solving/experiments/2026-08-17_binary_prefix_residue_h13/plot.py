@@ -24,6 +24,7 @@ def load(path: Path):
 
 def main() -> None:
     h13 = load(ROOT / "eval_report.json")
+    curriculum = load(ROOT / "curriculum_eval_report.json")
     probe = load(ROOT / "probe_report.json")
     baseline = load(BASELINE)
     figure, axes = plt.subplots(1, 2, figsize=(13.0, 5.2))
@@ -32,6 +33,7 @@ def main() -> None:
     for report, label, style in (
         (baseline, "All-at-once fused", "-"),
         (h13, "H13 bit schedule", "--"),
+        (curriculum, "H13 length curriculum", "-."),
     ):
         steps = [point["step"] for point in report["curve"]]
         axes[0].plot(

@@ -2983,3 +2983,22 @@ composition, still locally and without promoting weights to a submission.
 - **Evidence:**
   `solving/submissions/hard_2026-08-17_best_fused/` and hosted selection job
   `1cfa42ed-a7fb-4850-a8f1-3750c750846e`.
+
+## 2026-08-17 — Significant-bit curriculum restores fit, not transfer
+
+- **One change:** preserve H13's width-256 tied ConvGRU, 44-update ceiling,
+  tuned Muon, dropout, seed, and final-only residue BCE, but skip leading
+  inactive prompt bits and admit real training rows by maximum significant
+  `x` length from four through eleven bits.
+- **Result:** validation selected step 9,000 at
+  **22.56/5.84/3.82/4.32%** train/validation/seen-`x` unseen-`N`/joint-unseen
+  exact. At 11 bits the same four profiles were only
+  **1.64/0.47/0.28/0.09%**.
+- **Decision:** the preregistered <10% validation kill fires. Reject this
+  curriculum. It learns the finite short-length bands and recovers overall
+  train fit, but it does not teach the first-wrap transition needed at full
+  length. This result does not alter the already-selected Hard candidate.
+- **Evidence:**
+  `solving/experiments/2026-08-17_binary_prefix_residue_h13/`; byte-count
+  verified ignored backup
+  `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/binary-prefix-residue-h13-length-curriculum-2026-08-17/`.

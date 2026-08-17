@@ -52,9 +52,25 @@ incoming `x` bits.
 The near-perfect short-prefix probes are not proof of an algorithm: there are
 few possible short prefixes, and the probes receive privileged targets. They
 are evidence that the architecture has a learnable short regime and a sharp
-frontier, which licenses a final-label-only length curriculum. The active
-follow-up consumes prompt-visible significant bits and progressively admits
-provided examples of lengths 4 through 11. It computes no auxiliary labels.
+frontier, which licensed one final-label-only length curriculum.
+
+## Significant-bit curriculum result
+
+The curriculum consumed only prompt-visible significant bits and progressively
+admitted provided rows of lengths 4 through 11. It computed no auxiliary
+labels. Validation selected step 9,000:
+
+| Model | Train | Unseen `x`, seen `N` | Seen `x`, unseen `N` | Joint unseen |
+|---|---:|---:|---:|---:|
+| All-at-once fused reference | 22.09% | **22.84%** | **18.38%** | **22.50%** |
+| H13 length curriculum | 22.56% | **5.84%** | **3.82%** | **4.32%** |
+
+The preregistered below-10% kill fires. The curriculum recovered train fit but
+not transfer: at 11-bit `x`, selected exact match was 1.64% on train, 0.47% on
+validation, 0.28% on seen-`x`/unseen-`N`, and 0.09% on joint unseen. Easy
+short-prefix labels therefore reinforced a length-specific path without
+teaching the wrap operation needed at full length. Reject this curriculum and
+do not combine it with the submitted throughput model.
 
 ## Evidence
 
@@ -64,6 +80,8 @@ provided examples of lengths 4 through 11. It computes no auxiliary labels.
   [`probe_prefix_states.py`](probe_prefix_states.py),
   [`probe_report.json`](probe_report.json), [`probe_run.log`](probe_run.log)
 - [`curriculum_config.json`](curriculum_config.json),
-  [`train_curriculum.py`](train_curriculum.py)
+  [`train_curriculum.py`](train_curriculum.py),
+  [`curriculum_eval_report.json`](curriculum_eval_report.json),
+  [`curriculum_run.log`](curriculum_run.log)
 - Byte-count verified ignored backups under
   `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/`
