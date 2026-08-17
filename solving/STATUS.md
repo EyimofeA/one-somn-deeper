@@ -1,5 +1,16 @@
 # Status (living)
 
+**Evening research GPU retired after verified backup (2026-08-17):** Prime L40
+pod `5129ef947b814b6f91321b7d1caa201f`
+(`winner-reconstruction-20260817`) was backed up before deletion. The custom
+research tree matched **146 files / 55,578,017 bytes** with a zero-change rsync
+dry run; the official checkout source excluding `.git`, `.venv`, generated
+data, and caches matched **91 / 570,806**. Ignored backup:
+`diagnostics/artifacts/prime-5129ef947b814b6f91321b7d1caa201f/research-2026-08-17/`.
+After verification, `/home/ubuntu/somn-taskb` and
+`/home/ubuntu/one-layer-deeper` were removed. Prime accepted termination; the
+pod now has no IP/SSH endpoint and the former endpoint times out.
+
 **T=1 reduction frontier identified (2026-08-17 evening):** a matched binary
 width-128, 33-clock tied 3x3 ConvGRU reaches **16.42%** held-out-x/seen-N and
 **13.62/16.80%** on the two unseen-N audits from final residue-bit supervision

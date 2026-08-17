@@ -3086,3 +3086,21 @@ composition, still locally and without promoting weights to a submission.
 - **Evidence:**
   `solving/experiments/2026-08-17_binary_t1_quotient_diagnostic/` and the
   linked 33/44/55-clock, dilation, mixed-message, and scratch-message cards.
+
+## 2026-08-17 — Evening Prime research pod retired
+
+- **Identity:** Prime L40 pod `5129ef947b814b6f91321b7d1caa201f`, name
+  `winner-reconstruction-20260817`, provider `massedcompute`, former endpoint
+  `64.247.206.9`, created 18:14:37 UTC.
+- **Research backup:** `somn-taskb` matched **146 files / 55,578,017 bytes**;
+  `PRIME_BACKUP_VERIFIED.txt` records verification at 22:24:45 UTC and a
+  subsequent rsync dry run reported no differences.
+- **Official-source backup:** excluding `.git`, `.venv`, generated `data`, and
+  caches, the official checkout matched **91 files / 570,806 bytes**, also
+  with a zero-change dry run.
+- **Deletion and termination:** after both verifications, the two explicit
+  remote project paths were removed. The authenticated Prime helper accepted
+  termination. Provider status now has no IP or SSH endpoint; the former SSH
+  endpoint times out.
+- **Local ignored artifact:**
+  `diagnostics/artifacts/prime-5129ef947b814b6f91321b7d1caa201f/research-2026-08-17/`.
