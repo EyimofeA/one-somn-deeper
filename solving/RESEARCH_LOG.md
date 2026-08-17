@@ -3002,3 +3002,22 @@ composition, still locally and without promoting weights to a submission.
   `solving/experiments/2026-08-17_binary_prefix_residue_h13/`; byte-count
   verified ignored backup
   `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/binary-prefix-residue-h13-length-curriculum-2026-08-17/`.
+
+## 2026-08-17 — Active Prime GPU research state backed up and wiped
+
+- **Authorization:** the owner asked to remove all project material from the
+  active GPU while replacing frequent Hard polling with a single reminder.
+- **Verification before deletion:** `runs` matched **111 files / 72,855,441
+  bytes**; `data` matched **370 / 192,937,967**; source excluding `.git`,
+  `.venv`, `data`, `runs`, and caches matched **95 / 627,491**, and an rsync
+  dry run reported zero changes.
+- **Deletion:** removed the explicit remote project
+  `/home/ubuntu/one-layer-deeper`, project/package/compiler caches, installed
+  `uv` tooling, and shell history. A subsequent SSH inventory confirmed the
+  project and those paths no longer exist.
+- **Provider state:** pod `7072f85e48094888bcf3893db897ea54` remains
+  **ACTIVE** and reachable; it was not terminated. The hosted Hard evaluator
+  does not depend on the pod.
+- **Backup:** ignored local tree
+  `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/full-wipe-2026-08-17/`,
+  including the top-level and per-root verification manifests.

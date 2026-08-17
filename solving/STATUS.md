@@ -10,6 +10,16 @@ final-label fused binary state. Its E5 selection job
 deadline selection, not T=1 certification. Card:
 [`submissions/hard_2026-08-17_best_fused/CARD.md`](submissions/hard_2026-08-17_best_fused/CARD.md).
 
+**Active GPU remotely wiped after verification (2026-08-17):** Prime L40 pod
+`7072f85e48094888bcf3893db897ea54` remains provider-**ACTIVE**, but the remote
+project, virtual environment, datasets, experiment artifacts, package/compiler
+caches, installed `uv` tooling, and shell history were removed. Before the
+wipe, `runs` matched **111 files / 72,855,441 bytes**, `data` matched
+**370 / 192,937,967**, and custom source matched **95 / 627,491** with a
+zero-change rsync dry run. Ignored local backup:
+`diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/full-wipe-2026-08-17/`.
+The hosted Hard job is independent of this pod.
+
 **H13 scheduled-input and length-curriculum result (2026-08-17):** changing
 only the all-at-once `x` tape to one MSB-to-LSB prompt bit per four updates
 regressed selected train/validation/seen-`x` unseen-`N`/joint-unseen exact to
