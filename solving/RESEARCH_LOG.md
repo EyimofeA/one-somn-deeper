@@ -3116,7 +3116,10 @@ composition, still locally and without promoting weights to a submission.
   MSB-first with one generic tied recurrent transition while keeping an
   11-position work state and immutable N. The desired bounded computation can
   use at most one conditional reduction per source-bit stage, but no such
-  operation or intermediate target is coded or supervised.
+  operation or intermediate target is coded or supervised. On the fixed
+  validation rows, the diagnostic prefix process uses 4.21 conditional
+  reductions on average, 10 maximum, and at most 8 for 99% of rows, versus raw
+  quotient as large as 1,975.
 - **Preregistered main:** width-128 local ConvGRU, two microsteps per source
   bit, 44 total cell applications, seed 74, tuned Muon, dropout 0.09, final
   residue BCE, and the unchanged 100k/5k/5k/5k split. Predict >50% validation

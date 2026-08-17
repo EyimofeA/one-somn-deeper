@@ -40,6 +40,13 @@ The validation distribution makes this a hard ceiling, not a tail issue:
 Thus even perfect accuracy through `q=63` caps this split at 26.30%. A model
 must handle quotient magnitude near 2,000 to solve the full 11-bit task.
 
+The same 5,000 rows look radically smaller under an MSB-prefix reduction
+view. Across 22 source-bit stages, the exact classical state would require a
+mean **4.21**, median **4**, and maximum **10** conditional reductions; 99% of
+rows need at most 8. The first wrap occurs only at stages 12--22. These numbers
+are diagnostic motivation only and are not supplied to the model. They explain
+why streaming can escape an O(q) basin without increasing model width.
+
 ## Strongest mechanistic hypothesis: repeated subtraction
 
 The observed boundary is much more consistent with *learned repeated

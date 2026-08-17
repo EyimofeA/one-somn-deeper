@@ -28,6 +28,13 @@ consistent with learned repeated subtraction. A streaming representation can
 express reduction in a fixed number of source-bit stages independent of the
 numeric quotient.
 
+On the unchanged 5,000 validation rows, a diagnostic MSB-prefix calculation
+uses a mean 4.21, median 4, and maximum 10 conditional reductions over the 22
+stages; 99% of rows use at most 8. The first wrap occurs at stages 12--22. By
+contrast, the raw quotient reaches 1,975. These internal classical states are
+not training data or model inputs; they only quantify the intended reduction
+in computational depth.
+
 ## Scope and legality
 
 This is a research-only reducer diagnostic. Python supplies the exact 22-bit
