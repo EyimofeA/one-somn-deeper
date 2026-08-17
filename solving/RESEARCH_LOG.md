@@ -3126,8 +3126,11 @@ composition, still locally and without promoting weights to a submission.
 - **Implementation smoke:** both 444,161-parameter local and 264,961-parameter
   scan forwards pass CPU forward/backward checks. A 24-channel scan fit all 12
   toy rows from N={5,7} by 200 updates, but unseen N={3,4,6} was 4/13 (30.77%),
-  exactly the zero baseline. This proves trainability only and warns against
-  using interpolation as evidence.
+  exactly the zero baseline. A 32-channel scan on 72 rows from six 4-bit
+  moduli reached 100% train; four unseen moduli peaked at 14/32 at step 100,
+  only one row above the 13/32 unreduced-square baseline, then fell to 9/32.
+  These prove trainability only and warn against using interpolation as
+  evidence.
 - **Legality:** official rules explicitly allow routing, tied recurrence, and
   parameter-free work but ban hard-coded forward algorithms. The exact-square
   diagnostic itself is research-only. Ask the organizer whether revealing one

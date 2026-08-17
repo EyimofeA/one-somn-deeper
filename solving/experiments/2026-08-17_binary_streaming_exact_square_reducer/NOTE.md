@@ -9,6 +9,13 @@ forward and gradient path can fit. On 13 rows from unseen toy moduli 3, 4, and
 an algorithmic result—the support is intentionally tiny—but it is a warning
 that train interpolation is not a promotion signal.
 
+A second CPU smoke used 72 complete rows from six 4-bit training moduli and 32
+rows from four unseen moduli. The scan reached 100% train, but unseen-N exact
+peaked at 14/32 (43.75%) at step 100—only one row above the 13/32 unreduced
+square baseline—and fell to 9/32 after interpolation. This still does not test
+the registered 90-modulus regime. It reinforces validation checkpointing and
+rules out treating tiny-table train fit as evidence.
+
 ## Question
 
 Can final residue labels identify a reusable variable-`N` reduction transition
