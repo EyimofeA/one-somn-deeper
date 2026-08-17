@@ -1,5 +1,19 @@
 # Status (living)
 
+**Learned square + streaming reducer hosted gate failed; forced Hard running
+(2026-08-17):** SHA-1 `0e8975b2d795cb377b1b8f393a650fa32011dbae`
+keeps final-residue gradients live during a legal no-wrap square curriculum,
+then uses a randomly initialized Neural-GPU squarer and 22-stage learned prefix
+reducer. Varying-N E5 job `b08f3e88-96cd-41d1-986b-bec26b23d17a` completed
+398 updates at 0.690 train loss and scored **0.00%**. Fixed-N M6 job
+`a4403938-7b64-40db-8f52-e350c1255a02` completed 4,122 updates at 0.697 and
+also scored **0.00%**; neither certified a rung. The unchanged owner-authorized
+Hard job `caff39c2-ed89-4834-84d9-34997dd1eabd` is running. The E5/M6 result
+rejects this decomposition as an identifiable competition-time learner in its
+current form; it does not refute the separately supervised squarer or the
+oracle-square reducer diagnostics. Card:
+[`submissions/binary_prefix_square_reduce/CARD.md`](submissions/binary_prefix_square_reduce/CARD.md).
+
 **Evening research GPU retired after verified backup (2026-08-17):** Prime L40
 pod `5129ef947b814b6f91321b7d1caa201f`
 (`winner-reconstruction-20260817`) was backed up before deletion. The custom

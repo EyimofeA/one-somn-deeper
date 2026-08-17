@@ -3145,3 +3145,29 @@ composition, still locally and without promoting weights to a submission.
 - **Evidence:**
   `solving/experiments/2026-08-17_binary_streaming_exact_square_reducer/` and
   `solving/NEXT_T1_REDUCER.md`.
+
+## 2026-08-17 — Learned square plus streaming reducer fails E5 and M6
+
+- **Change:** corrected the legal no-wrap curriculum so final residue BCE gives
+  the learned reducer gradients from update one, and replaced the unstable
+  Muon 0.02 warmdown with the branch-best 0.006/0.95/0.1 recipe plus 250-step
+  warmup. The model still receives only evaluator inputs and final labels; all
+  square and prefix-reduction weights initialize randomly.
+- **Easy E5:** job `b08f3e88-96cd-41d1-986b-bec26b23d17a` completed 398 updates,
+  ended at train loss 0.690, and scored 0.00% on both test and OOD; no rung was
+  certified.
+- **Medium M6:** unchanged job `a4403938-7b64-40db-8f52-e350c1255a02`
+  completed 4,122 updates, ended at train loss 0.697, and scored 0.00% on both
+  test and OOD; no rung was certified. A one-batch 3.1% train-exact blip at
+  step 4,000 did not persist.
+- **Decision:** prediction failed. Ten times more optimization on fixed N did
+  not break the approximately 0.69-bit-loss basin. Reject this factorized
+  learner in its present form; do not infer that the directly supervised
+  squarer or oracle-square reducer failed.
+- **Hard:** explicit owner authorization placed the exact unchanged SHA-1
+  `0e8975b2d795cb377b1b8f393a650fa32011dbae` into H1 as job
+  `caff39c2-ed89-4834-84d9-34997dd1eabd`. This is a forced research upload,
+  not a promotion from the failed practice gates.
+- **Evidence:**
+  [`submissions/binary_prefix_square_reduce/CARD.md`](submissions/binary_prefix_square_reduce/CARD.md)
+  and ignored downloaded metrics under `diagnostics/`.

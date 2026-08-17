@@ -3690,3 +3690,20 @@ PREDICT:    Final train exact exceeds 2.7% and mean evaluation exceeds 0.54%
 - **Prediction:** Validation will exceed 18% and raw `q=32..63` will exceed
   10%, while shallower quotient buckets remain above 95%. Otherwise reject
   sparse fast messages in this form and redesign the reducer's state machine.
+
+# 2026-08-17 — Learned square plus streaming reducer hosted gate
+
+- **CARD:** `binary-prefix-square-reduce-live-gradient`
+- **CHANGE:** Keep the 11-bit learned Neural-GPU squarer and 22-stage learned
+  prefix reducer, but make the final residue loss active during the legal
+  no-wrap square curriculum. Replace the unstable 0.02-to-0.002 step schedule
+  with the branch-best flattened Muon recipe: LR 0.006, momentum 0.95, weight
+  decay 0.1, and 250-update warmup. No pretrained weights, exact square,
+  quotient, remainder, carry, or intermediate arithmetic targets are supplied.
+- **PREDICT:** On varying-N Easy E5, mean exact remains low but exceeds the
+  previous fused Hard candidate's 0.5417%, with nonzero seen-N T=1 and at least
+  one OOD-N T=1 hit. On fixed-N Medium M6, ten times more optimization raises
+  mean exact above 5%, but does not certify T=1. Failure means the legal
+  decomposition is still not identifiable/fast enough from final labels; it
+  does not refute the separately supervised squarer or oracle-square streaming
+  reducer diagnostics.
