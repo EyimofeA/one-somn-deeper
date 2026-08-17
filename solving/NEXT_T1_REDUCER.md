@@ -124,6 +124,13 @@ result would establish that final-label credit can identify reduction when the
 architecture keeps every intermediate magnitude bounded. It would *not* prove
 that the competition model can generate the square tape.
 
+The mathematical reason is simple. If `r` is the residue of the prefix already
+consumed and the next source bit is `b`, the desired next state is the residue
+of `2*r + b`. Because `0 <= r < N` and `b` is zero or one,
+`0 <= 2*r + b < 2*N`; each source-bit stage needs at most one conditional
+reduction. This equation motivates the state geometry but does not appear in
+the model forward or loss.
+
 This differs from rejected H13. H13 streamed the original 11 bits of `x` and
 asked the same latent state to invent squaring and reduction simultaneously.
 The new card streams the 22 bits of an already isolated exact product and asks
