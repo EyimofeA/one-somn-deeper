@@ -38,4 +38,4 @@ validation was 6.14%, below its kill gate, and it was not translated or hosted.
 Hard refuted the promotion. Across the three full evaluation profiles, the
 model got 2/9,999 test examples, 2/10,002 OOD-`T` examples, and 3/10,002
 OOD-`N,T` examples correct. Those isolated hits did not include any T=1 case,
-so neither ladder certified. See [`metrics.json`](metrics.json).
+so neither ladder certified. See [`metrics.jsonl`](metrics.jsonl).
