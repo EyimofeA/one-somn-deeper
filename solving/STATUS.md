@@ -27,8 +27,10 @@ buckets become exact. This is direct evidence for a genuine bit-serial reducer
 with an expensive recurrent clock horizon. Cyclic dilation (14.74%), fixed
 sparse messages (8.32%), learned mixed messages (17.08%), and learned
 scratch-lane messages (17.16%) do not move the frontier. Next research should
-make compare/conditional-subtract itself cheaper per quotient bit, not merely
-widen the model or inject shifted activations. Figure:
+first test a final-label-only MSB-streaming exact-square reducer, which keeps
+the recurrent state bounded and removes numerical quotient depth; only if that
+fails should it try a learned content-addressed scheduler. Do not merely widen
+the model or inject shifted activations. Figure:
 [`experiments/2026-08-17_binary_t1_quotient_diagnostic/t1_reduction_frontier.png`](experiments/2026-08-17_binary_t1_quotient_diagnostic/t1_reduction_frontier.png).
 The preregistered learned-scheduler plan and its legality boundary are in
 [`NEXT_T1_REDUCER.md`](NEXT_T1_REDUCER.md).

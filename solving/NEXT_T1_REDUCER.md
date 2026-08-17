@@ -87,6 +87,35 @@ without putting that policy in Python.
 
 ## Recommended architecture
 
+The highest-value next diagnostic is now a **streaming exact-square reducer**,
+before adding a global pointer. It changes the computational geometry instead
+of trying to accelerate the repeated-subtraction basin.
+
+```text
+22 exact-square bits, MSB first
+           │ one new bit per tied step
+           ▼
+  bounded recurrent residue tape  <──── immutable N tape
+           │
+           ▼ after 22 steps
+      residue-bit logits
+```
+
+This is research-only because the exact square is supplied externally. The
+cell receives no prefix residues, quotient, comparison, subtraction, carry,
+or execution trace; only the final residue label trains it. A successful
+result would establish that final-label credit can identify reduction when the
+architecture keeps every intermediate magnitude bounded. It would *not* prove
+that the competition model can generate the square tape.
+
+This differs from rejected H13. H13 streamed the original 11 bits of `x` and
+asked the same latent state to invent squaring and reduction simultaneously.
+The new card streams the 22 bits of an already isolated exact product and asks
+only whether the reduction transition can be learned.
+
+The fallback, if streaming itself is not identifiable, is the learned pointer
+machine below:
+
 ```text
 immutable source lane ───────────────┐
 immutable modulus lane ──────────────┼──> tied local ConvGRU ──> work lane
@@ -151,7 +180,24 @@ gate passes.
 Use the existing deterministic 100k/5k/5k/5k T=1 rows. Do not create a new
 dataset and do not tune on either unseen-N audit.
 
-### A. Projected scratch bus — cheap falsifier, not the final bet
+### A. Streaming exact-square reducer — recommended first
+
+Use the existing deterministic rows and exact-square source. Reveal one source
+bit MSB-first per tied recurrent step. Keep `N` immutable and decode only after
+all 22 bits. Use the same final residue BCE, Muon, recurrent dropout, train/
+validation/audit policy, and approximately matched examples.
+
+Prediction: validation above 50% and both unseen-N audits above 40%; the
+ambitious success gate is 90/85%. Accuracy should be approximately flat across
+raw quotient buckets. Reject if validation remains below 30% or if accuracy
+still forms a moving quotient frontier.
+
+Before any submission translation, obtain a narrow legality ruling on whether
+revealing one existing input bit per generic tied update is ordinary recurrent
+input routing or a forbidden fixed algorithm. The reducer diagnostic itself is
+not submission code because it receives the external square.
+
+### B. Projected scratch bus — cheap falsifier, not the final bet
 
 One change from the failed scratch-message card: apply a learned 1x1 projection
 before each shifted message. Keep 33 clocks and three zero-initialized gates.
@@ -165,7 +211,7 @@ If it only advances proportionally with clocks, the cell is still executing
 the repeated-subtraction policy and the next experiment must change the
 learned state transition rather than add reach.
 
-### B. Learned content-addressed pointer — primary candidate
+### C. Learned content-addressed pointer — fallback candidate
 
 Keep every local clock. Add one scratch query representing the current focus.
 Every fourth clock it attends over projected work/modulus keys with learned
@@ -180,7 +226,7 @@ quotient frontier at matched wall time, not merely matched examples, and if
 attention locations depend on `(source, N)` rather than following one constant
 position pattern.
 
-### C. State-driven expert controller
+### D. State-driven expert controller
 
 Add learned hold/gather/commit experts only after A or B moves the frontier.
 Initialize the commit residual at zero so the anchor remains recoverable.
@@ -189,7 +235,7 @@ Prediction: the controller should reduce late oscillation and make frontier
 gains stable. If communication has not already moved q=32..63, this is likely
 to learn a cosmetic phase schedule and should not be run.
 
-### D. Coarse quotient bottleneck — independent alternative
+### E. Coarse quotient bottleneck — low-priority independent alternative
 
 A global branch predicts a small discrete latent code from `(source, N)`. A
 shared learned local decoder uses that code, source, and modulus to produce the
@@ -201,9 +247,11 @@ This borrows the factorization idea from neural arithmetic modules without
 using a hard-coded reciprocal or exact multiply/subtract path. It has stronger
 end-to-end identifiability than a free scratch grid, but also a serious failure
 mode: the code can become a generic memorization index. A capacity-matched
-continuous-code control is mandatory.
+continuous-code control is mandatory. Prior supervised action-conditioned
+macro decoders already failed to generate exact multi-unit updates, so this is
+lower priority than streaming and must not reuse that closed formulation.
 
-### E. Return to fused x only after the reducer gate
+### F. Return to fused x only after the reducer gate
 
 Minimum reducer gate:
 
