@@ -1,0 +1,22 @@
+{
+  "card": "binary_global_attention_t1",
+  "one_change": "replace the local 3x3 ConvGRU transition with a tied global self-attention transition",
+  "mode": "fused_x",
+  "seed": 74,
+  "operand_bits": 11,
+  "workspace_bits": 22,
+  "width": 128,
+  "heads": 4,
+  "updates": 8,
+  "dropout": 0.0,
+  "optimizer": "flattened Muon plus scalar AdamW",
+  "muon_learning_rate": 0.006,
+  "muon_weight_decay": 0.1,
+  "muon_warmup_steps": 250,
+  "batch_size": 512,
+  "steps": 10000,
+  "examples": 5120000,
+  "selection": "unseen-x seen-N exact only",
+  "audit_policy": "unseen-N is opened once after validation selection",
+  "supervision": "final residue bits only"
+}

@@ -3030,3 +3030,59 @@ composition, still locally and without promoting weights to a submission.
 - **Backup:** ignored local tree
   `diagnostics/artifacts/prime-7072f85e48094888bcf3893db897ea54/full-wipe-2026-08-17/`,
   including the top-level and per-root verification manifests.
+
+## 2026-08-17 — T=1 local-clock law and reduction frontier
+
+- **Matched anchor:** width 128, 33 tied local ConvGRU updates, tuned Muon,
+  dropout 0.09, 5.12M synthetic examples, deterministic held-out-x and
+  held-out-N splits, final residue bits only. Selected
+  train/validation/seen-x-unseen-N/joint-unseen exact was
+  **15.658/16.420/13.620/16.800%** in 639.4s.
+- **Architecture controls:** tied global attention reached only 3.48%
+  validation at width 128 and 3.06% at width 256. A 3x7 local kernel reached
+  43.86% train but only 5.10% validation, identifying a memorization shortcut.
+  Reducing local clocks to 22 plateaued at 14.24%; 33 clocks was the best
+  wall-clock local point.
+- **Optimizer/init controls:** half-scale initialization reached 15.74%
+  validation and regressed both unseen-N audits. Full-horizon Muon cosine decay
+  reached only 12.24%. Delaying decay until step 6,500 reached 16.82%
+  validation but slightly regressed both unseen-N audits, so it was not
+  promoted.
+- **Official local E5:** width-128/33, batch 256 reached 505 updates and
+  0.2917% mean exact. T=1-only gradients reached 731 updates and final train
+  loss 0.547514, but seen/OOD T=1 were 2/512 and 0/512. The clock curriculum
+  improves optimization but does not generalize across N.
+- **Mechanistic slice:** for the fused anchor, exact accuracy by centered
+  quotient `floor(min(x,N-x)^2/N)` was 99.21% at q=0, 94.50% at q=1, 87.73%
+  at q=2--3, 59.75% at q=4--7, 13.54% at q=8--15, 0.41% at q=16--31,
+  0.15% at q=32--63, and 0% at q>=64. Predictions were almost always valid
+  residues; identity and zero collapse were negligible. The raw-q recovery for
+  x near N disappears under centering, proving the model exploits
+  `x ≡ -(N-x) mod N`.
+- **Square/reduce isolation:** feeding exact 22-bit `x*x` learned faster but
+  ended at only 17.10/13.50/17.82% validation/two audits. Squaring is an early
+  optimization burden, while reduction is the final ceiling.
+- **Clock intervention:** with exact square supplied, 33 clocks were nearly
+  exact through raw q=15, 62.45% at q=16--31, and 0.27% at q=32--63. At 44
+  clocks, q<=31 became nearly exact and q=32--63 reached 9.86%; at 55 clocks,
+  q<=31 was exact and q=32--63 reached 32.33%. Aggregate validation rose
+  17.10→19.92→21.52%, while matched-example runtime rose
+  549→837→1065s. Recurrent time causally extends the reducer frontier but is
+  too expensive as the only fix.
+- **Fast-transport controls:** replacing local convolution with tied cyclic
+  horizontal dilation regressed validation to 14.74%. Fixed shifted messages
+  every fourth clock collapsed it to 8.32%. Zero-initialized learned messages
+  recovered 17.08%, and routing them into unused scratch lane 3 reached 17.16%;
+  their gates opened, but q=32--63 stayed at 0.55% and 0%, respectively.
+  Faster communication is not equivalent to the missing compare/subtract
+  state transition.
+- **Decision:** do not spend submission quota on these diagnostic variants.
+  Preserve 55-clock depth as causal evidence, not a deployable solution. The
+  next high-value architecture is an explicit learned quotient-bit
+  microprogram: immutable square/modulus lanes, a separate aligned
+  compare/borrow lane, conditional subtract/writeback, and shared weights over
+  quotient positions. It must first move q=32--63 at <=33 clocks before fused
+  squaring or outer recurrence is retested.
+- **Evidence:**
+  `solving/experiments/2026-08-17_binary_t1_quotient_diagnostic/` and the
+  linked 33/44/55-clock, dilation, mixed-message, and scratch-message cards.

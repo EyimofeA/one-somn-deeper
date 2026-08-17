@@ -270,13 +270,6 @@ def main() -> None:
     parser.add_argument("--muon-learning-rate", type=float, default=1e-3)
     parser.add_argument("--muon-weight-decay", type=float, default=0.1)
     parser.add_argument("--muon-warmup-steps", type=int, default=250)
-    parser.add_argument(
-        "--muon-lr-schedule",
-        choices=("constant", "warmup_cosine", "late_cosine"),
-        default="constant",
-    )
-    parser.add_argument("--muon-final-learning-rate", type=float, default=1e-3)
-    parser.add_argument("--muon-decay-start-step", type=int, default=6500)
     parser.add_argument("--validation-only", action="store_true")
     args = parser.parse_args()
     if not torch.cuda.is_available():
@@ -341,23 +334,9 @@ def main() -> None:
 
     for step in range(1, args.steps + 1):
         if args.optimizer == "tuned_muon":
-            if step <= args.muon_warmup_steps:
-                muon_learning_rate = (
-                    args.muon_learning_rate * step / args.muon_warmup_steps
-                )
-            elif args.muon_lr_schedule in ("warmup_cosine", "late_cosine"):
-                decay_start = (
-                    args.muon_warmup_steps
-                    if args.muon_lr_schedule == "warmup_cosine"
-                    else args.muon_decay_start_step
-                )
-                progress = max(0.0, (step - decay_start) / (args.steps - decay_start))
-                muon_learning_rate = args.muon_final_learning_rate + (
-                    args.muon_learning_rate - args.muon_final_learning_rate
-                ) * 0.5 * (1.0 + math.cos(math.pi * progress))
-            else:
-                muon_learning_rate = args.muon_learning_rate
-            optimizers[0].param_groups[0]["lr"] = muon_learning_rate
+            optimizers[0].param_groups[0]["lr"] = args.muon_learning_rate * min(
+                1.0, step / args.muon_warmup_steps
+            )
         if args.optimizer == "adamw" and args.lr_schedule != "constant":
             if step <= args.warmup_steps:
                 learning_rate = args.learning_rate * step / args.warmup_steps
@@ -418,9 +397,6 @@ def main() -> None:
         "learning_rate": args.learning_rate,
         "lr_schedule": args.lr_schedule,
         "muon_learning_rate": args.muon_learning_rate,
-        "muon_lr_schedule": args.muon_lr_schedule,
-        "muon_final_learning_rate": args.muon_final_learning_rate,
-        "muon_decay_start_step": args.muon_decay_start_step,
         "muon_weight_decay": args.muon_weight_decay,
         "muon_warmup_steps": args.muon_warmup_steps,
         "seed": args.seed,

@@ -1,0 +1,21 @@
+{
+  "anchor": "2026-08-17_binary_local_width128_updates44_exact_square_t1",
+  "one_change": "local recurrent updates from 44 to 55",
+  "mode": "exact_square",
+  "seed": 74,
+  "channels": 128,
+  "updates": 55,
+  "kernel": [3, 3],
+  "dropout": 0.09,
+  "optimizer": "tuned_muon",
+  "muon_learning_rate": 0.006,
+  "muon_weight_decay": 0.1,
+  "muon_warmup_steps": 250,
+  "muon_lr_schedule": "constant",
+  "batch_size": 512,
+  "steps": 10000,
+  "examples": 5120000,
+  "selection": "unseen-x seen-N exact only",
+  "audit_policy": "unseen-N is opened once after validation selection",
+  "supervision": "final residue bits only"
+}

@@ -1,5 +1,33 @@
 # Status (living)
 
+**T=1 reduction frontier identified (2026-08-17 evening):** a matched binary
+width-128, 33-clock tied 3x3 ConvGRU reaches **16.42%** held-out-x/seen-N and
+**13.62/16.80%** on the two unseen-N audits from final residue-bit supervision
+alone. Quotient slicing reveals what that score means: after replacing `x` by
+the equivalent centered magnitude `min(x,N-x)`, exact accuracy is
+99.21/94.50/87.73/59.75/13.54/0.41/0.15/0.00% for quotient buckets
+0, 1, 2--3, 4--7, 8--15, 16--31, 32--63, and >=64. The model learned
+centering plus shallow arithmetic, not full modular squaring. Supplying exact
+`x*x` raises final validation only to **17.10%**, so reduction is the dominant
+ceiling even though squaring slows early learning. Increasing exact-square
+reducer clocks to 44 and 55 raises validation to **19.92%** and **21.52%** and
+moves raw `q=32..63` exact from **0.27% → 9.86% → 32.33%**, while all lower
+buckets become exact. This is direct evidence for a genuine bit-serial reducer
+with an expensive recurrent clock horizon. Cyclic dilation (14.74%), fixed
+sparse messages (8.32%), learned mixed messages (17.08%), and learned
+scratch-lane messages (17.16%) do not move the frontier. Next research should
+make compare/conditional-subtract itself cheaper per quotient bit, not merely
+widen the model or inject shifted activations. Figure:
+[`experiments/2026-08-17_binary_t1_quotient_diagnostic/t1_reduction_frontier.png`](experiments/2026-08-17_binary_t1_quotient_diagnostic/t1_reduction_frontier.png).
+
+**Official-interface T=1 clock allocation (2026-08-17 evening):** on local
+public E5, width-128/33 clocks at batch 256 completed 505 updates and scored
+0.2917% mean exact; concentrating the entire 60-second training window on T=1
+raised throughput to 731 updates and lowered final train loss to **0.547514**,
+but produced only **2/512** seen-N T=1 and **0/512** OOD-N T=1. Mixed-depth
+gradient competition is a real efficiency tax, not the root generalization
+failure. No online quota was spent in this session.
+
 **Hard deadline submission (2026-08-17):** owner-authorized job
 `a1132421-ef3b-4261-b145-13c68ef34f8c` completed at **0.02333%** mean exact
 (displayed as 0.02%), with no certified seen-`N` or OOD-`N` rung. Both T=1

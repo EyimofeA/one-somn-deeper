@@ -1,0 +1,12 @@
+{
+  "anchor": "2026-08-17_binary_workstate_fused_width256_tuned_muon_e5",
+  "one_change": "transition updates from 44 to 33",
+  "dataset": "h100_easy_e5",
+  "execution": "official local evaluator on Prime L40",
+  "online_submission": false,
+  "channels": 256,
+  "updates": 33,
+  "batch_size": 512,
+  "optimizer": "flattened Muon plus scalar AdamW",
+  "supervision": "final labels only"
+}

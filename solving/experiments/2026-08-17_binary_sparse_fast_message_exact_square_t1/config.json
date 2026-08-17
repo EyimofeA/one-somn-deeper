@@ -1,0 +1,22 @@
+{
+  "anchor": "2026-08-17_binary_local_width128_updates33_exact_square_t1",
+  "one_change": "fixed sparse long-range residual every fourth local clock",
+  "mode": "exact_square",
+  "seed": 74,
+  "channels": 128,
+  "updates": 33,
+  "message_every": 4,
+  "message_distances": [2, 4, 8],
+  "message_scale": 0.25,
+  "dropout": 0.09,
+  "optimizer": "tuned_muon",
+  "muon_learning_rate": 0.006,
+  "muon_weight_decay": 0.1,
+  "muon_warmup_steps": 250,
+  "batch_size": 512,
+  "steps": 10000,
+  "examples": 5120000,
+  "selection": "unseen-x seen-N exact only",
+  "audit_policy": "unseen-N is opened once after validation selection",
+  "supervision": "final residue bits only"
+}

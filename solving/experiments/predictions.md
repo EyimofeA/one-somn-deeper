@@ -3403,3 +3403,290 @@ PREDICT:    Easy completes at least 1,200 updates and obtains nonzero final
             train exact plus mean evaluation above the width-128 card's 0.08%;
             failure of either condition means saved steps do not compensate
             for lost transport depth.
+### 2026-08-17 — Six-update fused hosted-throughput control
+
+CARD:       binary_workstate_fused_width128_updates6_e5
+CHANGE:     Reduce only tied recurrent updates from 11 to 6.
+PREDICT:    Easy completes at least 1,300 updates and improves final train exact
+            beyond 2.3%; evaluation above 0.21% would retain six updates,
+            while lower evaluation despite faster fitting identifies lost
+            message-passing depth.
+### 2026-08-17 — Fused update/reset gate throughput control
+
+CARD:       binary_workstate_fused_width128_updates11_fused_gates_e5
+CHANGE:     Fuse only the update/reset convolutions into one 2C-output call in
+            the retained width-128, 11-update model.
+PREDICT:    Completed Easy updates improve at least 15% beyond 936 without
+            reducing final train exact below 2.3%; evaluation at or above
+            0.21% retains the implementation.
+### 2026-08-17 — Batch-256 fused hosted-throughput control
+
+CARD:       binary_workstate_fused_width128_updates11_batch256_e5
+CHANGE:     Reduce only training batch from 512 to 256.
+PREDICT:    Optimizer updates increase at least 40% beyond 936 while processed
+            examples remain at least 70% of 479,232; retain only if evaluation
+            exceeds 0.21% or loss improves materially without losing OOD-N.
+### 2026-08-17 — Batch-128 fused hosted-throughput control
+
+CARD:       binary_workstate_fused_width128_updates11_batch128_e5
+CHANGE:     Reduce only training batch from 256 to 128.
+PREDICT:    Optimizer updates exceed 2,000 but processed examples fall below
+            batch 256; retain only if mean evaluation exceeds 0.54% and both
+            test and OOD-N remain nonzero.
+### 2026-08-17 — Warmup-100 fused Easy control
+
+CARD:       binary_workstate_fused_width128_updates11_batch256_warmup100_e5
+CHANGE:     Reduce only Muon warmup from 250 to 100 optimizer updates.
+PREDICT:    Final train exact exceeds 2.7% and mean evaluation exceeds 0.54%
+            because less of the short run is spent below the tuned LR; rising
+            loss or loss of either split refutes the shorter warmup.
+## 2026-08-17 — binary global-attention transition (T=1)
+
+- **Question:** Is the fused T=1 ceiling caused by the tied 3x3 ConvGRU forcing
+  modulus-wide comparison and subtraction through slow local transport?
+- **One change:** Replace the 44-update local ConvGRU transition with a
+  weight-tied global self-attention transition over immutable x bits, immutable
+  N bits, and a binary workspace. Keep the same deterministic 11-bit varying-N
+  rows, split seed 74, final-residue-bit supervision, validation selection, and
+  tuned Muon family.
+- **Prediction:** At matched 5.12M examples, global attention will exceed the
+  current fused width-256 validation exact score of 22.84% and the unseen-N
+  audits of 18.38% / 22.50%. If validation remains below 20%, global transport
+  is not the main bottleneck and this branch is rejected.
+- **Gate:** Promote only if validation is above 25% and both untouched unseen-N
+  audits are above 20%. Audit does not select checkpoints.
+
+## 2026-08-17 — binary global-attention width 256 (T=1)
+
+- **Question:** Did the global-attention arm regress because it had only 200,577
+  parameters, rather than because attention is a poor transition bias?
+- **One change:** Increase width from 128 to 256. Keep eight tied updates, four
+  heads, the same 5.12M examples, data, seed, loss, Muon settings, validation
+  selection, and untouched audits.
+- **Prediction:** Train exact will exceed 12% and validation will exceed 10%.
+  Below 8% validation rejects attention capacity as a productive direction;
+  above 20% keeps the architecture alive for optimizer testing.
+
+## 2026-08-17 — wide-kernel recurrent transport (T=1)
+
+- **Question:** Can the successful ConvGRU bias retain its learnability while
+  obtaining modulus-wide transport in the 11 microsteps that fit the hosted
+  budget?
+- **One architecture change:** Replace each 3x3 gate convolution with a 3x7
+  convolution. Use 11 rather than 44 updates as the intended matched-throughput
+  operating point. Keep width 256, data, seed, final-bit loss, tuned Muon, and
+  selection policy fixed.
+- **Prediction:** The larger receptive field will reach at least 15% validation
+  exact at 5.12M examples despite using one quarter as many updates. Above 20%
+  retains it as a faster transition; below 10% rejects the trade.
+
+## 2026-08-17 — parameter-matched wide-kernel transition (T=1)
+
+- **Trigger:** The width-256 / 3x7 model reached 27.52% train exact but only
+  5.08% held-out-x validation at step 3,000, indicating fast memorization.
+- **One change:** Reduce channels from 256 to 168. This changes persistent state
+  from about 4.13M to 1.78M parameters, matching the original width-256 / 3x3
+  ConvGRU while keeping the 3x7 transport, 11 updates, optimizer, data, and
+  5.12M-example budget fixed.
+- **Prediction:** The train-validation gap at step 3,000 will fall by at least
+  half and final validation will exceed the width-256 wide-kernel arm. Promote
+  above 15%; reject below 8%.
+
+## 2026-08-17 — local-kernel 22-update transition (T=1)
+
+- **Question:** Can we remove half the original recurrence without removing the
+  local algorithmic bias that the 3x7 arm lost?
+- **One change:** Reduce updates from 44 to 22 in the retained width-256 / 3x3
+  ConvGRU. Keep its 1.77M parameters, seed, data, dropout, final-bit loss,
+  tuned Muon, and 5.12M-example budget fixed.
+- **Prediction:** Validation exact will remain above 18% while wall time falls
+  by at least 40%. Above 20% retains 22 updates as the new transition anchor;
+  below 15% says the original 44 steps encode necessary round-trip transport.
+
+## 2026-08-17 — local-kernel 33-update transition (T=1)
+
+- **Trigger:** The 22-update model matched the 44-update model through about
+  3M examples but plateaued around 14% validation, showing that one 22-position
+  traversal is insufficient.
+- **One change:** Use 33 rather than 22 recurrent updates. Keep the width-256 /
+  3x3 cell, data, seed, dropout, final-bit loss, tuned Muon, and 5.12M-example
+  budget fixed.
+- **Prediction:** Final validation will exceed 19% and wall time will stay at
+  least 18% below the 44-step reference. Promote only if validation exceeds
+  18% and the two unseen-N audits each exceed 16%.
+
+## 2026-08-17 — official local E5 transfer of 33 updates
+
+- **One change:** In the existing width-256 fused competition submission,
+  reduce only internal transition updates from 44 to the locally promoted 33.
+- **Prediction:** The official local E5 runner will complete successfully,
+  process more than the 169 updates recorded for the 44-step hosted card, and
+  produce nonzero T=1 accuracy on both seen and unseen N. Failure, zero on
+  either T=1 profile, or fewer than 200 optimizer updates rejects transfer.
+- **Boundary:** This is a local public-data run only. Do not spend online quota.
+
+## 2026-08-17 — width-128 / 33-update T=1 control
+
+- **One change:** Reduce channels from 256 to 128 in the promoted 33-update,
+  3x3 ConvGRU. Keep data, seed, loss, dropout, Muon, and 5.12M examples fixed.
+- **Prediction:** Validation exact will exceed 16%, both unseen-N audits will
+  exceed 13%, and wall time will stay below 800 seconds. Promote only if all
+  three accuracy gates pass.
+
+## 2026-08-17 — official local E5 transfer of width 128 / 33 updates
+
+- **One change:** Reduce only channels from 256 to 128 in the validated
+  33-update competition-interface candidate.
+- **Prediction:** The official local E5 run will exceed 200 optimizer updates,
+  beat the width-256/33 mean exact score of 0.25%, and produce nonzero T=1
+  accuracy on both seen and unseen N. All three conditions are required.
+- **Boundary:** Local public data only; do not spend online quota.
+
+## 2026-08-17 — full-window T=1 gradients at batch 256
+
+- **One change:** Increase `T1_FRACTION` from 0.50 to 1.00 in the width-128,
+  33-update, batch-256 official E5 candidate. The architecture, optimizer,
+  input rows, and final-label binary loss are unchanged.
+- **Prediction:** Both T=1 profiles will be nonzero, with at least two correct
+  examples on one profile, while completed updates remain above 450. This card
+  optimizes the first certification rung, not mean mixed-T score.
+- **Boundary:** Local public data only; do not spend online quota.
+
+## 2026-08-17 — width-128 / 33-update / batch-128 official E5
+
+- **One change:** Reduce only training batch size from 256 to 128.
+- **Prediction:** Completed updates will exceed 850. Promotion requires mean
+  exact above the batch-256 arm's 0.2917% and nonzero T=1 on both seen and
+  unseen N; otherwise batch 256 remains the official-E5 anchor.
+- **Boundary:** Local public data only; do not spend online quota.
+
+## 2026-08-17 — width-128 / 33-update / batch-256 official E5
+
+- **One change:** Reduce only training batch size from 512 to 256 in the
+  width-128 / 33-update official candidate.
+- **Prediction:** The local E5 runner will exceed 450 updates, beat 0.125% mean
+  exact, and produce nonzero T=1 accuracy on both seen and unseen N. All three
+  conditions are required for promotion.
+- **Boundary:** Local public data only; do not spend online quota.
+
+## 2026-08-17 — half-scale initialization on the promoted T=1 machine
+
+- **Question:** Does the tied ConvGRU begin with dynamics that are too large or
+  saturated to discover a reusable local transition efficiently?
+- **One change:** Multiply every learned parameter by `0.5` immediately after
+  initialization in the promoted width-128, 33-update direct T=1 harness. Keep
+  the deterministic data/splits, seed, final-residue-bit loss, dropout, tuned
+  Muon, batch 512, and 5.12M-example budget unchanged.
+- **Prediction:** Validation exact will exceed the 16.42% anchor and neither
+  unseen-N audit will fall below 13%. Reject if validation is below 14%, or if
+  training is materially slower at matched examples.
+- **Selection:** Choose only on held-out-x/seen-N validation; open the two
+  unseen-N audits once after selecting the best validation checkpoint.
+
+## 2026-08-17 — Muon warmup plus cosine decay on the promoted T=1 machine
+
+- **Trigger:** Half-scale initialization learned quickly but oscillated after
+  about 6,500 steps while tuned Muon remained at its peak learning rate.
+- **One change:** Replace the anchor's post-warmup constant Muon rate of
+  `0.006` with cosine decay to `0.001` by step 10,000. Restore the anchor's
+  original initialization; keep all data, architecture, seed, dropout, batch,
+  loss, weight decay, and example budget unchanged.
+- **Prediction:** Validation exact will exceed 17.0%, both unseen-N audits will
+  exceed 14%, and the validation curve will not drop by more than 1.5 points
+  after its first 12% checkpoint. Promote only if validation and both audits
+  beat the unchanged anchor (`16.42%`, `13.62%`, `16.80%`).
+
+## 2026-08-17 — delayed Muon decay after transition discovery
+
+- **Trigger:** Full-horizon cosine decay fell below the anchor by step 5,000;
+  the half-scale run's instability began only around step 6,500.
+- **One change:** Hold tuned Muon at `0.006` after warmup through step 6,500,
+  then cosine-decay to `0.001` over the final 3,500 steps. Restore every other
+  anchor setting, including ordinary initialization.
+- **Prediction:** Match the anchor through step 6,500, then exceed 17.0%
+  validation. Promote only if validation and both unseen-N audits beat the
+  unchanged anchor; reject if validation stays below 16.42%.
+
+## 2026-08-17 — exact-square isolation at the promoted capacity
+
+- **Question:** Is the centered-quotient cliff caused mainly by squaring a
+  large centered operand, or by reducing the resulting 22-bit square?
+- **One change:** Feed the exact 22-bit `x*x` source tape instead of the 11-bit
+  `x` tape to the unchanged width-128, 33-update local model. No intermediate
+  labels or traces are supplied; the target remains final residue bits only.
+- **Prediction:** If squaring is the bottleneck, validation should exceed 30%.
+  If reduction is the bottleneck, exact-square validation will remain below
+  20% and retain the quotient-depth cliff. The latter result pivots research
+  toward a deeper/faster reducer rather than a larger squarer.
+
+## 2026-08-17 — exact-square reducer with 44 local updates
+
+- **Trigger:** The 33-update reducer collapses abruptly when the centered
+  quotient reaches 32, consistent with a recurrent transport horizon.
+- **One change:** Increase only local recurrent updates from 33 to 44 in the
+  width-128 exact-square isolation. Keep data, seed, tuned Muon, constant rate,
+  dropout, loss, batch, and 5.12M-example budget fixed.
+- **Prediction:** If clock depth is causal, validation will exceed 20% and the
+  `q=32..63` bucket will exceed 5% exact. If validation remains below 18% and
+  `q=32..63` remains below 2%, reject longer recurrence as a standalone fix.
+
+## 2026-08-17 — exact-square reducer with 55 local updates
+
+- **Trigger:** Moving from 33 to 44 updates moved the near-exact raw-quotient
+  frontier from `q<16` to `q<32`, exactly one quotient bit per 11 clocks.
+- **One change:** Increase only recurrent updates from 44 to 55. Keep the
+  width-128 exact-square data, seed, optimizer, loss, dropout, batch, and
+  5.12M-example budget unchanged.
+- **Prediction:** Validation will exceed 23%, raw `q=32..63` exact will exceed
+  50%, and `q>=64` will remain below 10%. Passing this shape, even if aggregate
+  accuracy is modest, confirms a linear recurrent-clock law and directs the
+  next architecture toward faster bit transport.
+
+## 2026-08-17 — cyclic dilated transport in the exact-square reducer
+
+- **Trigger:** 33→44→55 clocks progressively moved the quotient frontier but
+  made matched-example runtime grow from 549s to 837s to 1065s.
+- **One change:** At the original 33 clocks, apply the same tied 3x3 ConvGRU
+  weights with horizontal dilations cycling `1,2,4,8`. The weights, parameter
+  count, data, seed, optimizer, dropout, loss, batch, and example budget remain
+  matched to the 33-clock exact-square reducer.
+- **Prediction:** Validation will exceed 23%, raw `q=32..63` will exceed 40%,
+  and runtime after compilation will stay below the 55-clock arm. Reject if
+  validation is below 18% or the `q=32..63` bucket remains below 10%.
+
+## 2026-08-17 — local reducer plus sparse fast messages
+
+- **Trigger:** Replacing local convolution with dilation cycling regressed,
+  showing that long-range reach cannot displace local arithmetic updates.
+- **One change:** Restore the ordinary tied 3x3 cell for all 33 clocks. Before
+  every fourth clock only, add a fixed `0.25` residual message from horizontal
+  offsets cycling `2,4,8`; the operation adds no learned parameters. Keep the
+  exact-square data and all training settings unchanged.
+- **Prediction:** Preserve at least 17% validation while raising raw
+  `q=32..63` above the ordinary 33-clock reducer's `0.27%`; promote only if
+  validation exceeds 18% and `q=32..63` exceeds 10%.
+
+## 2026-08-17 — zero-initialized learned fast-message gates
+
+- **Trigger:** Fixed `0.25` sparse messages corrupted local arithmetic and
+  strongly underfit, so fast communication must be optional and selective.
+- **One change:** Replace the three fixed message scales with learned scalar
+  gates initialized exactly at zero. The model therefore starts as the
+  ordinary local reducer; all message timing/distances and training settings
+  otherwise match the fixed sparse-message card.
+- **Prediction:** Validation will recover above 16% and at least one gate will
+  move beyond absolute `0.01`. Promote only if validation exceeds 18% and raw
+  `q=32..63` exceeds 10%; a near-zero gate result says this message form is not
+  useful, while opened gates without a frontier gain indicate a shortcut.
+
+## 2026-08-17 — dedicated scratch-lane fast messages
+
+- **Trigger:** Learned gates opened, but mixing transported state into every
+  lane left the quotient frontier unchanged. Lane 3 is otherwise unused.
+- **One change:** On every fourth clock, write the learned, zero-initialized
+  shifted message from work lane 2 into scratch lane 3 only. Keep the ordinary
+  local cell, message distances/timing, parameter count delta, data, and all
+  optimizer settings matched to the learned mixed-message card.
+- **Prediction:** Validation will exceed 18% and raw `q=32..63` will exceed
+  10%, while shallower quotient buckets remain above 95%. Otherwise reject
+  sparse fast messages in this form and redesign the reducer's state machine.

@@ -1,0 +1,20 @@
+{
+  "anchor": "2026-08-17_binary_global_attention_t1",
+  "one_change": "width from 128 to 256",
+  "mode": "fused_x",
+  "seed": 74,
+  "width": 256,
+  "heads": 4,
+  "updates": 8,
+  "dropout": 0.0,
+  "optimizer": "flattened Muon plus scalar AdamW",
+  "muon_learning_rate": 0.006,
+  "muon_weight_decay": 0.1,
+  "muon_warmup_steps": 250,
+  "batch_size": 512,
+  "steps": 10000,
+  "examples": 5120000,
+  "selection": "unseen-x seen-N exact only",
+  "audit_policy": "unseen-N is opened once after validation selection",
+  "supervision": "final residue bits only"
+}

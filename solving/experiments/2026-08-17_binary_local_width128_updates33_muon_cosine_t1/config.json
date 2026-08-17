@@ -1,0 +1,22 @@
+{
+  "anchor": "2026-08-17_binary_local_kernel_width128_updates33_t1",
+  "one_change": "Muon schedule from constant after warmup to cosine decay",
+  "mode": "fused_x",
+  "seed": 74,
+  "channels": 128,
+  "updates": 33,
+  "kernel": [3, 3],
+  "dropout": 0.09,
+  "optimizer": "tuned_muon",
+  "muon_learning_rate": 0.006,
+  "muon_weight_decay": 0.1,
+  "muon_warmup_steps": 250,
+  "muon_lr_schedule": "warmup_cosine",
+  "muon_final_learning_rate": 0.001,
+  "batch_size": 512,
+  "steps": 10000,
+  "examples": 5120000,
+  "selection": "unseen-x seen-N exact only",
+  "audit_policy": "unseen-N is opened once after validation selection",
+  "supervision": "final residue bits only"
+}

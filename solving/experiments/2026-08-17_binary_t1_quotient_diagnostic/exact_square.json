@@ -1,0 +1,425 @@
+{
+  "validation_unseen_x_seen_n": {
+    "overall": {
+      "examples": 5000,
+      "exact": 0.1708,
+      "predicted_residue_is_valid": 0.9988,
+      "identity_shortcut": 0.0044,
+      "zero_prediction": 0.0826
+    },
+    "by_quotient": {
+      "q>=64": {
+        "examples": 3685,
+        "exact": 0.002170963364993216,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.10610583446404342
+      },
+      "q=0": {
+        "examples": 222,
+        "exact": 0.9954954954954955,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0990990990990991,
+        "zero_prediction": 0.0990990990990991
+      },
+      "q=16..31": {
+        "examples": 269,
+        "exact": 0.6245353159851301,
+        "predicted_residue_is_valid": 0.9888475836431226,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=32..63": {
+        "examples": 365,
+        "exact": 0.0027397260273972603,
+        "predicted_residue_is_valid": 0.9972602739726028,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=4..7": {
+        "examples": 129,
+        "exact": 0.9922480620155039,
+        "predicted_residue_is_valid": 0.9922480620155039,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=2..3": {
+        "examples": 76,
+        "exact": 1.0,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=1": {
+        "examples": 60,
+        "exact": 0.9833333333333333,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=8..15": {
+        "examples": 194,
+        "exact": 0.9948453608247423,
+        "predicted_residue_is_valid": 0.9948453608247423,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      }
+    },
+    "by_centered_quotient": {
+      "q>=64": {
+        "examples": 2590,
+        "exact": 0.0019305019305019305,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.09691119691119691
+      },
+      "q=0": {
+        "examples": 382,
+        "exact": 0.5837696335078534,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.05759162303664921,
+        "zero_prediction": 0.12041884816753927
+      },
+      "q=8..15": {
+        "examples": 347,
+        "exact": 0.5561959654178674,
+        "predicted_residue_is_valid": 0.9971181556195965,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.05763688760806916
+      },
+      "q=1": {
+        "examples": 109,
+        "exact": 0.5412844036697247,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.045871559633027525
+      },
+      "q=32..63": {
+        "examples": 677,
+        "exact": 0.0029542097488921715,
+        "predicted_residue_is_valid": 0.9985228951255539,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.051698670605613
+      },
+      "q=16..31": {
+        "examples": 491,
+        "exact": 0.3421588594704684,
+        "predicted_residue_is_valid": 0.9938900203665988,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.059063136456211814
+      },
+      "q=2..3": {
+        "examples": 163,
+        "exact": 0.4662576687116564,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.04294478527607362
+      },
+      "q=4..7": {
+        "examples": 241,
+        "exact": 0.5311203319502075,
+        "predicted_residue_is_valid": 0.995850622406639,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.08298755186721991
+      }
+    },
+    "by_modulus_bits": {
+      "11": {
+        "examples": 3431,
+        "exact": 0.15097639172252988,
+        "predicted_residue_is_valid": 0.9994170795686389,
+        "identity_shortcut": 0.0034975225881667153,
+        "zero_prediction": 0.09793063246866802
+      },
+      "10": {
+        "examples": 1569,
+        "exact": 0.21414913957934992,
+        "predicted_residue_is_valid": 0.9974506054811982,
+        "identity_shortcut": 0.006373486297004461,
+        "zero_prediction": 0.049075844486934354
+      }
+    }
+  },
+  "audit_seen_x_unseen_n": {
+    "overall": {
+      "examples": 5000,
+      "exact": 0.1352,
+      "predicted_residue_is_valid": 0.9996,
+      "identity_shortcut": 0.001,
+      "zero_prediction": 0.0902
+    },
+    "by_quotient": {
+      "q>=64": {
+        "examples": 3936,
+        "exact": 0.0017784552845528454,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.11432926829268293
+      },
+      "q=32..63": {
+        "examples": 295,
+        "exact": 0.0,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.003389830508474576
+      },
+      "q=16..31": {
+        "examples": 257,
+        "exact": 0.6147859922178989,
+        "predicted_residue_is_valid": 0.9961089494163424,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=8..15": {
+        "examples": 162,
+        "exact": 0.9938271604938271,
+        "predicted_residue_is_valid": 0.9938271604938271,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=4..7": {
+        "examples": 117,
+        "exact": 1.0,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.008547008547008548,
+        "zero_prediction": 0.0
+      },
+      "q=1": {
+        "examples": 44,
+        "exact": 1.0,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=2..3": {
+        "examples": 76,
+        "exact": 1.0,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=0": {
+        "examples": 113,
+        "exact": 1.0,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.035398230088495575,
+        "zero_prediction": 0.0
+      }
+    },
+    "by_centered_quotient": {
+      "q=32..63": {
+        "examples": 669,
+        "exact": 0.0,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.08071748878923767
+      },
+      "q>=64": {
+        "examples": 2762,
+        "exact": 0.0010861694424330196,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0999275887038378
+      },
+      "q=16..31": {
+        "examples": 500,
+        "exact": 0.316,
+        "predicted_residue_is_valid": 0.998,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.086
+      },
+      "q=8..15": {
+        "examples": 348,
+        "exact": 0.46264367816091956,
+        "predicted_residue_is_valid": 0.9971264367816092,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.04885057471264368
+      },
+      "q=0": {
+        "examples": 254,
+        "exact": 0.46062992125984253,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.015748031496062992,
+        "zero_prediction": 0.07480314960629922
+      },
+      "q=4..7": {
+        "examples": 222,
+        "exact": 0.527027027027027,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0045045045045045045,
+        "zero_prediction": 0.08108108108108109
+      },
+      "q=1": {
+        "examples": 97,
+        "exact": 0.4536082474226804,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.10309278350515463
+      },
+      "q=2..3": {
+        "examples": 148,
+        "exact": 0.5135135135135135,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0945945945945946
+      }
+    },
+    "by_modulus_bits": {
+      "11": {
+        "examples": 3484,
+        "exact": 0.11423650975889782,
+        "predicted_residue_is_valid": 0.9997129735935706,
+        "identity_shortcut": 0.0002870264064293915,
+        "zero_prediction": 0.10017221584385763
+      },
+      "10": {
+        "examples": 1516,
+        "exact": 0.18337730870712401,
+        "predicted_residue_is_valid": 0.9993403693931399,
+        "identity_shortcut": 0.002638522427440633,
+        "zero_prediction": 0.06728232189973615
+      }
+    }
+  },
+  "audit_unseen_x_unseen_n": {
+    "overall": {
+      "examples": 5000,
+      "exact": 0.178,
+      "predicted_residue_is_valid": 0.9992,
+      "identity_shortcut": 0.0048,
+      "zero_prediction": 0.0762
+    },
+    "by_quotient": {
+      "q>=64": {
+        "examples": 3655,
+        "exact": 0.002188782489740082,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.09849521203830369
+      },
+      "q=4..7": {
+        "examples": 126,
+        "exact": 0.9841269841269841,
+        "predicted_residue_is_valid": 0.9920634920634921,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=32..63": {
+        "examples": 385,
+        "exact": 0.0025974025974025974,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0025974025974025974,
+        "zero_prediction": 0.0
+      },
+      "q=0": {
+        "examples": 240,
+        "exact": 1.0,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0875,
+        "zero_prediction": 0.0875
+      },
+      "q=16..31": {
+        "examples": 249,
+        "exact": 0.6947791164658634,
+        "predicted_residue_is_valid": 0.9919678714859438,
+        "identity_shortcut": 0.008032128514056224,
+        "zero_prediction": 0.0
+      },
+      "q=8..15": {
+        "examples": 182,
+        "exact": 1.0,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=1": {
+        "examples": 87,
+        "exact": 1.0,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      },
+      "q=2..3": {
+        "examples": 76,
+        "exact": 0.9868421052631579,
+        "predicted_residue_is_valid": 0.9868421052631579,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0
+      }
+    },
+    "by_centered_quotient": {
+      "q>=64": {
+        "examples": 2500,
+        "exact": 0.0004,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.088
+      },
+      "q=2..3": {
+        "examples": 152,
+        "exact": 0.4934210526315789,
+        "predicted_residue_is_valid": 0.993421052631579,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.046052631578947366
+      },
+      "q=4..7": {
+        "examples": 256,
+        "exact": 0.484375,
+        "predicted_residue_is_valid": 0.99609375,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.0703125
+      },
+      "q=16..31": {
+        "examples": 501,
+        "exact": 0.34530938123752497,
+        "predicted_residue_is_valid": 0.9960079840319361,
+        "identity_shortcut": 0.003992015968063872,
+        "zero_prediction": 0.0658682634730539
+      },
+      "q=32..63": {
+        "examples": 706,
+        "exact": 0.00424929178470255,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.00141643059490085,
+        "zero_prediction": 0.05524079320113314
+      },
+      "q=0": {
+        "examples": 399,
+        "exact": 0.6115288220551378,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.05263157894736842,
+        "zero_prediction": 0.10526315789473684
+      },
+      "q=8..15": {
+        "examples": 350,
+        "exact": 0.5228571428571429,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.06
+      },
+      "q=1": {
+        "examples": 136,
+        "exact": 0.6397058823529411,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.0,
+        "zero_prediction": 0.007352941176470588
+      }
+    },
+    "by_modulus_bits": {
+      "11": {
+        "examples": 3505,
+        "exact": 0.1557774607703281,
+        "predicted_residue_is_valid": 0.9988587731811698,
+        "identity_shortcut": 0.003708987161198288,
+        "zero_prediction": 0.08958630527817403
+      },
+      "10": {
+        "examples": 1495,
+        "exact": 0.23010033444816053,
+        "predicted_residue_is_valid": 1.0,
+        "identity_shortcut": 0.007357859531772575,
+        "zero_prediction": 0.044816053511705686
+      }
+    }
+  }
+}

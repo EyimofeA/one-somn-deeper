@@ -1,0 +1,335 @@
+{
+  "mode": "exact_square",
+  "fixed_modulus": null,
+  "optimizer": "tuned_muon",
+  "learning_rate": 0.0003,
+  "lr_schedule": "constant",
+  "muon_learning_rate": 0.006,
+  "muon_lr_schedule": "constant",
+  "muon_final_learning_rate": 0.001,
+  "muon_decay_start_step": 6500,
+  "muon_weight_decay": 0.1,
+  "muon_warmup_steps": 250,
+  "seed": 74,
+  "parameters": 443777,
+  "channels": 128,
+  "updates": 33,
+  "dropout": 0.09,
+  "steps": 10000,
+  "examples": 5120000,
+  "best_step": 8500,
+  "elapsed_seconds": 694.1849227470011,
+  "split": {
+    "train": 100000,
+    "validation_unseen_x_seen_n": 5000,
+    "audit_seen_x_unseen_n": 5000,
+    "audit_unseen_x_unseen_n": 5000
+  },
+  "selected": {
+    "train": {
+      "exact": 0.06597,
+      "bit_accuracy": 0.6151018181818182,
+      "bit_accuracy_lsb_first": [
+        0.5580400228500366,
+        0.5706800222396851,
+        0.5750899910926819,
+        0.5829899907112122,
+        0.5857899785041809,
+        0.5905900001525879,
+        0.5948100090026855,
+        0.602429986000061,
+        0.6258400082588196,
+        0.6756600141525269,
+        0.8041999936103821
+      ],
+      "examples": 100000
+    },
+    "validation_unseen_x_seen_n": {
+      "exact": 0.0832,
+      "bit_accuracy": 0.5966,
+      "bit_accuracy_lsb_first": [
+        0.5501999855041504,
+        0.5613999962806702,
+        0.5497999787330627,
+        0.5587999820709229,
+        0.5486000180244446,
+        0.5623999834060669,
+        0.5649999976158142,
+        0.576200008392334,
+        0.6154000163078308,
+        0.6672000288963318,
+        0.8076000213623047
+      ],
+      "examples": 5000
+    },
+    "audit_seen_x_unseen_n": {
+      "exact": 0.0554,
+      "bit_accuracy": 0.5822181818181819,
+      "bit_accuracy_lsb_first": [
+        0.5586000084877014,
+        0.5447999835014343,
+        0.5490000247955322,
+        0.5364000201225281,
+        0.550599992275238,
+        0.5425999760627747,
+        0.5440000295639038,
+        0.5583999752998352,
+        0.5777999758720398,
+        0.628600001335144,
+        0.8136000037193298
+      ],
+      "examples": 5000
+    },
+    "audit_unseen_x_unseen_n": {
+      "exact": 0.0884,
+      "bit_accuracy": 0.5998909090909091,
+      "bit_accuracy_lsb_first": [
+        0.5590000152587891,
+        0.578000009059906,
+        0.5717999935150146,
+        0.5645999908447266,
+        0.5486000180244446,
+        0.567799985408783,
+        0.573199987411499,
+        0.5871999859809875,
+        0.5961999893188477,
+        0.645799994468689,
+        0.8065999746322632
+      ],
+      "examples": 5000
+    }
+  },
+  "curve": [
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 1,
+      "examples": 512,
+      "seconds": 107.77256532300089,
+      "loss": 0.6997155547142029,
+      "learning_rate": 2.4e-05,
+      "train_exact": 0.0,
+      "validation_exact": 0.0002
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 500,
+      "examples": 256000,
+      "seconds": 136.63960931300062,
+      "loss": 0.6491347551345825,
+      "learning_rate": 0.006,
+      "train_exact": 0.0226,
+      "validation_exact": 0.0412
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 1000,
+      "examples": 512000,
+      "seconds": 165.69277177700133,
+      "loss": 0.6406019330024719,
+      "learning_rate": 0.006,
+      "train_exact": 0.0276,
+      "validation_exact": 0.0488
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 1500,
+      "examples": 768000,
+      "seconds": 194.90719101500144,
+      "loss": 0.6240891814231873,
+      "learning_rate": 0.006,
+      "train_exact": 0.0344,
+      "validation_exact": 0.0578
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 2000,
+      "examples": 1024000,
+      "seconds": 224.19444583699988,
+      "loss": 0.626880943775177,
+      "learning_rate": 0.006,
+      "train_exact": 0.0414,
+      "validation_exact": 0.0628
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 2500,
+      "examples": 1280000,
+      "seconds": 253.54550270300024,
+      "loss": 0.6109502911567688,
+      "learning_rate": 0.006,
+      "train_exact": 0.0436,
+      "validation_exact": 0.0644
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 3000,
+      "examples": 1536000,
+      "seconds": 282.88372719200015,
+      "loss": 0.622880756855011,
+      "learning_rate": 0.006,
+      "train_exact": 0.0484,
+      "validation_exact": 0.0684
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 3500,
+      "examples": 1792000,
+      "seconds": 312.2346718400004,
+      "loss": 0.6209607124328613,
+      "learning_rate": 0.006,
+      "train_exact": 0.051,
+      "validation_exact": 0.0662
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 4000,
+      "examples": 2048000,
+      "seconds": 341.62019657100063,
+      "loss": 0.6076235771179199,
+      "learning_rate": 0.006,
+      "train_exact": 0.0546,
+      "validation_exact": 0.071
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 4500,
+      "examples": 2304000,
+      "seconds": 370.988694181,
+      "loss": 0.6205161809921265,
+      "learning_rate": 0.006,
+      "train_exact": 0.053,
+      "validation_exact": 0.0766
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 5000,
+      "examples": 2560000,
+      "seconds": 400.36202903900084,
+      "loss": 0.6133036017417908,
+      "learning_rate": 0.006,
+      "train_exact": 0.0564,
+      "validation_exact": 0.0756
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 5500,
+      "examples": 2816000,
+      "seconds": 429.73185669300074,
+      "loss": 0.6136442422866821,
+      "learning_rate": 0.006,
+      "train_exact": 0.0558,
+      "validation_exact": 0.0784
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 6000,
+      "examples": 3072000,
+      "seconds": 459.10595765700054,
+      "loss": 0.6001376509666443,
+      "learning_rate": 0.006,
+      "train_exact": 0.0592,
+      "validation_exact": 0.08
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 6500,
+      "examples": 3328000,
+      "seconds": 488.49855913400097,
+      "loss": 0.5967227816581726,
+      "learning_rate": 0.006,
+      "train_exact": 0.0586,
+      "validation_exact": 0.0818
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 7000,
+      "examples": 3584000,
+      "seconds": 517.8646835510008,
+      "loss": 0.5955209136009216,
+      "learning_rate": 0.006,
+      "train_exact": 0.0618,
+      "validation_exact": 0.0814
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 7500,
+      "examples": 3840000,
+      "seconds": 547.2489439500005,
+      "loss": 0.6063095331192017,
+      "learning_rate": 0.006,
+      "train_exact": 0.0624,
+      "validation_exact": 0.0788
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 8000,
+      "examples": 4096000,
+      "seconds": 576.6343479000006,
+      "loss": 0.6134786605834961,
+      "learning_rate": 0.006,
+      "train_exact": 0.0626,
+      "validation_exact": 0.0816
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 8500,
+      "examples": 4352000,
+      "seconds": 606.025025586001,
+      "loss": 0.5990354418754578,
+      "learning_rate": 0.006,
+      "train_exact": 0.0628,
+      "validation_exact": 0.0832
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 9000,
+      "examples": 4608000,
+      "seconds": 635.397192890001,
+      "loss": 0.6044202446937561,
+      "learning_rate": 0.006,
+      "train_exact": 0.066,
+      "validation_exact": 0.0824
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 9500,
+      "examples": 4864000,
+      "seconds": 664.7842207869999,
+      "loss": 0.5856271386146545,
+      "learning_rate": 0.006,
+      "train_exact": 0.0674,
+      "validation_exact": 0.081
+    },
+    {
+      "type": "progress",
+      "mode": "exact_square",
+      "step": 10000,
+      "examples": 5120000,
+      "seconds": 694.1842808199999,
+      "loss": 0.6192716360092163,
+      "learning_rate": 0.006,
+      "train_exact": 0.0702,
+      "validation_exact": 0.0826
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "anchor": "2026-08-17_binary_workstate_fused_width128_updates33_batch256_e5",
+  "one_change": "T1-only curriculum fraction from 0.50 to 1.00",
+  "dataset": "h100_easy_e5",
+  "execution": "official local evaluator on Prime L40",
+  "online_submission": false,
+  "channels": 128,
+  "updates": 33,
+  "batch_size": 256,
+  "t1_fraction": 1.0,
+  "optimizer": "flattened Muon plus scalar AdamW",
+  "supervision": "final labels only"
+}

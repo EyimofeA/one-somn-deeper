@@ -1,0 +1,20 @@
+{
+  "anchor": "2026-08-17_binary_local_kernel_updates33_t1",
+  "one_change": "channels from 256 to 128",
+  "mode": "fused_x",
+  "seed": 74,
+  "channels": 128,
+  "updates": 33,
+  "kernel": [3, 3],
+  "dropout": 0.09,
+  "optimizer": "tuned_muon",
+  "muon_learning_rate": 0.006,
+  "muon_weight_decay": 0.1,
+  "muon_warmup_steps": 250,
+  "batch_size": 512,
+  "steps": 10000,
+  "examples": 5120000,
+  "selection": "unseen-x seen-N exact only",
+  "audit_policy": "unseen-N is opened once after validation selection",
+  "supervision": "final residue bits only"
+}

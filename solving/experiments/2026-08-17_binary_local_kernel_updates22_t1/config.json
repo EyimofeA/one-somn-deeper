@@ -1,0 +1,20 @@
+{
+  "anchor": "2026-08-17_binary_workstate_fused_width256_tuned_muon_e5",
+  "one_change": "recurrent updates from 44 to 22",
+  "mode": "fused_x",
+  "seed": 74,
+  "channels": 256,
+  "updates": 22,
+  "kernel": [3, 3],
+  "dropout": 0.09,
+  "optimizer": "tuned_muon",
+  "muon_learning_rate": 0.006,
+  "muon_weight_decay": 0.1,
+  "muon_warmup_steps": 250,
+  "batch_size": 512,
+  "steps": 10000,
+  "examples": 5120000,
+  "selection": "unseen-x seen-N exact only",
+  "audit_policy": "unseen-N is opened once after validation selection",
+  "supervision": "final residue bits only"
+}

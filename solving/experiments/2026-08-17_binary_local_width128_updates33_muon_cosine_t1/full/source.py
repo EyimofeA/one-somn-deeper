@@ -272,11 +272,10 @@ def main() -> None:
     parser.add_argument("--muon-warmup-steps", type=int, default=250)
     parser.add_argument(
         "--muon-lr-schedule",
-        choices=("constant", "warmup_cosine", "late_cosine"),
+        choices=("constant", "warmup_cosine"),
         default="constant",
     )
     parser.add_argument("--muon-final-learning-rate", type=float, default=1e-3)
-    parser.add_argument("--muon-decay-start-step", type=int, default=6500)
     parser.add_argument("--validation-only", action="store_true")
     args = parser.parse_args()
     if not torch.cuda.is_available():
@@ -345,13 +344,10 @@ def main() -> None:
                 muon_learning_rate = (
                     args.muon_learning_rate * step / args.muon_warmup_steps
                 )
-            elif args.muon_lr_schedule in ("warmup_cosine", "late_cosine"):
-                decay_start = (
-                    args.muon_warmup_steps
-                    if args.muon_lr_schedule == "warmup_cosine"
-                    else args.muon_decay_start_step
+            elif args.muon_lr_schedule == "warmup_cosine":
+                progress = (step - args.muon_warmup_steps) / (
+                    args.steps - args.muon_warmup_steps
                 )
-                progress = max(0.0, (step - decay_start) / (args.steps - decay_start))
                 muon_learning_rate = args.muon_final_learning_rate + (
                     args.muon_learning_rate - args.muon_final_learning_rate
                 ) * 0.5 * (1.0 + math.cos(math.pi * progress))
@@ -420,7 +416,6 @@ def main() -> None:
         "muon_learning_rate": args.muon_learning_rate,
         "muon_lr_schedule": args.muon_lr_schedule,
         "muon_final_learning_rate": args.muon_final_learning_rate,
-        "muon_decay_start_step": args.muon_decay_start_step,
         "muon_weight_decay": args.muon_weight_decay,
         "muon_warmup_steps": args.muon_warmup_steps,
         "seed": args.seed,
