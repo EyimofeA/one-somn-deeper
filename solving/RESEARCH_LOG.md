@@ -3119,7 +3119,10 @@ composition, still locally and without promoting weights to a submission.
   operation or intermediate target is coded or supervised. On the fixed
   validation rows, the diagnostic prefix process uses 4.21 conditional
   reductions on average, 10 maximum, and at most 8 for 99% of rows, versus raw
-  quotient as large as 1,975.
+  quotient as large as 1,975. Training paths cover 84.36% of all bounded
+  `(N,residue,next-bit)` states for the 90 seen moduli; held-out-x/seen-N paths
+  have 97.28% local transition overlap, and 70.92% of whole validation rows use
+  only locally observed transitions.
 - **Preregistered main:** width-128 local ConvGRU, two microsteps per source
   bit, 44 total cell applications, seed 74, tuned Muon, dropout 0.09, final
   residue BCE, and the unchanged 100k/5k/5k/5k split. Predict >50% validation

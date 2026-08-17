@@ -47,6 +47,15 @@ rows need at most 8. The first wrap occurs only at stages 12--22. These numbers
 are diagnostic motivation only and are not supplied to the model. They explain
 why streaming can escape an O(q) basin without increasing model width.
 
+Support is also adequate for a real transition test. The 100,000 training
+paths cover 201,140 of 238,428 possible `(N, bounded residue, next bit)` states
+for the 90 seen moduli (84.36%; every modulus is 80.44--88.37% covered).
+Among held-out-`x`/seen-`N` validation paths, 97.28% of local transitions have
+appeared in training and 70.92% of complete rows use only seen transitions.
+These classical states are used only for this audit. A seen-N failure would
+therefore implicate credit assignment/representation more than local support;
+unseen N remains genuine algorithmic extrapolation.
+
 ## Strongest mechanistic hypothesis: repeated subtraction
 
 The observed boundary is much more consistent with *learned repeated

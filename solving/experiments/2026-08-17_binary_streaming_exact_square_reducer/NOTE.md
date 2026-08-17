@@ -35,6 +35,13 @@ contrast, the raw quotient reaches 1,975. These internal classical states are
 not training data or model inputs; they only quantify the intended reduction
 in computational depth.
 
+The 100,000 training paths cover 201,140/238,428 (84.36%) of all possible
+classical `(N, bounded residue, next bit)` transitions for the 90 seen moduli.
+The held-out-`x`/seen-`N` validation paths have 97.28% transition overlap with
+training, and 3,546/5,000 rows contain no locally novel transition. This is a
+diagnostic support audit only. It makes seen-N validation a fair test of
+transition learning while preserving unseen-N as the extrapolation gate.
+
 ## Scope and legality
 
 This is a research-only reducer diagnostic. Python supplies the exact 22-bit
