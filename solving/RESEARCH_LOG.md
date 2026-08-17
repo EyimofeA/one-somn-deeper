@@ -2980,6 +2980,14 @@ composition, still locally and without promoting weights to a submission.
   submitted to Hard.
 - **Caveat:** E5 has no certified T=1 rung for this model. The upload is the
   best deadline candidate, not evidence that the transition is solved.
+- **Outcome:** completed at **0.02333%** mean exact (UI 0.02%), with no
+  certified seen-`N` or OOD-`N` rung. Seen-`N` T=1 and OOD-`N` T=1 were both
+  exactly **0/768**. Training completed 109,143 updates with final loss
+  **0.693338871**. The uploaded file re-hashed to the recorded SHA-1
+  `b1773edcc356201737972e31adb49d6d8c62b856`.
+- **Decision:** reject promotion from the 0.5417% E5 result. More hosted
+  updates drove the loss back near an uninformative binary baseline and did
+  not produce the one-step transition.
 - **Evidence:**
   `solving/submissions/hard_2026-08-17_best_fused/` and hosted selection job
   `1cfa42ed-a7fb-4850-a8f1-3750c750846e`.

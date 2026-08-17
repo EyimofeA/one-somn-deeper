@@ -4,7 +4,9 @@
 - Uploaded file: [`submission.py`](submission.py)
 - Exact SHA-1: `b1773edcc356201737972e31adb49d6d8c62b856`
 - Accepted before the UTC cutoff; zero Hard attempts remained afterward.
-- Result: pending.
+- Result: **0.02333% mean exact** (UI: 0.02%); no certified rung.
+- Seen-`N` T=1: **0/768**; OOD-`N` T=1: **0/768**.
+- Training: 109,143 updates; final loss **0.693338871**.
 - Run page:
   <https://onelayerdeeper.ai/submissions/a1132421-ef3b-4261-b145-13c68ef34f8c>
 
@@ -30,3 +32,10 @@ This evidence does not certify T=1 and does not imply a strong Hard result. It
 only makes this source the least-bad novel candidate available at the explicit
 deadline. The H13 research model was not submitted: its local full-transition
 validation was 6.14%, below its kill gate, and it was not translated or hosted.
+
+## Outcome
+
+Hard refuted the promotion. Across the three full evaluation profiles, the
+model got 2/9,999 test examples, 2/10,002 OOD-`T` examples, and 3/10,002
+OOD-`N,T` examples correct. Those isolated hits did not include any T=1 case,
+so neither ladder certified. See [`metrics.json`](metrics.json).

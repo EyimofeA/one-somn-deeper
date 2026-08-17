@@ -1,13 +1,16 @@
 # Status (living)
 
 **Hard deadline submission (2026-08-17):** owner-authorized job
-`a1132421-ef3b-4261-b145-13c68ef34f8c` is queued from exact new SHA-1
-`b1773edcc356201737972e31adb49d6d8c62b856`. It is today's strongest completed
-varying-`N` hosted candidate: width 128, 11 updates, batch 256, tuned Muon, and
-final-label fused binary state. Its E5 selection job
+`a1132421-ef3b-4261-b145-13c68ef34f8c` completed at **0.02333%** mean exact
+(displayed as 0.02%), with no certified seen-`N` or OOD-`N` rung. Both T=1
+profiles were exactly **0/768**. It completed 109,143 updates with final train
+loss **0.693338871**. Exact uploaded and re-hashed SHA-1 was
+`b1773edcc356201737972e31adb49d6d8c62b856`. The selected model was width 128,
+11 updates, batch 256, tuned Muon, and final-label fused binary state. Its E5
+selection job
 `1cfa42ed-a7fb-4850-a8f1-3750c750846e` scored **0.5417%** (7/1,200 test,
-3/600 OOD, 1,474 updates); the later batch-128 arm scored 0.2083%. This is a
-deadline selection, not T=1 certification. Card:
+3/600 OOD, 1,474 updates); the later batch-128 arm scored 0.2083%. Hard
+therefore refutes promotion from that weak Easy signal. Card:
 [`submissions/hard_2026-08-17_best_fused/CARD.md`](submissions/hard_2026-08-17_best_fused/CARD.md).
 
 **Prime GPU retired after verified backup and wipe (2026-08-17):** Prime L40
