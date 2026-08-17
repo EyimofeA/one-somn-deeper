@@ -265,6 +265,21 @@ Then replace exact square with `x` and compare fused learning. If fused remains
 far below the reducer, restore a learned squaring phase or a joint curriculum;
 do not claim the direct model has learned squaring from shallow-q success.
 
+The preferred fusion is not a free square tape followed by the reducer. Use a
+streaming two-work-lane state over the original `x` bits: one writable lane can
+represent the consumed prefix, the other the bounded transformed state, and
+the same whole-position learned scan updates both. Only the final public state
+is decoded. These are intended roles, not supervised variables or coded
+updates. This differs from failed H13 because each source-bit stage has a
+complete serial view of the work and modulus positions rather than two local
+message hops.
+
+Run this fused translation only if the exact-square streaming diagnostic clears
+its unseen-N gate. If it fails while the diagnostic succeeds, the unresolved
+problem is square/transition identifiability. If both succeed, discretize the
+public state and test evaluator-owned outer recurrence; do not change all three
+levels simultaneously.
+
 ## Measurement changes
 
 Every future T=1 run should report:
@@ -304,6 +319,12 @@ count. A linear shift is evidence that the same slow microprogram survived.
   input range and optimization. Its reciprocal units are not exact modular
   reducers; the transferable idea is a constrained latent arithmetic
   bottleneck, not importing a division oracle.
+- [Algorithm Development in Neural Networks: Insights from the Streaming
+  Parity Task](https://arxiv.org/abs/2507.09897) shows that a tied streaming RNN
+  can undergo a delayed transition to a finite-state algorithm after enough
+  training experience. That supports monitoring beyond first interpolation,
+  but parity has a tiny fixed state space; it does not predict that
+  variable-modulus reduction will grok.
 
 The practical synthesis is: preserve local arithmetic, add a transformed
 scratch communication path, and make phase/commit decisions learned and

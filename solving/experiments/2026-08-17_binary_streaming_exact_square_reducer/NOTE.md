@@ -117,6 +117,25 @@ directly supervised serial comparator/subtractor success. It still uses only
 final labels and does not receive a coded arithmetic action. Predict above 50%
 validation; reject below 30%. Do not run both arms concurrently.
 
+Launch the scan fallback without `--compile` first because the cuDNN GRU path
+may graph-break:
+
+```bash
+python train_scan.py \
+  --mode exact_square \
+  --out runs/scan \
+  --channels 128 \
+  --updates 1 \
+  --steps 10000 \
+  --batch-size 512 \
+  --dropout 0.09 \
+  --optimizer tuned_muon \
+  --muon-learning-rate 0.006 \
+  --muon-weight-decay 0.1 \
+  --muon-warmup-steps 250 \
+  --eval-every 500
+```
+
 ## Prediction and decision rule
 
 Prediction before run:
@@ -137,6 +156,13 @@ Reject this representation if selected validation is below 30% or if exactness
 still declines sharply with raw quotient. A 30--50% result is promising but
 underfit; only then test three cell updates per source bit. A gain confined to
 seen `N` is memorization, not promotion.
+
+If train exact reaches at least 98% while validation is still below 30% at
+10,000 steps, continue the same checkpoint for one preregistered additional
+5.12M examples. A delayed validation rise counts as grokking only while train
+remains near 100%; do not call ordinary joint train/validation improvement
+grokking. If train is still underfit, do not spend the continuation on a
+grokking hypothesis.
 
 ## Required diagnostics
 
