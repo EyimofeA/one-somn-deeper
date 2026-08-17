@@ -3104,3 +3104,35 @@ composition, still locally and without promoting weights to a submission.
   endpoint times out.
 - **Local ignored artifact:**
   `diagnostics/artifacts/prime-5129ef947b814b6f91321b7d1caa201f/research-2026-08-17/`.
+
+## 2026-08-17 — Streaming exact-square reducer preregistration
+
+- **Synthesis:** the exact-square 33/44/55-clock quotient frontier advances
+  roughly with recurrent time, which is more consistent with repeated
+  subtraction than a sublinear binary reduction policy. On the fixed
+  validation split, 73.70% of rows have raw quotient at least 64 and the
+  maximum is 1,975; even perfect q<=63 performance caps exact at 26.30%.
+- **New representation:** consume the externally supplied 22-bit exact square
+  MSB-first with one generic tied recurrent transition while keeping an
+  11-position work state and immutable N. The desired bounded computation can
+  use at most one conditional reduction per source-bit stage, but no such
+  operation or intermediate target is coded or supervised.
+- **Preregistered main:** width-128 local ConvGRU, two microsteps per source
+  bit, 44 total cell applications, seed 74, tuned Muon, dropout 0.09, final
+  residue BCE, and the unchanged 100k/5k/5k/5k split. Predict >50% validation
+  and >40% on both audits; reject below 30% or a surviving quotient frontier.
+- **Fallback:** if local propagation fails its gate, use one tied
+  bidirectional 11-position GRU scan per source bit. Do not tune both arms.
+- **Implementation smoke:** both 444,161-parameter local and 264,961-parameter
+  scan forwards pass CPU forward/backward checks. A 24-channel scan fit all 12
+  toy rows from N={5,7} by 200 updates, but unseen N={3,4,6} was 4/13 (30.77%),
+  exactly the zero baseline. This proves trainability only and warns against
+  using interpolation as evidence.
+- **Legality:** official rules explicitly allow routing, tied recurrence, and
+  parameter-free work but ban hard-coded forward algorithms. The exact-square
+  diagnostic itself is research-only. Ask the organizer whether revealing one
+  already-present input bit per tied update is generic routing before a
+  submission translation.
+- **Evidence:**
+  `solving/experiments/2026-08-17_binary_streaming_exact_square_reducer/` and
+  `solving/NEXT_T1_REDUCER.md`.
