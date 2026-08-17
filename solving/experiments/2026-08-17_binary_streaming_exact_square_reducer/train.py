@@ -93,7 +93,17 @@ def _output_path() -> Path | None:
         return None
 
 
+def _require_exact_square_mode() -> None:
+    try:
+        mode = sys.argv[sys.argv.index("--mode") + 1]
+    except (ValueError, IndexError) as error:
+        raise ValueError("pass --mode exact_square for this diagnostic") from error
+    if mode != "exact_square":
+        raise ValueError("this research diagnostic only supports --mode exact_square")
+
+
 if __name__ == "__main__":
+    _require_exact_square_mode()
     base.BinaryWorkState = StreamingExactSquareReducer
     base.main()
     output_path = _output_path()
