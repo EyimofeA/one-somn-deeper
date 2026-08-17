@@ -30,6 +30,8 @@ scratch-lane messages (17.16%) do not move the frontier. Next research should
 make compare/conditional-subtract itself cheaper per quotient bit, not merely
 widen the model or inject shifted activations. Figure:
 [`experiments/2026-08-17_binary_t1_quotient_diagnostic/t1_reduction_frontier.png`](experiments/2026-08-17_binary_t1_quotient_diagnostic/t1_reduction_frontier.png).
+The preregistered learned-scheduler plan and its legality boundary are in
+[`NEXT_T1_REDUCER.md`](NEXT_T1_REDUCER.md).
 
 **Official-interface T=1 clock allocation (2026-08-17 evening):** on local
 public E5, width-128/33 clocks at batch 256 completed 505 updates and scored
