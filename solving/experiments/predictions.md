@@ -3707,3 +3707,20 @@ PREDICT:    Final train exact exceeds 2.7% and mean evaluation exceeds 0.54%
   decomposition is still not identifiable/fast enough from final labels; it
   does not refute the separately supervised squarer or oracle-square streaming
   reducer diagnostics.
+# 2026-08-20 — Deadline fused AdamW gate
+
+CARD:       fused-width128-updates11-adamw-e5
+CHANGE:     Replace flattened Muon with constant AdamW 3e-4 in the fused,
+            recurrence-agnostic width-128/11-update work-state model.
+PREDICT:    E5 mean exact exceeds 0.20% and final bit loss remains below 0.69;
+            failure at zero means AdamW is too slow for Easy, but a stable
+            falling loss still supports Hard because prior Muon collapsed only
+            during long training.
+RESULT:     confirmed. E5 scored 0.58%, narrowly above the 0.5417% prior fused
+            Muon reference, with no certified rung.
+
+CARD:       fused-width128-updates11-adamw1e3-e5
+CHANGE:     Increase only AdamW learning rate from 3e-4 to 1e-3.
+PREDICT:    E5 exceeds 0.58% if the 3e-4 model is under-optimized in 60 seconds;
+            worse loss or accuracy means retain 3e-4 for stable Hard training.
+RESULT:     refuted. E5 regressed to 0.33%; restore the exact 3e-4 SHA for Hard.

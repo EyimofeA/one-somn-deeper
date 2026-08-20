@@ -3171,3 +3171,25 @@ composition, still locally and without promoting weights to a submission.
 - **Evidence:**
   [`submissions/binary_prefix_square_reduce/CARD.md`](submissions/binary_prefix_square_reduce/CARD.md)
   and ignored downloaded metrics under `diagnostics/`.
+
+## 2026-08-20 — Deadline agnostic AdamW selection and Hard upload
+
+- **Constraint:** twenty minutes remained before the UTC Hard quota reset. No
+  subagents were active. The rejected factorized squarer/reducer was excluded.
+- **Candidate:** a single fused binary work-state transition, width 128, 11
+  tied ConvGRU updates, recurrent dropout 0.09, and final residue-bit loss. It
+  contains no squaring/reduction submodules or intermediate arithmetic target.
+- **Optimizer A:** constant AdamW 3e-4 scored 0.20% test / 1.00% OOD / 0.60%
+  mean on E5 after 1,261 updates; final train loss was 0.611. Job
+  `c09b14f7-f445-4ca7-b765-cb9ec6ea7f7e`.
+- **Optimizer B:** changing only LR to 1e-3 reached lower final train loss
+  0.463 but regressed generalization to 0.50% / 0.20% / 0.30% after 1,284
+  updates. Job `771b4b7b-abea-4383-aa34-ba492600f52d`.
+- **Decision:** restore A exactly. Hard accepted SHA-1
+  `8db168bef3847543c5ce8fb1ee545abd0ac868a6` as job
+  `9e4e7618-55a9-4524-bb4b-e2c45e37db8b` before 00:00 UTC. This is weak
+  practice evidence with no certified rung, but it is a new, fully agnostic
+  candidate selected by a controlled deadline comparison.
+- **Evidence:**
+  [`submissions/hard_2026-08-21_fused_adamw/CARD.md`](submissions/hard_2026-08-21_fused_adamw/CARD.md)
+  and ignored hosted metrics under `diagnostics/`.

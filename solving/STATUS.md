@@ -1,5 +1,18 @@
 # Status (living)
 
+**Deadline fused AdamW Hard running (2026-08-20):** the new candidate is a
+single recurrence-agnostic width-128 binary work-state transition with 11 tied
+updates, T=1-first final-label training, and no separate squarer, reducer, or
+arithmetic auxiliary target. On varying-N E5, constant AdamW 3e-4 job
+`c09b14f7-f445-4ca7-b765-cb9ec6ea7f7e` scored **0.60%** mean
+(0.20% test / 1.00% OOD), 1,261 updates, and final train loss 0.611. Changing
+only LR to 1e-3 (`771b4b7b-abea-4383-aa34-ba492600f52d`) fit training harder
+but regressed mean to **0.30%** (0.50% / 0.20%), so it was rejected. The exact
+restored 3e-4 SHA-1 `8db168bef3847543c5ce8fb1ee545abd0ac868a6` is running on
+Hard as `9e4e7618-55a9-4524-bb4b-e2c45e37db8b`. No subagents were active at
+session start. Card:
+[`submissions/hard_2026-08-21_fused_adamw/CARD.md`](submissions/hard_2026-08-21_fused_adamw/CARD.md).
+
 **Learned square + streaming reducer hosted gate failed; forced Hard running
 (2026-08-17):** SHA-1 `0e8975b2d795cb377b1b8f393a650fa32011dbae`
 keeps final-residue gradients live during a legal no-wrap square curriculum,
